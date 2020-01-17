@@ -11,9 +11,18 @@ env:
 matrix:
   fast_finish: true
 
+dist: trusty
+sudo: false
+cache: yarn
+
 install:
-  - yarn
+  - yarn install
+
+branches:
+  only:
+    - master
+    - develop
 
 script:
-  - eslint src/**.ts src/**.tsx
-  - react-scripts test
+  - yarn lint
+  - yarn test
