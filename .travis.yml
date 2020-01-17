@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+  - 'node'
+  - '10'
+  - '8'
+
+env:
+  - workerCount=3 timeout=600000
+
+matrix:
+  fast_finish: true
+
+install:
+  - yarn
+
+script:
+  - eslint src/**.ts src/**.tsx
+  - react-scripts test
