@@ -2,12 +2,15 @@
  * article
  */
 #article-container {
-  height: 500px;
   background-color: rgb(255, 248, 240);
   padding: 40px;
 }
 
-#article-container p {
+
+/*
+ * article header
+ */
+#article-header p {
   margin: 0;
 }
 
@@ -32,6 +35,10 @@
   display: inline-block;
 }
 
+
+/*
+ * category
+ */
 #category-container {
   width: 80%;
   margin: 0 auto;
@@ -50,5 +57,23 @@
   margin: 0 20px;
   background-color: yellowgreen;
   border-radius: 5px;
-  padding: 2px 5px;
+  padding: 1px 5px;
+}
+
+
+/*
+ * article content
+ */
+#article-content {
+  width: 80%;
+  margin: 90px auto;
+  font-size: 20px;
+}
+
+
+/*
+ * article footer
+ */
+#article-footer {
+  height: 200px;
 }

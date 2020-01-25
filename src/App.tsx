@@ -22,10 +22,10 @@ class App extends React.Component {
               <Article />
             </div>
           </main>
+          <footer>
+            <Footer />
+          </footer>
         </div>
-        <footer>
-          <Footer />
-        </footer>
       </BrowserRouter>
     );
   }
