@@ -1,31 +1,17 @@
 import * as React from "react";
 import "./assets/styles/app.css";
-import {BrowserRouter} from "react-router-dom";
-import Header from "./components/common/Header";
-import ImageHeader from "./components/common/ImageHeader";
-import Bar from "./components/common/Bar";
-import Footer from "./components/common/Footer";
-import Article from "./components/article/Article";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
+import ArticleView from "./components/view/ArticleView";
+import HomeView from "./components/view/HomeView";
 
 class App extends React.Component {
   render() {
     return(
       <BrowserRouter basename="/">
-        <div id="container">
-          <header>
-            <Header />
-            <ImageHeader />
-          </header>
-          <main>
-            <Bar />
-            <div id="wrapper">
-              <Article />
-            </div>
-          </main>
-          <footer>
-            <Footer />
-          </footer>
-        </div>
+        <Switch>
+          <Route exact path={"/"} component={HomeView} />
+          <Route exact path={"/article"} component={ArticleView} />
+        </Switch>
       </BrowserRouter>
     );
   }

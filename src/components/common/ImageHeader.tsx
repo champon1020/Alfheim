@@ -1,11 +1,11 @@
 import * as React from "react";
-import image from "../../assets/images/beach.jpg";
+import HeaderImage from "../../assets/images/beach.jpg";
 
 class ImageHeader extends React.Component {
   render(){
     return(
       <div id="image-header">
-        <img src={image} alt="header-image-space" />
+        <img src={HeaderImage} alt="header" />
       </div>
     );
   }
