@@ -95,24 +95,31 @@
  * footer
  */
 #footer {
-  height: 90px;
+  padding: 50px 0;
   width: 100%;
   background-color: var(--base-color);
+  text-align: center;
 }
 
 
 /*
  * page
  */
+#page-container {
+  margin: 40px 0;
+}
+
 .page-component {
   list-style: none;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 .page-component li {
-  margin: 0 30px;
+  margin: 0;
   font-size: 28px;
 }
 
@@ -122,4 +129,35 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+
+/*
+ * side bar
+ */
+#side-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.side-bar-title {
+  background-color: var(--base-color);
+  box-shadow: 2px 2px 4px gray;
+}
+
+.side-bar-title h3 {
+  margin: 0;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.side-bar-content {
+  height: 200px;
+  padding: 10px;
+  background-color: whitesmoke;
+  font-size: 18px;
+  margin: 10px 0 30px 0;
+  box-shadow: 2px 2px 4px gray;
 }

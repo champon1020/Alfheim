@@ -7,7 +7,7 @@ class Header extends React.Component {
     return(
       <div id="common-header">
         <h1>
-          <LinkWord text="Cham Cham ChamPon" href="##" className={undefined} id={undefined} />
+          <LinkWord text="Cham Cham Champon" href="##" className={undefined} id={undefined} />
         </h1>
         <nav id="common-nav">
           <ul id="common-nav-list">
