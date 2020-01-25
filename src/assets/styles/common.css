@@ -1,0 +1,125 @@
+/*
+ * common header
+ */
+#common-header {
+  height: 60px;
+  background-color: var(--base-color);
+  position: relative;
+  box-shadow: 2px 2px 4px white;
+}
+
+#common-header a {
+  text-decoration: none;
+  color: var(--base-font-color);
+}
+
+#common-header a:hover {
+  opacity: 0.7;
+}
+
+#common-header h1 {
+  position: absolute;
+  display: inline-block;
+  top: 10px;
+  left: 70px;
+  font-size: 32px;
+  margin: 0;
+}
+
+#common-nav {
+  position: absolute;
+  display: inline-block;
+  right: 100px;
+  top: 10px;
+}
+
+#common-nav-list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  font-size: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+#common-nav-list li {
+  margin: 0 25px;
+}
+
+
+/*
+ * image header
+ */
+#image-header {
+  text-align: center;
+  height: 400px;
+}
+
+#image-header img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+
+/*
+ * bar
+ */
+#common-bar {
+  background-color: var(--base-color);
+  border-bottom: solid 1px rgb(197, 197, 197);
+  text-align: center;
+  position: relative;
+  padding: 20px 100px;
+}
+
+.sns-link-list ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sns-link-list li {
+  margin: 0 30px;
+  background-color: orange;
+  height: 50px;
+  width: 50px;
+  border-radius: 10px 10px;
+}
+
+
+/*
+ * footer
+ */
+#footer {
+  height: 90px;
+  width: 100%;
+  background-color: var(--base-color);
+}
+
+
+/*
+ * page
+ */
+.page-component {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.page-component li {
+  margin: 0 30px;
+  font-size: 28px;
+}
+
+.page-element {
+  text-align: center;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

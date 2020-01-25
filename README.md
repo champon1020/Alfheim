@@ -1,3 +1,6 @@
+# alfheim
+[![Build Status](https://travis-ci.com/champon1020/alfheim.svg?token=aSPPKuPzB5pbM6AFGxtS&branch=master)](https://travis-ci.com/champon1020/alfheim)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
