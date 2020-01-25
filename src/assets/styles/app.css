@@ -1,0 +1,9 @@
+#container {
+  height: 100%;
+  min-height: 95vh;
+}
+
+#wrapper {
+  width: 70%;
+  margin: 0 auto;
+}
