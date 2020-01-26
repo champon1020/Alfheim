@@ -4,7 +4,13 @@ import ArticleHeader from "./ArticleHeader";
 import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
 
-class Article extends React.Component {
+interface ParentProps {
+  articleId: number;
+}
+
+type Props = ParentProps;
+
+class Article extends React.Component<Props> {
   render() {
     return(
       <div id="article-container">

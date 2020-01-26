@@ -4,21 +4,11 @@ import Header from "../common/Header";
 import ImageHeader from "../common/ImageHeader";
 import Bar from "../common/Bar";
 import Footer from "../common/Footer";
-import Article from "../article/Article";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
-import { RouteComponentProps } from "react-router-dom";
+import CategoryList from "../category/CategoryList";
 
-type RouteProps = RouteComponentProps<{articleId: string | undefined}>;
-
-type Props = RouteProps;
-
-class ArticleView extends React.Component<Props> {
-  validArticleId(): number {
-    const articleId = this.props.match.params.articleId;
-    return articleId === undefined ? -1 : Number.parseInt(articleId);
-  }
-
+class CategoryView extends React.Component {
   render() {
     return(
       <div id="container">
@@ -30,7 +20,7 @@ class ArticleView extends React.Component<Props> {
           <Bar />
           <div id="article-wrapper">
             <div className="order1">
-              <Article articleId={this.validArticleId()}/>
+              <CategoryList />
               <Page />
             </div>
             <div className="order2">
@@ -46,4 +36,4 @@ class ArticleView extends React.Component<Props> {
   }
 }
 
-export default ArticleView;
+export default CategoryView;
