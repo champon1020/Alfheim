@@ -6,6 +6,7 @@ import HomeView from "./components/view/HomeView";
 import CategoryListView from "./components/view/CategoryListView";
 import { store } from "./stores/store";
 import { Provider } from "react-redux";
+import ManageView from "./components/view/ManageView";
 
 class App extends React.Component {
   render() {
@@ -22,6 +23,9 @@ class App extends React.Component {
           
             <Route exact path={"/article/:id"} component={ArticleView} />
             <Route exact path={"/category/list"} component={CategoryListView} />
+
+            <Route exact path={"/manage"} component={ManageView} />
+            <Route exact path={"/manage/:mode"} component={ManageView} />
           </Switch>
         </Provider>
       </BrowserRouter>

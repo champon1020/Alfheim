@@ -1,0 +1,79 @@
+/*
+ * tool bar
+ */
+#tool-bar-container {
+  text-align: center;
+  background-color: rgb(221, 221, 221);
+  height: 60px;
+  margin-bottom: 50px;
+}
+
+#tool-bar-container ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding-top: 4px;
+}
+
+#tool-bar-container li {
+  font-size: 26px;
+  width: 100px;
+  padding: 13px;
+  position: relative;
+  border-radius: 10px 10px 0 0;
+}
+
+#tool-bar-container .link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+
+/*
+ * manage view
+ */
+.manage-wrapper {
+  width: 80%;
+  margin: auto;
+}
+
+#manage-container {
+  min-height: 100vh;
+  background-color: rgb(61, 61, 61);
+}
+
+
+/*
+ * images list
+ */
+#image-list-container {
+  text-align: center;
+}
+
+#image-list-container ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#image-list-container li {
+  margin: 20px;
+}
+
+#image-list-container img {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: cover;
+  box-sizing: border-box;
+}
+
+#image-list-container img:hover {
+  border: solid 3px blue;
+  cursor: pointer;
+}
