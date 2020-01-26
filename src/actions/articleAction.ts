@@ -1,18 +1,18 @@
-import {ActionEnum} from "./actions";
+import { ActionEnum } from "./actions";
 import { Action } from "redux";
-import { Article } from "../types/types";
+import { ArticleType } from "../types/types";
 
 export interface UpdateArticlesAction extends Action 
 {
   type: ActionEnum.UPDATE_ARTICLES;
   payload: {
-    articles: Article[];
+    articles: ArticleType[];
   };
 }
 
 export type UpdateArticlesActionType = UpdateArticlesAction;
 
-export const updateArticles = (articles: Article[]): UpdateArticlesAction => 
+export const updateArticles = (articles: ArticleType[]): UpdateArticlesAction => 
 {
   return {
     type: ActionEnum.UPDATE_ARTICLES,

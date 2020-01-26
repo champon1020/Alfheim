@@ -7,8 +7,18 @@ import Footer from "../common/Footer";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
+import { RouteComponentProps } from "react-router-dom";
 
-class ArticleView extends React.Component {
+type RouteProps = RouteComponentProps<{articleId: string | undefined}>;
+
+type Props = RouteProps;
+
+class ArticleView extends React.Component<Props> {
+  validArticleId(): number {
+    const articleId = this.props.match.params.articleId;
+    return articleId === undefined ? -1 : Number.parseInt(articleId);
+  }
+
   render() {
     return(
       <div id="container">
@@ -20,7 +30,7 @@ class ArticleView extends React.Component {
           <Bar />
           <div id="article-wrapper">
             <div className="order1">
-              <Article />
+              <Article articleId={this.validArticleId()}/>
               <Page />
             </div>
             <div className="order2">
