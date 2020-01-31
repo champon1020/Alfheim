@@ -12,7 +12,7 @@ class Header extends React.Component {
         <nav id="common-nav">
           <ul id="common-nav-list">
             <li>
-              <LinkWord text="Category" href="/category" className={undefined} id={undefined} />
+              <LinkWord text="Category" href="/category/list" className={undefined} id={undefined} />
             </li>
             <li>
               <LinkWord text="Portfolio" href="##" className={undefined} id={undefined} />
