@@ -8,9 +8,14 @@ class SideBarBox extends React.Component {
           <h3>Side Bar Example</h3>
         </div>
         <div className="side-bar-content">
-          <p>
-          Side Content ExampleSide Content ExampleSide Content Example
-          </p>
+          <ul>
+            <li>
+              <p>Sample article 1</p>
+            </li>
+            <li>
+              <p>Sample aritcle 2</p>
+            </li>
+          </ul>
         </div>
       </div>
     );

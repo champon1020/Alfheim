@@ -3,9 +3,9 @@
  */
 #tool-bar-container {
   text-align: center;
-  background-color: rgb(221, 221, 221);
+  background-color: white;
   height: 60px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 }
 
 #tool-bar-container ul {
@@ -51,6 +51,12 @@
 /*
  * images list
  */
+#images-container {
+  margin-top: 40px;
+  background-color: white;
+  padding: 13px;
+}
+
 #image-list-container {
   text-align: center;
   height: 72vh;
@@ -86,6 +92,46 @@
  */
 #edit-container {
   background-color: whitesmoke;
+}
+
+#edit-title-container,
+#edit-category-container {
+  text-align: center;
+  margin: 2px 0;
+}
+
+#edit-title-container input,
+#edit-category-container input {
+  height: 34px;
+  width: 99%;
+  border: solid thin gray;
+  border-radius: 5px;
+  font-size: 24px;
+}
+
+#edit-button-container {
+  text-align: right;
+}
+
+#edit-button-container button {
+  height: 40px;
+  width: 200px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+/*
+ * articles
+ */
+#articles-page-container {
+  background-color: white;
+  padding: 10px 0;
+  border-radius: 10px;
+}
+
+#articles-page-container #page-container {
+  margin: 0;
 }
 
 
@@ -129,8 +175,8 @@
   height: 100%;
   top: 0;
   left: 0;
-  z-index: -1;
   cursor: pointer;
+  z-index: 0;
 }
 
 .article-list-box-title {
@@ -148,7 +194,6 @@
   height: 100px;
   width: 90%;
   line-height: 20px;
-  position: relative;
 }
 
 .article-list-box-image {
@@ -159,8 +204,8 @@
 }
 
 .article-list-box-image img {
-  height: 100%;
-  width: auto;
+  height: 130px;
+  width: 130px;
 }
 
 .article-list-box-date {
@@ -184,8 +229,41 @@
   height: 100%;
   font-size: 24px;
   cursor: pointer;
+  position: relative;
+  z-index: 1;
 }
 
 .article-list-box-disp-toggle button:hover {
   color: pink;
+}
+
+
+/*
+ * settings
+ */
+#settings-container {
+  margin-top: 40px;
+}
+
+#settings-form {
+  width: 70%;
+  margin: auto;
+  padding: 30px 50px;
+  background-color: white;
+}
+
+.settings-element {
+  margin-bottom: 70px;
+}
+
+.settings-element h3 {
+  margin: 0 0 20px 0;
+  font-size: 30px;
+  border-bottom: solid thin black;
+}
+
+.settings-element input {
+  font-size: 24px;
+  height: 20px;
+  width: 70%;
 }

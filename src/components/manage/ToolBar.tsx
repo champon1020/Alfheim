@@ -36,7 +36,7 @@ class ToolBar extends React.Component<Props> {
           <li style={this.props.mode === "settings" ? style : dummyStyle}>
             settings
             {/* eslint-disable-next-line */}
-            <a className="link" href="##"></a>
+            <a className="link" href="/manage/settings"></a>
           </li>
         </ul>
       </div>

@@ -18,7 +18,7 @@ class ArticleBox extends React.Component {
         </div>
 
         {/* eslint-disable-next-line */}
-        <a href="##" className="article-box-link"></a>
+        <a href="/article/1" className="article-box-link"></a>
       </div>
     );
   }

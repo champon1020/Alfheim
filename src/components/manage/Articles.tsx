@@ -7,7 +7,9 @@ class Articles extends React.Component {
     return(
       <div id="articles-container">
         <ArticleList />
-        <Page />
+        <div id="articles-page-container">
+          <Page />
+        </div>
       </div>
     );
   }
