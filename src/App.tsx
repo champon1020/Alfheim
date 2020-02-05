@@ -8,29 +8,27 @@ import { store } from "./stores/store";
 import { Provider } from "react-redux";
 import ManageView from "./components/view/ManageView";
 
-class App extends React.Component {
-  render() {
-    return(
-      <BrowserRouter basename="/">
-        <Provider store={store}>
-          <Switch>
-            <Route exact path={"/"} component={HomeView} />
-            <Route exact path={"/page/:page"} component={HomeView} />
-            <Route exact path={"/category/id/:categoryId"} component={HomeView} />
-            <Route exact path={"/category/id/:categoryId/page/:page"} component={HomeView} />
-            <Route exact path={"/date/:year/:month"} component={HomeView} />
-            <Route exact path={"/date/:year/:month/page/:page"} component={HomeView} />
+const App = () => {
+  return(
+    <BrowserRouter basename="/">
+      <Provider store={store}>
+        <Switch>
+          <Route exact path={"/"} component={HomeView} />
+          <Route exact path={"/page/:page"} component={HomeView} />
+          <Route exact path={"/category/id/:categoryId"} component={HomeView} />
+          <Route exact path={"/category/id/:categoryId/page/:page"} component={HomeView} />
+          <Route exact path={"/date/:year/:month"} component={HomeView} />
+          <Route exact path={"/date/:year/:month/page/:page"} component={HomeView} />
           
-            <Route exact path={"/article/:id"} component={ArticleView} />
-            <Route exact path={"/category/list"} component={CategoryListView} />
+          <Route exact path={"/article/:id"} component={ArticleView} />
+          <Route exact path={"/category/list"} component={CategoryListView} />
 
-            <Route exact path={"/manage"} component={ManageView} />
-            <Route exact path={"/manage/:mode"} component={ManageView} />
-          </Switch>
-        </Provider>
-      </BrowserRouter>
-    );
-  }
-}
+          <Route exact path={"/manage"} component={ManageView} />
+          <Route exact path={"/manage/:mode"} component={ManageView} />
+        </Switch>
+      </Provider>
+    </BrowserRouter>
+  );
+};
 
 export default App;

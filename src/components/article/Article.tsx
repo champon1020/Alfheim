@@ -10,16 +10,14 @@ interface ParentProps {
 
 type Props = ParentProps;
 
-class Article extends React.Component<Props> {
-  render() {
-    return(
-      <div id="article-container">
-        <ArticleHeader />
-        <ArticleContent />
-        <ArticleFooter />
-      </div>
-    );
-  }
-}
+const Article: React.FC<Props> = (props) => {
+  return(
+    <div id="article-container">
+      <ArticleHeader />
+      <ArticleContent />
+      <ArticleFooter />
+    </div>
+  );
+};
 
 export default Article;

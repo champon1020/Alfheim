@@ -9,24 +9,22 @@ interface ParentProps {
 
 type Props = ParentProps;
 
-class ArticlesList extends React.Component<Props> {
-  render() {
-    return(
-      <div id="article-list">
-        <ul>
-          <li>
-            <ArticleBox />
-          </li>
-          <li>
-            <ArticleBox />
-          </li>
-          <li>
-            <ArticleBox />
-          </li>
-        </ul>
-      </div>
-    );
-  }
-}
+const ArticleList: React.FC<Props> = props => {
+  return(
+    <div id="article-list">
+      <ul>
+        <li>
+          <ArticleBox />
+        </li>
+        <li>
+          <ArticleBox />
+        </li>
+        <li>
+          <ArticleBox />
+        </li>
+      </ul>
+    </div>
+  );
+};
 
-export default ArticlesList;
+export default ArticleList;
