@@ -8,16 +8,16 @@ interface ParentProps {
   className: string | undefined;
 }
 
-class LinkWord extends React.Component<ParentProps> {
-  render() {
-    return (
-      <a href={this.props.href}
-        id={strUndefCheck(this.props.id)}
-        className={strUndefCheck(this.props.className)}>
-        {this.props.text}
-      </a>
-    );
-  }
-}
+type Props = ParentProps;
+
+const LinkWord: React.FC<Props> = (props) => {
+  return (
+    <a href={props.href}
+      id={strUndefCheck(props.id)}
+      className={strUndefCheck(props.className)}>
+      {props.text}
+    </a>
+  );
+};
 
 export default LinkWord;

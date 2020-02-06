@@ -1,40 +1,32 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import ax from "axios";
-
-interface State {
-  content: string;
-}
 
 const BASE_URL = "https://blog.champon.xyz/articles/";
 
-class ArticleContent extends React.Component<{}, State> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      content: ""
-    };
-  }
+const ArticleContent = () => {
+  const [content, setContent] = useState("");
+  const par = document.querySelector("#article-content");
 
-  componentDidMount() {
-    this.parseArticleContent();
-  }
+  par?.insertAdjacentHTML("afterbegin", content);
 
-  parseArticleContent() {
+  useEffect(() => {
+    parseArticleContent();
+    console.log(content);
+  });
+
+  const parseArticleContent = () => {
     const axios = ax.create();
     const url = BASE_URL + "/article1.html";
     axios.get(url)
       .then(res => {
-        this.setState({content: res.data });
+        setContent(res.data);
       });
-  }
+  };
 
-  render() {
-    const par = document.querySelector("#article-content");
-    par?.insertAdjacentHTML("afterbegin", this.state.content);
-    return(
-      <article id="article-content"></article>
-    );
-  }
-}
+  return(
+    <article id="article-content"></article>
+  );
+};
 
 export default ArticleContent;

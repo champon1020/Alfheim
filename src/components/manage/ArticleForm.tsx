@@ -1,33 +1,39 @@
 import * as React from "react";
-import Editor from "tui-editor"; /* ES6 */
+import { useState, useEffect } from "react";
+import Editor from "tui-editor";
 import "tui-editor/dist/tui-editor.css"; // editor's ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor's content
 import "codemirror/lib/codemirror.css"; // codemirror
 import "highlight.js/styles/github.css"; // code block highlight
 
-interface State {
-  timerId?: NodeJS.Timeout;
-}
 
-class ArticleForm extends React.Component<{}, State> {
-  constructor(props: {}){
-    super(props);
-    this.state = {
-      timerId: undefined
-    };
+let timerId: NodeJS.Timeout;
+const observeConfig = { subtree: true, childList: true, characterData: true };
+
+const observer = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    const el = mutation.target as Element;
+    if(el.className === "tui-editor-contents"){
+      saveDraftContents();
+    }
+  });
+});
+
+const saveDraftContents = () => {
+  if(timerId !== undefined){
+    clearTimeout(timerId);
   }
+  const newTimerId = setTimeout(() => {
+    // save article process
+  }, 1000);
+  timerId = newTimerId;
+};
 
-  componentDidMount() {
-    const editContainer = document.querySelector("#edit-container");
-    if(editContainer === null) return console.error("#edit-container is null");
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach(m => {
-        const el = m.target as Element;
-        if(el.className === "tui-editor-contents") this.saveDraftContents();
-      });
-    });
-    const config = {childList: true, subtree: true, characterData: true};
-    observer.observe(editContainer, config);
+const ArticleForm = () => {
+  useEffect(() => {
+    const target = document.querySelector("#editorSelection");
+    if(target === null) return console.error("#edit-container is null");
+    observer.observe(target, observeConfig);
 
     const instance = new Editor({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -37,42 +43,29 @@ class ArticleForm extends React.Component<{}, State> {
       height: "755px"
     });
     instance.getHtml();
-  }
+  });
 
-  parseContents() {
+  const parseContents = () => {
     const contents = document.querySelector(".tui-editor-contents");
     if(contents === null) return console.error(".tui-editor-contents is null");
     contents.id = "article-contents";
-    contents.className = "";
-  }
+  };
 
-  saveDraftContents() {
-    if(this.state.timerId !== undefined){
-      clearTimeout(this.state.timerId);
-    }
-    const timerId = setTimeout(() => {
-      // save article process
-    }, 1000);
-    this.setState({ timerId: timerId });
-  }
-
-  render() {
-    return(
-      <div id="edit-container">
-        <div id="edit-title-container">
-          <input placeholder=" title" />
-        </div>
-        <div id="edit-category-container">
-          <input placeholder=" category" />
-        </div>
-        <div id="editorSelection"></div>
-        <div id="edit-button-container">
-          <button>Preview</button>
-          <button onClick={() => this.parseContents()}>Submit</button>
-        </div>
+  return(
+    <div id="edit-container">
+      <div id="edit-title-container">
+        <input placeholder=" title" />
       </div>
-    );
-  }
-}
+      <div id="edit-category-container">
+        <input placeholder=" category" />
+      </div>
+      <div id="editorSelection"></div>
+      <div id="edit-button-container">
+        <button>Preview</button>
+        <button onClick={() => parseContents()}>Submit</button>
+      </div>
+    </div>
+  );
+};
 
 export default ArticleForm;

@@ -34,4 +34,4 @@ const CategoryListView = () => {
   );
 };
 
-export default CategoryView;
+export default CategoryListView;

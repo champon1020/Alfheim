@@ -2,7 +2,7 @@ import * as React from "react";
 import ArticleList from "./ArticleList";
 import Page from "../common/Page";
 
-const Article = () => {
+const Articles = () => {
   return(
     <div id="articles-container">
       <ArticleList />
