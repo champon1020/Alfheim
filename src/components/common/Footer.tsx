@@ -1,13 +1,19 @@
 import * as React from "react";
+import styled from "styled-components";
 
-class Footer extends React.Component {
-  render() {
-    return(
-      <div id="footer">
+const FooterStyled = styled.div`
+  padding: 50px 0;
+  width: 100%;
+  background-color: var(--base-color);
+  text-align: center;
+`;
+
+const Footer = () => {
+  return(
+    <FooterStyled>
         copyright champon
-      </div>
-    );
-  }
-}
+    </FooterStyled>
+  );
+};
 
 export default Footer;

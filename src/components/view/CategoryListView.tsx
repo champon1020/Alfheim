@@ -8,32 +8,30 @@ import SideBar from "../common/SideBar";
 import Page from "../common/Page";
 import CategoryList from "../category/CategoryList";
 
-class CategoryView extends React.Component {
-  render() {
-    return(
-      <div id="container">
-        <header>
-          <Header />
-          <ImageHeader />
-        </header>
-        <main>
-          <Bar />
-          <div id="article-wrapper">
-            <div className="order1">
-              <CategoryList />
-              <Page />
-            </div>
-            <div className="order2">
-              <SideBar />
-            </div>
+const CategoryListView = () => {
+  return(
+    <div id="container">
+      <header>
+        <Header />
+        <ImageHeader />
+      </header>
+      <main>
+        <Bar />
+        <div id="article-wrapper">
+          <div className="order1">
+            <CategoryList />
+            <Page />
           </div>
-        </main>
-        <footer>
-          <Footer />
-        </footer>
-      </div>
-    );
-  }
-}
+          <div className="order2">
+            <SideBar />
+          </div>
+        </div>
+      </main>
+      <footer>
+        <Footer />
+      </footer>
+    </div>
+  );
+};
 
-export default CategoryView;
+export default CategoryListView;
