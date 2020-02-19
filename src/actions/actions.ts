@@ -1,4 +1,4 @@
-import { ArticleType } from "../types/types";
+import { ArticleType } from "../api/api";
 import { updateArticles, UpdateArticlesAction } from "./articleAction";
 import { UpdateRecommendArticlesAction, updateRecommendArticles } from "./sidebarAction";
 

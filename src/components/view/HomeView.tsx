@@ -9,7 +9,7 @@ import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
 
-import { store } from "../../stores/store";
+import { store, RootState } from "../../stores/store";
 import { appActionCreator } from "../../actions/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { RouteComponentProps } from "react-router-dom";
@@ -21,7 +21,6 @@ type RouteProps = RouteComponentProps<{
   month: string | undefined;
 }>;
 type Props = RouteProps;
-type RootState = ReturnType<typeof store.getState>
 
 const parsePathname = (pathnameParam: string): "article" | "category" | "date" => 
 {
