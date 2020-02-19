@@ -1,11 +1,18 @@
 import * as React from "react";
-import "../../assets/styles/common.css";
 import SideBarBox from "./SideBarBox";
+import styled from "styled-components";
+
+const SideBarListStyled = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+`;
 
 const SideBar = () => {
   return(
-    <div id="side-bar">
-      <ul>
+    <div>
+      <SideBarListStyled>
         <li>
           <SideBarBox />
         </li>
@@ -15,7 +22,7 @@ const SideBar = () => {
         <li>
           <SideBarBox />
         </li>
-      </ul>
+      </SideBarListStyled>
     </div>
   );
 };
