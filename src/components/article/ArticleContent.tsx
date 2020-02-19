@@ -1,6 +1,13 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import ax from "axios";
+import styled from "styled-components";
+
+const ArticleContentStyled = styled.article`
+  width: 86%;
+  margin: 90px auto 50px auto;
+  font-size: 20px;
+`;
 
 const BASE_URL = "https://blog.champon.xyz/articles/";
 
@@ -25,7 +32,7 @@ const ArticleContent = () => {
   };
 
   return(
-    <article id="article-content"></article>
+    <ArticleContentStyled id="article-content"></ArticleContentStyled>
   );
 };
 
