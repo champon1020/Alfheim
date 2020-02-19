@@ -11,6 +11,7 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-redux": "^7.1.7",
+    "@types/styled-components": "^4.4.3",
     "axios": "^0.19.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -19,6 +20,7 @@
     "react-scripts": "3.3.0",
     "redux": "^4.0.5",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.0.1",
     "tui-editor": "^1.4.10",
     "typescript": "~3.7.2"
   },

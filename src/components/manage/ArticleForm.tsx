@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Editor from "tui-editor";
 import "tui-editor/dist/tui-editor.css"; // editor's ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor's content
@@ -26,7 +26,7 @@ const saveDraftContents = () => {
   const newTimerId = setTimeout(() => {
     // save article process
   }, 1000);
-  timerId = newTimerId;
+  // timerId = newTimerId;
 };
 
 const ArticleForm = () => {
