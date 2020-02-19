@@ -1,9 +1,21 @@
 import * as React from "react";
 import ArticleListBox from "./ArticleListBox";
+import styled from "styled-components";
+
+const ArticleListStyled = styled.div`
+  margin-bottom: 80px;
+  & ul {
+    list-style: none;
+    padding: 0;
+  }
+  & li {
+    margin: 30px 0;
+  }
+`;
 
 const ArticleList = () => {
   return(
-    <div id="article-list-container">
+    <ArticleListStyled>
       <ul>
         <li>
           <ArticleListBox />
@@ -12,7 +24,7 @@ const ArticleList = () => {
           <ArticleListBox />
         </li>
       </ul>
-    </div>
+    </ArticleListStyled>
   );
 };
 

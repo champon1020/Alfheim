@@ -5,6 +5,45 @@ import "tui-editor/dist/tui-editor.css"; // editor's ui
 import "tui-editor/dist/tui-editor-contents.css"; // editor's content
 import "codemirror/lib/codemirror.css"; // codemirror
 import "highlight.js/styles/github.css"; // code block highlight
+import styled from "styled-components";
+
+const EditContainerStyled = styled.div`
+  background-color: whitesmoke;
+`;
+
+const TitleContainerStyled = styled.div`
+  text-align: center;
+  margin: 2px 0;
+  & input {
+    height: 34px;
+    width: 99%;
+    border: solid thin gray;
+    border-radius: 5px;
+    font-size: 24px;
+  }
+`;
+
+const CategoryContainerStyled = styled.div`
+  text-align: center;
+  margin: 2px 0;
+  & input {
+    height: 34px;
+    width: 99%;
+    border: solid thin gray;
+    border-radius: 5px;
+    font-size: 24px;
+  }
+`;
+
+const ButtonContainerStyled = styled.div`
+  text-align: right;
+  & button {
+    height: 40px;
+    width: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+`;
 
 
 let timerId: NodeJS.Timeout;
@@ -52,19 +91,19 @@ const ArticleForm = () => {
   };
 
   return(
-    <div id="edit-container">
-      <div id="edit-title-container">
+    <EditContainerStyled>
+      <TitleContainerStyled>
         <input placeholder=" title" />
-      </div>
-      <div id="edit-category-container">
+      </TitleContainerStyled>
+      <CategoryContainerStyled>
         <input placeholder=" category" />
-      </div>
+      </CategoryContainerStyled>
       <div id="editorSelection"></div>
-      <div id="edit-button-container">
+      <ButtonContainerStyled>
         <button>Preview</button>
         <button onClick={() => parseContents()}>Submit</button>
-      </div>
-    </div>
+      </ButtonContainerStyled>
+    </EditContainerStyled>
   );
 };
 

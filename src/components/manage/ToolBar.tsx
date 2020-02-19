@@ -1,4 +1,34 @@
 import * as React from "react";
+import styled from "styled-components";
+
+const ToolBarContainerStyled = styled.div`
+  text-align: center;
+  background-color: white;
+  height: 60px;
+  margin-bottom: 10px;
+  & ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding-top: 4px;
+  }
+  & li {
+    font-size: 26px;
+    width: 100px;
+    padding: 13px;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+  }
+  & .link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+`;
 
 interface ParentProps {
   mode: string;
@@ -15,7 +45,7 @@ const ToolBar: React.FC<Props> = (props) => {
   const dummyStyle = {};
 
   return(
-    <div id="tool-bar-container">
+    <ToolBarContainerStyled>
       <ul>
         <li style={props.mode === undefined ? style : dummyStyle}>
             create
@@ -38,7 +68,7 @@ const ToolBar: React.FC<Props> = (props) => {
             <a className="link" href="/manage/settings"></a>
         </li>
       </ul>
-    </div>
+    </ToolBarContainerStyled>
   );
 };
 
