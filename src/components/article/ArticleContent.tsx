@@ -1,40 +1,39 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import ax from "axios";
+import styled from "styled-components";
 
-interface State {
-  content: string;
-}
+const ArticleContentStyled = styled.article`
+  width: 86%;
+  margin: 90px auto 50px auto;
+  font-size: 20px;
+`;
 
 const BASE_URL = "https://blog.champon.xyz/articles/";
 
-class ArticleContent extends React.Component<{}, State> {
-  constructor(props: {}) {
-    super(props);
-    this.state = {
-      content: ""
-    };
-  }
+const ArticleContent = () => {
+  const [content, setContent] = useState("");
+  const par = document.querySelector("#article-content");
 
-  componentDidMount() {
-    this.parseArticleContent();
-  }
+  par?.insertAdjacentHTML("afterbegin", content);
 
-  parseArticleContent() {
+  useEffect(() => {
+    parseArticleContent();
+    console.log(content);
+  });
+
+  const parseArticleContent = () => {
     const axios = ax.create();
     const url = BASE_URL + "/article1.html";
     axios.get(url)
       .then(res => {
-        this.setState({content: res.data });
+        setContent(res.data);
       });
-  }
+  };
 
-  render() {
-    const par = document.querySelector("#article-content");
-    par?.insertAdjacentHTML("afterbegin", this.state.content);
-    return(
-      <article id="article-content"></article>
-    );
-  }
-}
+  return(
+    <ArticleContentStyled id="article-content"></ArticleContentStyled>
+  );
+};
 
 export default ArticleContent;

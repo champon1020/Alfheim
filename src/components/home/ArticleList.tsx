@@ -1,7 +1,22 @@
 import * as React from "react";
-import "../../assets/styles/article_list.css";
+import styled from "styled-components";
 import ArticleBox from "./ArticleBox";
-import { ArticleType } from "../../types/types";
+import { ArticleType } from "../../api/api";
+
+const ArticleListStyled = styled.div`
+  margin: auto;
+  text-align: center;
+  & > ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  & > ul > li {
+    margin-bottom: 30px;
+  }
+`;
 
 interface ParentProps {
   articles: ArticleType[];
@@ -9,24 +24,22 @@ interface ParentProps {
 
 type Props = ParentProps;
 
-class ArticlesList extends React.Component<Props> {
-  render() {
-    return(
-      <div id="article-list">
-        <ul>
-          <li>
-            <ArticleBox />
-          </li>
-          <li>
-            <ArticleBox />
-          </li>
-          <li>
-            <ArticleBox />
-          </li>
-        </ul>
-      </div>
-    );
-  }
-}
+const ArticleList: React.FC<Props> = props => {
+  return(
+    <ArticleListStyled>
+      <ul>
+        <li>
+          <ArticleBox />
+        </li>
+        <li>
+          <ArticleBox />
+        </li>
+        <li>
+          <ArticleBox />
+        </li>
+      </ul>
+    </ArticleListStyled>
+  );
+};
 
-export default ArticlesList;
+export default ArticleList;

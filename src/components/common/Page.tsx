@@ -1,18 +1,43 @@
 import * as React from "react";
-import "../../assets/styles/common.css";
+import styled from "styled-components";
 
-class Page extends React.Component {
-  render() {
-    return(
-      <div id="page-container">
-        <ul className="page-component">
-          <li className="page-element">BackBackBackBackBackBack</li>
-          <li className="page-element">1</li>
-          <li className="page-element">NextNextNextNextNextNext</li>
-        </ul>
-      </div>
-    );
-  }
-}
+const PageStyled = styled.div`
+  margin: 40px 0;
+`;
+
+const PageComponentsStyled = styled.ul`
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+`;
+
+const PageElementStyled = styled.li`
+  margin: 0;
+  font-size: 28px;
+  text-align: center;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const Page = () => {
+  return(
+    <PageStyled>
+      <PageComponentsStyled>
+        <PageElementStyled>
+          BackBackBackBackBackBack
+        </PageElementStyled>
+        <PageElementStyled>1</PageElementStyled>
+        <PageElementStyled>
+          NextNextNextNextNextNext
+        </PageElementStyled>
+      </PageComponentsStyled>
+    </PageStyled>
+  );
+};
 
 export default Page;
