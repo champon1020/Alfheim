@@ -1,6 +1,6 @@
 import { ActionEnum } from "./actions";
 import { Action } from "redux";
-import { ArticleType } from "../api/api";
+import { ArticleType } from "../api/myapi";
 
 export interface UpdateArticlesAction extends Action 
 {

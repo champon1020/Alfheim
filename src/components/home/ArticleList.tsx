@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import ArticleBox from "./ArticleBox";
-import { ArticleType } from "../../api/api";
+import { ArticleType } from "../../api/myapi";
 
 const ArticleListStyled = styled.div`
   margin: auto;
