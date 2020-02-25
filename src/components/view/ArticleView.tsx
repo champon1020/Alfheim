@@ -1,17 +1,23 @@
 import * as React from "react";
-import "../../assets/styles/app.css";
-import Header from "../common/Header";
-import ImageHeader from "../common/ImageHeader";
-import Bar from "../common/Bar";
-import Footer from "../common/Footer";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
-import { RouteComponentProps } from "react-router-dom";
+import { IRouteProps } from "./PublicView";
+import styled from "styled-components";
 
-type RouteProps = RouteComponentProps<{articleId: string}>;
+const MainContainer = styled.div`
+  order: 1;
+  width: 78%;
+  margin-right: 10px;
+`;
 
-type Props = RouteProps;
+const SubContainer = styled.div`
+  order: 2;
+  width: 22%;
+  margin-left: 10px;
+`;
+
+type Props = IRouteProps;
 
 const ArticleView: React.FC<Props> = (props) => {
   const validArticleId = () => {
@@ -20,27 +26,15 @@ const ArticleView: React.FC<Props> = (props) => {
   };
 
   return(
-    <div id="container">
-      <header>
-        <Header />
-        <ImageHeader />
-      </header>
-      <main>
-        <Bar />
-        <div id="article-wrapper">
-          <div className="order1">
-            <Article articleId={validArticleId()}/>
-            <Page />
-          </div>
-          <div className="order2">
-            <SideBar />
-          </div>
-        </div>
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-    </div>
+    <>
+      <MainContainer>
+        <Article articleId={validArticleId()}/>
+        <Page />
+      </MainContainer>
+      <SubContainer>
+        <SideBar />
+      </SubContainer>
+    </>
   );
 };
 
