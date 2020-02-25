@@ -23,7 +23,7 @@ type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
   const articles = useSelector((state: RootState) => state.articlesReducer.articles);
-  const recomArticles = useSelector((state: RootState) => state.sidebarReducer.recomArticles);
+  const recomArticles = useSelector((state: RootState) => state.sidebarReducer.recommendArticles);
   const dispatch = useDispatch();
 
   return(

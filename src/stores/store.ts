@@ -7,7 +7,7 @@ export type ArticlesState = {
 }
 
 export type SidebarState = {
-  recomArticles: Array<{
+  recommendArticles: Array<{
     id: number;
     title: string;
   }>;

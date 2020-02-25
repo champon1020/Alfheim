@@ -1,22 +1,15 @@
-import { 
-  UpdateArticlesActionType, 
-  UpdateArticlesAction 
-} from "../actions/articleAction";
-
-import { 
-  initArticlesState 
-} from "./rootReducer";
-
-import { 
-  ArticlesState 
-} from "../stores/store";
-
+import { UpdateArticlesAction } from "../actions/articleAction";
+import { ArticlesState } from "../stores/store";
 import { Reducer } from "redux";
 import { ActionEnum } from "../actions/actions";
 
-const articlesReducer: Reducer<ArticlesState, UpdateArticlesActionType> = (
+export const initArticlesState: ArticlesState = {
+  articles: []
+};
+
+const articlesReducer: Reducer<ArticlesState, UpdateArticlesAction> = (
   state = initArticlesState,
-  action: UpdateArticlesActionType
+  action: UpdateArticlesAction
 ): ArticlesState => 
 {
   switch(action.type) {
