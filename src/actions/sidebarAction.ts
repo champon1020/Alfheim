@@ -1,26 +1,14 @@
-import { Action } from "redux";
 import { ActionEnum } from "./actions";
 
-export interface UpdateRecommendArticlesAction extends Action 
-{
-  type: ActionEnum.UPDATE_RECOMMEND_ARTICLES;
-  payload: {
-    recomArticles: Array<{
-      id: number;
-      title: string;
-    }>;
-  };
-}
-
-export type UpdateRecommendArticlesActionType = UpdateRecommendArticlesAction;
-
 export const updateRecommendArticles 
-= (recomArticles: Array<{id: number; title: string}>): UpdateRecommendArticlesAction => 
+= (recommendArticles: Array<{id: number; title: string}>) => 
 {
   return {
     type: ActionEnum.UPDATE_RECOMMEND_ARTICLES,
     payload: {
-      recomArticles: recomArticles
+      recommendArticles: recommendArticles
     }
   };
 };
+
+export type UpdateRecommendArticlesAction = ReturnType<typeof updateRecommendArticles>

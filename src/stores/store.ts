@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { ArticleType } from "../api/api";
+import { ArticleType } from "../api/myapi";
 import rootReducer from "../reducers/rootReducer";
 
 export type ArticlesState = {
@@ -7,7 +7,7 @@ export type ArticlesState = {
 }
 
 export type SidebarState = {
-  recomArticles: Array<{
+  recommendArticles: Array<{
     id: number;
     title: string;
   }>;

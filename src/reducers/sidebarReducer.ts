@@ -1,18 +1,21 @@
 import { Reducer } from "redux";
 import { SidebarState } from "../stores/store";
-import { UpdateRecommendArticlesAction, UpdateRecommendArticlesActionType } from "../actions/sidebarAction";
-import { initSidebarState } from "./rootReducer";
+import { UpdateRecommendArticlesAction} from "../actions/sidebarAction";
 import { ActionEnum } from "../actions/actions";
 
-const sidebarReducder: Reducer<SidebarState, UpdateRecommendArticlesAction> = (
+export const initSidebarState: SidebarState = {
+  recommendArticles: []
+};
+
+const sidebarReducer: Reducer<SidebarState, UpdateRecommendArticlesAction> = (
   state = initSidebarState,
-  action: UpdateRecommendArticlesActionType
+  action: UpdateRecommendArticlesAction
 ): SidebarState => {
   switch(action.type) {
   case ActionEnum.UPDATE_RECOMMEND_ARTICLES: {
     const thisAction: UpdateRecommendArticlesAction = action;
     return {
-      recomArticles: thisAction.payload.recomArticles
+      recommendArticles: thisAction.payload.recommendArticles
     };
   }
   default:
@@ -20,4 +23,4 @@ const sidebarReducder: Reducer<SidebarState, UpdateRecommendArticlesAction> = (
   }
 };
 
-export default sidebarReducder;
+export default sidebarReducer;
