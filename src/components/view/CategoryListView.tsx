@@ -1,6 +1,5 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import SideBar from "../common/SideBar";
-import Page from "../common/Page";
 import CategoryList from "../category/CategoryList";
 import styled from "styled-components";
 
@@ -17,11 +16,17 @@ const SubContainer = styled.div`
 `;
 
 const CategoryListView = () => {
+  useEffect(() => {
+    window.scroll({
+      top: 400,
+      behavior: "smooth"
+    });
+  }, []);
+
   return(
     <>
       <MainContainer>
         <CategoryList />
-        <Page backText="Back" nextText="Next" />
       </MainContainer>
       <SubContainer>
         <SideBar />

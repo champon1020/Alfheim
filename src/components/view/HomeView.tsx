@@ -42,6 +42,7 @@ const api = new DefaultApi();
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isErr, setErr] = useState(false);
   const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
   const dispatch = useDispatch();
