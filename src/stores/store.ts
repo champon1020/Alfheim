@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { ArticleType } from "../api/myapi";
+import { ArticleType } from "../type";
 import rootReducer from "../reducers/rootReducer";
 
 export type ArticlesState = {
@@ -13,6 +13,9 @@ export type SidebarState = {
   }>;
 }
 
-export const store = createStore(rootReducer);
+export const store = createStore(
+  rootReducer,
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+);
 
 export type RootState = ReturnType<typeof store.getState>

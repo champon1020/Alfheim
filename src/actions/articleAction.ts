@@ -1,5 +1,5 @@
 import { ActionEnum } from "./actions";
-import { ArticleType } from "../api/myapi";
+import { ArticleType } from "../type";
 
 export const updateArticles = (articles: ArticleType[]) => 
 {

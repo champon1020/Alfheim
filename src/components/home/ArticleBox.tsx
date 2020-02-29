@@ -1,7 +1,7 @@
-import * as React from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
-import image from "../../assets/images/coming_soon.jpg";
 import ArticleBoxCategory from "./ArticleBoxCategory";
+import { ArticleType } from "src/type";
 
 const ArticleBoxStyled = styled.div`
   display: inline-block;
@@ -71,18 +71,30 @@ const LinkBoxStyled = styled.a`
   left: 0;
 `;
 
-const ArticleBox: React.FC = () => {
+type ParentProps = {
+  article: ArticleType;
+}
+
+type Props = ParentProps;
+
+const parseDateToString = (d: Date) => {
+  return d.toString().substr(0, 10);
+};
+
+const ArticleBox = (props: Props) => {
+  const { article } = props;
+
   return(
     <ArticleBoxStyled>
-      <ImageStyled src={image} alt="article box" />
+      <ImageStyled src={article.imageUrl} alt="article box" />
       <DateBoxStyled>
-        <p>2020-01-26</p>
+        <p>{parseDateToString(article.createDate)}</p>
       </DateBoxStyled>
       <CategoryBoxStyled>
-        <ArticleBoxCategory />
+        <ArticleBoxCategory categories={article.categories} />
       </CategoryBoxStyled>
       <TitleBoxStyled>
-        <h3>Article Box Title.Article Box Title.Article Box Title.Article Box Title.</h3>
+        <h3>{article.title}</h3>
       </TitleBoxStyled>
 
       {/* eslint-disable-next-line */}

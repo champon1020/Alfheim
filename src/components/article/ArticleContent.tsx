@@ -14,14 +14,7 @@ const BASE_URL = "https://blog.champon.xyz/articles/";
 const ArticleContent = () => {
   const [content, setContent] = useState("");
   const par = document.querySelector("#article-content");
-
-  par?.insertAdjacentHTML("afterbegin", content);
-
-  useEffect(() => {
-    parseArticleContent();
-    console.log(content);
-  });
-
+  
   const parseArticleContent = () => {
     const axios = ax.create();
     const url = BASE_URL + "/article1.html";
@@ -30,6 +23,12 @@ const ArticleContent = () => {
         setContent(res.data);
       });
   };
+
+  par?.insertAdjacentHTML("afterbegin", content);
+
+  useEffect(() => {
+    parseArticleContent();
+  }, []);
 
   return(
     <ArticleContentStyled id="article-content"></ArticleContentStyled>
