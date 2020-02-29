@@ -44,7 +44,7 @@ const ArticleView: React.FC<Props> = (props) => {
     <>
       <MainContainer>
         <Article articleId={validArticleId()}/>
-        <Page />
+        <Page backText="backArticleTitle" nextText="nextArticleTitle" />
       </MainContainer>
       <SubContainer>
         <SideBar />

@@ -21,7 +21,7 @@ const CategoryListView = () => {
     <>
       <MainContainer>
         <CategoryList />
-        <Page />
+        <Page backText="Back" nextText="Next" />
       </MainContainer>
       <SubContainer>
         <SideBar />

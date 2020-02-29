@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import image from "../../assets/images/sky.jpg";
 
 const ListItemStyled = styled.li`
   position: relative;
@@ -38,7 +39,7 @@ const TitleBoxStyled = styled.div`
 const RecommendBox = () => {
   return (
     <ListItemStyled>
-      <ImageStyled src="https://blog.champon.xyz/images/default.jpg" />
+      <ImageStyled src={image} />
       <TitleBoxStyled>
         <h2>sample article</h2>
       </TitleBoxStyled>

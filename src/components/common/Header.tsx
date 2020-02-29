@@ -28,7 +28,7 @@ const NavStyled = styled.nav`
   position: absolute;
   display: inline-block;
   right: 100px;
-  top: 10px;
+  top: 15px;
 `;
 
 const NavListStyled = styled.ul`
@@ -36,8 +36,6 @@ const NavListStyled = styled.ul`
   display: flex;
   flex-direction: row;
   font-size: 28px;
-  margin: 0;
-  padding: 0;
   & li {
     margin: 0 25px;
   }

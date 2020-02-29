@@ -24,16 +24,23 @@ const PageElementStyled = styled.li`
   text-overflow: ellipsis;
 `;
 
-const Page = () => {
+type Props = {
+  backText: string;
+  nextText: string;
+}
+
+const Page = (props: Props) => {
+  const { backText, nextText } = props;
+
   return(
     <PageStyled>
       <PageComponentsStyled>
         <PageElementStyled>
-          BackBackBackBackBackBack
+          {backText}
         </PageElementStyled>
         <PageElementStyled>1</PageElementStyled>
         <PageElementStyled>
-          NextNextNextNextNextNext
+          {nextText}
         </PageElementStyled>
       </PageComponentsStyled>
     </PageStyled>

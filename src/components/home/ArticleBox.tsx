@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
@@ -66,17 +66,24 @@ const TitleBoxStyled = styled.div`
   }
 `;
 
-type ParentProps = {
+const BASE_URL = "http://localhost:3000";
+
+type Props = {
   article: ArticleType;
 }
-
-type Props = ParentProps;
 
 const ArticleBox = (props: Props) => {
   const { article } = props;
 
+  const handleOnClick = useCallback(
+    () => {
+      window.location.href = BASE_URL + "/article/" + article.id;
+    },
+    [article],
+  );
+
   return(
-    <ArticleBoxStyled>
+    <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
         <ImageStyled src={article.imageUrl} alt="article box" />
       </ImageBoxStyled>

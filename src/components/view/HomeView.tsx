@@ -67,7 +67,7 @@ const HomeView = (props: Props) => {
     <>
       <MainContainer>
         <ArticleList articles={articles} />
-        <Page />
+        <Page backText="Back" nextText="Next" />
       </MainContainer>
       <SubContainer>
         <SideBar />

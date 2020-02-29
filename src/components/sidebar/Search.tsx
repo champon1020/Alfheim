@@ -35,14 +35,14 @@ const Search = () => {
       setFocused(true);
       inputRef.current.focus();
     },
-    [isFocused],
+    [],
   );
 
   const handleOnBlur = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
       if(e.currentTarget.value.length === 0) setFocused(false);
     },
-    [isFocused],
+    [],
   );
 
   return (

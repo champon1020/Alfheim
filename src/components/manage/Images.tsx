@@ -14,7 +14,7 @@ const Images = () => {
   return(
     <ImagesContainerStyled>
       <ImageList />
-      <Page />
+      <Page backText="" nextText="" />
     </ImagesContainerStyled>
   );
 };
