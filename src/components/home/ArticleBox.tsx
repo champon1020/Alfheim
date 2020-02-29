@@ -1,7 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
+import { parseDateToString } from "../services/parser";
 
 const ArticleBoxStyled = styled.div`
   display: inline-block;
@@ -77,10 +78,6 @@ type ParentProps = {
 
 type Props = ParentProps;
 
-const parseDateToString = (d: Date) => {
-  return d.toString().substr(0, 10);
-};
-
 const ArticleBox = (props: Props) => {
   const { article } = props;
 
@@ -98,7 +95,7 @@ const ArticleBox = (props: Props) => {
       </TitleBoxStyled>
 
       {/* eslint-disable-next-line */}
-        <LinkBoxStyled href="/article/1"></LinkBoxStyled>
+        <LinkBoxStyled href={"/article/" + article.id}></LinkBoxStyled>
     </ArticleBoxStyled>
   );
 };

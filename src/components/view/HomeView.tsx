@@ -6,8 +6,9 @@ import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
-import { DefaultApi, Article } from "../../api/api";
+import { DefaultApi } from "../../api/api";
 import appActionCreator from "../../actions/actions";
+import { ArticleType } from "src/type";
 
 
 const MainContainer = styled.div`
@@ -22,32 +23,31 @@ const SubContainer = styled.div`
   margin-left: 10px;
 `;
 
+const api = new DefaultApi();
+
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
-  const [as, setAs] = useState([] as Article[]);
   const [isErr, setErr] = useState(false);
-  const articles = useSelector((state: RootState) => state.articlesReducer.articles);
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
   const dispatch = useDispatch();
   const dispatchArticle = useCallback(
     (article) => {
       dispatch(appActionCreator.updateArticles(article));
     },
-    [],
+    [dispatch],
   );
 
   useEffect(() => {
     const path = window.location.pathname;
-    const api = new DefaultApi();
     if(path.startsWith("/home/article")) console.log("article");
     if(path.startsWith("/home/category")) console.log("category");
     api.findArticleListGet()
       .then(res => {
         const articles = res.data.articles;
         dispatchArticle(articles);
-      })
-      .catch(err => console.log(err));
-  }, []);
+      });
+  }, [dispatchArticle]);
 
   return(
     <>

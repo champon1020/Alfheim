@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
+import { CategoryType } from "src/type";
 
 const CategoryListStyled = styled.ul`
   display: flex;
@@ -17,27 +18,33 @@ const CategoryListItemStyled = styled.li`
   padding: 1px 5px;
 `;
 
-const Category = () => {
+type ParentProps = {
+  categories: CategoryType[];
+}
+
+type Props = ParentProps;
+
+const Category = (props: Props) => {
+  const { categories } = props;
+
+  const categoryList = useCallback(
+    () => {
+      const list = [] as JSX.Element[];
+      categories.forEach((v, i) => {
+        list.push(
+          <CategoryListItemStyled key={i}>
+            {v.name}
+          </CategoryListItemStyled>
+        );
+      });
+      return list;
+    },
+    [categories],
+  );
+
   return(
     <CategoryListStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
-      <CategoryListItemStyled>
-        example
-      </CategoryListItemStyled>
+      {categoryList()}
     </CategoryListStyled>
   );
 };

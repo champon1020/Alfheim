@@ -1,5 +1,4 @@
 import * as React from "react";
-import { strUndefCheck } from "../../util/func";
 
 interface ParentProps {
   text: string;
@@ -9,6 +8,10 @@ interface ParentProps {
 }
 
 type Props = ParentProps;
+
+function strUndefCheck(value: string | undefined): string {
+  return value!==undefined ? value : "";
+}
 
 const LinkWord: React.FC<Props> = (props) => {
   return (

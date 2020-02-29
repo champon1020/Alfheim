@@ -1,8 +1,12 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import ArticleHeader from "./ArticleHeader";
 import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
 import styled from "styled-components";
+import { parseUrl } from "../services/parser";
+import { useSelector } from "react-redux";
+import { RootState } from "src/stores/store";
+import { ArticleType } from "src/type";
 
 const ArticleContainerStyled = styled.div`
   background-color: rgb(255, 248, 240);
@@ -18,10 +22,24 @@ interface ParentProps {
 type Props = ParentProps;
 
 const Article: React.FC<Props> = (props) => {
+  const articleId = parseUrl(window.location.pathname).slice(-1)[0];
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
+
+  const parseArticle = useCallback(
+    (): ArticleType => {
+      const article = articles.filter(v => v.id === Number.parseInt(articleId));
+      // if(article.length === 0) {
+      //   error handling process
+      // }
+      return article[0];
+    },
+    [articles, articleId],
+  );
+
   return(
     <ArticleContainerStyled>
-      <ArticleHeader />
-      <ArticleContent />
+      <ArticleHeader article={parseArticle()} />
+      <ArticleContent article={parseArticle()} />
       <ArticleFooter />
     </ArticleContainerStyled>
   );
