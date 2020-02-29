@@ -1,6 +1,8 @@
-import * as React from "react";
+import React from "react";
 import Category from "./Category";
 import styled from "styled-components";
+import { ArticleType } from "src/type";
+import { parseDateToString } from "../services/parser";
 
 const ArticleHeaderStyled = styled.div`
   & p {
@@ -10,21 +12,27 @@ const ArticleHeaderStyled = styled.div`
 
 const DateContainerStyled = styled.div`
   display: inline-block;
-  font-size: 24px;
+  font-size: 2.0rem;
   border-bottom: solid thin gray;
-  margin-left: 40px;
+  margin-left: 8%;
   padding: 0 5px;
+  @media (max-width: 500px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const TitleContainerStyled = styled.div`
   text-align: center;
-  font-size: 24px;
+  font-size: 2.4rem;
   width: 80%;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 4% auto;
   & h2 {
     margin-bottom: 0;
     border-bottom: solid thin gray;
     display: inline-block;
+  }
+  @media (max-width: 500px) {
+    font-size: 2rem;
   }
 `;
 
@@ -33,17 +41,25 @@ const CategoryContainerStyled = styled.div`
   margin: 0 auto;
 `;
 
-const ArticleHeader = () => {
+type ParentProps = {
+  article: ArticleType;
+}
+
+type Props = ParentProps;
+
+const ArticleHeader = (props: Props) => {
+  const { article } = props;
+
   return(
     <ArticleHeaderStyled>
       <DateContainerStyled>
-        <p>2020-01-26</p>
+        <p>{parseDateToString(article.createDate)}</p>
       </DateContainerStyled>
       <TitleContainerStyled>
-        <h2>This is the sample title.</h2>
+        <h2>{article.title}</h2>
       </TitleContainerStyled>
       <CategoryContainerStyled>
-        <Category />
+        <Category categories={article.categories} />
       </CategoryContainerStyled>
     </ArticleHeaderStyled>
   );

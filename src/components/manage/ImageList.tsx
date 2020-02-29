@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import image from "../../assets/images/sky.jpg";
 
 const ImageListContainerStyled = styled.div`
   text-align: center;
@@ -33,27 +34,27 @@ const ImageList = () => {
       <ul>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/profile_image.png")} />
+            <ImageStyled src={image} />
         </li>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/manage-wall.jpg")} />
+            <ImageStyled src={image} />
         </li>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/manage-wall.jpg")} />
+            <ImageStyled src={image} />
         </li>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/manage-wall.jpg")} />
+            <ImageStyled src={image} />
         </li>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/profile_image.png")} />
+            <ImageStyled src={image} />
         </li>
         <li>
           {/* eslint-disable-next-line */}
-            <ImageStyled src={require("../../assets/images/manage-wall.jpg")} />
+            <ImageStyled src={image} />
         </li>
       </ul>
     </ImageListContainerStyled>

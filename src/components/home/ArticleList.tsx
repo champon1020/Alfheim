@@ -1,20 +1,26 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBox from "./ArticleBox";
-import { ArticleType } from "../../api/myapi";
+import { ArticleType } from "../../type";
 
-const ArticleListStyled = styled.div`
-  margin: auto;
-  text-align: center;
-  & > ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+const ArticleListStyled = styled.ul`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media (max-width: 1000px) {
+    justify-content: center;
   }
-  & > ul > li {
-    margin-bottom: 30px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const ArticleListElementStyled = styled.li`
+  margin: 0 15px 30px 15px;
+  @media (max-width: 800px) {
+    margin: 0;
+    margin-bottom: 40px;
   }
 `;
 
@@ -24,20 +30,26 @@ interface ParentProps {
 
 type Props = ParentProps;
 
-const ArticleList: React.FC<Props> = props => {
+const ArticleList = (props: Props) => {
+  const { articles } = props;
+  const articleList = useCallback(
+    () => {
+      const list = [] as JSX.Element[];
+      articles.forEach((v, i) => {
+        list.push(
+          <ArticleListElementStyled key={i}>
+            <ArticleBox article={v} />
+          </ArticleListElementStyled>
+        );
+      });
+      return list;
+    },
+    [articles],
+  );
+
   return(
     <ArticleListStyled>
-      <ul>
-        <li>
-          <ArticleBox />
-        </li>
-        <li>
-          <ArticleBox />
-        </li>
-        <li>
-          <ArticleBox />
-        </li>
-      </ul>
+      {articleList()}
     </ArticleListStyled>
   );
 };

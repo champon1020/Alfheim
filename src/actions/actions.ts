@@ -11,4 +11,6 @@ class AppActionCreator {
   public updateRecommendArticles = updateRecommendArticles;
 }
 
-export const appActionCreator: AppActionCreator = new AppActionCreator();
+const appActionCreator: AppActionCreator = new AppActionCreator();
+
+export default appActionCreator;

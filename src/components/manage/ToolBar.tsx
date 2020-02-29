@@ -11,7 +11,6 @@ const ToolBarContainerStyled = styled.div`
     flex-direction: row;
     justify-content: center;
     list-style: none;
-    margin: 0;
     padding-top: 4px;
   }
   & li {

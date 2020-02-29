@@ -1,7 +1,56 @@
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+ul,
+li,
+form,
+label,
+footer,
+header,
+nav {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+img {
+  vertical-align: bottom;
+}
+
+input {
+  outline: none;
+}
+
+html {
+  font-size: 62.5%;
+  --container-width: 1150px;
+}
+
+@media screen and (max-width: 1200px) {
+  html {
+    --container-width: 970px;
+  }
+}
+
 body {
   margin: 0;
   background-color: rgb(255, 255, 255);
-  
-  --base-color: rgb(245, 245, 255);
-  --base-font-color: brown;
+  font-family: "arial";
+  --base-color: rgb(54, 59, 75);
+}
+
+ul {
+  list-style: none;
 }

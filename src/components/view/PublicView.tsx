@@ -17,8 +17,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 70%;
+  width: var(--container-width);
   margin: 40px auto;
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 export type IRouteProps = RouteComponentProps<{

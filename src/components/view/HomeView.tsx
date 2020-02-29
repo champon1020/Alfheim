@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
@@ -6,31 +6,68 @@ import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
+import { DefaultApi } from "../../api/api";
+import appActionCreator from "../../actions/actions";
+import { ArticleType } from "src/type";
+
 
 const MainContainer = styled.div`
   order: 1;
-  width: 78%;
-  margin-right: 10px;
+  width: calc(var(--container-width) / 4 * 3);
+  @media (max-width: 1000px) {
+    width: 800px;
+    margin: 0 auto;
+  }
+  @media (max-width: 800px) {
+    width: 80%;
+    margin: 0 auto;
+  }
 `;
 
 const SubContainer = styled.div`
   order: 2;
-  width: 22%;
-  margin-left: 10px;
+  margin: 0;
+  width: calc(var(--container-width) / 4);
+  @media (max-width: 1000px) {
+    width: calc(var(--container-width) / 2.5);
+    margin: 10% auto 0 auto;
+  }
+  @media (max-width: 800px) {
+    width: 78%;
+  }
 `;
+
+const api = new DefaultApi();
 
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
-  const articles = useSelector((state: RootState) => state.articlesReducer.articles);
-  const recomArticles = useSelector((state: RootState) => state.sidebarReducer.recommendArticles);
+  const [isErr, setErr] = useState(false);
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
   const dispatch = useDispatch();
+  const dispatchArticle = useCallback(
+    (article) => {
+      dispatch(appActionCreator.updateArticles(article));
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    if(path.startsWith("/home/article")) console.log("article");
+    if(path.startsWith("/home/category")) console.log("category");
+    api.findArticleListGet()
+      .then(res => {
+        const articles = res.data.articles;
+        dispatchArticle(articles);
+      });
+  }, [dispatchArticle]);
 
   return(
     <>
       <MainContainer>
         <ArticleList articles={articles} />
-        <Page />
+        <Page backText="Back" nextText="Next" />
       </MainContainer>
       <SubContainer>
         <SideBar />

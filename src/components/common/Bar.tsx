@@ -1,5 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
+import BarItem from "./BarItem";
+import TwitterIcon from "../../assets/images/twitter.svg";
+import QiitaIcon from "../../assets/images/qiita.png";
+import WantedlyIcon from "../../assets/images/wantedly.svg";
+import LinkedinIcon from "../../assets/images/linkedin.png";
 
 const BarStyled = styled.div`
   background-color: var(--base-color);
@@ -18,30 +23,14 @@ const SnsLinkListStyled = styled.ul`
   margin: 0;
 `;
 
-const SnsLinkListItemStyled = styled.li`
-  margin: 0 30px;
-  background-color: orange;
-  height: 50px;
-  width: 50px;
-  border-radius: 10px 10px;
-`;
-
 const Bar = () => {
   return(
     <BarStyled>
       <SnsLinkListStyled>
-        <SnsLinkListItemStyled>
-          twitter
-        </SnsLinkListItemStyled>
-        <SnsLinkListItemStyled>
-          linkedin
-        </SnsLinkListItemStyled>
-        <SnsLinkListItemStyled>
-          wantedly
-        </SnsLinkListItemStyled>
-        <SnsLinkListItemStyled>
-          qiita
-        </SnsLinkListItemStyled>
+        <BarItem icon={TwitterIcon} />
+        <BarItem icon={LinkedinIcon} background="var(--base-color)" />
+        <BarItem icon={WantedlyIcon} />
+        <BarItem icon={QiitaIcon} />
       </SnsLinkListStyled>
     </BarStyled>
   );

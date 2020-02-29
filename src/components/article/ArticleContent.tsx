@@ -1,38 +1,52 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
-import ax from "axios";
+import React, { useCallback, useState, useEffect } from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { ArticleType } from "src/type";
 
 const ArticleContentStyled = styled.article`
   width: 86%;
-  margin: 90px auto 50px auto;
-  font-size: 20px;
+  margin: 10% auto 50px auto;
+  font-size: 1.6rem;
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    width: 95%;
+  }
 `;
 
-const BASE_URL = "https://blog.champon.xyz/articles/";
+type ParentProps = {
+  article: ArticleType;
+}
 
-const ArticleContent = () => {
+type Props = ParentProps;
+
+const ArticleContent = (props: Props) => {
+  const { article } = props;
   const [content, setContent] = useState("");
-  const par = document.querySelector("#article-content");
 
-  par?.insertAdjacentHTML("afterbegin", content);
+  const contentRef = useCallback(
+    (node: HTMLElement) => {
+      if(node !== null){
+        node.insertAdjacentHTML("afterbegin", content);
+      }
+    },
+    [content],
+  );
+
+  const parseArticleContent = useCallback(
+    () => {
+      axios.get(article.contentUrl)
+        .then(res => {
+          setContent(res.data);
+        });
+    },[article]
+  );
 
   useEffect(() => {
     parseArticleContent();
-    console.log(content);
-  });
-
-  const parseArticleContent = () => {
-    const axios = ax.create();
-    const url = BASE_URL + "/article1.html";
-    axios.get(url)
-      .then(res => {
-        setContent(res.data);
-      });
-  };
+  }, [parseArticleContent]);
 
   return(
-    <ArticleContentStyled id="article-content"></ArticleContentStyled>
+    <ArticleContentStyled ref={contentRef}></ArticleContentStyled>
   );
 };
 

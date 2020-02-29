@@ -17,7 +17,7 @@ const Articles = () => {
     <div id="articles-container">
       <ArticleList />
       <PageContainerStyled>
-        <Page />
+        <Page backText="Back" nextText="Next" />
       </PageContainerStyled>
     </div>
   );

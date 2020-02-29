@@ -1,9 +1,14 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
+
+const SideBarBoxStyled = styled.div`
+  border: solid 1px var(--base-color);
+  margin-bottom: 30px;
+`;
 
 const TitleStyled = styled.div`
   background-color: var(--base-color);
-  box-shadow: 2px 2px 4px gray;
+  color: white;
   & h3 {
     margin: 0;
     padding: 10px;
@@ -12,12 +17,9 @@ const TitleStyled = styled.div`
 `;
 
 const ContentStyled = styled.div`
-  height: 200px;
   padding: 10px;
-  background-color: whitesmoke;
+  background-color: white;
   font-size: 18px;
-  margin: 10px 0 30px 0;
-  box-shadow: 2px 2px 4px gray;
   ul {
     list-style: none;
     margin: 0;
@@ -26,23 +28,22 @@ const ContentStyled = styled.div`
   }
 `;
 
-const SideBarBox = () => {
+type Props = {
+  ContentComponent: React.FunctionComponent;
+}
+
+const SideBarBox = (props: Props) => {
+  const { ContentComponent } = props;
+
   return(
-    <div>
+    <SideBarBoxStyled>
       <TitleStyled>
         <h3>Side Bar Example</h3>
       </TitleStyled>
       <ContentStyled>
-        <ul>
-          <li>
-            <p>Sample article 1</p>
-          </li>
-          <li>
-            <p>Sample aritcle 2</p>
-          </li>
-        </ul>
+        <ContentComponent />
       </ContentStyled>
-    </div>
+    </SideBarBoxStyled>
   );
 };
 
