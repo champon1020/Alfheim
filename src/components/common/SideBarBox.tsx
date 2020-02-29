@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 
 const SideBarBoxStyled = styled.div`
@@ -17,7 +17,6 @@ const TitleStyled = styled.div`
 `;
 
 const ContentStyled = styled.div`
-  height: 200px;
   padding: 10px;
   background-color: white;
   font-size: 18px;
@@ -29,21 +28,20 @@ const ContentStyled = styled.div`
   }
 `;
 
-const SideBarBox = () => {
+type Props = {
+  ContentComponent: React.FunctionComponent;
+}
+
+const SideBarBox = (props: Props) => {
+  const { ContentComponent } = props;
+
   return(
     <SideBarBoxStyled>
       <TitleStyled>
         <h3>Side Bar Example</h3>
       </TitleStyled>
       <ContentStyled>
-        <ul>
-          <li>
-            <p>Sample article 1</p>
-          </li>
-          <li>
-            <p>Sample aritcle 2</p>
-          </li>
-        </ul>
+        <ContentComponent />
       </ContentStyled>
     </SideBarBoxStyled>
   );

@@ -1,9 +1,8 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
 import { parseDateToString } from "../services/parser";
-import axios from "axios";
 
 const ArticleBoxStyled = styled.div`
   position: relative;

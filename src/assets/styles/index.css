@@ -25,6 +25,14 @@ nav {
   vertical-align: baseline;
 }
 
+img {
+  vertical-align: bottom;
+}
+
+input {
+  outline: none;
+}
+
 html {
   font-size: 62.5%;
   --container-width: 1150px;
