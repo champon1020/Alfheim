@@ -3,18 +3,24 @@ import styled from "styled-components";
 import ArticleBox from "./ArticleBox";
 import { ArticleType } from "../../type";
 
-const ArticleListStyled = styled.div`
-  margin: auto;
-  text-align: center;
-  & > ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 0;
-    margin: 0;
+const ArticleListStyled = styled.ul`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @media (max-width: 1000px) {
+    justify-content: center;
   }
-  & > ul > li {
-    margin-bottom: 30px;
+  @media (max-width: 800px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const ArticleListElementStyled = styled.li`
+  margin: 0 15px 30px 15px;
+  @media (max-width: 800px) {
+    margin: 0;
+    margin-bottom: 40px;
   }
 `;
 
@@ -31,9 +37,9 @@ const ArticleList = (props: Props) => {
       const list = [] as JSX.Element[];
       articles.forEach((v, i) => {
         list.push(
-          <li key={i}>
+          <ArticleListElementStyled key={i}>
             <ArticleBox article={v} />
-          </li>
+          </ArticleListElementStyled>
         );
       });
       return list;
@@ -43,9 +49,7 @@ const ArticleList = (props: Props) => {
 
   return(
     <ArticleListStyled>
-      <ul>
-        {articleList()}
-      </ul>
+      {articleList()}
     </ArticleListStyled>
   );
 };

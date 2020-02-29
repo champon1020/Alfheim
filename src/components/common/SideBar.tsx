@@ -3,7 +3,7 @@ import SideBarBox from "./SideBarBox";
 import styled from "styled-components";
 
 const SideBarListStyled = styled.ul`
-  list-style: none;
+  width: 100%;
   margin: 0;
   padding: 0;
   text-align: center;

@@ -1,75 +1,70 @@
-import React from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
 import { parseDateToString } from "../services/parser";
+import axios from "axios";
 
 const ArticleBoxStyled = styled.div`
-  display: inline-block;
   position: relative;
-  width: 700px;
-  height: 420px;
-  cursor: pointer;
   z-index: 1;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 2px 2px 4px gray;
-  &:hover > img {
+  width: calc(var(--container-width) / 8 * 2.7);
+  height: calc(var(--container-width) / 8 * 2.7);
+  cursor: pointer;
+  &:hover {
+      opacity: 0.8;
+  }
+  &:hover img {
     transform: scale(1.1);
   }
+  @media (max-width: 800px) {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const ImageBoxStyled = styled.div`
+  overflow: hidden;
 `;
 
 const ImageStyled = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 100%;
+  height: 55%;
   transition: transform 1s ease-out;
 `;
 
 const DateBoxStyled = styled.div`
-  position: absolute;
-  top: 20px;
-  right: 25px;
-  color: brown;
-  font-size: 20px;
-  background-color: white;
-  border-radius: 5px;
+  display: inline-block;
+  margin-top: 2%;
+  color: white;
+  background-color: var(--base-color);
+  font-size: 2rem;
   & p {
-    margin: 0;
     padding: 0 10px;
+  }
+  @media (max-width: 500px) {
+    font-size: 1rem;
   }
 `;
 
 const CategoryBoxStyled = styled.div`
-  position: absolute;
-  bottom: 33%;
-  left: 0;
-  color: brown;
+  margin-top: 3%;
 `;
 
 const TitleBoxStyled = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  color: brown;
-  font-size: 27px;
-  background-color: white;
+  margin-top: 3%;
+  color: var(--base-color);
+  font-size: 2.4rem;
   width: 100%;
-  opacity: 0.8;
-  height: 30%;
   & h3 {
-    margin: 10px;
+    display: inline-block;
     text-align: left;
-    padding: 0 30px;
+    margin: 0 3%;
   }
-`;
-
-const LinkBoxStyled = styled.a`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
+  @media (max-width: 500px) {
+    font-size: 1rem;
+  }
 `;
 
 type ParentProps = {
@@ -83,19 +78,18 @@ const ArticleBox = (props: Props) => {
 
   return(
     <ArticleBoxStyled>
-      <ImageStyled src={article.imageUrl} alt="article box" />
+      <ImageBoxStyled>
+        <ImageStyled src={article.imageUrl} alt="article box" />
+      </ImageBoxStyled>
       <DateBoxStyled>
         <p>{parseDateToString(article.createDate)}</p>
       </DateBoxStyled>
-      <CategoryBoxStyled>
-        <ArticleBoxCategory categories={article.categories} />
-      </CategoryBoxStyled>
       <TitleBoxStyled>
         <h3>{article.title}</h3>
       </TitleBoxStyled>
-
-      {/* eslint-disable-next-line */}
-        <LinkBoxStyled href={"/article/" + article.id}></LinkBoxStyled>
+      <CategoryBoxStyled>
+        <ArticleBoxCategory categories={article.categories} />
+      </CategoryBoxStyled>
     </ArticleBoxStyled>
   );
 };

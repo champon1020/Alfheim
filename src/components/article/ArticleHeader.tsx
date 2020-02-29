@@ -12,21 +12,27 @@ const ArticleHeaderStyled = styled.div`
 
 const DateContainerStyled = styled.div`
   display: inline-block;
-  font-size: 24px;
+  font-size: 2.0rem;
   border-bottom: solid thin gray;
-  margin-left: 40px;
+  margin-left: 8%;
   padding: 0 5px;
+  @media (max-width: 500px) {
+    font-size: 1.8rem;
+  }
 `;
 
 const TitleContainerStyled = styled.div`
   text-align: center;
-  font-size: 24px;
+  font-size: 2.4rem;
   width: 80%;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 4% auto;
   & h2 {
     margin-bottom: 0;
     border-bottom: solid thin gray;
     display: inline-block;
+  }
+  @media (max-width: 500px) {
+    font-size: 2rem;
   }
 `;
 

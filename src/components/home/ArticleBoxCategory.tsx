@@ -5,16 +5,17 @@ import { CategoryType } from "src/type";
 const CategoryBoxStyled = styled.ul`
   display: flex;
   flex-direction: row;
-  margin: 0;
-  padding: 0 15px;
-  list-style: none;
-  flex-wrap: none;
+  flex-wrap: wrap;
+  width: 100%;
   & li {
-    background-color: greenyellow;
-    margin: 0 5px;
-    font-size: 20px;
-    border-radius: 3px;
+    margin-right: 7px;
+    font-size: 1.6rem;
     padding: 1px 5px;
+    color: white;
+    background-color: var(--base-color);
+    @media (max-width: 500px) {
+      font-size: 1rem;
+    }
   }
 `;
 

@@ -5,8 +5,12 @@ import { ArticleType } from "src/type";
 
 const ArticleContentStyled = styled.article`
   width: 86%;
-  margin: 90px auto 50px auto;
-  font-size: 16px;
+  margin: 10% auto 50px auto;
+  font-size: 1.6rem;
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+    width: 95%;
+  }
 `;
 
 type ParentProps = {

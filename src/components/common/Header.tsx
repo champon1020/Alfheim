@@ -6,10 +6,10 @@ const HeaderStyled = styled.div`
   height: 60px;
   background-color: var(--base-color);
   position: relative;
-  box-shadow: 2px 2px 4px white;
+  box-shadow: 2px 2px 2px var(--base-color);
   & a {
     text-decoration: none;
-    color: var(--base-font-color);
+    color: white;
   }
   & a:hover {
     opacity: 0.7;

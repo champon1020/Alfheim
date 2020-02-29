@@ -5,16 +5,18 @@ import { CategoryType } from "src/type";
 const CategoryListStyled = styled.ul`
   display: flex;
   flex-direction: row;
-  list-style: none;
   justify-content: center;
-  font-size: 22px;
+  flex-wrap: wrap;
+  font-size: 1.6rem;
   padding: 0;
+  @media (max-width: 500px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const CategoryListItemStyled = styled.li`
-  margin: 0 20px;
-  background-color: yellowgreen;
-  border-radius: 5px;
+  margin: 0 10px;
+  color: brown;
   padding: 1px 5px;
 `;
 
