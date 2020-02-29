@@ -7,8 +7,6 @@ const SnsLinkListItemStyled = styled.li`
   height: 50px;
   width: 50px;
   cursor: pointer;
-  box-sizing: border-box;
-  object-fit: cover;
 `;
 
 const ImageStyled = styled.img<{background?: string}>`
@@ -16,6 +14,11 @@ const ImageStyled = styled.img<{background?: string}>`
   height: 100%;
   border-radius: 10px;
   background-color: ${({background}) => (background === undefined ? "white" : background)};
+  box-sizing: border-box;
+  object-fit: cover;
+  &:hover {
+    border: solid 3px gray;
+  }
 `;
 
 type Props = {

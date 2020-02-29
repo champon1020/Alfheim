@@ -18,7 +18,7 @@ const HeaderStyled = styled.div`
     position: absolute;
     display: inline-block;
     top: 10px;
-    left: 70px;
+    left: 2%;
     font-size: 32px;
     margin: 0;
   }
@@ -27,7 +27,7 @@ const HeaderStyled = styled.div`
 const NavStyled = styled.nav`
   position: absolute;
   display: inline-block;
-  right: 100px;
+  right: 5%;
   top: 15px;
 `;
 
