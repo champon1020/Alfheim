@@ -7,7 +7,7 @@ export const initArticlesState: ArticlesState = {
   articles: []
 };
 
-const articlesReducer: Reducer<ArticlesState, UpdateArticlesAction> = (
+const articleReducer: Reducer<ArticlesState, UpdateArticlesAction> = (
   state = initArticlesState,
   action: UpdateArticlesAction
 ): ArticlesState => 
@@ -24,4 +24,4 @@ const articlesReducer: Reducer<ArticlesState, UpdateArticlesAction> = (
   }
 };
 
-export default articlesReducer;
+export default articleReducer;

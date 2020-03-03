@@ -1,33 +1,31 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
+import { CategoryType } from "src/type";
+import ChartDataHandler from "./ChartDataHandler";
 
 const ChartBoxStyled = styled.div`
   cursor: pointer;
 `;
 
-const data = {
-  labels: [
-    "Red",
-    "Blue",
-    "Yellow"
-  ],
-  datasets: [{
-    data: [300, 50, 100],
-    backgroundColor: [
-      "#FF6384",
-      "#36A2EB",
-      "#FFCE56"
-    ],
-    hoverBackgroundColor: [
-      "#FFA5B8",
-      "#79BAE7",
-      "#FFE39F"
-    ]
-  }]
-};
+type Props = {
+  categories: CategoryType[];
+}
 
-const CircleChart = () => {
+const handler = new ChartDataHandler();
+
+const CircleChart = (props: Props) => {
+  const { categories } = props;
+  const data = useMemo(
+    () => {
+      handler.build(categories);
+      return handler.getData();
+    },
+    [categories],
+  );
+
+  console.log(categories);
+
   return (
     <ChartBoxStyled>
       <Pie data={data} />

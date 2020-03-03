@@ -27,10 +27,19 @@ const Bar = () => {
   return(
     <BarStyled>
       <SnsLinkListStyled>
-        <BarItem icon={TwitterIcon} />
-        <BarItem icon={LinkedinIcon} background="var(--base-color)" />
-        <BarItem icon={WantedlyIcon} />
-        <BarItem icon={QiitaIcon} />
+        <BarItem 
+          icon={TwitterIcon} 
+          href="https://twitter.com/nagatelu1020" />
+        <BarItem 
+          icon={LinkedinIcon} 
+          href="https://www.linkedin.com/in/champon1020/" 
+          background="var(--base-color)" />
+        <BarItem 
+          icon={WantedlyIcon} 
+          href="https://www.wantedly.com/users/93296474" />
+        <BarItem 
+          icon={QiitaIcon}
+          href="https://qiita.com/nagatelu1020" />
       </SnsLinkListStyled>
     </BarStyled>
   );

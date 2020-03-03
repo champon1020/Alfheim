@@ -1,11 +1,15 @@
 import { createStore, AnyAction, Store } from "redux";
-import { ArticleType } from "../type";
+import { ArticleType, CategoryType } from "../type";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "../reducers/rootReducer";
 
 export type ArticlesState = {
   articles: ArticleType[];
+}
+
+export type CategoriesState = {
+  categories: CategoryType[];
 }
 
 export type SidebarState = {

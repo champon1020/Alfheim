@@ -23,7 +23,7 @@ type Props = ParentProps;
 
 const Article = (props: Props) => {
   const articleId = parseUrl(window.location.pathname).slice(-1)[0];
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
 
   const parseArticle = useCallback(
     (): ArticleType => {

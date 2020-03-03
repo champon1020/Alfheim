@@ -12,5 +12,5 @@ export type ArticleType = {
 export type CategoryType = {
   id: number;
   name: string;
-  articleNum?: number;
+  articleNum: number;
 }
