@@ -18,8 +18,8 @@ const ImageListContainerStyled = styled.div`
 `;
 
 const ImageStyled = styled.img`
-  max-width: 250px;
-  max-height: 250px;
+  width: 250px;
+  height: 200px;
   object-fit: cover;
   box-sizing: border-box;
   &:hover { 

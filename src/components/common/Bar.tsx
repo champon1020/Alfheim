@@ -19,8 +19,6 @@ const SnsLinkListStyled = styled.ul`
   flex-direction: row;
   justify-content: center;
   list-style: none;
-  padding: 0;
-  margin: 0;
 `;
 
 const Bar = () => {

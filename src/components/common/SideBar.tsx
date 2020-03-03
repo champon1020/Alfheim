@@ -16,10 +16,14 @@ const SideBar = () => {
     <div>
       <SideBarListStyled>
         <li>
-          <SideBarBox ContentComponent={Search} />
+          <SideBarBox 
+            title="Search"
+            ContentComponent={Search} />
         </li>
         <li>
-          <SideBarBox ContentComponent={Recommend}/>
+          <SideBarBox 
+            title="Pick up"
+            ContentComponent={Recommend} />
         </li>
       </SideBarListStyled>
     </div>

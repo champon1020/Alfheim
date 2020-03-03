@@ -29,16 +29,17 @@ const ContentStyled = styled.div`
 `;
 
 type Props = {
+  title: string;
   ContentComponent: React.FunctionComponent;
 }
 
 const SideBarBox = (props: Props) => {
-  const { ContentComponent } = props;
+  const { title, ContentComponent } = props;
 
   return(
     <SideBarBoxStyled>
       <TitleStyled>
-        <h3>Side Bar Example</h3>
+        <h3>{title}</h3>
       </TitleStyled>
       <ContentStyled>
         <ContentComponent />
