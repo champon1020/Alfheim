@@ -32,7 +32,7 @@ const TitleBoxStyled = styled.div`
     position: relative;
     color: white;
     opacity: 1;
-    top: 4em;
+    top: 3.5em;
   }
 `;
 

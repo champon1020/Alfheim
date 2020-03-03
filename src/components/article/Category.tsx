@@ -17,6 +17,7 @@ const CategoryListStyled = styled.ul`
 const CategoryListItemStyled = styled.li`
   margin: 0 10px;
   color: brown;
+  border: solid 1px brown;
   padding: 1px 5px;
 `;
 

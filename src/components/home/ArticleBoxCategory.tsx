@@ -11,8 +11,8 @@ const CategoryBoxStyled = styled.ul`
     margin-right: 7px;
     font-size: 1.6rem;
     padding: 1px 5px;
-    color: white;
-    background-color: var(--base-color);
+    color: brown;
+    border: solid 1px brown;
     @media (max-width: 500px) {
       font-size: 1rem;
     }

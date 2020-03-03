@@ -6,7 +6,7 @@ import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
-import { DefaultApi } from "../../api/api";
+import { api } from "../../api/api";
 import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 
@@ -37,17 +37,17 @@ const SubContainer = styled.div`
   }
 `;
 
-const api = new DefaultApi();
-
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isErr, setErr] = useState(false);
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
   const dispatch = useDispatch();
+
   const dispatchArticle = useCallback(
-    (article) => {
-      dispatch(appActionCreator.updateArticles(article));
+    (articles) => {
+      dispatch(appActionCreator.updateArticles(articles));
     },
     [dispatch],
   );

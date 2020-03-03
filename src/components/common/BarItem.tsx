@@ -23,17 +23,20 @@ const ImageStyled = styled.img<{background?: string}>`
 
 type Props = {
   icon: string;
+  href: string;
   background?: string;
 }
 
 const BarItem = (props: Props) => {
-  const { icon, background } = props;
+  const { icon, href, background } = props;
 
   return (
     <SnsLinkListItemStyled>
-      <ImageStyled 
-        src={icon}
-        background={background} />
+      <a href={href}>
+        <ImageStyled 
+          src={icon}
+          background={background} />
+      </a>
     </SnsLinkListItemStyled>
   );
 };

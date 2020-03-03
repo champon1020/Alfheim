@@ -9,7 +9,7 @@ import { RootState } from "src/stores/store";
 import { ArticleType } from "src/type";
 
 const ArticleContainerStyled = styled.div`
-  background-color: rgb(255, 248, 240);
+  background-color: whitesmoke;
   padding: 40px 10px;
   margin-bottom: 70px;
   box-shadow: 2px 2px 4px gray;
@@ -21,9 +21,9 @@ interface ParentProps {
 
 type Props = ParentProps;
 
-const Article: React.FC<Props> = (props) => {
+const Article = (props: Props) => {
   const articleId = parseUrl(window.location.pathname).slice(-1)[0];
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articlesReducer.articles);
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
 
   const parseArticle = useCallback(
     (): ArticleType => {

@@ -1,41 +1,44 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import CircleChart from "./CircleChart";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "src/stores/store";
+import { CategoryType } from "src/type";
+import { api } from "../../api/api";
+import appActionCreator from "src/actions/actions";
 
 const CategoryListStyled = styled.div`
   margin-bottom: 200px;
   & h2 {
-    font-size: 36px;
-    margin: 10px 70px 50px 70px;
+    color: var(--base-color);
+    font-size: 3.6rem;
+    margin: 10px 70px 80px 70px;
     display: inline-block;
     border-bottom: solid thin gray;
-  }
-  & ul {
-    list-style: none;
-    font-size: 24px;
-    display: flex;
-    flex-direction: row;
-  }
-  & li {
-    margin: 0 10px;
-    background-color: greenyellow;
-    padding: 2px 5px;
-    border-radius: 5px;
   }
 `;
 
 const CategoryList = () => {
+  const categories = useSelector<RootState, CategoryType[]>(state => state.categoryReducer.categories);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    api.findCategoryListGet()
+      .then(res => {
+        const categories = res.data.categories;
+        console.log(categories);
+        if(categories === undefined) return;
+        dispatch(appActionCreator.updateCategories(categories as CategoryType[]));
+      });
+  }, [dispatch]);
+
   return(
-    <div>
+    <>
       <CategoryListStyled>
         <h2>Category List</h2>
-        <ul>
-          <li>Category1(1)</li>
-          <li>Category2(2)</li>
-        </ul>
+        <CircleChart categories={categories} />
       </CategoryListStyled>
-      <div id="others">
-      </div>
-    </div>
+    </>
   );
 };
 

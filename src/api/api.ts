@@ -675,3 +675,4 @@ export class DefaultApi extends BaseAPI {
 }
 
 
+export const api = new DefaultApi();
