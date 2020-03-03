@@ -31,7 +31,7 @@ const TitleStyled = styled.div`
     margin: 0 0 10px 0;
   }
   & .statement {
-    text-align: justify;
+    font-size: 1.2rem;
     overflow: hidden;
     height: 100px;
     width: 90%;
@@ -42,7 +42,6 @@ const TitleStyled = styled.div`
 const ImageBoxStyled = styled.div`
   order: 2;
   width: 20%;
-  padding: 0px;
   text-align: center;
   & img {
     height: 130px;
@@ -54,6 +53,7 @@ const DateBoxStyled = styled.div`
   order: 3;
   width: 20%;
   text-align: center;
+  font-size: 2rem;
   & h3 {
     margin: 50px 0;
   }
@@ -86,7 +86,7 @@ const ArticleListBox = () => {
         </div>
       </TitleStyled>
       <ImageBoxStyled>
-        <img src={require("../../assets/images/space.jpg")} alt="img" />
+        <img src={require("../../../assets/images/space.jpg")} alt="img" />
       </ImageBoxStyled>
       <DateBoxStyled>
         <h3>2020-01-31</h3>

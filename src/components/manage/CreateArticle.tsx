@@ -1,5 +1,5 @@
 import * as React from "react";
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "./editor/ArticleForm";
 
 const CreateArticle = () => {
   return(

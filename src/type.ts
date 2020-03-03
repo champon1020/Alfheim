@@ -14,3 +14,8 @@ export type CategoryType = {
   name: string;
   articleNum: number;
 }
+
+export type RequestCategoryType = {
+  id: number;
+  name: string;
+}
