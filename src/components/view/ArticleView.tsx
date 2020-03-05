@@ -1,9 +1,15 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
 import Page from "../common/Page";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { RootState, ManageState } from "src/stores/store";
+import { ArticleType } from "src/type";
+import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
+import ErrorPage from "../error/ErrorPage";
+import { checkIsDraft } from "../article/util";
 
 const MainContainer = styled.div`
   order: 1;
@@ -34,16 +40,41 @@ const SubContainer = styled.div`
 
 type Props = IRouteProps;
 
-const ArticleView: React.FC<Props> = (props) => {
-  const validArticleId = () => {
-    const articleId = props.match.params.articleId;
-    return articleId === undefined ? -1 : Number.parseInt(articleId);
-  };
+const ArticleView = (props: Props) => {
+  const { match } = props;
+  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
+  const draftArticle = useSelector<RootState, ManageState>(state => state.manageReducer);
+
+  const validArticleId = useCallback(
+    () => {
+      const articleId = match.params.articleId;
+      return articleId === undefined ? -1 : Number.parseInt(articleId);
+    },
+    [match]
+  );
+
+  const parsePageComponent = useCallback(
+    (): JSX.Element => {
+      if(checkIsDraft()) {
+        return <Article article={draftArticle.article} draftContent={draftArticle.draftContent} />;
+      }
+
+      const id = validArticleId();
+      const article = articles.filter(v => v.id === id);
+      if(article.length === 0) {
+        appErrorHandler.print(HttpErrorStatus.ERROR_404);
+        return <ErrorPage />;
+      }
+      return <Article article={article[0]} />;
+    },
+    [articles, validArticleId, draftArticle],
+  );
+
 
   return(
     <>
       <MainContainer>
-        <Article articleId={validArticleId()}/>
+        {parsePageComponent()}
         <Page backText="backArticleTitle" nextText="nextArticleTitle" />
       </MainContainer>
       <SubContainer>

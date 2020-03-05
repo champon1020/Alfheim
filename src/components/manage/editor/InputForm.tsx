@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { ChangeEvent, useCallback } from "react";
 import styled from "styled-components";
-import { validateTitle, validateCategory } from "./validattions";
+import { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
 
 const ContainerStyled = styled.div`
   text-align: center;
@@ -17,27 +17,28 @@ const InputStyled = styled.input`
 `;
 
 type Props = {
+  value: string;
   setter: React.Dispatch<React.SetStateAction<string>>;
-  errSetter: React.Dispatch<React.SetStateAction<string>>;
+  errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>;
   placeholder?: string;
 }
 
 const InputForm = (props: Props) => {
-  const { setter, errSetter, placeholder } = props;
+  const { value, errSetter, setter, placeholder } = props;
 
-  const handleOnClick = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value);
-      if(placeholder === "title") validateTitle(e.target.value, errSetter);
-      if(placeholder === "category") validateCategory(e.target.value, errSetter);
+      errSetter(MyErrorStatus.NONE);
     },
-    [setter, errSetter, placeholder],
+    [setter, errSetter],
   );
   
   return (
     <ContainerStyled>
-      <InputStyled 
-        onChange={handleOnClick}
+      <InputStyled
+        value={value}
+        onChange={onChangeHandler}
         placeholder={placeholder} />
     </ContainerStyled>
   );

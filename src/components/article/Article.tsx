@@ -1,11 +1,8 @@
-import React, { useCallback } from "react";
+import React from "react";
 import ArticleHeader from "./ArticleHeader";
 import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
 import styled from "styled-components";
-import { parseUrl } from "../services/parser";
-import { useSelector } from "react-redux";
-import { RootState } from "src/stores/store";
 import { ArticleType } from "src/type";
 
 const ArticleContainerStyled = styled.div`
@@ -16,30 +13,19 @@ const ArticleContainerStyled = styled.div`
 `;
 
 interface ParentProps {
-  articleId: number;
+  article: ArticleType;
+  draftContent?: string;
 }
 
 type Props = ParentProps;
 
 const Article = (props: Props) => {
-  const articleId = parseUrl(window.location.pathname).slice(-1)[0];
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
-
-  const parseArticle = useCallback(
-    (): ArticleType => {
-      const article = articles.filter(v => v.id === Number.parseInt(articleId));
-      // if(article.length === 0) {
-      //   error handling process
-      // }
-      return article[0];
-    },
-    [articles, articleId],
-  );
+  const { article, draftContent } = props;
 
   return(
     <ArticleContainerStyled>
-      <ArticleHeader article={parseArticle()} />
-      <ArticleContent article={parseArticle()} />
+      <ArticleHeader article={article} />
+      <ArticleContent article={article} draftContent={draftContent} />
       <ArticleFooter />
     </ArticleContainerStyled>
   );

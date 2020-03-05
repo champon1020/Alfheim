@@ -1,5 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
+import appErrorHandler, { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
 
 const ContainerStyled = styled.div`
   display: flex;
@@ -23,14 +24,19 @@ const ButtonStyled = styled.button`
 
 type Props = {
   onSubmit: () => void;
-  err: string;
+  onPreview: () => void;
+  err?: ErrorStatus;
 }
 
 const FormFooter = (props: Props) => {
-  const { onSubmit, err } = props;
+  const { onSubmit, onPreview, err } = props;
 
   const errMsg = useMemo(() => {
-    return err.length > 0 ? "Error: " + err : "";
+    if(err !== MyErrorStatus.NONE){
+      appErrorHandler.print(err);
+      return appErrorHandler.message(err);
+    }
+    return "";
   }, [err]);
 
   return (
@@ -39,7 +45,7 @@ const FormFooter = (props: Props) => {
         {errMsg}
       </ErrorMsg>
       <div>
-        <ButtonStyled>
+        <ButtonStyled onClick={onPreview}>
           Preview
         </ButtonStyled>
         <ButtonStyled onClick={onSubmit}>

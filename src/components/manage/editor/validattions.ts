@@ -1,3 +1,5 @@
+import { ErrorStatus, ValidationErrorStatus } from "src/components/services/ErrorHandler";
+
 // validation parameters
 const TITLE_MAX_LENGTH = 50;
 
@@ -6,26 +8,27 @@ const re = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g;
 // eslint-disable-next-line no-useless-escape
 const categoryRe = /[!"#$%&'()\*\+\-\.\/:;<=>?@\[\\\]^_`{|}~]/g;
 
-export const validateTitle = (title: string, errSetter: React.Dispatch<React.SetStateAction<string>>) => {
+export const validateTitle = (title: string, errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>) => {
   if(title.length === 0) {
-    errSetter("Title must not be empty");
-    return;
+    errSetter(ValidationErrorStatus.EMPTY);
+    return true;
   }
   if(title.length >= TITLE_MAX_LENGTH) {
-    errSetter("Title length must be less and equal than " + TITLE_MAX_LENGTH);
-    return;
+    errSetter(ValidationErrorStatus.LENGTH);
+    return true;
   }
 
   if(re.test(title)) {
-    errSetter("Title is not comfortable");
-    return;
+    errSetter(ValidationErrorStatus.COMFORTABLE);
+    return true;
   }
-  errSetter("");
+  return false;
 };
 
-export const validateCategory = (category: string, errSetter: React.Dispatch<React.SetStateAction<string>>) => {
+export const validateCategory = (category: string, errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>) => {
   if(categoryRe.test(category)) {
-    errSetter("Category is not comfortable");
-    return;
+    errSetter(ValidationErrorStatus.COMFORTABLE);
+    return true;
   }
+  return false;
 };

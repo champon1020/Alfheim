@@ -1,17 +1,36 @@
 import { updateArticles } from "./articleAction";
 import { updateRecommendArticles } from "./sidebarAction";
 import { updateCategories } from "./categoryAction";
+import { updateDraftContent, updateResourceArticle, updateResourceTitle, updateResourceCategories, updateDraft } from "./manageAction";
 
 export enum ActionEnum {
+  // article action
   UPDATE_ARTICLES = "UPDATE_ARTICLES",
+  // category action
   UPDATE_CATEGORIES = "UPDATE_CATEGORIES",
-  UPDATE_RECOMMEND_ARTICLES = "UPDATE_RECOMMEND_ARTICLES"
+  // sidebar action
+  UPDATE_RECOMMEND_ARTICLES = "UPDATE_RECOMMEND_ARTICLES",
+  // manage action
+  UPDATE_DRAFT = "UPDATE_DRAFT",
+  UPDATE_DRAFT_CONTENT = "UPDATE_DRAFT_CONTENT",
+  UPDATE_RESOURCE_ARTICLE = "UPDATE_RESOURCE_ARTICLE",
+  UPDATE_RESOURCE_TITLE = "UPDATE_RESOURCE_TITLE",
+  UPDATE_RESOURCE_CATEGORIES = "UPDATE_RESOURCE_CATEGORIES"
 }
 
 class AppActionCreator {
+  // article action
   public updateArticles = updateArticles;
+  // category action
   public updateCategories = updateCategories;
+  // sidebar action
   public updateRecommendArticles = updateRecommendArticles;
+  // manage action
+  public updateDraft = updateDraft;
+  public updateDraftContent = updateDraftContent;
+  public updateResourceArticle = updateResourceArticle;
+  public updateResourceTitle = updateResourceTitle;
+  public updateResourceCategories = updateResourceCategories;
 }
 
 const appActionCreator: AppActionCreator = new AppActionCreator();
