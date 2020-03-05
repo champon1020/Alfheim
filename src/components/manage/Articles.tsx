@@ -1,5 +1,5 @@
 import * as React from "react";
-import ArticleList from "./ArticleList";
+import ArticleList from "./article/ArticleList";
 import Page from "../common/Page";
 import styled from "styled-components";
 
@@ -14,7 +14,7 @@ const PageContainerStyled = styled.div`
 
 const Articles = () => {
   return(
-    <div id="articles-container">
+    <div>
       <ArticleList />
       <PageContainerStyled>
         <Page backText="Back" nextText="Next" />

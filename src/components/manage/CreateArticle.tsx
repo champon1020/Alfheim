@@ -1,10 +1,13 @@
 import * as React from "react";
-import ArticleForm from "./ArticleForm";
+import ArticleForm from "./editor/ArticleForm";
+import { ArticleType } from "src/type";
 
 const CreateArticle = () => {
+  const article = { title: "test" } as ArticleType;
+  
   return(
     <div id="create-article-container">
-      <ArticleForm />
+      <ArticleForm updatingArticle={article} />
     </div>
   );
 };
