@@ -128,6 +128,12 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
+    updateDate?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Draft
+     */
     contentHash: string;
     /**
      * 
@@ -182,10 +188,10 @@ export interface InlineObject1 {
 export interface InlineObject2 {
     /**
      * 
-     * @type {Draft}
+     * @type {RequestDraft}
      * @memberof InlineObject2
      */
-    article: Draft;
+    article: RequestDraft;
     /**
      * 
      * @type {string}
@@ -204,7 +210,7 @@ export interface InlineResponse200 {
      * @type {Array<Article>}
      * @memberof InlineResponse200
      */
-    articles?: Article[];
+    articles: Article[];
 }
 /**
  * 
@@ -214,10 +220,36 @@ export interface InlineResponse200 {
 export interface InlineResponse2001 {
     /**
      * 
-     * @type {Array<Category>}
+     * @type {Array<Article>}
      * @memberof InlineResponse2001
      */
+    articles?: Article[];
+}
+/**
+ * 
+ * @export
+ * @interface InlineResponse2002
+ */
+export interface InlineResponse2002 {
+    /**
+     * 
+     * @type {Array<Category>}
+     * @memberof InlineResponse2002
+     */
     categories?: Category[];
+}
+/**
+ * 
+ * @export
+ * @interface InlineResponse2003
+ */
+export interface InlineResponse2003 {
+    /**
+     * 
+     * @type {Array<Draft>}
+     * @memberof InlineResponse2003
+     */
+    drafts: Draft[];
 }
 /**
  * 
@@ -524,6 +556,35 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
          * 
+         * @summary Return a list of drafts.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiFindDraftListGet(options: any = {}): RequestArgs {
+      const localVarPath = "/api/find/draft/list";
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+
+    
+      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+         * 
          * @summary Register new article.
          * @param {InlineObject} inlineObject 
          * @param {*} [options] Override http request option.
@@ -628,7 +689,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListCategoryGet(category: string[], options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
+    apiFindArticleListCategoryGet(category: string[], options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListCategoryGet(category, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -682,8 +743,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindCategoryListGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001> {
+    apiFindCategoryListGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindCategoryListGet(options);
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+         * 
+         * @summary Return a list of drafts.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiFindDraftListGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindDraftListGet(options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -786,6 +860,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
          * 
+         * @summary Return a list of drafts.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiFindDraftListGet(options?: any) {
+      return DefaultApiFp(configuration).apiFindDraftListGet(options)(axios, basePath);
+    },
+    /**
+         * 
          * @summary Register new article.
          * @param {InlineObject} inlineObject 
          * @param {*} [options] Override http request option.
@@ -882,6 +965,17 @@ export class DefaultApi extends BaseAPI {
      */
   public apiFindCategoryListGet(options?: any) {
     return DefaultApiFp(this.configuration).apiFindCategoryListGet(options)(this.axios, this.basePath);
+  }
+
+  /**
+     * 
+     * @summary Return a list of drafts.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+  public apiFindDraftListGet(options?: any) {
+    return DefaultApiFp(this.configuration).apiFindDraftListGet(options)(this.axios, this.basePath);
   }
 
   /**

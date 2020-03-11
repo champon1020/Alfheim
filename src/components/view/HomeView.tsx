@@ -54,8 +54,8 @@ const HomeView = (props: Props) => {
 
   useEffect(() => {
     const path = window.location.pathname;
-    if(path.startsWith("/home/article")) console.log("article");
-    if(path.startsWith("/home/category")) console.log("category");
+    if(path.startsWith("/home/date")) {/* get article by date */}
+    if(path.startsWith("/home/category")) {/* get article by category */}
     defaultApi.apiFindArticleListGet()
       .then(res => {
         const articles = res.data.articles;

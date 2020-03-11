@@ -20,6 +20,7 @@ const ButtonStyled = styled.button`
   width: 200px;
   cursor: pointer;
   border-radius: 5px;
+  outline: none;
 `;
 
 type Props = {

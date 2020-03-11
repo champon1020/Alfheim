@@ -58,7 +58,6 @@ const ArticleView = (props: Props) => {
     (): JSX.Element => {
       if(checkIsDraft()) {
         const article = parseDraftToArticle(draftArticle.article);
-        console.log(article);
         return <Article article={article} draftContent={draftArticle.draftContent} />;
       }
 

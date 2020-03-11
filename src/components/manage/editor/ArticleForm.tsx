@@ -25,7 +25,7 @@ const observeConfig = {
 };
 
 type Props = {
-  updatingArticle: ArticleType;
+  updatingArticle?: ArticleType;
 }
 
 const defaultDraft: Draft = {
@@ -109,7 +109,7 @@ const ArticleForm = (props: Props) => {
     observer.observe(target, observeConfig);
     instance.getHtml();
 
-    if(updatingArticle !== {} as ArticleType) {
+    if(updatingArticle !== undefined) {
       if(updatingArticle.title !== undefined){
         setTitleHandler(updatingArticle.title);
       }

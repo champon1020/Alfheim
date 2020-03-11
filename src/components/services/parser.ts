@@ -18,13 +18,17 @@ export const parseQueryParam = (url: string): Map => {
   return paramMap;
 };
 
-export const parseUrl = (url: string): string[] => {
-  const elem = url.split("?")[0].split("/");
-  return elem;
-};
+// export const parseUrl = (url: string): string[] => {
+//   const elem = url.split("?")[0].split("/");
+//   return elem;
+// };
 
 export const parseDateToString = (d: Date) => {
   return d.toString().substr(0, 10);
+};
+
+export const parseStringToDate = (s: string) => {
+  return new Date(s);
 };
 
 export const parseDraftToArticle = (draft: Draft): ArticleType => {

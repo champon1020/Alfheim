@@ -26,7 +26,6 @@ const CategoryList = () => {
     defaultApi.apiFindCategoryListGet()
       .then(res => {
         const categories = res.data.categories;
-        console.log(categories);
         if(categories === undefined) return;
         dispatch(appActionCreator.updateCategories(categories as CategoryType[]));
       });
