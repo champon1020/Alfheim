@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
-import Page from "../common/Page";
+import Page from "./Page";
 import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";

@@ -38,7 +38,7 @@ const Bar = () => {
           background="var(--base-color)" />
         <BarItem 
           icon={GithubIcon} 
-          href="https://www.linkedin.com/in/champon1020/"/>
+          href="https://github.com/champon1020/"/>
         <BarItem 
           icon={WantedlyIcon} 
           href="https://www.wantedly.com/users/93296474" />

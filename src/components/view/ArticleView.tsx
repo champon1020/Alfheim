@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
-import Page from "../common/Page";
+import Page from "./Page";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
 import { useSelector } from "react-redux";

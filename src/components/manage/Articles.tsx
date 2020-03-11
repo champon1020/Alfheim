@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import ArticleList from "./article/ArticleList";
-import Page from "../common/Page";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
 import { defaultApi } from "../../App";
@@ -91,7 +90,7 @@ const Articles = () => {
           articles={articles}
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>
-          <Page backText="Back" nextText="Next" />
+          {/* <Page backText="Back" nextText="Next" /> */}
         </PageContainerStyled>
       </ArticleListContainer>
       <PreviewContainer>

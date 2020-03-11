@@ -1,6 +1,5 @@
 import * as React from "react";
 import ImageList from "./ImageList";
-import Page from "../common/Page";
 import styled from "styled-components";
 
 const ImagesContainerStyled = styled.div`
@@ -14,7 +13,7 @@ const Images = () => {
   return(
     <ImagesContainerStyled>
       <ImageList />
-      <Page backText="" nextText="" />
+      {/* <Page backText="" nextText="" /> */}
     </ImagesContainerStyled>
   );
 };

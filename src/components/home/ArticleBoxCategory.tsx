@@ -30,6 +30,7 @@ const ArticleBoxCategory = (props: Props) => {
   const categoryList = useCallback(
     () => {
       const list = [] as JSX.Element[];
+      if(categories === null || categories === undefined) return list;
       categories.forEach((v, i) => {
         list.push(
           <li key={i}>

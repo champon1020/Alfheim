@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 const SnsLinkListItemStyled = styled.li`
@@ -19,9 +19,9 @@ const ImageStyled = styled.img<{background?: string}>`
   background-color: ${({background}) => (background === undefined ? "white" : background)};
   box-sizing: border-box;
   object-fit: cover;
-  transition: border .2s ease-out;
+  transition: border .1s ease-out;
   &:hover {
-    border: solid 3px brown;
+    border: solid 5px brown;
   }
 `;
 
@@ -34,9 +34,12 @@ type Props = {
 const BarItem = (props: Props) => {
   const { icon, href, background } = props;
 
+  const handleOnClick = useCallback(
+    () => { window.open(href); }, [href]);
+
   return (
     <SnsLinkListItemStyled>
-      <a href={href}>
+      <a onClick={handleOnClick}>
         <ImageStyled 
           src={icon}
           background={background} />
