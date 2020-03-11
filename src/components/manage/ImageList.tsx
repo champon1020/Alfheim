@@ -1,39 +1,74 @@
 import * as React from "react";
 import styled from "styled-components";
 import image from "../../assets/images/sky.jpg";
+import image2 from "../../assets/images/space.jpg";
+import image3 from "../../assets/images/beach.jpg";
+
+const ImageListContainer = styled.div`
+  height: calc(var(--images-container-height) - 6rem);
+`;
 
 const ImageListStyled = styled.ul`
-  text-align: center;
-  height: 72vh;
-  list-style: none;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: start;
 `;
 
 const ImageListItemStyled = styled.li`
-  margin: 20px;
-`;
-
-const ImageStyled = styled.img`
-  width: 250px;
-  height: 200px;
-  object-fit: cover;
-  box-sizing: border-box;
+  width: 23%;
+  margin: 1%;
+  transition: opacity .1s ease-out;
   &:hover { 
-    border: solid 3px blue;
+    opacity: 0.6;
     cursor: pointer;
   }
 `;
 
+const ImageStyled = styled.img`
+  width: 100%;
+  object-fit: cover;
+`;
+
 const ImageList = () => {
   return(
-    <ImageListStyled>
-      <ImageListItemStyled>
-        <ImageStyled src={image} />
-      </ImageListItemStyled>
-    </ImageListStyled>
+    <ImageListContainer>
+      <ImageListStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image3} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image2} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image2} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image2} />
+        </ImageListItemStyled>
+        <ImageListItemStyled>
+          <ImageStyled src={image3} />
+        </ImageListItemStyled>
+      </ImageListStyled>
+    </ImageListContainer>
   );
 };
 

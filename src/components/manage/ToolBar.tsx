@@ -2,10 +2,10 @@ import * as React from "react";
 import styled from "styled-components";
 
 const ToolBarContainerStyled = styled.div`
+  height: 6rem;
+  margin-bottom: 1rem;
   text-align: center;
   background-color: white;
-  height: 60px;
-  margin-bottom: 10px;
   & ul {
     display: flex;
     flex-direction: row;

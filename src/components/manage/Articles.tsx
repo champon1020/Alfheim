@@ -5,10 +5,12 @@ import { ArticleType } from "src/type";
 import { defaultApi } from "../../App";
 import { parseStringToDate } from "../services/parser";
 import Preview from "./article/Preview";
+import Page from "./Page";
 
 const ArticlesContainer = styled.div`
-  --articles-container-height: calc(100vh - 70px);
-  padding: 0 5%;
+  --articles-container-height: calc(100vh - 8rem);
+  background-color: white;
+  margin: 0 5%;
   display: flex;
   height: var(--articles-container-height);
 `;
@@ -16,23 +18,20 @@ const ArticlesContainer = styled.div`
 const ArticleListContainer = styled.div`
   order: 1;
   width: 30%;
-  background-color: white;
-  height: calc(var(--articles-container-height) - 10px);
+  height: calc(var(--articles-container-height));
 `;
 
 const PreviewContainer = styled.div`
   order: 2;
   width: 70%;
   background-color: white;
-  height: calc(var(--articles-container-height) - 10px);
+  height: var(--articles-container-height);
 `;
 
 const PageContainerStyled = styled.div`
+  border: solid thin lightgray;
   background-color: white;
-  padding: 10px 0;
-  & #page-container {
-    margin: 0;
-  }
+  padding: 1.9rem 0;
 `;
 
 const Articles = () => {
@@ -90,7 +89,10 @@ const Articles = () => {
           articles={articles}
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>
-          {/* <Page backText="Back" nextText="Next" /> */}
+          <Page 
+            height="5"
+            next={true}
+            back={true}/>
         </PageContainerStyled>
       </ArticleListContainer>
       <PreviewContainer>

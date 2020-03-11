@@ -3,7 +3,11 @@ import ArticleListBox from "./ArticleListBox";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
 
-const ArticleListStyled = styled.ul``;
+const ArticleListStyled = styled.ul`
+  overflow-y: scroll;
+  white-space: nowrap;
+  height: calc(var(--articles-container-height) - 9rem);
+`;
 
 type Props = {
   articles: ArticleType[];

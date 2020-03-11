@@ -39,11 +39,11 @@ const BarItem = (props: Props) => {
 
   return (
     <SnsLinkListItemStyled>
-      <a onClick={handleOnClick}>
+      <div onClick={handleOnClick}>
         <ImageStyled 
           src={icon}
           background={background} />
-      </a>
+      </div>
     </SnsLinkListItemStyled>
   );
 };
