@@ -4,7 +4,7 @@ import CircleChart from "./CircleChart";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "src/stores/store";
 import { CategoryType } from "src/type";
-import { api } from "../../api/api";
+import { defaultApi } from "../../App";
 import appActionCreator from "src/actions/actions";
 
 const CategoryListStyled = styled.div`
@@ -23,10 +23,9 @@ const CategoryList = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    api.findCategoryListGet()
+    defaultApi.apiFindCategoryListGet()
       .then(res => {
         const categories = res.data.categories;
-        console.log(categories);
         if(categories === undefined) return;
         dispatch(appActionCreator.updateCategories(categories as CategoryType[]));
       });

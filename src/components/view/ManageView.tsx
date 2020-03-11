@@ -6,35 +6,38 @@ import Images from "../manage/Images";
 import Articles from "../manage/Articles";
 import Settings from "../manage/Settings";
 import styled from "styled-components";
+import { parseQueryParam } from "../services/parser";
 
 const ManageContainerStyled = styled.div`
   min-height: 100vh;
   background-color: rgb(61, 61, 61);
 `;
 
-const ManageWrappterStyled = styled.div`
+const ManageWrapperStyled = styled.div`
   width: 80%;
   margin: auto;
 `;
 
 type RouteProps = RouteComponentProps<{mode: string}>
-
 type Props = RouteProps;
 
 const ManageView: React.FC<Props> = (props) => {
   const mode = props.match.params.mode;
   let element;
-  if(mode === undefined) element = <CreateArticle />;
-  else if(mode === "images") element = <Images />;
-  else if(mode === "articles") element = <Articles />;
-  else if(mode === "settings") element = <Settings />;
+  if(mode === undefined) {
+    const qParams = parseQueryParam(window.location.href);
+    element = <CreateArticle articleId={qParams["articleId"]} />;
+  }
+  if(mode === "images") element = <Images />;
+  if(mode === "settings") element = <Settings />;
+  if(mode === "articles" || mode === "drafts") element = <Articles />;
 
   return(
     <ManageContainerStyled>
       <ToolBar mode={mode} />
-      <ManageWrappterStyled>
+      <ManageWrapperStyled>
         {element}
-      </ManageWrappterStyled>
+      </ManageWrapperStyled>
     </ManageContainerStyled>
   );
 };

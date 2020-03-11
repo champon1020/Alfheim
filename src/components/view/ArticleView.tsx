@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
-import Page from "../common/Page";
+import Page from "./Page";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { ArticleType } from "src/type";
 import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
 import ErrorPage from "../error/ErrorPage";
 import { checkIsDraft } from "../article/util";
+import { parseDraftToArticle } from "../services/parser";
 
 const MainContainer = styled.div`
   order: 1;
@@ -56,7 +57,8 @@ const ArticleView = (props: Props) => {
   const parsePageComponent = useCallback(
     (): JSX.Element => {
       if(checkIsDraft()) {
-        return <Article article={draftArticle.article} draftContent={draftArticle.draftContent} />;
+        const article = parseDraftToArticle(draftArticle.article);
+        return <Article article={article} draftContent={draftArticle.draftContent} />;
       }
 
       const id = validArticleId();

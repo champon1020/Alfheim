@@ -5,6 +5,9 @@ import { Provider } from "react-redux";
 import ManageView from "./components/view/ManageView";
 import PublicView from "./components/view/PublicView";
 import { PersistGate } from "redux-persist/integration/react";
+import * as api from "./api/index";
+
+export const defaultApi = new api.DefaultApi();
 
 const App = () => {
   return(

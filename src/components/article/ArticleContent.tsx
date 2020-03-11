@@ -41,9 +41,8 @@ const ArticleContent = (props: Props) => {
         setContent(draftContent);
         return;
       }
-
       // call api
-      axios.get(article.contentUrl)
+      axios.get(article.contentHash)
         .then(res => {
           setContent(res.data);
         });

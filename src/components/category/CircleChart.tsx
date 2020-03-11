@@ -24,8 +24,6 @@ const CircleChart = (props: Props) => {
     [categories],
   );
 
-  console.log(categories);
-
   return (
     <ChartBoxStyled>
       <Pie data={data} />

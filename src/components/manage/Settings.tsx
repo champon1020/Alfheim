@@ -35,7 +35,7 @@ const Settings = () => {
           <input />
         </SettingElementStyled>
         <SettingElementStyled>
-          <h3>article path</h3>
+          <h3>number of viewing articles</h3>
           <input />
         </SettingElementStyled>
       </SettingFormStyled>

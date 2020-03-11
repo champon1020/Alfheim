@@ -1,24 +1,41 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import ArticleListBox from "./ArticleListBox";
 import styled from "styled-components";
+import { ArticleType } from "src/type";
 
 const ArticleListStyled = styled.ul`
-  margin-top: 20px;
+  overflow-y: scroll;
+  white-space: nowrap;
+  height: calc(var(--articles-container-height) - 9rem);
 `;
 
-const ArticleListItemStyled = styled.li`
-  margin: 30px 0;
-`;
+type Props = {
+  articles: ArticleType[];
+  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+}
 
-const ArticleList = () => {
+const ArticleList = (props: Props) => {
+  const { articles, setFocusedArticle } = props;
+
+  const articleList = useCallback(
+    () => {
+      const list = [] as JSX.Element[];
+      articles.forEach((v, i) => {
+        list.push(
+          <ArticleListBox 
+            key={i} 
+            article={v}
+            setFocusedArticle={setFocusedArticle} />
+        );
+      });
+      return list;
+    },
+    [articles, setFocusedArticle],
+  );
+
   return(
     <ArticleListStyled>
-      <ArticleListItemStyled>
-        <ArticleListBox />
-      </ArticleListItemStyled>
-      <ArticleListItemStyled>
-        <ArticleListBox />
-      </ArticleListItemStyled>
+      {articleList()}
     </ArticleListStyled>
   );
 };

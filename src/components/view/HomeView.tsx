@@ -1,12 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
-import Page from "../common/Page";
+import Page from "./Page";
 import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
-import { api } from "../../api/api";
+import { defaultApi } from "../../App";
 import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 
@@ -54,9 +54,9 @@ const HomeView = (props: Props) => {
 
   useEffect(() => {
     const path = window.location.pathname;
-    if(path.startsWith("/home/article")) console.log("article");
-    if(path.startsWith("/home/category")) console.log("category");
-    api.findArticleListGet()
+    if(path.startsWith("/home/date")) {/* get article by date */}
+    if(path.startsWith("/home/category")) {/* get article by category */}
+    defaultApi.apiFindArticleListGet()
       .then(res => {
         const articles = res.data.articles;
         dispatchArticle(articles);

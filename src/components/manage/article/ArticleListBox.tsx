@@ -1,102 +1,105 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
+import { ArticleType } from "src/type";
+import { parseDateToString } from "src/components/services/parser";
+import Button from "./Button";
 
-const ArticleBoxStyled = styled.div`
-  height: 140px;
+const ArticleBoxStyled = styled.li`
+  --box-height: 80px;
+  --box-padding-v: 5px;
+
+  height: var(--box-height);
+  padding: var(--box-padding-v) 5px;
   background-color: white;
-  border-radius: 10px;
-  padding: 30px 30px;
   display: flex;
   flex-direction: row;
-  position: relative;
-  &:hover {
+  border: solid thin lightgray;
+  cursor: pointer;
+  &:focus, &:hover {
     opacity: 0.9;
   }
 `;
 
-const LinkStyled = styled.a`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  cursor: pointer;
-  z-index: 0;
-`;
-
-const TitleStyled = styled.div`
-  order: 1;
-  width: 35%;
-  & h2 {
-    margin: 0 0 10px 0;
-  }
-  & .statement {
-    font-size: 1.2rem;
-    overflow: hidden;
-    height: 100px;
-    width: 90%;
-    line-height: 20px;
-  }
-`;
-
 const ImageBoxStyled = styled.div`
-  order: 2;
-  width: 20%;
-  text-align: center;
+  order: 1;
+  width: 30%;
+  text-align: left;
   & img {
-    height: 130px;
-    width: 130px;
+    height: calc(var(--box-height));
+    width: calc(var(--box-height));
   }
 `;
 
-const DateBoxStyled = styled.div`
+const TitleDateStyled = styled.div`
+  order: 2;
+  width: 50%;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  & h2 {
+    font-size: 1.5rem;
+  }
+  & h3 {
+    margin-top: 4%;
+    font-size: 1.2rem;
+  }
+`;
+
+const ButtonStyled = styled.div`
   order: 3;
   width: 20%;
-  text-align: center;
-  font-size: 2rem;
-  & h3 {
-    margin: 50px 0;
-  }
-`;
-
-const ToggleButtonStyled = styled.div`
-  order: 4;
-  width: 35%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
   & button {
-    width: 50%;
-    height: 100%;
-    font-size: 24px;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-  }
-  & button:hover {
-    color: blue;
+    margin: 5% 0;
   }
 `;
 
-const ArticleListBox = () => {
+type Props = {
+  article: ArticleType;
+  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+}
+
+const ArticleListBox = (props: Props) => {
+  const { article, setFocusedArticle } = props;
+
+  const handleOnClick = useCallback(() => setFocusedArticle(article), [article, setFocusedArticle]);
+
+  const handleGoToClick = useCallback(
+    () => {
+      window.open("http://localhost:3000/article/" + article.id.toString());
+    },
+    [article],
+  );
+
+  const handlePublicClick = useCallback(
+    () => {
+      // process of making article public  
+    },
+    [],
+  );
+
   return(
-    <ArticleBoxStyled>
-      <TitleStyled>
-        <h2>Sample Article</h2>
-        <div className="statement"> 
-            This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.This is sample.
-        </div>
-      </TitleStyled>
+    <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
         <img src={require("../../../assets/images/space.jpg")} alt="img" />
       </ImageBoxStyled>
-      <DateBoxStyled>
-        <h3>2020-01-31</h3>
-      </DateBoxStyled>
-      <ToggleButtonStyled>
-        <button>Display</button>
-      </ToggleButtonStyled>
-      
-      {/* eslint-disable-next-line */}
-      <LinkStyled href="##"></LinkStyled>
+      <TitleDateStyled>
+        <h2>{article.title}</h2>
+        <h3>{parseDateToString(article.createDate)}</h3>
+      </TitleDateStyled>
+      <ButtonStyled>
+        <Button 
+          text={"Public"}
+          width={"100"}
+          height={"40"}
+          handleOnClick={handlePublicClick} />
+        <Button 
+          text={"Go to"}
+          width={"100"}
+          height={"40"}
+          handleOnClick={handleGoToClick} />
+      </ButtonStyled>
     </ArticleBoxStyled>
   );
 };

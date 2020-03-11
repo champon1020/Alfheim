@@ -1,35 +1,37 @@
-import { ArticleType, CategoryType } from "src/type";
+import { ArticleRequestType, CategoryRequestType, Draft } from "src/type";
 
-const parseCategoriesToList = (categories: string) => {
+const parseRequestCategoriesToList = (categories: string) => {
   const categoryList = categories.split(",");
-  const result = [] as CategoryType[];
+  const result = [] as CategoryRequestType[];
+  if(categoryList[0] === "") return result;
   categoryList.forEach(v => {
     result.push({
       id: -1,
-      name: v,
-      articleNum: -1
+      name: v
     });
   });
   return result;
 };
 
-export const parseToRequestArticle = (title: string, categories: string, article?: ArticleType): ArticleType => {
+export const parseDraftToRequestArticle = (draft: Draft): ArticleRequestType => {
   return {
-    id: article === undefined ? -1 : article.id,
-    title: title,
-    categories: parseCategoriesToList(categories),
-    createDate: article === undefined ? new Date() : article.createDate,
-    updateDate: new Date(),
-    contentUrl: article === undefined ? "" : article.contentUrl,
-    imageUrl: article === undefined ? "" : article.imageUrl,
-    private: article === undefined ? false : article.private
+    id: draft.id,
+    title: draft.title,
+    categories: parseRequestCategoriesToList(draft.categories),
+    contentHash: draft.contentHash,
+    imageHash: draft.imageHash,
+    _private: draft._private === undefined ? false : draft._private,
   };
 };
 
-export const parseContents = (setContents: React.Dispatch<React.SetStateAction<string>>) => {
+export const parseContents = (setContents: React.Dispatch<React.SetStateAction<string>>): string => {
   const newContents = document.querySelector(".tui-editor-contents");
-  if(newContents === null) return console.error(".tui-editor-contents is null");
+  if(newContents === null) {
+    console.error(".tui-editor-contents is null");
+    return "";
+  }
   const div = document.createElement("div");
   div.appendChild(newContents.cloneNode(true));
   setContents(div.innerHTML);
+  return div.innerHTML;
 };
