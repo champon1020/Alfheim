@@ -1,7 +1,7 @@
 import { updateArticles } from "./articleAction";
 import { updateRecommendArticles } from "./sidebarAction";
 import { updateCategories } from "./categoryAction";
-import { updateDraftContent, updateResourceArticle, updateResourceTitle, updateResourceCategories, updateDraft } from "./manageAction";
+import { updateDraftContent, updateResourceArticle, updateDraft } from "./manageAction";
 
 export enum ActionEnum {
   // article action
@@ -14,8 +14,6 @@ export enum ActionEnum {
   UPDATE_DRAFT = "UPDATE_DRAFT",
   UPDATE_DRAFT_CONTENT = "UPDATE_DRAFT_CONTENT",
   UPDATE_RESOURCE_ARTICLE = "UPDATE_RESOURCE_ARTICLE",
-  UPDATE_RESOURCE_TITLE = "UPDATE_RESOURCE_TITLE",
-  UPDATE_RESOURCE_CATEGORIES = "UPDATE_RESOURCE_CATEGORIES"
 }
 
 class AppActionCreator {
@@ -29,8 +27,6 @@ class AppActionCreator {
   public updateDraft = updateDraft;
   public updateDraftContent = updateDraftContent;
   public updateResourceArticle = updateResourceArticle;
-  public updateResourceTitle = updateResourceTitle;
-  public updateResourceCategories = updateResourceCategories;
 }
 
 const appActionCreator: AppActionCreator = new AppActionCreator();

@@ -10,6 +10,7 @@ import { ArticleType } from "src/type";
 import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
 import ErrorPage from "../error/ErrorPage";
 import { checkIsDraft } from "../article/util";
+import { parseDraftToArticle } from "../services/parser";
 
 const MainContainer = styled.div`
   order: 1;
@@ -56,7 +57,9 @@ const ArticleView = (props: Props) => {
   const parsePageComponent = useCallback(
     (): JSX.Element => {
       if(checkIsDraft()) {
-        return <Article article={draftArticle.article} draftContent={draftArticle.draftContent} />;
+        const article = parseDraftToArticle(draftArticle.article);
+        console.log(article);
+        return <Article article={article} draftContent={draftArticle.draftContent} />;
       }
 
       const id = validArticleId();

@@ -1,5 +1,5 @@
 import { createStore, AnyAction, Store } from "redux";
-import { ArticleType, CategoryType } from "../type";
+import { ArticleType, CategoryType, Draft } from "../type";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "../reducers/rootReducer";
@@ -20,7 +20,7 @@ export type SidebarState = {
 }
 
 export type ManageState = {
-  article: ArticleType;
+  article: Draft;
   draftContent: string;
 }
 

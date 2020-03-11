@@ -18,7 +18,7 @@ const InputStyled = styled.input`
 
 type Props = {
   value: string;
-  setter: React.Dispatch<React.SetStateAction<string>>;
+  setter: (value: string) => void;
   errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>;
   placeholder?: string;
 }

@@ -7,12 +7,13 @@ import "highlight.js/styles/github.css"; // code block highlight
 import styled from "styled-components";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
-import { parseContents, parseToRequestArticle } from "./parser";
+import { parseContents, parseDraftToRequestArticle } from "./parser";
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
-import { ArticleType } from "src/type";
+import { ArticleType, Draft } from "src/type";
 import { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
+import { defaultApi } from "../../../App";
 
 const EditContainerStyled = styled.div`
   background-color: whitesmoke;
@@ -27,28 +28,39 @@ type Props = {
   updatingArticle: ArticleType;
 }
 
+const defaultDraft: Draft = {
+  id: -1,
+  title: "",
+  categories: "",
+  contentHash: "",
+  imageHash: ""
+};
+
 const ArticleForm = (props: Props) => {
   const { updatingArticle } = props;
   const editorRef = useRef({} as HTMLDivElement);
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState("");
+  const [draft] = useState(defaultDraft);
   const [contents, setContents] = useState("");
   const dispatch = useDispatch();
 
-  const draftContents = useCallback(
+  const drafting = useCallback(
     () => {
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
       const newTimerId = setTimeout(() => {
         // save process
-        parseContents(setContents);
-      }, 1000);
+        const newContents = parseContents(setContents);
+        dispatch(appActionCreator.updateDraft(draft, newContents));
+        defaultApi.apiDraftArticlePost({article: draft, contents: newContents});
+      }, 300);
       setTimerId(newTimerId);
     },
-    [timerId],
+    [timerId, draft, dispatch],
   );
 
   const observer = useMemo(() => {
@@ -56,37 +68,33 @@ const ArticleForm = (props: Props) => {
       mutations.forEach((mutation) => {
         const el = mutation.target as Element;
         if(el.className === "tui-editor-contents"){
-          draftContents();
+          drafting();
         }
       });
     });
-  }, [draftContents]);
+  }, [drafting]);
 
   const validation = useCallback(
-    () => {
-      return validateTitle(title, setErr) || validateCategory(category, setErr);
-    },
-    [title, category],
+    () => (validateTitle(title, setErr) || validateCategory(categories, setErr)),
+    [title, categories],
   );
 
   const onSubmit = useCallback(
     () => {
       if(validation()) return;
       parseContents(setContents);
-      const article = parseToRequestArticle(title, category);
+      const article = parseDraftToRequestArticle(draft);
+      defaultApi.apiRegisterArticlePost({article: article, contents: contents});
     },
-    [title, category, validation],
+    [draft, contents, validation],
   );
 
   const onPreview = useCallback(
     () => {
       if(validation()) return;
-      parseContents(setContents);
-      const article = parseToRequestArticle(title, category);
-      dispatch(appActionCreator.updateDraft({article: article, draftContent: contents}));
       window.open("/article-draft/");
     },
-    [contents, dispatch, category, title, validation],
+    [validation],
   );
 
   useEffect(() => {
@@ -100,31 +108,44 @@ const ArticleForm = (props: Props) => {
 
     observer.observe(target, observeConfig);
     instance.getHtml();
-    // eslint-disable-next-line
 
     if(updatingArticle !== {} as ArticleType) {
       if(updatingArticle.title !== undefined){
-        setTitle(updatingArticle.title);
+        setTitleHandler(updatingArticle.title);
       }
       if(updatingArticle.categories !== undefined) {
         let categoriesStr = "";
-        updatingArticle.categories.forEach(v => categoriesStr += v.name);
-        setCategory(categoriesStr);
+        updatingArticle.categories.forEach(v => categoriesStr += v.name + ",");
+        setCategoriesHandler(categoriesStr);
       }
     }
     // eslint-disable-next-line
   }, []);
 
+  const setTitleHandler = useCallback(
+    (title: string) => {
+      setTitle(title);
+      draft.title = title;
+      drafting();
+    },[draft, drafting]);
+
+  const setCategoriesHandler = useCallback(
+    (categories: string) => {
+      setCategories(categories);
+      draft.categories = categories;
+      drafting();
+    },[draft, drafting]);
+
   return(
     <EditContainerStyled>
       <InputForm 
         value={title}
-        setter={setTitle}
+        setter={setTitleHandler}
         errSetter={setErr}
         placeholder="title" />
       <InputForm 
-        value={category}
-        setter={setCategory}
+        value={categories}
+        setter={setCategoriesHandler}
         errSetter={setErr}
         placeholder="category" />
       <div ref={editorRef}></div>

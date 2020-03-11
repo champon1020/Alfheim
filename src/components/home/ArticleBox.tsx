@@ -85,7 +85,7 @@ const ArticleBox = (props: Props) => {
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <ImageStyled src={article.imageUrl} alt="article box" />
+        <ImageStyled src={article.imageHash} alt="article box" />
       </ImageBoxStyled>
       <DateBoxStyled>
         <p>{parseDateToString(article.createDate)}</p>

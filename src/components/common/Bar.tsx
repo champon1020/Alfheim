@@ -5,6 +5,7 @@ import TwitterIcon from "../../assets/images/twitter.svg";
 import QiitaIcon from "../../assets/images/qiita.png";
 import WantedlyIcon from "../../assets/images/wantedly.svg";
 import LinkedinIcon from "../../assets/images/linkedin.png";
+import GithubIcon from "../../assets/images/github.png";
 
 const BarStyled = styled.div`
   background-color: var(--base-color);
@@ -12,6 +13,9 @@ const BarStyled = styled.div`
   text-align: center;
   position: relative;
   padding: 20px 100px;
+  @media (max-width: 800px) {
+    padding: 20px 0;
+  }
 `;
 
 const SnsLinkListStyled = styled.ul`
@@ -32,6 +36,9 @@ const Bar = () => {
           icon={LinkedinIcon} 
           href="https://www.linkedin.com/in/champon1020/" 
           background="var(--base-color)" />
+        <BarItem 
+          icon={GithubIcon} 
+          href="https://www.linkedin.com/in/champon1020/"/>
         <BarItem 
           icon={WantedlyIcon} 
           href="https://www.wantedly.com/users/93296474" />

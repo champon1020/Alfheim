@@ -1,13 +1,12 @@
 import { ActionEnum } from "./actions";
-import { ArticleType, CategoryType } from "src/type";
-import { ManageState } from "src/stores/store";
+import { Draft } from "src/type";
 
-export const updateDraft = (draft: ManageState) => {
+export const updateDraft = (draft: Draft, contents: string) => {
   return {
     type: ActionEnum.UPDATE_DRAFT,
     payload: {
-      article: draft.article,
-      draftContent: draft.draftContent
+      article: draft,
+      draftContent: contents
     }
   };
 };
@@ -23,7 +22,7 @@ export const updateDraftContent = (content: string) => {
 };
 export type UpdateDraftContentAction = ReturnType<typeof updateDraftContent>;
 
-export const updateResourceArticle = (article: ArticleType) => {
+export const updateResourceArticle = (article: Draft) => {
   return {
     type: ActionEnum.UPDATE_RESOURCE_ARTICLE,
     payload: {
@@ -33,29 +32,7 @@ export const updateResourceArticle = (article: ArticleType) => {
 };
 export type UpdateResourceArticleAction = ReturnType<typeof updateResourceArticle>;
 
-export const updateResourceTitle = (title: string) => {
-  return {
-    type: ActionEnum.UPDATE_RESOURCE_TITLE,
-    payload: {
-      title: title
-    }
-  };
-};
-export type UpdateResourceTitleAction = ReturnType<typeof updateResourceTitle>;
-
-export const updateResourceCategories = (categories: CategoryType[]) => {
-  return {
-    type: ActionEnum.UPDATE_RESOURCE_CATEGORIES,
-    payload: {
-      categories: categories
-    }
-  };
-};
-export type UpdateResourceCategoriesAction = ReturnType<typeof updateResourceCategories>;
-
 export type ManageActionType = 
   UpdateDraftAction |
   UpdateDraftContentAction | 
-  UpdateResourceArticleAction | 
-  UpdateResourceTitleAction |
-  UpdateResourceCategoriesAction;
+  UpdateResourceArticleAction;

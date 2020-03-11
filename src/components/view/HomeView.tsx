@@ -6,7 +6,7 @@ import { RootState } from "../../stores/store";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
-import { api } from "../../api/api";
+import { defaultApi } from "../../App";
 import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 
@@ -56,7 +56,7 @@ const HomeView = (props: Props) => {
     const path = window.location.pathname;
     if(path.startsWith("/home/article")) console.log("article");
     if(path.startsWith("/home/category")) console.log("category");
-    api.findArticleListGet()
+    defaultApi.apiFindArticleListGet()
       .then(res => {
         const articles = res.data.articles;
         dispatchArticle(articles);
