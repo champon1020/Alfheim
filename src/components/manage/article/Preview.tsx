@@ -3,6 +3,7 @@ import axios from "axios";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
+import { Config } from "src/App";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
@@ -65,7 +66,7 @@ const Preview = (props: Props) => {
 
   const handleEditClick = useCallback(
     () => {
-      window.open("http://localhost:3000/manage?articleId=1");
+      window.open(Config.host + "/manage?articleId=1");
     },
     [],
   );

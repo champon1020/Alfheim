@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { ArticleType } from "src/type";
 import { parseDateToString } from "src/components/services/parser";
 import Button from "./Button";
+import { Config } from "src/App";
 
 const ArticleBoxStyled = styled.li`
   --box-height: 80px;
@@ -67,7 +68,7 @@ const ArticleListBox = (props: Props) => {
 
   const handleGoToClick = useCallback(
     () => {
-      window.open("http://localhost:3000/article/" + article.id.toString());
+      window.open(Config.host + "/article/" + article.id.toString());
     },
     [article],
   );

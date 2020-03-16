@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Config } from "../../App";
 
 const ArticleShareBoxStyled = styled.div`
   margin-bottom: 50px;
@@ -33,7 +34,7 @@ const ShareBox = () => {
           <ShareButton
             className="twitter-share-button"
             data-text="sample tweet"
-            data-url="http://localhost:3000/article/1"
+            data-url={Config.host + "/article/1"}
             data-lang="ja"
             href="https://twitter.com/intent/tweet">
           </ShareButton>

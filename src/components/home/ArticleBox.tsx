@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
 import { parseDateToString } from "../services/parser";
+import { Config } from "src/App";
 
 const ArticleBoxStyled = styled.div`
   position: relative;
@@ -66,8 +67,6 @@ const TitleBoxStyled = styled.div`
   }
 `;
 
-const BASE_URL = "http://localhost:3000";
-
 type Props = {
   article: ArticleType;
 }
@@ -77,7 +76,7 @@ const ArticleBox = (props: Props) => {
 
   const handleOnClick = useCallback(
     () => {
-      window.location.href = BASE_URL + "/article/" + article.id;
+      window.location.href = Config.host + "/article/" + article.id;
     },
     [article],
   );

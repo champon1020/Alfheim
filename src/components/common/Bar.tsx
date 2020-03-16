@@ -6,6 +6,7 @@ import QiitaIcon from "../../assets/images/qiita.png";
 import WantedlyIcon from "../../assets/images/wantedly.svg";
 import LinkedinIcon from "../../assets/images/linkedin.png";
 import GithubIcon from "../../assets/images/github.png";
+import Accounts from "private/accounts.json";
 
 const BarStyled = styled.div`
   background-color: var(--base-color);
@@ -31,20 +32,20 @@ const Bar = () => {
       <SnsLinkListStyled>
         <BarItem 
           icon={TwitterIcon} 
-          href="https://twitter.com/nagatelu1020" />
+          href={Accounts.twitter} />
         <BarItem 
           icon={LinkedinIcon} 
-          href="https://www.linkedin.com/in/champon1020/" 
+          href={Accounts.linkedin}
           background="var(--base-color)" />
         <BarItem 
           icon={GithubIcon} 
-          href="https://github.com/champon1020/"/>
+          href={Accounts.github}/>
         <BarItem 
           icon={WantedlyIcon} 
-          href="https://www.wantedly.com/users/93296474" />
+          href={Accounts.wantedly} />
         <BarItem 
           icon={QiitaIcon}
-          href="https://qiita.com/nagatelu1020" />
+          href={Accounts.qiita} />
       </SnsLinkListStyled>
     </BarStyled>
   );
