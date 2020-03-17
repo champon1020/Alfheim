@@ -10,7 +10,7 @@ import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
 import { InlineResponse200 } from "src/api";
-import { parseQueryParam, parsePage } from "../services/parser";
+import { parseQueryParam, parsePage, parseViewArticle } from "../services/parser";
 
 
 const MainContainer = styled.div`
@@ -85,7 +85,7 @@ const HomeView = (props: Props) => {
       const page = parsePage();
       const res = await proxy(path, params, page);
       const { articles } = res.data;
-      setArticles(articles);
+      setArticles(parseViewArticle(articles, page));
       dispatchArticle(articles);
     }, [dispatchArticle]);
 

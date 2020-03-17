@@ -28,6 +28,11 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
+export const parseViewArticle = (articles: ArticleType[], page: number): ArticleType[] => {
+  const start = page === 1 ? 0 : 1;
+  return articles.slice(start, articles.length-1);
+};
+
 export const parseStringToDate = (s: string) => {
   return new Date(s);
 };
