@@ -4,10 +4,12 @@ import SideBar from "../common/SideBar";
 import Page from "./Page";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { IRouteProps } from "./PublicView";
+import { IRouteProps, PathParams } from "./PublicView";
 import { defaultApi } from "../../App";
 import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
+import { AxiosResponse } from "axios";
+import { InlineResponse200 } from "src/api";
 
 
 const MainContainer = styled.div`
@@ -36,6 +38,31 @@ const SubContainer = styled.div`
   }
 `;
 
+const proxy = async (path: string, params: PathParams): Promise<AxiosResponse<InlineResponse200>> => {
+  switch(path) {
+  case "/home/title": {
+    const { title } = params;
+    if(title === undefined) break;
+    return await defaultApi.apiFindArticleListTitleGet(title, 1);
+  }
+  case "/home/date": {
+    const { year, month } = params;
+    if(year === undefined || month === undefined) break;
+    return await defaultApi.apiFindArticleListCreateDateGet(year+month, 1);
+  }
+  case "/home/category": {
+    const { category } = params;
+    if(category === undefined) break;
+    return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), 1);
+  }
+  default:
+    return await defaultApi.apiFindArticleListGet(1);
+  }
+  return new Promise<AxiosResponse<InlineResponse200>>((_, reject) => {
+    reject(new Error("some error"));
+  });
+};
+
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
@@ -54,19 +81,8 @@ const HomeView = (props: Props) => {
   const fetchArticle = useCallback(
     async () => {
       const path = window.location.pathname;
-      // if(path.startsWith("/home/title")) {
-      // // defaultApi.apiFindArticleListCreateDateGet().then();
-      // }
-      // if(path.startsWith("/home/date")) {
-      // // defaultApi.apiFindArticleListCreateDateGet().then();
-      //   return [];
-      // }
-      // if(path.startsWith("/home/category")) {
-      // // defaultApi.apiFindArticleListCategoryGet().then();
-      //   return [];
-      // }
-      const res = await defaultApi.apiFindArticleListGet(1);
-      const articles = res.data.articles;
+      const res = await proxy(path, params);
+      const { articles } = res.data;
       setArticles(articles);
       dispatchArticle(articles);
     }, [dispatchArticle]);

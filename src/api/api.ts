@@ -571,12 +571,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Return a list of articles by title.
-         * @param {number} title A title of articles.
+         * @param {string} title A title of articles.
          * @param {number} p Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: number, p: number, options: any = {}): RequestArgs {
+    apiFindArticleListTitleGet(title: string, p: number, options: any = {}): RequestArgs {
       // verify required parameter 'title' is not null or undefined
       if (title === null || title === undefined) {
         throw new RequiredError("title","Required parameter title was null or undefined when calling apiFindArticleListTitleGet.");
@@ -905,12 +905,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     /**
          * 
          * @summary Return a list of articles by title.
-         * @param {number} title A title of articles.
+         * @param {string} title A title of articles.
          * @param {number} p Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: number, p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
+    apiFindArticleListTitleGet(title: string, p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1063,12 +1063,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     /**
          * 
          * @summary Return a list of articles by title.
-         * @param {number} title A title of articles.
+         * @param {string} title A title of articles.
          * @param {number} p Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: number, p: number, options?: any) {
+    apiFindArticleListTitleGet(title: string, p: number, options?: any) {
       return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, p, options)(axios, basePath);
     },
     /**
@@ -1204,13 +1204,13 @@ export class DefaultApi extends BaseAPI {
   /**
      * 
      * @summary Return a list of articles by title.
-     * @param {number} title A title of articles.
+     * @param {string} title A title of articles.
      * @param {number} p Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindArticleListTitleGet(title: number, p: number, options?: any) {
+  public apiFindArticleListTitleGet(title: string, p: number, options?: any) {
     return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, p, options)(this.axios, this.basePath);
   }
 
