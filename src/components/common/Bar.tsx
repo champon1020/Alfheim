@@ -6,7 +6,7 @@ import QiitaIcon from "../../assets/images/qiita.png";
 import WantedlyIcon from "../../assets/images/wantedly.svg";
 import LinkedinIcon from "../../assets/images/linkedin.png";
 import GithubIcon from "../../assets/images/github.png";
-import Accounts from "private/accounts.json";
+import Accounts from "../../private/accounts.json";
 
 const BarStyled = styled.div`
   background-color: var(--base-color);

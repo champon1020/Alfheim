@@ -40,7 +40,7 @@ const Articles = () => {
 
   const fetchArticles = useCallback(
     () => {
-      defaultApi.apiFindArticleListGet()
+      defaultApi.apiFindArticleListGet(1)
         .then(res => {
           const { articles } = res.data;
           const articleList = [] as ArticleType[];
@@ -61,7 +61,7 @@ const Articles = () => {
 
   const fetchDrafts = useCallback(
     () => {
-      defaultApi.apiFindDraftListGet()
+      defaultApi.apiFindDraftListGet(1)
         .then(res => {
           const articles = [] as ArticleType[];
           res.data.drafts.forEach(d => {

@@ -56,7 +56,7 @@ const HomeView = (props: Props) => {
     const path = window.location.pathname;
     if(path.startsWith("/home/date")) {/* get article by date */}
     if(path.startsWith("/home/category")) {/* get article by category */}
-    defaultApi.apiFindArticleListGet()
+    defaultApi.apiFindArticleListGet(1)
       .then(res => {
         const articles = res.data.articles;
         dispatchArticle(articles);

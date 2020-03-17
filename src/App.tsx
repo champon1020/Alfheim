@@ -6,7 +6,7 @@ import ManageView from "./components/view/ManageView";
 import PublicView from "./components/view/PublicView";
 import { PersistGate } from "redux-persist/integration/react";
 import * as api from "./api/index";
-import config from "../private/config.json";
+import config from "./private/config.json";
 
 export const defaultApi = new api.DefaultApi();
 export const Config = config.dev;
