@@ -73,7 +73,7 @@ const Articles = () => {
     if(window.location.pathname.endsWith("drafts")){
       fetchDrafts();
     }
-  }, []);
+  }, [fetchArticles, fetchDrafts]);
 
   return(
     <ArticlesContainer>

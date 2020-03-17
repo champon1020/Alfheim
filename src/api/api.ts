@@ -400,8 +400,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       if (imgName === null || imgName === undefined) {
         throw new RequiredError("imgName","Required parameter imgName was null or undefined when calling apiDeleteImageDelete.");
       }
-      const localVarPath = "/api/delete/image"
-        .replace(`{${"imgName"}}`, encodeURIComponent(String(imgName)));
+      const localVarPath = "/api/delete/image";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -410,6 +409,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (imgName !== undefined) {
+        localVarQueryParameter["imgName"] = imgName;
+      }
 
 
     
@@ -469,8 +472,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       if (category === null || category === undefined) {
         throw new RequiredError("category","Required parameter category was null or undefined when calling apiFindArticleListCategoryGet.");
       }
-      const localVarPath = "/api/find/article/list/category"
-        .replace(`{${"category"}}`, encodeURIComponent(String(category)));
+      const localVarPath = "/api/find/article/list/category";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -479,6 +481,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (category) {
+        localVarQueryParameter["category"] = category;
+      }
 
 
     
@@ -496,22 +502,16 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Return a list of articles by title.
          * @param {string} createDate A created date of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListCreateDateGet(createDate: string, p: number, options: any = {}): RequestArgs {
+    apiFindArticleListCreateDateGet(createDate: string, p?: number, options: any = {}): RequestArgs {
       // verify required parameter 'createDate' is not null or undefined
       if (createDate === null || createDate === undefined) {
         throw new RequiredError("createDate","Required parameter createDate was null or undefined when calling apiFindArticleListCreateDateGet.");
       }
-      // verify required parameter 'p' is not null or undefined
-      if (p === null || p === undefined) {
-        throw new RequiredError("p","Required parameter p was null or undefined when calling apiFindArticleListCreateDateGet.");
-      }
-      const localVarPath = "/api/find/article/list/create-date"
-        .replace(`{${"create_date"}}`, encodeURIComponent(String(createDate)))
-        .replace(`{${"p"}}`, encodeURIComponent(String(p)));
+      const localVarPath = "/api/find/article/list/create-date";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -520,6 +520,14 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (createDate !== undefined) {
+        localVarQueryParameter["create_date"] = createDate;
+      }
+
+      if (p !== undefined) {
+        localVarQueryParameter["p"] = p;
+      }
 
 
     
@@ -536,17 +544,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Return a list of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListGet(p: number, options: any = {}): RequestArgs {
-      // verify required parameter 'p' is not null or undefined
-      if (p === null || p === undefined) {
-        throw new RequiredError("p","Required parameter p was null or undefined when calling apiFindArticleListGet.");
-      }
-      const localVarPath = "/api/find/article/list"
-        .replace(`{${"p"}}`, encodeURIComponent(String(p)));
+    apiFindArticleListGet(p?: number, options: any = {}): RequestArgs {
+      const localVarPath = "/api/find/article/list";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -555,6 +558,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (p !== undefined) {
+        localVarQueryParameter["p"] = p;
+      }
 
 
     
@@ -572,22 +579,21 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Return a list of articles by title.
          * @param {string} title A title of articles.
-         * @param {number} p Page of view.
+         * @param {number} query Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: string, p: number, options: any = {}): RequestArgs {
+    apiFindArticleListTitleGet(title: string, query: number, options: any = {}): RequestArgs {
       // verify required parameter 'title' is not null or undefined
       if (title === null || title === undefined) {
         throw new RequiredError("title","Required parameter title was null or undefined when calling apiFindArticleListTitleGet.");
       }
-      // verify required parameter 'p' is not null or undefined
-      if (p === null || p === undefined) {
-        throw new RequiredError("p","Required parameter p was null or undefined when calling apiFindArticleListTitleGet.");
+      // verify required parameter 'query' is not null or undefined
+      if (query === null || query === undefined) {
+        throw new RequiredError("query","Required parameter query was null or undefined when calling apiFindArticleListTitleGet.");
       }
       const localVarPath = "/api/find/article/list/title"
-        .replace(`{${"title"}}`, encodeURIComponent(String(title)))
-        .replace(`{${"p"}}`, encodeURIComponent(String(p)));
+        .replace(`{${"query"}}`, encodeURIComponent(String(query)));
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -596,6 +602,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (title !== undefined) {
+        localVarQueryParameter["title"] = title;
+      }
 
 
     
@@ -641,17 +651,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Return a list of drafts.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindDraftListGet(p: number, options: any = {}): RequestArgs {
-      // verify required parameter 'p' is not null or undefined
-      if (p === null || p === undefined) {
-        throw new RequiredError("p","Required parameter p was null or undefined when calling apiFindDraftListGet.");
-      }
-      const localVarPath = "/api/find/draft/list"
-        .replace(`{${"p"}}`, encodeURIComponent(String(p)));
+    apiFindDraftListGet(p?: number, options: any = {}): RequestArgs {
+      const localVarPath = "/api/find/draft/list";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -660,6 +665,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (p !== undefined) {
+        localVarQueryParameter["p"] = p;
+      }
 
 
     
@@ -676,17 +685,12 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Return a list of image names.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindImageListGet(p: number, options: any = {}): RequestArgs {
-      // verify required parameter 'p' is not null or undefined
-      if (p === null || p === undefined) {
-        throw new RequiredError("p","Required parameter p was null or undefined when calling apiFindImageListGet.");
-      }
-      const localVarPath = "/api/find/image/list"
-        .replace(`{${"p"}}`, encodeURIComponent(String(p)));
+    apiFindImageListGet(p?: number, options: any = {}): RequestArgs {
+      const localVarPath = "/api/find/image/list";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
       if (configuration) {
@@ -695,6 +699,10 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      if (p !== undefined) {
+        localVarQueryParameter["p"] = p;
+      }
 
 
     
@@ -877,11 +885,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * 
          * @summary Return a list of articles by title.
          * @param {string} createDate A created date of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListCreateDateGet(createDate: string, p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
+    apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListCreateDateGet(createDate, p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -891,11 +899,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     /**
          * 
          * @summary Return a list of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListGet(p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
+    apiFindArticleListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -906,12 +914,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * 
          * @summary Return a list of articles by title.
          * @param {string} title A title of articles.
-         * @param {number} p Page of view.
+         * @param {number} query Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: string, p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, p, options);
+    apiFindArticleListTitleGet(title: string, query: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, query, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -933,11 +941,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     /**
          * 
          * @summary Return a list of drafts.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindDraftListGet(p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
+    apiFindDraftListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindDraftListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -947,11 +955,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     /**
          * 
          * @summary Return a list of image names.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindImageListGet(p: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003> {
+    apiFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindImageListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1043,33 +1051,33 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Return a list of articles by title.
          * @param {string} createDate A created date of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListCreateDateGet(createDate: string, p: number, options?: any) {
+    apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any) {
       return DefaultApiFp(configuration).apiFindArticleListCreateDateGet(createDate, p, options)(axios, basePath);
     },
     /**
          * 
          * @summary Return a list of articles.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListGet(p: number, options?: any) {
+    apiFindArticleListGet(p?: number, options?: any) {
       return DefaultApiFp(configuration).apiFindArticleListGet(p, options)(axios, basePath);
     },
     /**
          * 
          * @summary Return a list of articles by title.
          * @param {string} title A title of articles.
-         * @param {number} p Page of view.
+         * @param {number} query Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindArticleListTitleGet(title: string, p: number, options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, p, options)(axios, basePath);
+    apiFindArticleListTitleGet(title: string, query: number, options?: any) {
+      return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, query, options)(axios, basePath);
     },
     /**
          * 
@@ -1083,21 +1091,21 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     /**
          * 
          * @summary Return a list of drafts.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindDraftListGet(p: number, options?: any) {
+    apiFindDraftListGet(p?: number, options?: any) {
       return DefaultApiFp(configuration).apiFindDraftListGet(p, options)(axios, basePath);
     },
     /**
          * 
          * @summary Return a list of image names.
-         * @param {number} p Page of view.
+         * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiFindImageListGet(p: number, options?: any) {
+    apiFindImageListGet(p?: number, options?: any) {
       return DefaultApiFp(configuration).apiFindImageListGet(p, options)(axios, basePath);
     },
     /**
@@ -1180,24 +1188,24 @@ export class DefaultApi extends BaseAPI {
      * 
      * @summary Return a list of articles by title.
      * @param {string} createDate A created date of articles.
-     * @param {number} p Page of view.
+     * @param {number} [p] Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindArticleListCreateDateGet(createDate: string, p: number, options?: any) {
+  public apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any) {
     return DefaultApiFp(this.configuration).apiFindArticleListCreateDateGet(createDate, p, options)(this.axios, this.basePath);
   }
 
   /**
      * 
      * @summary Return a list of articles.
-     * @param {number} p Page of view.
+     * @param {number} [p] Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindArticleListGet(p: number, options?: any) {
+  public apiFindArticleListGet(p?: number, options?: any) {
     return DefaultApiFp(this.configuration).apiFindArticleListGet(p, options)(this.axios, this.basePath);
   }
 
@@ -1205,13 +1213,13 @@ export class DefaultApi extends BaseAPI {
      * 
      * @summary Return a list of articles by title.
      * @param {string} title A title of articles.
-     * @param {number} p Page of view.
+     * @param {number} query Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindArticleListTitleGet(title: string, p: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, p, options)(this.axios, this.basePath);
+  public apiFindArticleListTitleGet(title: string, query: number, options?: any) {
+    return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, query, options)(this.axios, this.basePath);
   }
 
   /**
@@ -1228,24 +1236,24 @@ export class DefaultApi extends BaseAPI {
   /**
      * 
      * @summary Return a list of drafts.
-     * @param {number} p Page of view.
+     * @param {number} [p] Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindDraftListGet(p: number, options?: any) {
+  public apiFindDraftListGet(p?: number, options?: any) {
     return DefaultApiFp(this.configuration).apiFindDraftListGet(p, options)(this.axios, this.basePath);
   }
 
   /**
      * 
      * @summary Return a list of image names.
-     * @param {number} p Page of view.
+     * @param {number} [p] Page of view.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiFindImageListGet(p: number, options?: any) {
+  public apiFindImageListGet(p?: number, options?: any) {
     return DefaultApiFp(this.configuration).apiFindImageListGet(p, options)(this.axios, this.basePath);
   }
 

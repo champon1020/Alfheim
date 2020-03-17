@@ -10,7 +10,7 @@ import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
 import { InlineResponse200 } from "src/api";
-import { parseQueryParam, parsePage, parseViewArticle } from "../services/parser";
+import { parsePage, parseViewArticle } from "../services/parser";
 
 
 const MainContainer = styled.div`
@@ -39,7 +39,8 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (path: string, params: PathParams, p: number): Promise<AxiosResponse<InlineResponse200>> => {
+const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse200>> => {
+  const path = window.location.pathname;
   switch(path) {
   case "/home/title": {
     const { title } = params;
@@ -64,40 +65,78 @@ const proxy = async (path: string, params: PathParams, p: number): Promise<Axios
   });
 };
 
+const scroll = () => {
+  window.scroll({
+    top: 430,
+    behavior: "smooth"
+  });
+};
+
+const pageAppendedPath = (page: string | number) => {
+  const path = window.location.pathname;
+  return path + "?p=" + page;
+};
+
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { params } = props.match;
+  const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
   const dispatch = useDispatch();
 
-  const dispatchArticle = useCallback(
-    (articles) => {
-      dispatch(appActionCreator.updateArticles(articles));
-    },
-    [dispatch],
-  );
-
   const fetchArticle = useCallback(
     async () => {
-      const path = window.location.pathname;
-      const page = parsePage();
-      const res = await proxy(path, params, page);
-      const { articles } = res.data;
-      setArticles(parseViewArticle(articles, page));
-      dispatchArticle(articles);
-    }, [dispatchArticle]);
+      const res = await proxy(params, page);
+      const fetchedArticles = res.data.articles;
+      setArticles(parseViewArticle(fetchedArticles, page));
+      dispatch(appActionCreator.updateArticles(fetchedArticles));
+    }, 
+    [params, page, dispatch]
+  );
+
+  const prevCallback = useCallback(
+    () => {
+      window.history.pushState(page-1, "", pageAppendedPath(page-1));
+      setPage(page-1);
+      scroll();
+    },[page]
+  );
+
+  const nextCallback = useCallback(
+    () => {
+      if(page+1 > 1) {
+        window.history.pushState(page+1, "", pageAppendedPath(page+1));
+        setPage(page+1);
+        scroll();
+      }
+    },[page]
+  );
+
+  window.onpopstate = () => {
+    setPage(parsePage(window.location.href));
+  };
 
   useEffect(() => {
     fetchArticle();
-  }, [fetchArticle]);
+    // eslint-disable-next-line
+  }, [page]);
+
+  useEffect(() => {
+    window.history.pushState(1, "", window.location.pathname);
+  }, []);
 
   return(
     <>
       <MainContainer>
         <ArticleList articles={articles} />
-        <Page backText="Back" nextText="Next" />
+        <Page 
+          current={page}
+          prevText="Back" 
+          nextText="Next"
+          prevCallback={prevCallback}
+          nextCallback={nextCallback}
+        />
       </MainContainer>
       <SubContainer>
         <SideBar />

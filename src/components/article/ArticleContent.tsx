@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
 
 const ArticleContentStyled = styled.article`
   width: 86%;

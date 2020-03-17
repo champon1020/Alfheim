@@ -18,8 +18,8 @@ export const parseQueryParam = (url: string): Map => {
   return paramMap;
 };
 
-export const parsePage = (): number => {
-  const page = parseQueryParam(window.location.href)["p"];
+export const parsePage = (href: string): number => {
+  const page = parseQueryParam(href)["p"];
   return page === undefined ? 1 : Number.parseInt(page);
 };
 

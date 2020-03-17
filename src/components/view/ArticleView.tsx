@@ -1,10 +1,10 @@
 import React, { useCallback, useState, useEffect } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
-import Page from "./Page";
+import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
 import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
@@ -48,6 +48,7 @@ const ArticleView = (props: Props) => {
   const [content, setContent] = useState("");
   const articlesStore = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
   const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
+  const dispatch = useDispatch();
 
   const validArticleId = useCallback(
     () => {
@@ -55,6 +56,14 @@ const ArticleView = (props: Props) => {
       return articleId === undefined ? -1 : Number.parseInt(articleId);
     },
     [match]
+  );
+
+  const fetchContent = useCallback(
+    async (article: ArticleType) => {
+      if(article.contentHash === undefined) return;
+      const res = await axios.get(article.contentHash);
+      setContent(res.data);
+    },[]
   );
 
   const fetchArticle = useCallback(
@@ -76,20 +85,24 @@ const ArticleView = (props: Props) => {
       setArticle(filteredArticle[0]);
       fetchContent(filteredArticle[0]);
     },
-    [validArticleId],
+    [validArticleId, articlesStore, draftsStore, fetchContent],
   );
 
-  const fetchContent = useCallback(
-    async (article: ArticleType) => {
-      if(article.contentHash === undefined) return;
-      const res = await axios.get(article.contentHash);
-      setContent(res.data);
+  const prevCallback = useCallback(
+    () => {
+      // fix
+    },[]
+  );
+
+  const nextCallback = useCallback(
+    () => {
+      // fix
     },[]
   );
 
   useEffect(() => {
     fetchArticle();
-  }, []);
+  }, [fetchArticle]);
 
   return(
     <>
@@ -97,7 +110,11 @@ const ArticleView = (props: Props) => {
         <Article 
           article={article}
           content={content} />
-        <Page backText="backArticleTitle" nextText="nextArticleTitle" />
+        <PageWithTitle
+          prevText="backArticleTitle" 
+          nextText="nextArticleTitle"
+          prevCallback={prevCallback}
+          nextCallback={nextCallback} />
       </MainContainer>
       <SubContainer>
         <SideBar />
