@@ -1,11 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CircleChart from "./CircleChart";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "src/stores/store";
 import { CategoryType } from "src/type";
 import { defaultApi } from "../../App";
-import appActionCreator from "src/actions/actions";
 
 const CategoryListStyled = styled.div`
   margin-bottom: 200px;
@@ -19,17 +16,16 @@ const CategoryListStyled = styled.div`
 `;
 
 const CategoryList = () => {
-  const categories = useSelector<RootState, CategoryType[]>(state => state.categoryReducer.categories);
-  const dispatch = useDispatch();
+  const [categories, setCategories] = useState([] as CategoryType[]);
 
   useEffect(() => {
     defaultApi.apiFindCategoryListGet()
       .then(res => {
-        const categories = res.data.categories;
-        if(categories === undefined) return;
-        dispatch(appActionCreator.updateCategories(categories as CategoryType[]));
+        const resCat = res.data.categories;
+        if(resCat === undefined || resCat === null) return;
+        setCategories(resCat);
       });
-  }, [dispatch]);
+  }, []);
 
   return(
     <>

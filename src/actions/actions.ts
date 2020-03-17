@@ -1,13 +1,10 @@
 import { updateArticles } from "./articleAction";
 import { updateRecommendArticles } from "./sidebarAction";
-import { updateCategories } from "./categoryAction";
 import { updateDraftContent, updateResourceArticle, updateDraft } from "./manageAction";
 
 export enum ActionEnum {
   // article action
   UPDATE_ARTICLES = "UPDATE_ARTICLES",
-  // category action
-  UPDATE_CATEGORIES = "UPDATE_CATEGORIES",
   // sidebar action
   UPDATE_RECOMMEND_ARTICLES = "UPDATE_RECOMMEND_ARTICLES",
   // manage action
@@ -19,8 +16,6 @@ export enum ActionEnum {
 class AppActionCreator {
   // article action
   public updateArticles = updateArticles;
-  // category action
-  public updateCategories = updateCategories;
   // sidebar action
   public updateRecommendArticles = updateRecommendArticles;
   // manage action
