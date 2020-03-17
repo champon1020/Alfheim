@@ -229,7 +229,7 @@ export interface InlineResponse200 {
      * @type {number}
      * @memberof InlineResponse200
      */
-    articesNum?: number;
+    maxPage: number;
 }
 /**
  * 
@@ -262,6 +262,12 @@ export interface InlineResponse2002 {
      * @memberof InlineResponse2002
      */
     draftsNum: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineResponse2002
+     */
+    maxPage: number;
 }
 /**
  * 

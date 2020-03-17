@@ -40,13 +40,13 @@ const Page = (props: Props) => {
   return(
     <PageStyled>
       <PageElementStyled>
-        <PageElementText onClick={prevCallback}>
-          {prevText}
+        <PageElementText onClick={nextCallback}>
+          {nextText}
         </PageElementText>
       </PageElementStyled>
       <PageElementStyled>
-        <PageElementText onClick={nextCallback}>
-          {nextText}
+        <PageElementText onClick={prevCallback}>
+          {prevText}
         </PageElementText>
       </PageElementStyled>
     </PageStyled>

@@ -44,6 +44,8 @@ type Props = IRouteProps;
 
 const ArticleView = (props: Props) => {
   const { match } = props;
+  const [prevTitle, setPrevTitle] = useState("");
+  const [nextTitle, setNextTitle] = useState("");
   const [article, setArticle] = useState({} as ArticleType);
   const [content, setContent] = useState("");
   const articlesStore = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
@@ -76,12 +78,25 @@ const ArticleView = (props: Props) => {
       }
 
       const id = validArticleId();
-      const filteredArticle = articlesStore.filter(v => v.id === id);
+      let flg = 0;
+      const filteredArticle = articlesStore.filter(v => {
+        if(v.id === id-1) {
+          setPrevTitle(v.title);
+          flg |= 1<<2;
+        }
+        if(v.id === id+1) {
+          setNextTitle(v.title);
+          flg |= 1<<1;
+        }
+        return v.id === id;
+      });
       if(filteredArticle.length === 0) {
         appErrorHandler.print(HttpErrorStatus.ERROR_404);
         // handler error
         return;
       }
+      if(~flg & (1<<2)) setPrevTitle("");
+      if(~flg & (1<<1)) setNextTitle("");
       setArticle(filteredArticle[0]);
       fetchContent(filteredArticle[0]);
     },
@@ -111,8 +126,8 @@ const ArticleView = (props: Props) => {
           article={article}
           content={content} />
         <PageWithTitle
-          prevText="backArticleTitle" 
-          nextText="nextArticleTitle"
+          prevText={prevTitle}
+          nextText={nextTitle}
           prevCallback={prevCallback}
           nextCallback={nextCallback} />
       </MainContainer>

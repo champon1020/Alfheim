@@ -83,12 +83,14 @@ const HomeView = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
+  const [maxPage, setMaxPage] = useState(0);
   const dispatch = useDispatch();
 
   const fetchArticle = useCallback(
     async () => {
       const res = await proxy(params, page);
       const fetchedArticles = res.data.articles;
+      setMaxPage(res.data.maxPage);
       setArticles(parseViewArticle(fetchedArticles, page));
       dispatch(appActionCreator.updateArticles(fetchedArticles));
     }, 
@@ -97,7 +99,7 @@ const HomeView = (props: Props) => {
 
   const prevCallback = useCallback(
     () => {
-      window.history.pushState(page-1, "", pageAppendedPath(page-1));
+      window.history.pushState(null, "", pageAppendedPath(page-1));
       setPage(page-1);
       scroll();
     },[page]
@@ -106,7 +108,7 @@ const HomeView = (props: Props) => {
   const nextCallback = useCallback(
     () => {
       if(page+1 > 1) {
-        window.history.pushState(page+1, "", pageAppendedPath(page+1));
+        window.history.pushState(null, "", pageAppendedPath(page+1));
         setPage(page+1);
         scroll();
       }
@@ -123,16 +125,18 @@ const HomeView = (props: Props) => {
   }, [page]);
 
   useEffect(() => {
-    window.history.pushState(1, "", window.location.pathname);
+    window.history.pushState(null, "", window.location.pathname);
   }, []);
 
   return(
     <>
       <MainContainer>
         <ArticleList articles={articles} />
-        <Page 
+        <Page
           current={page}
-          prevText="Back" 
+          hiddenPrev={page===1}
+          hiddenNext={page===maxPage}
+          prevText="Back"
           nextText="Next"
           prevCallback={prevCallback}
           nextCallback={nextCallback}
