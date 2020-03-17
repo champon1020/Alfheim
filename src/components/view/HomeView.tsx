@@ -10,6 +10,7 @@ import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
 import { InlineResponse200 } from "src/api";
+import { parseQueryParam, parsePage } from "../services/parser";
 
 
 const MainContainer = styled.div`
@@ -38,25 +39,25 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (path: string, params: PathParams): Promise<AxiosResponse<InlineResponse200>> => {
+const proxy = async (path: string, params: PathParams, p: number): Promise<AxiosResponse<InlineResponse200>> => {
   switch(path) {
   case "/home/title": {
     const { title } = params;
     if(title === undefined) break;
-    return await defaultApi.apiFindArticleListTitleGet(title, 1);
+    return await defaultApi.apiFindArticleListTitleGet(title, p);
   }
   case "/home/date": {
     const { year, month } = params;
     if(year === undefined || month === undefined) break;
-    return await defaultApi.apiFindArticleListCreateDateGet(year+month, 1);
+    return await defaultApi.apiFindArticleListCreateDateGet(year+month, p);
   }
   case "/home/category": {
     const { category } = params;
     if(category === undefined) break;
-    return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), 1);
+    return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), p);
   }
   default:
-    return await defaultApi.apiFindArticleListGet(1);
+    return await defaultApi.apiFindArticleListGet(p);
   }
   return new Promise<AxiosResponse<InlineResponse200>>((_, reject) => {
     reject(new Error("some error"));
@@ -81,7 +82,8 @@ const HomeView = (props: Props) => {
   const fetchArticle = useCallback(
     async () => {
       const path = window.location.pathname;
-      const res = await proxy(path, params);
+      const page = parsePage();
+      const res = await proxy(path, params, page);
       const { articles } = res.data;
       setArticles(articles);
       dispatchArticle(articles);

@@ -1,8 +1,6 @@
-import React, { useCallback, useState, useEffect } from "react";
-import axios from "axios";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
-import { checkIsDraft } from "./util";
 
 const ArticleContentStyled = styled.article`
   width: 86%;
@@ -15,15 +13,13 @@ const ArticleContentStyled = styled.article`
 `;
 
 type ParentProps = {
-  article: ArticleType;
-  draftContent?: string;
+  content: string;
 }
 
 type Props = ParentProps;
 
 const ArticleContent = (props: Props) => {
-  const { article, draftContent } = props;
-  const [content, setContent] = useState("");
+  const { content } = props;
 
   const contentRef = useCallback(
     (node: HTMLElement) => {
@@ -34,27 +30,8 @@ const ArticleContent = (props: Props) => {
     [content],
   );
 
-  const parseArticleContent = useCallback(
-    () => {
-      // set draft content
-      if(checkIsDraft() && draftContent !== undefined) {
-        setContent(draftContent);
-        return;
-      }
-      // call api
-      axios.get(article.contentHash)
-        .then(res => {
-          setContent(res.data);
-        });
-    },[article, draftContent]
-  );
-
-  useEffect(() => {
-    parseArticleContent();
-  }, [parseArticleContent]);
-
   return(
-    <ArticleContentStyled ref={contentRef}></ArticleContentStyled>
+    <ArticleContentStyled ref={contentRef} />
   );
 };
 

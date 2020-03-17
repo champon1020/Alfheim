@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
 import Page from "./Page";
@@ -11,6 +11,7 @@ import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
 import ErrorPage from "../error/ErrorPage";
 import { checkIsDraft } from "../article/util";
 import { parseDraftToArticle } from "../services/parser";
+import axios from "axios";
 
 const MainContainer = styled.div`
   order: 1;
@@ -43,8 +44,10 @@ type Props = IRouteProps;
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
-  const draftArticle = useSelector<RootState, ManageState>(state => state.manageReducer);
+  const [article, setArticle] = useState({} as ArticleType);
+  const [content, setContent] = useState("");
+  const articlesStore = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
+  const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
 
   const validArticleId = useCallback(
     () => {
@@ -54,29 +57,46 @@ const ArticleView = (props: Props) => {
     [match]
   );
 
-  const parsePageComponent = useCallback(
-    (): JSX.Element => {
+  const fetchArticle = useCallback(
+    () => {
       if(checkIsDraft()) {
-        const article = parseDraftToArticle(draftArticle.article);
-        return <Article article={article} draftContent={draftArticle.draftContent} />;
+        const article = parseDraftToArticle(draftsStore.article);
+        setArticle(article);
+        setContent(draftsStore.draftContent);
+        return;
       }
 
       const id = validArticleId();
-      const article = articles.filter(v => v.id === id);
-      if(article.length === 0) {
+      const filteredArticle = articlesStore.filter(v => v.id === id);
+      if(filteredArticle.length === 0) {
         appErrorHandler.print(HttpErrorStatus.ERROR_404);
-        return <ErrorPage />;
+        // handler error
+        return;
       }
-      return <Article article={article[0]} />;
+      setArticle(filteredArticle[0]);
+      fetchContent(filteredArticle[0]);
     },
-    [articles, validArticleId, draftArticle],
+    [validArticleId],
   );
 
+  const fetchContent = useCallback(
+    async (article: ArticleType) => {
+      if(article.contentHash === undefined) return;
+      const res = await axios.get(article.contentHash);
+      setContent(res.data);
+    },[]
+  );
+
+  useEffect(() => {
+    fetchArticle();
+  }, []);
 
   return(
     <>
       <MainContainer>
-        {parsePageComponent()}
+        <Article 
+          article={article}
+          content={content} />
         <Page backText="backArticleTitle" nextText="nextArticleTitle" />
       </MainContainer>
       <SubContainer>

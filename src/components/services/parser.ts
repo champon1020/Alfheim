@@ -18,12 +18,13 @@ export const parseQueryParam = (url: string): Map => {
   return paramMap;
 };
 
-// export const parseUrl = (url: string): string[] => {
-//   const elem = url.split("?")[0].split("/");
-//   return elem;
-// };
+export const parsePage = (): number => {
+  const page = parseQueryParam(window.location.href)["p"];
+  return page === undefined ? 1 : Number.parseInt(page);
+};
 
-export const formatDateStr = (d: string) => {
+export const formatDateStr = (d?: string) => {
+  if(d === undefined) return "";
   return d.substr(0, 10);
 };
 
