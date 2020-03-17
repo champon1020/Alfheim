@@ -18,6 +18,7 @@ const App = () => {
         <PersistGate loading={null} persistor={persistor}>
           <Switch>
             <Route exact path={"/"} component={PublicView} />
+            <Route exact path={"/home/title/:title"} component={PublicView} />
             <Route exact path={"/home/category/:categoryId"} component={PublicView} />
             <Route exact path={"/home/date/:year/:month"} component={PublicView} />
           

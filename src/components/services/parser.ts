@@ -23,8 +23,8 @@ export const parseQueryParam = (url: string): Map => {
 //   return elem;
 // };
 
-export const parseDateToString = (d: Date) => {
-  return d.toString().substr(0, 10);
+export const formatDateStr = (d: string) => {
+  return d.substr(0, 10);
 };
 
 export const parseStringToDate = (s: string) => {
@@ -37,8 +37,8 @@ export const parseDraftToArticle = (draft: Draft): ArticleType => {
     id: draft.id,
     title: draft.title,
     categories: [],
-    createDate: today,
-    updateDate: today,
+    createDate: today.toString(),
+    updateDate: today.toString(),
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
     _private: draft._private === undefined ? false : draft._private

@@ -2,7 +2,7 @@ import React from "react";
 import Category from "./Category";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
-import { parseDateToString } from "../services/parser";
+import { formatDateStr } from "../services/parser";
 
 const ArticleHeaderStyled = styled.div`
   & p {
@@ -53,7 +53,7 @@ const ArticleHeader = (props: Props) => {
   return(
     <ArticleHeaderStyled>
       <DateContainerStyled>
-        <p>{parseDateToString(article.createDate)}</p>
+        <p>{formatDateStr(article.createDate)}</p>
       </DateContainerStyled>
       <TitleContainerStyled>
         <h2>{article.title}</h2>

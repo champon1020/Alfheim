@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
-import { parseDateToString } from "../services/parser";
+import { formatDateStr } from "../services/parser";
 import { Config } from "src/App";
 
 const ArticleBoxStyled = styled.div`
@@ -87,7 +87,7 @@ const ArticleBox = (props: Props) => {
         <ImageStyled src={article.imageHash} alt="article box" />
       </ImageBoxStyled>
       <DateBoxStyled>
-        <p>{parseDateToString(article.createDate)}</p>
+        <p>{formatDateStr(article.createDate)}</p>
       </DateBoxStyled>
       <TitleBoxStyled>
         <h3>{article.title}</h3>

@@ -27,6 +27,7 @@ type Props = ParentProps;
 
 const ArticleBoxCategory = (props: Props) => {
   const { categories } = props;
+
   const categoryList = useCallback(
     () => {
       const list = [] as JSX.Element[];

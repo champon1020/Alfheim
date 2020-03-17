@@ -2,8 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
 import Page from "./Page";
-import { RootState } from "../../stores/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps } from "./PublicView";
 import { defaultApi } from "../../App";
@@ -41,8 +40,8 @@ type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [isErr, setErr] = useState(false);
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
+  const { params } = props.match;
+  const [articles, setArticles] = useState([] as ArticleType[]);
   const dispatch = useDispatch();
 
   const dispatchArticle = useCallback(
@@ -52,16 +51,29 @@ const HomeView = (props: Props) => {
     [dispatch],
   );
 
+  const fetchArticle = useCallback(
+    async () => {
+      const path = window.location.pathname;
+      // if(path.startsWith("/home/title")) {
+      // // defaultApi.apiFindArticleListCreateDateGet().then();
+      // }
+      // if(path.startsWith("/home/date")) {
+      // // defaultApi.apiFindArticleListCreateDateGet().then();
+      //   return [];
+      // }
+      // if(path.startsWith("/home/category")) {
+      // // defaultApi.apiFindArticleListCategoryGet().then();
+      //   return [];
+      // }
+      const res = await defaultApi.apiFindArticleListGet(1);
+      const articles = res.data.articles;
+      setArticles(articles);
+      dispatchArticle(articles);
+    }, [dispatchArticle]);
+
   useEffect(() => {
-    const path = window.location.pathname;
-    if(path.startsWith("/home/date")) {/* get article by date */}
-    if(path.startsWith("/home/category")) {/* get article by category */}
-    defaultApi.apiFindArticleListGet(1)
-      .then(res => {
-        const articles = res.data.articles;
-        dispatchArticle(articles);
-      });
-  }, [dispatchArticle]);
+    fetchArticle();
+  }, [fetchArticle]);
 
   return(
     <>

@@ -32,6 +32,7 @@ type Props = ParentProps;
 
 const ArticleList = (props: Props) => {
   const { articles } = props;
+  
   const articleList = useCallback(
     () => {
       const list = [] as JSX.Element[];
