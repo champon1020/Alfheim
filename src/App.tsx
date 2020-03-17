@@ -6,8 +6,10 @@ import ManageView from "./components/view/ManageView";
 import PublicView from "./components/view/PublicView";
 import { PersistGate } from "redux-persist/integration/react";
 import * as api from "./api/index";
+import config from "./private/config.json";
 
 export const defaultApi = new api.DefaultApi();
+export const Config = config.dev;
 
 const App = () => {
   return(
@@ -16,6 +18,7 @@ const App = () => {
         <PersistGate loading={null} persistor={persistor}>
           <Switch>
             <Route exact path={"/"} component={PublicView} />
+            <Route exact path={"/home/title/:title"} component={PublicView} />
             <Route exact path={"/home/category/:categoryId"} component={PublicView} />
             <Route exact path={"/home/date/:year/:month"} component={PublicView} />
           

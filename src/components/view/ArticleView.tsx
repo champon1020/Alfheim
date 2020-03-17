@@ -1,16 +1,17 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import Article from "../article/Article";
 import SideBar from "../common/SideBar";
-import Page from "./Page";
+import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
 import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
 import ErrorPage from "../error/ErrorPage";
 import { checkIsDraft } from "../article/util";
 import { parseDraftToArticle } from "../services/parser";
+import axios from "axios";
 
 const MainContainer = styled.div`
   order: 1;
@@ -43,8 +44,11 @@ type Props = IRouteProps;
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const articles = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
-  const draftArticle = useSelector<RootState, ManageState>(state => state.manageReducer);
+  const [article, setArticle] = useState({} as ArticleType);
+  const [content, setContent] = useState("");
+  const articlesStore = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
+  const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
+  const dispatch = useDispatch();
 
   const validArticleId = useCallback(
     () => {
@@ -54,30 +58,63 @@ const ArticleView = (props: Props) => {
     [match]
   );
 
-  const parsePageComponent = useCallback(
-    (): JSX.Element => {
+  const fetchContent = useCallback(
+    async (article: ArticleType) => {
+      if(article.contentHash === undefined) return;
+      const res = await axios.get(article.contentHash);
+      setContent(res.data);
+    },[]
+  );
+
+  const fetchArticle = useCallback(
+    () => {
       if(checkIsDraft()) {
-        const article = parseDraftToArticle(draftArticle.article);
-        return <Article article={article} draftContent={draftArticle.draftContent} />;
+        const article = parseDraftToArticle(draftsStore.article);
+        setArticle(article);
+        setContent(draftsStore.draftContent);
+        return;
       }
 
       const id = validArticleId();
-      const article = articles.filter(v => v.id === id);
-      if(article.length === 0) {
+      const filteredArticle = articlesStore.filter(v => v.id === id);
+      if(filteredArticle.length === 0) {
         appErrorHandler.print(HttpErrorStatus.ERROR_404);
-        return <ErrorPage />;
+        // handler error
+        return;
       }
-      return <Article article={article[0]} />;
+      setArticle(filteredArticle[0]);
+      fetchContent(filteredArticle[0]);
     },
-    [articles, validArticleId, draftArticle],
+    [validArticleId, articlesStore, draftsStore, fetchContent],
   );
 
+  const prevCallback = useCallback(
+    () => {
+      // fix
+    },[]
+  );
+
+  const nextCallback = useCallback(
+    () => {
+      // fix
+    },[]
+  );
+
+  useEffect(() => {
+    fetchArticle();
+  }, [fetchArticle]);
 
   return(
     <>
       <MainContainer>
-        {parsePageComponent()}
-        <Page backText="backArticleTitle" nextText="nextArticleTitle" />
+        <Article 
+          article={article}
+          content={content} />
+        <PageWithTitle
+          prevText="backArticleTitle" 
+          nextText="nextArticleTitle"
+          prevCallback={prevCallback}
+          nextCallback={nextCallback} />
       </MainContainer>
       <SubContainer>
         <SideBar />

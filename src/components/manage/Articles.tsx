@@ -3,7 +3,7 @@ import ArticleList from "./article/ArticleList";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
 import { defaultApi } from "../../App";
-import { parseStringToDate } from "../services/parser";
+import { formatDateStr } from "../services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
 
@@ -39,39 +39,32 @@ const Articles = () => {
   const [focusedArticle, setFocusedArticle] = useState({} as ArticleType);
 
   const fetchArticles = useCallback(
-    () => {
-      defaultApi.apiFindArticleListGet()
-        .then(res => {
-          const { articles } = res.data;
-          const articleList = [] as ArticleType[];
-          articles.forEach(v => {
-            const createDate = parseStringToDate(v.createDate);
-            const updateDate = parseStringToDate(v.updateDate);
-            articleList.push({
-              ...v,
-              createDate,
-              updateDate,
-            });
-          });
-          setArticles(articleList);
+    async () => {
+      const res = await defaultApi.apiFindArticleListGet(1);
+      const { articles } = res.data;
+      const articleList = [] as ArticleType[];
+      articles.forEach(v => {
+        const createDate = formatDateStr(v.createDate);
+        const updateDate = formatDateStr(v.updateDate);
+        articleList.push({
+          ...v,
+          createDate,
+          updateDate,
         });
-    },
-    [],
-  );
+      });
+      setArticles(articleList);
+    }, []);
 
   const fetchDrafts = useCallback(
-    () => {
-      defaultApi.apiFindDraftListGet()
-        .then(res => {
-          const articles = [] as ArticleType[];
-          res.data.drafts.forEach(d => {
-            // fetch drafts
-          });
-          setArticles(articles);
-        });
-    },
-    [],
-  );
+    async () => {
+      const res = await defaultApi.apiFindDraftListGet(1);
+      const articleList = [] as ArticleType[];
+      const { drafts } = res.data;
+      drafts.forEach(v => {
+        // some process
+      });
+      setArticles(articleList);
+    }, []);
   
   useEffect(() => {
     if(window.location.pathname.endsWith("articles")){
@@ -80,7 +73,7 @@ const Articles = () => {
     if(window.location.pathname.endsWith("drafts")){
       fetchDrafts();
     }
-  }, []);
+  }, [fetchArticles, fetchDrafts]);
 
   return(
     <ArticlesContainer>

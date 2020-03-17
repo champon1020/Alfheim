@@ -1,8 +1,9 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
-import { parseDateToString } from "src/components/services/parser";
+import { formatDateStr } from "src/components/services/parser";
 import Button from "./Button";
+import { Config } from "src/App";
 
 const ArticleBoxStyled = styled.li`
   --box-height: 80px;
@@ -67,7 +68,7 @@ const ArticleListBox = (props: Props) => {
 
   const handleGoToClick = useCallback(
     () => {
-      window.open("http://localhost:3000/article/" + article.id.toString());
+      window.open(Config.host + "/article/" + article.id.toString());
     },
     [article],
   );
@@ -86,7 +87,7 @@ const ArticleListBox = (props: Props) => {
       </ImageBoxStyled>
       <TitleDateStyled>
         <h2>{article.title}</h2>
-        <h3>{parseDateToString(article.createDate)}</h3>
+        <h3>{formatDateStr(article.createDate)}</h3>
       </TitleDateStyled>
       <ButtonStyled>
         <Button 

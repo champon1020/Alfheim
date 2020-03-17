@@ -25,12 +25,15 @@ const Wrapper = styled.div`
   }
 `;
 
-export type IRouteProps = RouteComponentProps<{
+export type PathParams = {
   articleId?: string;
-  categoryId?: string;
+  title?: string;
+  category?: string;
   year?: string;
   month?: string;
-}>;
+}
+
+export type IRouteProps = RouteComponentProps<PathParams>;
 
 type Props = IRouteProps;
 

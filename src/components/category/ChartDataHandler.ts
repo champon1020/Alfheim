@@ -30,7 +30,6 @@ class ChartDataHandler {
   private categories = [] as CategoryType[];
   private labels = [] as string[];
   private data = [] as number[];
-  private datasets = [];
   private total = 0;
 
   constructor(categories?: CategoryType[]) {
@@ -67,7 +66,6 @@ class ChartDataHandler {
   private reset() {
     this.labels = [];
     this.data = [];
-    this.datasets = [];
     this.total = 0;
   }
   

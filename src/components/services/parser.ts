@@ -18,13 +18,19 @@ export const parseQueryParam = (url: string): Map => {
   return paramMap;
 };
 
-// export const parseUrl = (url: string): string[] => {
-//   const elem = url.split("?")[0].split("/");
-//   return elem;
-// };
+export const parsePage = (href: string): number => {
+  const page = parseQueryParam(href)["p"];
+  return page === undefined ? 1 : Number.parseInt(page);
+};
 
-export const parseDateToString = (d: Date) => {
-  return d.toString().substr(0, 10);
+export const formatDateStr = (d?: string) => {
+  if(d === undefined) return "";
+  return d.substr(0, 10);
+};
+
+export const parseViewArticle = (articles: ArticleType[], page: number): ArticleType[] => {
+  const start = page === 1 ? 0 : 1;
+  return articles.slice(start, articles.length-1);
 };
 
 export const parseStringToDate = (s: string) => {
@@ -37,8 +43,8 @@ export const parseDraftToArticle = (draft: Draft): ArticleType => {
     id: draft.id,
     title: draft.title,
     categories: [],
-    createDate: today,
-    updateDate: today,
+    createDate: today.toString(),
+    updateDate: today.toString(),
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
     _private: draft._private === undefined ? false : draft._private

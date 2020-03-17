@@ -2,8 +2,8 @@ export type ArticleType = {
   id: number;
   title: string;
   categories: CategoryType[];
-  createDate: Date;
-  updateDate: Date;
+  createDate: string;
+  updateDate: string;
   contentHash: string;
   imageHash: string;
   _private: boolean;
