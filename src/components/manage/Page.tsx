@@ -12,34 +12,68 @@ const PageContainer = styled.div<{height: number; width: string | undefined}>`
   margin: auto;
 `;
 
-const IconStyled = styled.img<{visible: boolean}>`
-  visibility: ${({visible}) => `${visible ? "visible" : "hidden"}`};
+const IconBox = styled.div`
+  width: 40%;
+  text-align: center;
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+const IconStyled = styled.img<{hidden: boolean}>`
+  visibility: ${({hidden}) => `${hidden ? "hidden" : ""}`};
   height: 98%;
+  cursor: pointer;
+`;
+
+const CurrentStyled = styled.h3`
+  text-align: center;
+  font-size: 2.4rem;
+  width: 20%;
 `;
 
 type Props = {
+  current: number;
   width?: string;
   height: string;
   next: boolean;
-  back: boolean;
+  prev: boolean;
+  nextCallback: () => void;
+  prevCallback: () => void;
 }
 
 const Page = (props: Props) => {
-  const { width, height, next, back } = props;
+  const { 
+    current, 
+    width, 
+    height, 
+    next, 
+    prev,
+    nextCallback,
+    prevCallback
+  } = props;
 
   return (
     <PageContainer 
       height={Number.parseInt(height)}
       width={width}>
-      <IconStyled 
-        visible={back}
-        src={BackIcon} 
-        alt="back" />
-      {"1 2 3"}
-      <IconStyled 
-        visible={next}
-        src={NextIcon} 
-        alt="next" />
+      <IconBox>
+        <IconStyled
+          onClick={prevCallback}
+          hidden={prev}
+          src={BackIcon} 
+          alt="back" />
+      </IconBox>
+      <CurrentStyled>
+        {current}
+      </CurrentStyled>
+      <IconBox>
+        <IconStyled 
+          onClick={nextCallback}
+          hidden={next}
+          src={NextIcon} 
+          alt="next" />
+      </IconBox>
     </PageContainer>
   );
 };

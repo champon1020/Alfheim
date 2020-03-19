@@ -1,11 +1,9 @@
-import * as React from "react";
+import React, { useCallback} from "react";
 import styled from "styled-components";
-import image from "../../assets/images/sky.jpg";
-import image2 from "../../assets/images/space.jpg";
-import image3 from "../../assets/images/beach.jpg";
+import { Config } from "src/App";
 
 const ImageListContainer = styled.div`
-  height: calc(var(--images-container-height) - 6rem);
+  height: calc(var(--images-container-height) - 10rem);
 `;
 
 const ImageListStyled = styled.ul`
@@ -30,43 +28,35 @@ const ImageStyled = styled.img`
   object-fit: cover;
 `;
 
-const ImageList = () => {
+type Props = {
+  images: string[];
+}
+
+const ImageList = (props: Props) => {
+  const { images } = props; 
+
+  const imageList = useCallback(
+    () => {
+      const list = [] as JSX.Element[];
+      images.forEach((v, i) => {
+        const path = Config.srcHost + "/images/" + v;
+        list.push(
+          <ImageListItemStyled key={i}>
+            <a href={path}>
+              <ImageStyled src={path} />
+            </a>
+          </ImageListItemStyled>
+        );
+      });
+      return list;
+    },
+    [images],
+  );
+
   return(
     <ImageListContainer>
       <ImageListStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image3} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image2} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image2} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image2} />
-        </ImageListItemStyled>
-        <ImageListItemStyled>
-          <ImageStyled src={image3} />
-        </ImageListItemStyled>
+        {imageList()}
       </ImageListStyled>
     </ImageListContainer>
   );

@@ -83,9 +83,13 @@ const Articles = () => {
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>
           <Page 
+            current={1}
             height="5"
             next={true}
-            back={true}/>
+            prev={true}
+            nextCallback={() => {/** */}}
+            prevCallback={() => {/** */}}
+          />
         </PageContainerStyled>
       </ArticleListContainer>
       <PreviewContainer>
