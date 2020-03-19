@@ -5,7 +5,8 @@ import { ActionEnum } from "src/actions/actions";
 
 const initManageState: ManageState = {
   article: {
-    id: -1,
+    id: "",
+    sortedId: -1,
     title: "",
     categories: "",
     contentHash: "",

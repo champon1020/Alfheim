@@ -28,9 +28,10 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
-export const parseViewArticle = (articles: ArticleType[], page: number): ArticleType[] => {
+export const parseViewArticle = (articles: ArticleType[], page: number, maxPage: number): ArticleType[] => {
   const start = page === 1 ? 0 : 1;
-  return articles.slice(start, articles.length-1);
+  const end = page === maxPage ? articles.length : articles.length-1;
+  return articles.slice(start, end);
 };
 
 export const parseStringToDate = (s: string) => {
@@ -41,6 +42,7 @@ export const parseDraftToArticle = (draft: Draft): ArticleType => {
   const today = new Date();
   return {
     id: draft.id,
+    sortedId: draft.sortedId,
     title: draft.title,
     categories: [],
     createDate: today.toString(),

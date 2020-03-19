@@ -22,7 +22,7 @@ const App = () => {
             <Route exact path={"/home/category/:categoryId"} component={PublicView} />
             <Route exact path={"/home/date/:year/:month"} component={PublicView} />
           
-            <Route exact path={"/article/:articleId"} component={PublicView} />
+            <Route exact path={"/article/:sortedId"} component={PublicView} />
             <Route exact path={"/article-draft/"} component={PublicView} />
             <Route exact path={"/category/list"} component={PublicView} />
 

@@ -29,7 +29,8 @@ type Props = {
 }
 
 const defaultDraft: Draft = {
-  id: -1,
+  id: "",
+  sortedId: -1,
   title: "",
   categories: "",
   contentHash: "",

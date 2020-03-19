@@ -4,14 +4,13 @@ import SideBar from "../common/SideBar";
 import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
-import appErrorHandler, { HttpErrorStatus } from "../services/ErrorHandler";
-import ErrorPage from "../error/ErrorPage";
 import { checkIsDraft } from "../article/util";
 import { parseDraftToArticle } from "../services/parser";
 import axios from "axios";
+import { defaultApi, Config } from "src/App";
 
 const MainContainer = styled.div`
   order: 1;
@@ -44,18 +43,16 @@ type Props = IRouteProps;
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const [prevTitle, setPrevTitle] = useState("");
-  const [nextTitle, setNextTitle] = useState("");
+  const [prevArticle, setPrevArticle] = useState({title: ""} as ArticleType);
+  const [nextArticle, setNextArticle] = useState({title: ""} as ArticleType);
   const [article, setArticle] = useState({} as ArticleType);
   const [content, setContent] = useState("");
-  const articlesStore = useSelector<RootState, ArticleType[]>(state => state.articleReducer.articles);
   const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
-  const dispatch = useDispatch();
 
-  const validArticleId = useCallback(
+  const validSortedId = useCallback(
     () => {
-      const articleId = match.params.articleId;
-      return articleId === undefined ? -1 : Number.parseInt(articleId);
+      const id = match.params.sortedId;
+      return id === undefined ? -1 : Number.parseInt(id);
     },
     [match]
   );
@@ -69,7 +66,7 @@ const ArticleView = (props: Props) => {
   );
 
   const fetchArticle = useCallback(
-    () => {
+    async (id?: number) => {
       if(checkIsDraft()) {
         const article = parseDraftToArticle(draftsStore.article);
         setArticle(article);
@@ -77,47 +74,35 @@ const ArticleView = (props: Props) => {
         return;
       }
 
-      const id = validArticleId();
-      let flg = 0;
-      const filteredArticle = articlesStore.filter(v => {
-        if(v.id === id-1) {
-          setPrevTitle(v.title);
-          flg |= 1<<2;
-        }
-        if(v.id === id+1) {
-          setNextTitle(v.title);
-          flg |= 1<<1;
-        }
-        return v.id === id;
-      });
-      if(filteredArticle.length === 0) {
-        appErrorHandler.print(HttpErrorStatus.ERROR_404);
-        // handler error
-        return;
-      }
-      if(~flg & (1<<2)) setPrevTitle("");
-      if(~flg & (1<<1)) setNextTitle("");
-      setArticle(filteredArticle[0]);
-      fetchContent(filteredArticle[0]);
+      const sortedId = id === undefined ? validSortedId() : id;
+      const res = await defaultApi.apiFindArticleIdGet(sortedId);
+      const fetchedArticle = res.data.article;
+      const { next, prev } = res.data;
+      setArticle(fetchedArticle);
+      fetchContent(fetchedArticle);
+      setPrevArticle(prev);
+      setNextArticle(next);
     },
-    [validArticleId, articlesStore, draftsStore, fetchContent],
+    [validSortedId, fetchContent, draftsStore],
   );
 
   const prevCallback = useCallback(
     () => {
-      // fix
-    },[]
+      window.open(Config.host + "/article/" + prevArticle.sortedId, "_self");
+    },[prevArticle.sortedId]
   );
 
   const nextCallback = useCallback(
     () => {
-      // fix
-    },[]
+      window.open(Config.host + "/article/" + nextArticle.sortedId, "_self");
+    },[nextArticle.sortedId]
   );
 
   useEffect(() => {
+    window.history.pushState(null, "", window.location.pathname);
     fetchArticle();
-  }, [fetchArticle]);
+    // eslint-disable-next-line
+  }, []);
 
   return(
     <>
@@ -126,8 +111,8 @@ const ArticleView = (props: Props) => {
           article={article}
           content={content} />
         <PageWithTitle
-          prevText={prevTitle}
-          nextText={nextTitle}
+          prevText={prevArticle.title}
+          nextText={nextArticle.title}
           prevCallback={prevCallback}
           nextCallback={nextCallback} />
       </MainContainer>

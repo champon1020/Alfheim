@@ -6,7 +6,7 @@ const parseRequestCategoriesToList = (categories: string) => {
   if(categoryList[0] === "") return result;
   categoryList.forEach(v => {
     result.push({
-      id: -1,
+      id: "",
       name: v
     });
   });
