@@ -3,7 +3,7 @@ import ArticleList from "./article/ArticleList";
 import styled from "styled-components";
 import { ArticleType, DraftType } from "src/type";
 import { defaultApi } from "../../App";
-import { formatDateStr, parseDraftToArticle } from "../services/parser";
+import { parseDraftToArticle } from "../services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
 import Tab from "./article/Tab";
@@ -49,13 +49,7 @@ const Articles = () => {
       const articleList = [] as ArticleType[];
 
       fetchedArticles.forEach(v => {
-        const createDate = formatDateStr(v.createDate);
-        const updateDate = formatDateStr(v.updateDate);
-        articleList.push({
-          ...v,
-          createDate,
-          updateDate,
-        });
+        articleList.push(v);
       });
 
       setMaxPage(res.data.maxPage);

@@ -20,7 +20,7 @@ export const parseDraftToRequestArticle = (draft: DraftType): ArticleRequestType
     categories: parseRequestCategoriesToList(draft.categories),
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
-    _private: true,
+    isPrivate: true,
   };
 };
 

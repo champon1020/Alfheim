@@ -84,11 +84,13 @@ const Preview = (props: Props) => {
       <Header selected={focusedArticle.title !== undefined}>
         <h2>{focusedArticle.title === undefined 
           ? "Select Article" : focusedArticle.title}</h2>
-        <Button 
+        <Button
+          backgroundColor="yellowgreen"
+          color="white"
           handleOnClick={handleEditClick}
-          text={"Edit"}
-          width={"80"}
-          height={"70"}/>
+          text="Edit"
+          width="80"
+          height="70"/>
       </Header>
       <Content>
         <article ref={contentRef}></article>

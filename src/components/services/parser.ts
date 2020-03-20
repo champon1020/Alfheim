@@ -52,7 +52,7 @@ export const parseDraftToArticle = (draft: DraftType): ArticleType => {
     updateDate: "",
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
-    _private: true,
+    isPrivate: true,
   };
 };
 
