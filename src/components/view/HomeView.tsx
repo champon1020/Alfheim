@@ -26,7 +26,6 @@ const MainContainer = styled.div`
 
 const SubContainer = styled.div`
   order: 2;
-  margin: 0;
   width: calc(var(--container-width) / 4);
   @media (max-width: 1000px) {
     width: calc(var(--container-width) / 2.5);

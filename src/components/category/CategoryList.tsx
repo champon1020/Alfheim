@@ -1,39 +1,65 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, MouseEvent } from "react";
 import styled from "styled-components";
-import CircleChart from "./CircleChart";
 import { CategoryType } from "src/type";
-import { defaultApi } from "../../App";
 
-const CategoryListStyled = styled.div`
-  margin-bottom: 200px;
-  & h2 {
-    color: var(--base-color);
-    font-size: 3.6rem;
-    margin: 10px 70px 80px 70px;
-    display: inline-block;
-    border-bottom: solid thin gray;
+const CategoryListContainer = styled.ul`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 10%;
+  padding: 0 15%;
+`;
+
+const CategoryListItem = styled.li`
+  font-size: 2.5rem;
+  margin: 2%;
+  border: solid thin brown;
+  color: brown;
+  padding: 0 1%;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
   }
 `;
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([] as CategoryType[]);
+type Props = {
+  categories: CategoryType[];
+}
 
-  useEffect(() => {
-    defaultApi.apiFindCategoryListGet()
-      .then(res => {
-        const resCat = res.data.categories;
-        if(resCat === undefined || resCat === null) return;
-        setCategories(resCat);
+const CategoryList = (props: Props) => {
+  const { categories } = props;
+
+  const handleOnClick = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      const len = e.currentTarget.classList.length;
+      const cName = e.currentTarget.classList[len-1];
+      window.open("/home/category/" + cName, "_self");
+    },
+    [],
+  );
+
+  const categoryList = useCallback(
+    (): JSX.Element[] => {
+      const list = [] as JSX.Element[];
+      categories.forEach((v, i) => {
+        list.push(
+          <CategoryListItem
+            key={i}
+            className={v.name}
+            onClick={handleOnClick}>
+            {v.name + " (" + v.articleNum + ")"}
+          </CategoryListItem>
+        );
       });
-  }, []);
+      return list;
+    },
+    [categories, handleOnClick],
+  );
 
-  return(
-    <>
-      <CategoryListStyled>
-        <h2>Category List</h2>
-        <CircleChart categories={categories} />
-      </CategoryListStyled>
-    </>
+  return (
+    <CategoryListContainer>
+      {categoryList()}
+    </CategoryListContainer>
   );
 };
 

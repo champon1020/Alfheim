@@ -16,6 +16,7 @@ const handler = new ChartDataHandler();
 
 const CircleChart = (props: Props) => {
   const { categories } = props;
+
   const data = useMemo(
     () => {
       handler.build(categories);
@@ -26,7 +27,11 @@ const CircleChart = (props: Props) => {
 
   return (
     <ChartBoxStyled>
-      <Pie data={data} />
+      <Pie 
+        data={data}
+        width={100}
+        height={50}
+      />
     </ChartBoxStyled>
   );
 };
