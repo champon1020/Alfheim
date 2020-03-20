@@ -745,15 +745,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
          * 
-         * @summary Delete image.
-         * @param {string} imgName Image name.
+         * @summary Delete images.
+         * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteImageDelete(imgName: string, options: any = {}): RequestArgs {
-      // verify required parameter 'imgName' is not null or undefined
-      if (imgName === null || imgName === undefined) {
-        throw new RequiredError("imgName","Required parameter imgName was null or undefined when calling apiPrivateDeleteImageDelete.");
+    apiPrivateDeleteImageDelete(imageNames: string[], options: any = {}): RequestArgs {
+      // verify required parameter 'imageNames' is not null or undefined
+      if (imageNames === null || imageNames === undefined) {
+        throw new RequiredError("imageNames","Required parameter imageNames was null or undefined when calling apiPrivateDeleteImageDelete.");
       }
       const localVarPath = "/api/private/delete/image";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
@@ -765,8 +765,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
-      if (imgName !== undefined) {
-        localVarQueryParameter["imgName"] = imgName;
+      if (imageNames) {
+        localVarQueryParameter["imageNames"] = imageNames;
       }
 
 
@@ -1154,13 +1154,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     },
     /**
          * 
-         * @summary Delete image.
-         * @param {string} imgName Image name.
+         * @summary Delete images.
+         * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteImageDelete(imgName: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(imgName, options);
+    apiPrivateDeleteImageDelete(imageNames: string[], options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(imageNames, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1355,13 +1355,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
          * 
-         * @summary Delete image.
-         * @param {string} imgName Image name.
+         * @summary Delete images.
+         * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteImageDelete(imgName: string, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(imgName, options)(axios, basePath);
+    apiPrivateDeleteImageDelete(imageNames: string[], options?: any) {
+      return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(imageNames, options)(axios, basePath);
     },
     /**
          * 
@@ -1541,14 +1541,14 @@ export class DefaultApi extends BaseAPI {
 
   /**
      * 
-     * @summary Delete image.
-     * @param {string} imgName Image name.
+     * @summary Delete images.
+     * @param {Array<string>} imageNames Image names.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateDeleteImageDelete(imgName: string, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(imgName, options)(this.axios, this.basePath);
+  public apiPrivateDeleteImageDelete(imageNames: string[], options?: any) {
+    return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(imageNames, options)(this.axios, this.basePath);
   }
 
   /**

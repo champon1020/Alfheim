@@ -6,8 +6,16 @@ const CategoryListContainer = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: start;
   margin-top: 10%;
   padding: 0 15%;
+  @media (max-width: 800px) {
+    margin: 0;
+    margin-top: 10%;
+  }
+  @media (max-width: 500px) {
+    padding: 0;
+  }
 `;
 
 const CategoryListItem = styled.li`
@@ -47,7 +55,7 @@ const CategoryList = (props: Props) => {
             key={i}
             className={v.name}
             onClick={handleOnClick}>
-            {v.name + " (" + v.articleNum + ")"}
+            {v.name + "(" + v.articleNum + ")"}
           </CategoryListItem>
         );
       });
