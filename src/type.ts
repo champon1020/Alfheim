@@ -16,14 +16,14 @@ export type CategoryType = {
   articleNum: number;
 }
 
-export type Draft = {
+export type DraftType = {
   id: string;
   sortedId: number;
   title: string;
   categories: string;
+  updateDate: string;
   contentHash: string;
   imageHash: string;
-  _private?: boolean;
 }
 
 

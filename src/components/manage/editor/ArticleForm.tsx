@@ -10,7 +10,7 @@ import FormFooter from "./FormFooter";
 import { parseContents, parseDraftToRequestArticle } from "./parser";
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
-import { ArticleType, Draft } from "src/type";
+import { ArticleType, DraftType } from "src/type";
 import { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
 import { defaultApi } from "../../../App";
@@ -28,11 +28,12 @@ type Props = {
   updatingArticle?: ArticleType;
 }
 
-const defaultDraft: Draft = {
+const defaultDraft: DraftType = {
   id: "",
   sortedId: -1,
   title: "",
   categories: "",
+  updateDate: "",
   contentHash: "",
   imageHash: ""
 };

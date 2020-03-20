@@ -9,9 +9,9 @@ const initManageState: ManageState = {
     sortedId: -1,
     title: "",
     categories: "",
+    updateDate: "",
     contentHash: "",
     imageHash: "",
-    _private: false
   },
   draftContent: ""
 };

@@ -1,4 +1,4 @@
-import { ArticleRequestType, CategoryRequestType, Draft } from "src/type";
+import { ArticleRequestType, CategoryRequestType, DraftType } from "src/type";
 
 const parseRequestCategoriesToList = (categories: string) => {
   const categoryList = categories.split(",");
@@ -13,14 +13,14 @@ const parseRequestCategoriesToList = (categories: string) => {
   return result;
 };
 
-export const parseDraftToRequestArticle = (draft: Draft): ArticleRequestType => {
+export const parseDraftToRequestArticle = (draft: DraftType): ArticleRequestType => {
   return {
     id: draft.id,
     title: draft.title,
     categories: parseRequestCategoriesToList(draft.categories),
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
-    _private: draft._private === undefined ? false : draft._private,
+    _private: true,
   };
 };
 

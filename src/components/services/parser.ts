@@ -1,4 +1,4 @@
-import { Draft, ArticleType } from "src/type";
+import { DraftType, ArticleType } from "src/type";
 
 type Map = { [key: string]: string }
 
@@ -38,17 +38,16 @@ export const parseStringToDate = (s: string) => {
   return new Date(s);
 };
 
-export const parseDraftToArticle = (draft: Draft): ArticleType => {
-  const today = new Date();
+export const parseDraftToArticle = (draft: DraftType): ArticleType => {
   return {
     id: draft.id,
     sortedId: draft.sortedId,
     title: draft.title,
     categories: [],
-    createDate: today.toString(),
-    updateDate: today.toString(),
+    createDate: "",
+    updateDate: draft.updateDate,
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
-    _private: draft._private === undefined ? false : draft._private
+    _private: true,
   };
 };
