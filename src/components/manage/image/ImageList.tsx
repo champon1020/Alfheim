@@ -65,11 +65,17 @@ const ImageList = (props: Props) => {
     },[selected]
   );
 
+  const deleteImages = useCallback(
+    async (names: string[]) => {
+      await defaultApi.apiPrivateDeleteImageDelete(names);
+    },[]
+  );
+
   const handleOnDelete = useCallback(
-    async () => {
-      await defaultApi.apiPrivateDeleteImageDelete(selected);
+    () => {
+      deleteImages(selected);
       window.location.reload();
-    },[selected]
+    },[selected, deleteImages]
   );
 
   const imageList = useCallback(
