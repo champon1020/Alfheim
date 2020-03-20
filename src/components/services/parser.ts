@@ -28,12 +28,6 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
-export const parseViewArticle = (articles: ArticleType[], page: number, maxPage: number): ArticleType[] => {
-  const start = page === 1 ? 0 : 1;
-  const end = page === maxPage ? articles.length : articles.length-1;
-  return articles.slice(start, end);
-};
-
 const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
   const categories = category.split(",");
   const categoryList = [] as CategoryType[];
@@ -60,4 +54,13 @@ export const parseDraftToArticle = (draft: DraftType): ArticleType => {
     imageHash: draft.imageHash,
     _private: true,
   };
+};
+
+export const pathJoin = (...el: string[]): string => {
+  let res = "";
+  el?.forEach((v, i) => {
+    if(i !== 0) res += "/";
+    res += v;
+  });
+  return res;
 };

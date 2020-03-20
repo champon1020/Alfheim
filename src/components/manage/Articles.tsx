@@ -44,7 +44,7 @@ const Articles = () => {
 
   const fetchArticles = useCallback(
     async () => {
-      const res = await defaultApi.apiFindArticleListGet(page);
+      const res = await defaultApi.apiPrivateFindArticleListAllGet(page);
       const fetchedArticles = res.data.articles;
       const articleList = [] as ArticleType[];
 
@@ -64,7 +64,7 @@ const Articles = () => {
 
   const fetchDrafts = useCallback(
     async () => {
-      const res = await defaultApi.apiFindDraftListGet(1);
+      const res = await defaultApi.apiPrivateFindDraftListGet(1);
       const articleList = [] as ArticleType[];
       const { drafts } = res.data;
       drafts.forEach(v => {

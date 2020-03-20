@@ -7,8 +7,8 @@ import { IRouteProps, PathParams } from "./PublicView";
 import { defaultApi } from "../../App";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse2001 } from "src/api";
-import { parsePage, parseViewArticle } from "../services/parser";
+import { InlineResponse2003 } from "src/api";
+import { parsePage } from "../services/parser";
 
 
 const MainContainer = styled.div`
@@ -26,7 +26,6 @@ const MainContainer = styled.div`
 
 const SubContainer = styled.div`
   order: 2;
-  margin: 0;
   width: calc(var(--container-width) / 4);
   @media (max-width: 1000px) {
     width: calc(var(--container-width) / 2.5);
@@ -37,30 +36,23 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2001>> => {
+const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2003>> => {
   const path = window.location.pathname;
-  switch(path) {
-  case "/home/title": {
-    const { title } = params;
-    if(title === undefined) break;
+  const { title, year, month, category } = params;
+
+  if(path.startsWith("/home/title") && title !== undefined) {
     return await defaultApi.apiFindArticleListTitleGet(title, p);
   }
-  case "/home/date": {
-    const { year, month } = params;
-    if(year === undefined || month === undefined) break;
+
+  if(path.startsWith("/home/date") && year !== undefined && month !== undefined) {
     return await defaultApi.apiFindArticleListCreateDateGet(year+month, p);
   }
-  case "/home/category": {
-    const { category } = params;
-    if(category === undefined) break;
+
+  if(path.startsWith("/home/category") && category !== undefined && category !== "") {
     return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), p);
   }
-  default:
-    return await defaultApi.apiFindArticleListGet(p);
-  }
-  return new Promise<AxiosResponse<InlineResponse2001>>((_, reject) => {
-    reject(new Error("some error"));
-  });
+
+  return await defaultApi.apiFindArticleListGet(p);
 };
 
 const scroll = () => {
@@ -87,10 +79,11 @@ const HomeView = (props: Props) => {
     async () => {
       const res = await proxy(params, page);
       const fetchedArticles = res.data.articles;
+      if(fetchedArticles === null) return; // set empty deal
       setMaxPage(res.data.maxPage);
-      setArticles(parseViewArticle(fetchedArticles, page, maxPage));
+      setArticles(fetchedArticles);
     }, 
-    [params, page, maxPage]
+    [params, page]
   );
 
   const prevCallback = useCallback(
@@ -131,7 +124,7 @@ const HomeView = (props: Props) => {
         <Page
           current={page}
           hiddenPrev={page===1}
-          hiddenNext={page===maxPage}
+          hiddenNext={page===maxPage || maxPage === 0}
           prevText="Back"
           nextText="Next"
           prevCallback={prevCallback}

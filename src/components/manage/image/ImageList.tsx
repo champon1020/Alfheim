@@ -1,6 +1,6 @@
 import React, { useCallback, useState, MouseEvent } from "react";
 import styled from "styled-components";
-import { Config } from "src/App";
+import { Config, defaultApi } from "src/App";
 
 const ImageListContainer = styled.div`
   height: calc(var(--images-container-height) - 15rem);
@@ -66,8 +66,8 @@ const ImageList = (props: Props) => {
   );
 
   const handleOnDelete = useCallback(
-    () => {
-      // Delete images
+    async () => {
+      await defaultApi.apiPrivateDeleteImageDelete(selected);
     },[selected]
   );
 

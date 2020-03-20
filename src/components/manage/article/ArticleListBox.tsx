@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import { ArticleType } from "src/type";
-import { formatDateStr } from "src/components/services/parser";
+import { formatDateStr, pathJoin } from "src/components/services/parser";
 import Button from "./Button";
 import { Config } from "src/App";
 
@@ -87,7 +87,7 @@ const ArticleListBox = (props: Props) => {
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <img src={article.imageHash} alt="img" />
+        <img src={pathJoin(Config.srcHost, "images", article.imageHash)} alt="img" />
       </ImageBoxStyled>
       <TitleDateStyled>
         <h2>{article.title}</h2>

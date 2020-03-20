@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
 import { Config } from "src/App";
+import { pathJoin } from "src/components/services/parser";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
@@ -57,7 +58,7 @@ const Preview = (props: Props) => {
   const fetchContent = useCallback(
     () => {
       if(focusedArticle.contentHash === undefined) return;
-      axios.get(focusedArticle.contentHash)
+      axios.get(pathJoin(Config.srcHost, "articles", focusedArticle.contentHash))
         .then(res => {
           setContent(res.data);
         });
@@ -67,6 +68,7 @@ const Preview = (props: Props) => {
 
   const handleEditClick = useCallback(
     () => {
+      if(focusedArticle.id === undefined) return;
       window.open(Config.host + "/manage?articleId=" + focusedArticle.id);
     },
     [focusedArticle.id],

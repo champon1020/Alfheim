@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
 import { CategoryType } from "src/type";
@@ -16,6 +16,8 @@ const handler = new ChartDataHandler();
 
 const CircleChart = (props: Props) => {
   const { categories } = props;
+  const [height, setHeight] = useState(50);
+
   const data = useMemo(
     () => {
       handler.build(categories);
@@ -24,9 +26,25 @@ const CircleChart = (props: Props) => {
     [categories],
   );
 
+  window.onresize = () => {
+    if(window.innerWidth < 500) {
+      setHeight(100);
+      return;
+    }
+    if(window.innerWidth < 800) {
+      setHeight(100);
+      return;
+    }
+    setHeight(50);
+  };
+
   return (
     <ChartBoxStyled>
-      <Pie data={data} />
+      <Pie 
+        data={data}
+        width={100}
+        height={height}
+      />
     </ChartBoxStyled>
   );
 };

@@ -58,7 +58,7 @@ const ArticleForm = (props: Props) => {
       const newTimerId = setTimeout(() => {
         const newContents = parseContents(setContents);
         dispatch(appActionCreator.updateDraft(draft, newContents));
-        defaultApi.apiDraftArticlePost({article: draft, contents: newContents});
+        defaultApi.apiPrivateDraftArticlePost({article: draft, contents: newContents});
       }, 300);
 
       setTimerId(newTimerId);
@@ -87,7 +87,7 @@ const ArticleForm = (props: Props) => {
       if(validation()) return;
       parseContents(setContents);
       const article = parseDraftToRequestArticle(draft);
-      defaultApi.apiRegisterArticlePost({article: article, contents: contents});
+      defaultApi.apiPrivateRegisterArticlePost({article: article, contents: contents});
     },
     [draft, contents, validation],
   );
@@ -119,14 +119,14 @@ const ArticleForm = (props: Props) => {
       if(updatingArticle.title !== undefined){
         setTitleHandler(updatingArticle.title);
       }
-      if(updatingArticle.categories !== undefined) {
+      if(updatingArticle.categories !== undefined && updatingArticle.categories !== null) {
         let categoriesStr = "";
         updatingArticle.categories.forEach(v => categoriesStr += v.name + ",");
         setCategoriesHandler(categoriesStr);
       }
     }
     // eslint-disable-next-line
-  }, []);
+  }, [updatingArticle]);
 
   const setTitleHandler = useCallback(
     (title: string) => {

@@ -1,5 +1,7 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import ArticleForm from "./editor/ArticleForm";
+import { ArticleType } from "src/type";
+import { defaultApi } from "src/App";
 
 type Props = {
   articleId?: string;
@@ -7,20 +9,22 @@ type Props = {
 
 const CreateArticle = (props: Props) => {
   const { articleId } = props;
+  const [updatingArticle, setUpdatingArticle] = useState({} as ArticleType);
 
   const fetchArticle = useCallback(
-    () => {
-      // fetchArticle
+    async (id: string) => {
+      const res = await defaultApi.apiFindArticleIdGet(id);
+      const { article } = res.data;
+      setUpdatingArticle(article);
     },
     [],
   );
 
-  const updatingArticle = useMemo(
-    () => {
-      if(articleId === undefined) return undefined;
-      fetchArticle();
-      // fetch article by id
-    },[articleId, fetchArticle]);
+  useEffect(() => {
+    if(articleId === undefined) return undefined;
+    fetchArticle(articleId);
+    // eslint-disable-next-line
+  },[articleId]);
   
   return(
     <div id="create-article-container">

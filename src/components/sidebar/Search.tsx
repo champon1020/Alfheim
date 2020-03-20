@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, KeyboardEvent } from "react";
 import styled from "styled-components";
 
 const SearchBoxStyled = styled.div`
@@ -21,9 +21,10 @@ const InputLabelStyled = styled.label<{isFocused: boolean}>`
 
 const InputStyled = styled.input`
   font-size: 2rem;
-  height: 2.4rem;
+  height: 2.5rem;
   width: 90%;
   margin: 2rem 0 2rem 0;
+  border: solid thin var(--base-color);
 `;
 
 const Search = () => {
@@ -34,15 +35,20 @@ const Search = () => {
     () => {
       setFocused(true);
       inputRef.current.focus();
-    },
-    [],
+    },[],
   );
 
   const handleOnBlur = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
       if(e.currentTarget.value.length === 0) setFocused(false);
-    },
-    [],
+    },[],
+  );
+
+  const handleOnKeyDown = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if(e.key !== "Enter" || inputRef.current.value === "") return;
+      window.open("/home/title/" + inputRef.current.value, "_self");
+    },[]
   );
 
   return (
@@ -55,6 +61,7 @@ const Search = () => {
       <InputStyled 
         ref={inputRef}
         autoComplete="off" 
+        onKeyDown={handleOnKeyDown}
         onFocus={handleOnFocus}
         onBlur={handleOnBlur} />
     </SearchBoxStyled>

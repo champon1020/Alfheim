@@ -18,9 +18,10 @@ const Images = () => {
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(true);
 
-  const fetchImages = React.useCallback(
+  const fetchImages = useCallback(
     async (p: number) => {
-      const res = await defaultApi.apiFindImageListGet(p);
+      const res = await defaultApi.apiPrivateFindImageListGet(p);
+      console.log(res);
       setImages(res.data.images);
       setNext(res.data.next);
     },
@@ -55,7 +56,7 @@ const Images = () => {
         current={page}
         width={"70"}
         height={"5"}
-        next={next}
+        next={!next}
         prev={page===1} 
         nextCallback={nextCallback}
         prevCallback={prevCallback}
