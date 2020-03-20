@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
 import ArticleList from "./article/ArticleList";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
+import { ArticleType, DraftType } from "src/type";
 import { defaultApi } from "../../App";
-import { formatDateStr } from "../services/parser";
+import { formatDateStr, parseDraftToArticle } from "../services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
+import Tab from "./article/Tab";
 
 const ArticlesContainer = styled.div`
   --articles-container-height: calc(100vh - 8rem);
@@ -35,15 +36,19 @@ const PageContainerStyled = styled.div`
 `;
 
 const Articles = () => {
+  const [tab, setTab] = useState("articles");
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
   const [focusedArticle, setFocusedArticle] = useState({} as ArticleType);
 
   const fetchArticles = useCallback(
     async () => {
-      const res = await defaultApi.apiFindArticleListGet(1);
-      const { articles } = res.data;
+      const res = await defaultApi.apiFindArticleListGet(page);
+      const fetchedArticles = res.data.articles;
       const articleList = [] as ArticleType[];
-      articles.forEach(v => {
+
+      fetchedArticles.forEach(v => {
         const createDate = formatDateStr(v.createDate);
         const updateDate = formatDateStr(v.updateDate);
         articleList.push({
@@ -52,8 +57,10 @@ const Articles = () => {
           updateDate,
         });
       });
+
+      setMaxPage(res.data.maxPage);
       setArticles(articleList);
-    }, []);
+    }, [page]);
 
   const fetchDrafts = useCallback(
     async () => {
@@ -61,31 +68,52 @@ const Articles = () => {
       const articleList = [] as ArticleType[];
       const { drafts } = res.data;
       drafts.forEach(v => {
-        // some process
+        const a = parseDraftToArticle(v as DraftType);
+        articleList.push({
+          ...a
+        });
       });
       setArticles(articleList);
     }, []);
+
+  const prevCallback = useCallback(
+    () => {
+      setPage(page-1);
+    },[page]);
+
+  const nextCallback = useCallback(
+    () => {
+      setPage(page+1);
+    },[page]);
   
   useEffect(() => {
-    if(window.location.pathname.endsWith("articles")){
+    if(tab === "articles"){
       fetchArticles();
     }
-    if(window.location.pathname.endsWith("drafts")){
+    if(tab === "drafts"){
       fetchDrafts();
     }
-  }, [fetchArticles, fetchDrafts]);
+    // eslint-disable-next-line
+  }, [page, tab]);
 
   return(
     <ArticlesContainer>
       <ArticleListContainer>
+        <Tab 
+          tab={tab}
+          setTab={setTab} />
         <ArticleList 
           articles={articles}
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>
           <Page 
+            current={page}
             height="5"
-            next={true}
-            back={true}/>
+            next={page===maxPage}
+            prev={page===1}
+            nextCallback={nextCallback}
+            prevCallback={prevCallback}
+          />
         </PageContainerStyled>
       </ArticleListContainer>
       <PreviewContainer>

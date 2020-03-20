@@ -76,7 +76,7 @@ const ArticleBox = (props: Props) => {
 
   const handleOnClick = useCallback(
     () => {
-      window.location.href = Config.host + "/article/" + article.id;
+      window.location.href = Config.host + "/article/" + article.sortedId;
     },
     [article],
   );

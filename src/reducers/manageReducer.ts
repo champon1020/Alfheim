@@ -5,12 +5,13 @@ import { ActionEnum } from "src/actions/actions";
 
 const initManageState: ManageState = {
   article: {
-    id: -1,
+    id: "",
+    sortedId: -1,
     title: "",
     categories: "",
+    updateDate: "",
     contentHash: "",
     imageHash: "",
-    _private: false
   },
   draftContent: ""
 };

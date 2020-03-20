@@ -17,12 +17,15 @@ form,
 label,
 footer,
 header,
+input,
+button,
 nav {
   margin: 0;
   padding: 0;
   border: 0;
   font: inherit;
   vertical-align: baseline;
+  transition: opacity .2s ease-out;
 }
 
 img {
@@ -49,6 +52,8 @@ body {
   background-color: rgb(255, 255, 255);
   font-family: "arial";
   --base-color: rgb(54, 59, 75);
+  --manage-base-color: rgb(61, 61, 61);
+  transition: opacity .2s ease-out;
 }
 
 ul {

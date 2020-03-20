@@ -2,14 +2,12 @@ import React, { useState, useCallback, useEffect } from "react";
 import ArticleList from "../home/ArticleList";
 import SideBar from "../common/SideBar";
 import Page from "./Page";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { IRouteProps, PathParams } from "./PublicView";
 import { defaultApi } from "../../App";
-import appActionCreator from "../../actions/actions";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse200 } from "src/api";
+import { InlineResponse2001 } from "src/api";
 import { parsePage, parseViewArticle } from "../services/parser";
 
 
@@ -39,7 +37,7 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse200>> => {
+const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2001>> => {
   const path = window.location.pathname;
   switch(path) {
   case "/home/title": {
@@ -60,7 +58,7 @@ const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<Inlin
   default:
     return await defaultApi.apiFindArticleListGet(p);
   }
-  return new Promise<AxiosResponse<InlineResponse200>>((_, reject) => {
+  return new Promise<AxiosResponse<InlineResponse2001>>((_, reject) => {
     reject(new Error("some error"));
   });
 };
@@ -83,21 +81,21 @@ const HomeView = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
-  const dispatch = useDispatch();
+  const [maxPage, setMaxPage] = useState(0);
 
   const fetchArticle = useCallback(
     async () => {
       const res = await proxy(params, page);
       const fetchedArticles = res.data.articles;
-      setArticles(parseViewArticle(fetchedArticles, page));
-      dispatch(appActionCreator.updateArticles(fetchedArticles));
+      setMaxPage(res.data.maxPage);
+      setArticles(parseViewArticle(fetchedArticles, page, maxPage));
     }, 
-    [params, page, dispatch]
+    [params, page, maxPage]
   );
 
   const prevCallback = useCallback(
     () => {
-      window.history.pushState(page-1, "", pageAppendedPath(page-1));
+      window.history.pushState(null, "", pageAppendedPath(page-1));
       setPage(page-1);
       scroll();
     },[page]
@@ -106,7 +104,7 @@ const HomeView = (props: Props) => {
   const nextCallback = useCallback(
     () => {
       if(page+1 > 1) {
-        window.history.pushState(page+1, "", pageAppendedPath(page+1));
+        window.history.pushState(null, "", pageAppendedPath(page+1));
         setPage(page+1);
         scroll();
       }
@@ -123,16 +121,18 @@ const HomeView = (props: Props) => {
   }, [page]);
 
   useEffect(() => {
-    window.history.pushState(1, "", window.location.pathname);
+    window.history.pushState(null, "", window.location.pathname);
   }, []);
 
   return(
     <>
       <MainContainer>
         <ArticleList articles={articles} />
-        <Page 
+        <Page
           current={page}
-          prevText="Back" 
+          hiddenPrev={page===1}
+          hiddenNext={page===maxPage}
+          prevText="Back"
           nextText="Next"
           prevCallback={prevCallback}
           nextCallback={nextCallback}

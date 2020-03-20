@@ -1,4 +1,4 @@
-import { Draft, ArticleType } from "src/type";
+import { DraftType, ArticleType, CategoryType } from "src/type";
 
 type Map = { [key: string]: string }
 
@@ -28,25 +28,36 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
-export const parseViewArticle = (articles: ArticleType[], page: number): ArticleType[] => {
+export const parseViewArticle = (articles: ArticleType[], page: number, maxPage: number): ArticleType[] => {
   const start = page === 1 ? 0 : 1;
-  return articles.slice(start, articles.length-1);
+  const end = page === maxPage ? articles.length : articles.length-1;
+  return articles.slice(start, end);
 };
 
-export const parseStringToDate = (s: string) => {
-  return new Date(s);
+const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
+  const categories = category.split(",");
+  const categoryList = [] as CategoryType[];
+  categories.forEach(v => {
+    categoryList.push({
+      id: "id",
+      name: v,
+      articleNum: 1
+    });
+  });
+  return categoryList;
 };
 
-export const parseDraftToArticle = (draft: Draft): ArticleType => {
+export const parseDraftToArticle = (draft: DraftType): ArticleType => {
   const today = new Date();
   return {
     id: draft.id,
+    sortedId: draft.sortedId,
     title: draft.title,
-    categories: [],
-    createDate: today.toString(),
-    updateDate: today.toString(),
+    categories: parseCategoryDraftToArticle(draft.categories),
+    createDate: today.toISOString(),
+    updateDate: "",
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
-    _private: draft._private === undefined ? false : draft._private
+    _private: true,
   };
 };

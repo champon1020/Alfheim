@@ -53,13 +53,19 @@ const ArticleHeader = (props: Props) => {
   return(
     <ArticleHeaderStyled>
       <DateContainerStyled>
-        <p>{formatDateStr(article.createDate)}</p>
+        <p>
+          {formatDateStr(article.createDate)}
+        </p>
       </DateContainerStyled>
       <TitleContainerStyled>
-        <h2>{article.title}</h2>
+        <h2>
+          {article.title}
+        </h2>
       </TitleContainerStyled>
       <CategoryContainerStyled>
-        <Category categories={article.categories} />
+        <Category 
+          categories={article.categories} 
+        />
       </CategoryContainerStyled>
     </ArticleHeaderStyled>
   );

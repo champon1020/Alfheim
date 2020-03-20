@@ -37,7 +37,7 @@ type Props = ParentProps;
 
 const ToolBar: React.FC<Props> = (props) => {
   const style = {
-    "backgroundColor": "rgb(61, 61, 61)",
+    "backgroundColor": "var(--manage-base-color)",
     "color": "white"
   };
 

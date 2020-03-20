@@ -1,5 +1,6 @@
 export type ArticleType = {
-  id: number;
+  id: string;
+  sortedId: number;
   title: string;
   categories: CategoryType[];
   createDate: string;
@@ -10,24 +11,25 @@ export type ArticleType = {
 } 
 
 export type CategoryType = {
-  id: number;
+  id: string;
   name: string;
   articleNum: number;
 }
 
-export type Draft = {
-  id: number;
+export type DraftType = {
+  id: string;
+  sortedId: number;
   title: string;
   categories: string;
+  updateDate: string;
   contentHash: string;
   imageHash: string;
-  _private?: boolean;
 }
 
 
 // request types
 export type ArticleRequestType = {
-  id: number;
+  id: string;
   title: string;
   categories: CategoryRequestType[];
   contentHash: string;
@@ -36,12 +38,12 @@ export type ArticleRequestType = {
 }
 
 export type CategoryRequestType = {
-  id: number;
+  id: string;
   name: string;
 }
 
 export type DraftRequestType = {
-  id: number;
+  id: string;
   title: string;
   categories: string;
   contentHash: string;

@@ -47,6 +47,7 @@ const Preview = (props: Props) => {
   const contentRef = useCallback(
     (node: HTMLElement) => {
       if(node !== null){
+        node.innerHTML = "";
         node.insertAdjacentHTML("afterbegin", content);
       }
     },
@@ -66,14 +67,15 @@ const Preview = (props: Props) => {
 
   const handleEditClick = useCallback(
     () => {
-      window.open(Config.host + "/manage?articleId=1");
+      window.open(Config.host + "/manage?articleId=" + focusedArticle.id);
     },
-    [],
+    [focusedArticle.id],
   );
 
   useEffect(() => {
     fetchContent();
-  }, [fetchContent, focusedArticle]);
+    // eslint-disable-next-line
+  }, [focusedArticle]);
 
   return(
     <PreviewContainer>

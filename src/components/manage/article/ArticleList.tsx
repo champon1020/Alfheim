@@ -6,7 +6,7 @@ import { ArticleType } from "src/type";
 const ArticleListStyled = styled.ul`
   overflow-y: scroll;
   white-space: nowrap;
-  height: calc(var(--articles-container-height) - 9rem);
+  height: calc(var(--articles-container-height) - 9rem - 4.5rem);
 `;
 
 type Props = {

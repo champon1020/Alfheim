@@ -1,7 +1,7 @@
 import { ActionEnum } from "./actions";
-import { Draft } from "src/type";
+import { DraftType } from "src/type";
 
-export const updateDraft = (draft: Draft, contents: string) => {
+export const updateDraft = (draft: DraftType, contents: string) => {
   return {
     type: ActionEnum.UPDATE_DRAFT,
     payload: {
@@ -22,7 +22,7 @@ export const updateDraftContent = (content: string) => {
 };
 export type UpdateDraftContentAction = ReturnType<typeof updateDraftContent>;
 
-export const updateResourceArticle = (article: Draft) => {
+export const updateResourceArticle = (article: DraftType) => {
   return {
     type: ActionEnum.UPDATE_RESOURCE_ARTICLE,
     payload: {
