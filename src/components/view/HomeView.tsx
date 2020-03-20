@@ -7,7 +7,7 @@ import { IRouteProps, PathParams } from "./PublicView";
 import { defaultApi } from "../../App";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse2001 } from "src/api";
+import { InlineResponse2003 } from "src/api";
 import { parsePage } from "../services/parser";
 
 
@@ -37,7 +37,7 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2001>> => {
+const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2003>> => {
   const path = window.location.pathname;
   const { title, year, month, category } = params;
 
@@ -49,7 +49,7 @@ const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<Inlin
     return await defaultApi.apiFindArticleListCreateDateGet(year+month, p);
   }
 
-  if(path.startsWith("/home/category") && category !== undefined) {
+  if(path.startsWith("/home/category") && category !== undefined && category !== "") {
     return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), p);
   }
 

@@ -20,7 +20,7 @@ const Images = () => {
 
   const fetchImages = React.useCallback(
     async (p: number) => {
-      const res = await defaultApi.apiFindImageListGet(p);
+      const res = await defaultApi.apiPrivateFindImageListGet(p);
       setImages(res.data.images);
       setNext(res.data.next);
     },

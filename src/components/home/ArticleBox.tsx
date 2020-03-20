@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
 import { ArticleType } from "src/type";
-import { formatDateStr } from "../services/parser";
+import { formatDateStr, pathJoin } from "../services/parser";
 import { Config } from "src/App";
 
 const ArticleBoxStyled = styled.div`
@@ -76,7 +76,7 @@ const ArticleBox = (props: Props) => {
 
   const handleOnClick = useCallback(
     () => {
-      window.location.href = Config.host + "/article/" + article.sortedId;
+      window.location.href = pathJoin(Config.host, "article", article.sortedId.toString());
     },
     [article],
   );
@@ -84,7 +84,7 @@ const ArticleBox = (props: Props) => {
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <ImageStyled src={article.imageHash} alt="article box" />
+        <ImageStyled src={pathJoin(Config.srcHost, "images", article.imageHash)} alt="article box" />
       </ImageBoxStyled>
       <DateBoxStyled>
         <p>{formatDateStr(article.createDate)}</p>

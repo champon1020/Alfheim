@@ -55,3 +55,12 @@ export const parseDraftToArticle = (draft: DraftType): ArticleType => {
     _private: true,
   };
 };
+
+export const pathJoin = (...el: string[]): string => {
+  let res = "";
+  el?.forEach((v, i) => {
+    if(i !== 0) res += "/";
+    res += v;
+  });
+  return res;
+};

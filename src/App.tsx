@@ -19,7 +19,7 @@ const App = () => {
           <Switch>
             <Route exact path={"/"} component={PublicView} />
             <Route exact path={"/home/title/:title"} component={PublicView} />
-            <Route exact path={"/home/category/:categoryId"} component={PublicView} />
+            <Route exact path={"/home/category/:category"} component={PublicView} />
             <Route exact path={"/home/date/:year/:month"} component={PublicView} />
           
             <Route exact path={"/article/:sortedId"} component={PublicView} />

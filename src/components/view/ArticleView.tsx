@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
 import { checkIsDraft } from "../article/util";
-import { parseDraftToArticle } from "../services/parser";
+import { parseDraftToArticle, pathJoin } from "../services/parser";
 import axios from "axios";
 import { defaultApi, Config } from "src/App";
 
@@ -60,7 +60,7 @@ const ArticleView = (props: Props) => {
   const fetchContent = useCallback(
     async (article: ArticleType) => {
       if(article.contentHash === undefined) return;
-      const res = await axios.get(article.contentHash);
+      const res = await axios.get(pathJoin(Config.srcHost, "articles", article.contentHash));
       setContent(res.data);
     },[]
   );
@@ -75,7 +75,7 @@ const ArticleView = (props: Props) => {
       }
 
       const sortedId = id === undefined ? validSortedId() : id;
-      const res = await defaultApi.apiFindArticleIdGet(sortedId);
+      const res = await defaultApi.apiFindArticleSortedIdGet(sortedId);
       const fetchedArticle = res.data.article;
       const { next, prev } = res.data;
       setArticle(fetchedArticle);
