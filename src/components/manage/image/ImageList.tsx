@@ -68,6 +68,7 @@ const ImageList = (props: Props) => {
   const handleOnDelete = useCallback(
     async () => {
       await defaultApi.apiPrivateDeleteImageDelete(selected);
+      window.location.reload();
     },[selected]
   );
 
