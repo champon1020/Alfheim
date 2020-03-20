@@ -30,7 +30,7 @@ const ImageForm = () => {
   return (
     <FormContainer>
       <form 
-        action={Config.apiHost + "/api/register/image"}
+        action={Config.apiHost + "/api/private/register/image"}
         encType="multipart/form-data" 
         method="post">
         <FileInput

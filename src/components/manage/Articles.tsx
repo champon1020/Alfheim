@@ -44,7 +44,7 @@ const Articles = () => {
 
   const fetchArticles = useCallback(
     async () => {
-      const res = await defaultApi.apiFindArticleListGet(page);
+      const res = await defaultApi.apiPrivateFindArticleListAllGet(page);
       const fetchedArticles = res.data.articles;
       const articleList = [] as ArticleType[];
 

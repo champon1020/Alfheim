@@ -68,6 +68,7 @@ const Preview = (props: Props) => {
 
   const handleEditClick = useCallback(
     () => {
+      if(focusedArticle.id === undefined) return;
       window.open(Config.host + "/manage?articleId=" + focusedArticle.id);
     },
     [focusedArticle.id],

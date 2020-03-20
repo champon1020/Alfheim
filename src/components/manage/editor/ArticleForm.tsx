@@ -119,14 +119,14 @@ const ArticleForm = (props: Props) => {
       if(updatingArticle.title !== undefined){
         setTitleHandler(updatingArticle.title);
       }
-      if(updatingArticle.categories !== undefined) {
+      if(updatingArticle.categories !== undefined && updatingArticle.categories !== null) {
         let categoriesStr = "";
         updatingArticle.categories.forEach(v => categoriesStr += v.name + ",");
         setCategoriesHandler(categoriesStr);
       }
     }
     // eslint-disable-next-line
-  }, []);
+  }, [updatingArticle]);
 
   const setTitleHandler = useCallback(
     (title: string) => {
