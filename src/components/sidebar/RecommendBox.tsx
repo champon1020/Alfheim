@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
-import image from "../../assets/images/sky.jpg";
+import { ArticleType } from "src/type";
+import { Config } from "src/App";
+import { pathJoin } from "../services/parser";
 
 const ListItemStyled = styled.li`
   position: relative;
@@ -36,12 +38,30 @@ const TitleBoxStyled = styled.div`
   }
 `;
 
-const RecommendBox = () => {
+type Props = {
+  key: number;
+  article: ArticleType;
+}
+
+const RecommendBox = (props: Props) => {
+  const { key, article } = props;
+
+  const handelOnClick = useCallback(
+    () => {
+      window.open(pathJoin(Config.host, "article", article.sortedId.toString()), "_self");
+    },
+    [article],
+  );
+
   return (
-    <ListItemStyled>
-      <ImageStyled src={image} />
+    <ListItemStyled
+      key={key}
+      onClick={handelOnClick} >
+      <ImageStyled 
+        src={pathJoin(Config.srcHost, "images", article.imageHash)}
+      />
       <TitleBoxStyled>
-        <h2>sample article</h2>
+        <h2>{article.title}</h2>
       </TitleBoxStyled>
     </ListItemStyled>
   );
