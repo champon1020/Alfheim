@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import ImageList from "./ImageList";
+import ImageList from "./image/ImageList";
 import styled from "styled-components";
 import Page from "./Page";
 import { defaultApi } from "src/App";
+import ImageForm from "./image/ImageForm";
 
 const ImagesContainerStyled = styled.div`
   --images-container-height: calc(100vh - 7rem);
@@ -18,12 +19,12 @@ const Images = () => {
   const [next, setNext] = useState(true);
 
   const fetchImages = React.useCallback(
-    async () => {
-      const res = await defaultApi.apiFindImageListGet(page);
+    async (p: number) => {
+      const res = await defaultApi.apiFindImageListGet(p);
       setImages(res.data.images);
       setNext(res.data.next);
     },
-    [page],
+    [],
   );
 
   const nextCallback = useCallback(
@@ -41,13 +42,15 @@ const Images = () => {
   );
 
   useEffect(() => {
-    fetchImages();
+    fetchImages(page);
     // eslint-disable-next-line
-  }, []);
+  }, [page]);
 
   return(
     <ImagesContainerStyled>
-      <ImageList images={images}/>
+      <ImageForm />
+      <ImageList 
+        images={images} />
       <Page
         current={page}
         width={"70"}

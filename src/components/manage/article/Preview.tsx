@@ -67,9 +67,9 @@ const Preview = (props: Props) => {
 
   const handleEditClick = useCallback(
     () => {
-      window.open(Config.host + "/manage?articleId=1");
+      window.open(Config.host + "/manage?articleId=" + focusedArticle.id);
     },
-    [],
+    [focusedArticle.id],
   );
 
   useEffect(() => {

@@ -72,7 +72,7 @@ const ArticleListBox = (props: Props) => {
 
   const handleGoToClick = useCallback(
     () => {
-      window.open(Config.host + "/article/" + article.id.toString());
+      window.open(Config.host + "/article/" + article.sortedId);
     },
     [article],
   );

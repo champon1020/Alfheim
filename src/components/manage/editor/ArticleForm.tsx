@@ -101,6 +101,7 @@ const ArticleForm = (props: Props) => {
   );
 
   useEffect(() => {
+    // prepare markdown editor
     const target = editorRef.current;
     const instance = new Editor({
       el: target,
@@ -109,9 +110,11 @@ const ArticleForm = (props: Props) => {
       height: "755px"
     });
 
+    // start observe
     observer.observe(target, observeConfig);
     instance.getHtml();
 
+    // set article
     if(updatingArticle !== undefined) {
       if(updatingArticle.title !== undefined){
         setTitleHandler(updatingArticle.title);
