@@ -64,7 +64,11 @@ type Props = {
 const ArticleListBox = (props: Props) => {
   const { article, setFocusedArticle } = props;
 
-  const handleOnClick = useCallback(() => setFocusedArticle(article), [article, setFocusedArticle]);
+  const handleOnClick = useCallback(
+    () => {
+      setFocusedArticle(article);
+    }
+    , [article, setFocusedArticle]);
 
   const handleGoToClick = useCallback(
     () => {
@@ -83,7 +87,7 @@ const ArticleListBox = (props: Props) => {
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <img src={require("../../../assets/images/space.jpg")} alt="img" />
+        <img src={article.imageHash} alt="img" />
       </ImageBoxStyled>
       <TitleDateStyled>
         <h2>{article.title}</h2>

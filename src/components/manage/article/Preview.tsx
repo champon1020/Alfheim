@@ -47,6 +47,7 @@ const Preview = (props: Props) => {
   const contentRef = useCallback(
     (node: HTMLElement) => {
       if(node !== null){
+        node.innerHTML = "";
         node.insertAdjacentHTML("afterbegin", content);
       }
     },
@@ -73,7 +74,8 @@ const Preview = (props: Props) => {
 
   useEffect(() => {
     fetchContent();
-  }, [fetchContent, focusedArticle]);
+    // eslint-disable-next-line
+  }, [focusedArticle]);
 
   return(
     <PreviewContainer>

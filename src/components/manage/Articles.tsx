@@ -35,15 +35,18 @@ const PageContainerStyled = styled.div`
 `;
 
 const Articles = () => {
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
   const [focusedArticle, setFocusedArticle] = useState({} as ArticleType);
 
   const fetchArticles = useCallback(
     async () => {
-      const res = await defaultApi.apiFindArticleListGet(1);
-      const { articles } = res.data;
+      const res = await defaultApi.apiFindArticleListGet(page);
+      const fetchedArticles = res.data.articles;
       const articleList = [] as ArticleType[];
-      articles.forEach(v => {
+
+      fetchedArticles.forEach(v => {
         const createDate = formatDateStr(v.createDate);
         const updateDate = formatDateStr(v.updateDate);
         articleList.push({
@@ -52,8 +55,10 @@ const Articles = () => {
           updateDate,
         });
       });
+
+      setMaxPage(res.data.maxPage);
       setArticles(articleList);
-    }, []);
+    }, [page]);
 
   const fetchDrafts = useCallback(
     async () => {
@@ -65,6 +70,16 @@ const Articles = () => {
       });
       setArticles(articleList);
     }, []);
+
+  const prevCallback = useCallback(
+    () => {
+      setPage(page-1);
+    },[page]);
+
+  const nextCallback = useCallback(
+    () => {
+      setPage(page+1);
+    },[page]);
   
   useEffect(() => {
     if(window.location.pathname.endsWith("articles")){
@@ -73,7 +88,8 @@ const Articles = () => {
     if(window.location.pathname.endsWith("drafts")){
       fetchDrafts();
     }
-  }, [fetchArticles, fetchDrafts]);
+    // eslint-disable-next-line
+  }, [page]);
 
   return(
     <ArticlesContainer>
@@ -83,12 +99,12 @@ const Articles = () => {
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>
           <Page 
-            current={1}
+            current={page}
             height="5"
-            next={true}
-            prev={true}
-            nextCallback={() => {/** */}}
-            prevCallback={() => {/** */}}
+            next={page===maxPage}
+            prev={page===1}
+            nextCallback={nextCallback}
+            prevCallback={prevCallback}
           />
         </PageContainerStyled>
       </ArticleListContainer>
