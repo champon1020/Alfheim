@@ -10,7 +10,7 @@ import { parseQueryParam } from "../services/parser";
 
 const ManageContainerStyled = styled.div`
   min-height: 100vh;
-  background-color: rgb(61, 61, 61);
+  background-color: var(--manage-base-color);
 `;
 
 const ManageWrapperStyled = styled.div`
