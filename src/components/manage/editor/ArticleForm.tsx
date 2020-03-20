@@ -49,17 +49,18 @@ const ArticleForm = (props: Props) => {
   const [contents, setContents] = useState("");
   const dispatch = useDispatch();
 
-  const drafting = useCallback(
+  const save = useCallback(
     () => {
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
+      // save process
       const newTimerId = setTimeout(() => {
-        // save process
         const newContents = parseContents(setContents);
         dispatch(appActionCreator.updateDraft(draft, newContents));
         defaultApi.apiDraftArticlePost({article: draft, contents: newContents});
       }, 300);
+
       setTimerId(newTimerId);
     },
     [timerId, draft, dispatch],
@@ -70,11 +71,11 @@ const ArticleForm = (props: Props) => {
       mutations.forEach((mutation) => {
         const el = mutation.target as Element;
         if(el.className === "tui-editor-contents"){
-          drafting();
+          save();
         }
       });
     });
-  }, [drafting]);
+  }, [save]);
 
   const validation = useCallback(
     () => (validateTitle(title, setErr) || validateCategory(categories, setErr)),
@@ -128,15 +129,15 @@ const ArticleForm = (props: Props) => {
     (title: string) => {
       setTitle(title);
       draft.title = title;
-      drafting();
-    },[draft, drafting]);
+      save();
+    },[draft, save]);
 
   const setCategoriesHandler = useCallback(
     (categories: string) => {
       setCategories(categories);
       draft.categories = categories;
-      drafting();
-    },[draft, drafting]);
+      save();
+    },[draft, save]);
 
   return(
     <EditContainerStyled>

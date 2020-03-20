@@ -1,4 +1,4 @@
-import { DraftType, ArticleType } from "src/type";
+import { DraftType, ArticleType, CategoryType } from "src/type";
 
 type Map = { [key: string]: string }
 
@@ -34,18 +34,28 @@ export const parseViewArticle = (articles: ArticleType[], page: number, maxPage:
   return articles.slice(start, end);
 };
 
-export const parseStringToDate = (s: string) => {
-  return new Date(s);
+const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
+  const categories = category.split(",");
+  const categoryList = [] as CategoryType[];
+  categories.forEach(v => {
+    categoryList.push({
+      id: "id",
+      name: v,
+      articleNum: 1
+    });
+  });
+  return categoryList;
 };
 
 export const parseDraftToArticle = (draft: DraftType): ArticleType => {
+  const today = new Date();
   return {
     id: draft.id,
     sortedId: draft.sortedId,
     title: draft.title,
-    categories: [],
-    createDate: "",
-    updateDate: draft.updateDate,
+    categories: parseCategoryDraftToArticle(draft.categories),
+    createDate: today.toISOString(),
+    updateDate: "",
     contentHash: draft.contentHash,
     imageHash: draft.imageHash,
     _private: true,
