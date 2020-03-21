@@ -39,12 +39,11 @@ const TitleBoxStyled = styled.div`
 `;
 
 type Props = {
-  key: number;
   article: ArticleType;
 }
 
 const RecommendBox = (props: Props) => {
-  const { key, article } = props;
+  const { article } = props;
 
   const handelOnClick = useCallback(
     () => {
@@ -55,7 +54,6 @@ const RecommendBox = (props: Props) => {
 
   return (
     <ListItemStyled
-      key={key}
       onClick={handelOnClick} >
       <ImageStyled 
         src={pathJoin(Config.srcHost, "images", article.imageHash)}
