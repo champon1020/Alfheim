@@ -9,7 +9,7 @@ const re = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g;
 const categoryRe = /[!"#$%&'()\*\+\-\.\/:;<=>?@\[\\\]^_`{|}~]/g;
 
 export const validateTitle = (title: string, errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>) => {
-  if(title.length === 0) {
+  if(title.length === 0 || title === undefined) {
     errSetter(ValidationErrorStatus.EMPTY);
     return true;
   }

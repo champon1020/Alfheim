@@ -1,34 +1,51 @@
-import React, { useCallback, useState, useEffect } from "react";
-import ArticleForm from "./editor/ArticleForm";
-import { ArticleType } from "src/type";
+import React, { useCallback, useState, useEffect, useMemo } from "react";
+import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
 import { defaultApi } from "src/App";
+import { parseFromArticle, parseFromDraft } from "./editor/parser";
 
 type Props = {
   articleId?: string;
+  draftId?: string;
 }
 
 const CreateArticle = (props: Props) => {
-  const { articleId } = props;
-  const [updatingArticle, setUpdatingArticle] = useState({} as ArticleType);
+  const { articleId, draftId } = props;
+  const [updatingArticle, setUpdatingArticle] = useState(defaultEditorDraft);
+
+  const isArticle = useMemo(() => articleId !== undefined, [articleId]);
 
   const fetchArticle = useCallback(
     async (id: string) => {
       const res = await defaultApi.apiFindArticleIdGet(id);
-      const { article } = res.data;
-      setUpdatingArticle(article);
+      const fetchedArticle = res.data.article;
+      const editorDraft = parseFromArticle(fetchedArticle);
+      setUpdatingArticle(editorDraft);
+    },
+    [],
+  );
+
+  // fetch draft by id
+  const fetchDraft = useCallback(
+    async (id: string) => {
+      const res = await defaultApi.apiPrivateFindDraftIdGet(id);
+      const fetchedDraft = res.data.draft;
+      const editorDraft = parseFromDraft(fetchedDraft);
+      setUpdatingArticle(editorDraft);
     },
     [],
   );
 
   useEffect(() => {
-    if(articleId === undefined) return undefined;
-    fetchArticle(articleId);
+    if(articleId !== undefined) fetchArticle(articleId);
+    if(draftId !== undefined) fetchDraft(draftId);
     // eslint-disable-next-line
-  },[articleId]);
+  },[articleId, draftId]);
   
   return(
     <div id="create-article-container">
-      <ArticleForm updatingArticle={updatingArticle} />
+      <ArticleForm 
+        updatingArticle={updatingArticle}
+        isArticle={isArticle} />
     </div>
   );
 };

@@ -26,7 +26,9 @@ const ManageView: React.FC<Props> = (props) => {
   let element;
   if(mode === undefined) {
     const qParams = parseQueryParam(window.location.href);
-    element = <CreateArticle articleId={qParams["articleId"]} />;
+    element = <CreateArticle 
+      articleId={qParams["articleId"]}
+      draftId={qParams["draftId"]} />;
   }
   if(mode === "images") element = <Images />;
   if(mode === "settings") element = <Settings />;

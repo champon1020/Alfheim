@@ -69,6 +69,9 @@ type Props = {
 
 const ArticleListBox = (props: Props) => {
   const { tab, article, setFocusedArticle } = props;
+  const imageSrc = useMemo(() => {
+    return pathJoin(Config.srcHost, "images", article.imageHash === "" ? Config.defImg : article.imageHash);
+  },[article.imageHash]);
   const privateButtonColor = useMemo(() => article.isPrivate ? "tomato" : "steelblue", [article]);
   const privateButtonText = useMemo(() => article.isPrivate ? "Private" : "Public", [article]);
 
@@ -158,7 +161,7 @@ const ArticleListBox = (props: Props) => {
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <img src={pathJoin(Config.srcHost, "images", article.imageHash)} alt="img" />
+        <img src={imageSrc} alt="img" />
       </ImageBoxStyled>
       <TitleDateStyled>
         <h2>{article.title}</h2>

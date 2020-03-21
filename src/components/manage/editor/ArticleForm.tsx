@@ -7,10 +7,10 @@ import "highlight.js/styles/github.css"; // code block highlight
 import styled from "styled-components";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
-import { parseContents, parseDraftToRequestArticle } from "./parser";
+import { parseContents, parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
-import { ArticleType, DraftType } from "src/type";
+import { ArticleRequestType, DraftRequestType } from "src/type";
 import { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
 import { defaultApi } from "../../../App";
@@ -24,81 +24,154 @@ const observeConfig = {
   childList: true
 };
 
-type Props = {
-  updatingArticle?: ArticleType;
+export type EditorArticle = {
+  id: string;
+  title: string;
+  categories: string;
+  updateDate: string;
+  contentHash: string;
+  imageHash: string;
+  isPrivate: boolean;
 }
 
-const defaultDraft: DraftType = {
+export const defaultEditorDraft: EditorArticle = {
   id: "",
-  sortedId: -1,
   title: "",
   categories: "",
   updateDate: "",
   contentHash: "",
-  imageHash: ""
+  imageHash: "",
+  isPrivate: true
 };
 
+type Props = {
+  updatingArticle?: EditorArticle;
+  isArticle: boolean;
+}
+
 const ArticleForm = (props: Props) => {
-  const { updatingArticle } = props;
+  const { updatingArticle, isArticle } = props;
   const editorRef = useRef({} as HTMLDivElement);
+
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
-  const [title, setTitle] = useState("");
-  const [categories, setCategories] = useState("");
-  const [draft] = useState(defaultDraft);
+  const [editorDraft, setEditorDraft] = useState(defaultEditorDraft);
   const [contents, setContents] = useState("");
   const dispatch = useDispatch();
 
-  const save = useCallback(
+  const registerArticle = useCallback(
+    async (a: ArticleRequestType, c: string) => {
+      await defaultApi.apiPrivateRegisterArticlePost({article: a, contents: c});
+    },[]
+  );
+
+  const updateArticle = useCallback(
+    async (a: ArticleRequestType, c: string) => {
+      await defaultApi.apiPrivateUpdateArticlePut({article: a, contents: c});
+    },[]
+  );
+
+  const updateDraft = useCallback(
+    async (d: DraftRequestType, c: string) => {
+      // const res = await defaultApi.apiPrivateDraftArticlePost({article: d, contents: c});
+      // editorDraft.id = res.data.id;
+      // editorDraft.contentHash = res.data.contentHash;
+      // editorDraft.imageHash = res.data.imageHash;
+      // window.history.pushState(null, "", "?draftId=" + editorDraft.id);
+      // eslint-disable-next-line
+    },[editorDraft]
+  );
+
+  const validation = useCallback(
+    (t: string, c: string) => {
+      return validateTitle(t, setErr) || validateCategory(c, setErr);
+    },[],
+  );
+
+  const onlineSave = useCallback(
     () => {
+      if(isArticle) return;
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
-      // save process
+      // save 
       const newTimerId = setTimeout(() => {
         const newContents = parseContents(setContents);
+        const reqDraft = parseToRequestDraft(editorDraft);
+        const draft = parseToDraft(editorDraft);
         dispatch(appActionCreator.updateDraft(draft, newContents));
-        defaultApi.apiPrivateDraftArticlePost({article: draft, contents: newContents});
+        updateDraft(reqDraft, newContents);
       }, 300);
-
       setTimerId(newTimerId);
-    },
-    [timerId, draft, dispatch],
-  );
-
-  const observer = useMemo(() => {
-    return new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        const el = mutation.target as Element;
-        if(el.className === "tui-editor-contents"){
-          save();
-        }
-      });
-    });
-  }, [save]);
-
-  const validation = useCallback(
-    () => (validateTitle(title, setErr) || validateCategory(categories, setErr)),
-    [title, categories],
+    },[timerId, 
+      editorDraft, 
+      dispatch, 
+      updateDraft,
+      isArticle],
   );
 
   const onSubmit = useCallback(
     () => {
-      if(validation()) return;
-      parseContents(setContents);
-      const article = parseDraftToRequestArticle(draft);
-      defaultApi.apiPrivateRegisterArticlePost({article: article, contents: contents});
-    },
-    [draft, contents, validation],
+      if(validation(editorDraft.title, editorDraft.categories)) return;
+      const reqArticle = parseToRequestArticle(editorDraft);
+      const newContents = parseContents(setContents);
+
+      if(isArticle) updateArticle(reqArticle, newContents);
+      else registerArticle(reqArticle, newContents);
+    },[editorDraft, 
+      validation,
+      registerArticle,
+      isArticle,
+      updateArticle],
   );
 
   const onPreview = useCallback(
     () => {
-      if(validation()) return;
+      if(validation(editorDraft.title, editorDraft.categories)) return;
       window.open("/article-draft/");
     },
-    [validation],
+    [validation, editorDraft],
   );
+
+  const setTitleHandler = useCallback(
+    (t: string) => {
+      editorDraft.title = t;
+      setEditorDraft(editorDraft);
+      onlineSave();
+    },[editorDraft, onlineSave]);
+
+  const setCategoriesHandler = useCallback(
+    (c: string) => {
+      editorDraft.categories = c;
+      setEditorDraft(editorDraft);
+      onlineSave();
+    },[editorDraft, onlineSave]);
+
+  const observer = useMemo(() => {
+    return new MutationObserver((mutations) => {
+      let flg = false;
+      mutations.forEach((mutation) => {
+        const el = mutation.target as Element;
+        if(el.className === "tui-editor-contents"){
+          flg = true;
+        }
+      });
+      if(flg) onlineSave();
+    });
+  }, [onlineSave]);
+
+  useEffect(() => {
+    const target = editorRef.current;
+    observer.observe(target, observeConfig);
+  }, [editorDraft]);
+
+  useEffect(() => {
+    // set article and content
+    if(updatingArticle !== undefined) {
+      setEditorDraft(updatingArticle);
+    }
+    // eslint-disable-next-line
+  }, [updatingArticle]);
 
   useEffect(() => {
     // prepare markdown editor
@@ -109,48 +182,19 @@ const ArticleForm = (props: Props) => {
       previewStyle: "vertical",
       height: "755px"
     });
-
-    // start observe
-    observer.observe(target, observeConfig);
     instance.getHtml();
-
-    // set article
-    if(updatingArticle !== undefined) {
-      if(updatingArticle.title !== undefined){
-        setTitleHandler(updatingArticle.title);
-      }
-      if(updatingArticle.categories !== undefined && updatingArticle.categories !== null) {
-        let categoriesStr = "";
-        updatingArticle.categories.forEach(v => categoriesStr += v.name + ",");
-        setCategoriesHandler(categoriesStr);
-      }
-    }
     // eslint-disable-next-line
-  }, [updatingArticle]);
-
-  const setTitleHandler = useCallback(
-    (title: string) => {
-      setTitle(title);
-      draft.title = title;
-      save();
-    },[draft, save]);
-
-  const setCategoriesHandler = useCallback(
-    (categories: string) => {
-      setCategories(categories);
-      draft.categories = categories;
-      save();
-    },[draft, save]);
+  },[]);
 
   return(
     <EditContainerStyled>
       <InputForm 
-        value={title}
+        value={editorDraft.title}
         setter={setTitleHandler}
         errSetter={setErr}
         placeholder="title" />
       <InputForm 
-        value={categories}
+        value={editorDraft.categories}
         setter={setCategoriesHandler}
         errSetter={setErr}
         placeholder="category" />

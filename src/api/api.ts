@@ -140,7 +140,7 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    updateDate?: string;
+    updateDate: string;
     /**
      * 
      * @type {string}
@@ -347,16 +347,54 @@ export interface InlineResponse2005 {
 export interface InlineResponse2006 {
     /**
      * 
-     * @type {Array<string>}
+     * @type {Draft}
      * @memberof InlineResponse2006
+     */
+    draft: Draft;
+}
+/**
+ * 
+ * @export
+ * @interface InlineResponse2007
+ */
+export interface InlineResponse2007 {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof InlineResponse2007
      */
     images: string[];
     /**
      * 
      * @type {boolean}
-     * @memberof InlineResponse2006
+     * @memberof InlineResponse2007
      */
     next: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface InlineResponse2008
+ */
+export interface InlineResponse2008 {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineResponse2008
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineResponse2008
+     */
+    contentHash: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineResponse2008
+     */
+    imageHash: string;
 }
 /**
  * 
@@ -912,6 +950,44 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Return a list of drafts.
+         * @param {string} id Draft id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateFindDraftIdGet(id: string, options: any = {}): RequestArgs {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateFindDraftIdGet.");
+      }
+      const localVarPath = "/api/private/find/draft/id";
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (id !== undefined) {
+        localVarQueryParameter["id"] = id;
+      }
+
+
+    
+      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+         * 
+         * @summary Return a list of drafts.
          * @param {number} [p] Page of view.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1286,7 +1362,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2008> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDraftArticlePost(inlineObject4, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1302,6 +1378,20 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
     apiPrivateFindArticleListAllGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindArticleListAllGet(p, options);
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+         * 
+         * @summary Return a list of drafts.
+         * @param {string} id Draft id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateFindDraftIdGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftIdGet(id, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1328,7 +1418,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006> {
+    apiPrivateFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2007> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindImageListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1520,6 +1610,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
     apiPrivateFindArticleListAllGet(p?: number, options?: any) {
       return DefaultApiFp(configuration).apiPrivateFindArticleListAllGet(p, options)(axios, basePath);
+    },
+    /**
+         * 
+         * @summary Return a list of drafts.
+         * @param {string} id Draft id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateFindDraftIdGet(id: string, options?: any) {
+      return DefaultApiFp(configuration).apiPrivateFindDraftIdGet(id, options)(axios, basePath);
     },
     /**
          * 
@@ -1734,6 +1834,18 @@ export class DefaultApi extends BaseAPI {
      */
   public apiPrivateFindArticleListAllGet(p?: number, options?: any) {
     return DefaultApiFp(this.configuration).apiPrivateFindArticleListAllGet(p, options)(this.axios, this.basePath);
+  }
+
+  /**
+     * 
+     * @summary Return a list of drafts.
+     * @param {string} id Draft id.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+  public apiPrivateFindDraftIdGet(id: string, options?: any) {
+    return DefaultApiFp(this.configuration).apiPrivateFindDraftIdGet(id, options)(this.axios, this.basePath);
   }
 
   /**

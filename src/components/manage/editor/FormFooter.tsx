@@ -34,7 +34,7 @@ const FormFooter = (props: Props) => {
 
   const errMsg = useMemo(() => {
     if(err !== MyErrorStatus.NONE){
-      appErrorHandler.print(err);
+      //appErrorHandler.print(err);
       return appErrorHandler.message(err);
     }
     return "";

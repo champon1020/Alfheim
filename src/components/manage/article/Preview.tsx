@@ -38,11 +38,12 @@ const Content = styled.div`
 `;
 
 type Props = {
+  tab: string;
   focusedArticle: ArticleType;
 }
 
 const Preview = (props: Props) => {
-  const { focusedArticle } = props;
+  const { tab, focusedArticle } = props;
   const [content, setContent] = useState("");
 
   const contentRef = useCallback(
@@ -58,20 +59,20 @@ const Preview = (props: Props) => {
   const fetchContent = useCallback(
     () => {
       if(focusedArticle.contentHash === undefined) return;
-      axios.get(pathJoin(Config.srcHost, "articles", focusedArticle.contentHash))
-        .then(res => {
-          setContent(res.data);
-        });
+      const dirName = tab;
+      axios.get(pathJoin(Config.srcHost, dirName, focusedArticle.contentHash))
+        .then(res => setContent(res.data));
     },
-    [focusedArticle],
+    [focusedArticle, tab],
   );
 
   const handleEditClick = useCallback(
     () => {
       if(focusedArticle.id === undefined) return;
-      window.open(Config.host + "/manage?articleId=" + focusedArticle.id);
+      const pName = tab === "articles" ? "articleId" : "draftId";
+      window.open(Config.host + "/manage?"+ pName + "=" + focusedArticle.id, "_self");
     },
-    [focusedArticle.id],
+    [focusedArticle.id, tab],
   );
 
   useEffect(() => {
