@@ -758,6 +758,53 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
          * 
+         * @summary Delete draft.
+         * @param {string} id Draft id.
+         * @param {string} contentHash Draft content hash.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options: any = {}): RequestArgs {
+      // verify required parameter 'id' is not null or undefined
+      if (id === null || id === undefined) {
+        throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateDeleteDraftDelete.");
+      }
+      // verify required parameter 'contentHash' is not null or undefined
+      if (contentHash === null || contentHash === undefined) {
+        throw new RequiredError("contentHash","Required parameter contentHash was null or undefined when calling apiPrivateDeleteDraftDelete.");
+      }
+      const localVarPath = "/api/private/delete/draft";
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      if (id !== undefined) {
+        localVarQueryParameter["id"] = id;
+      }
+
+      if (contentHash !== undefined) {
+        localVarQueryParameter["contentHash"] = contentHash;
+      }
+
+
+    
+      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+         * 
          * @summary Delete images.
          * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
@@ -1205,6 +1252,21 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     },
     /**
          * 
+         * @summary Delete draft.
+         * @param {string} id Draft id.
+         * @param {string} contentHash Draft content hash.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteDraftDelete(id, contentHash, options);
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+         * 
          * @summary Delete images.
          * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
@@ -1420,6 +1482,17 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     },
     /**
          * 
+         * @summary Delete draft.
+         * @param {string} id Draft id.
+         * @param {string} contentHash Draft content hash.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any) {
+      return DefaultApiFp(configuration).apiPrivateDeleteDraftDelete(id, contentHash, options)(axios, basePath);
+    },
+    /**
+         * 
          * @summary Delete images.
          * @param {Array<string>} imageNames Image names.
          * @param {*} [options] Override http request option.
@@ -1612,6 +1685,19 @@ export class DefaultApi extends BaseAPI {
      */
   public apiFindCategoryListGet(options?: any) {
     return DefaultApiFp(this.configuration).apiFindCategoryListGet(options)(this.axios, this.basePath);
+  }
+
+  /**
+     * 
+     * @summary Delete draft.
+     * @param {string} id Draft id.
+     * @param {string} contentHash Draft content hash.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+  public apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any) {
+    return DefaultApiFp(this.configuration).apiPrivateDeleteDraftDelete(id, contentHash, options)(this.axios, this.basePath);
   }
 
   /**

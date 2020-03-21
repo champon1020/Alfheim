@@ -62,12 +62,13 @@ const ButtonStyled = styled.div`
 `;
 
 type Props = {
+  tab: string;
   article: ArticleType;
   setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
 }
 
 const ArticleListBox = (props: Props) => {
-  const { article, setFocusedArticle } = props;
+  const { tab, article, setFocusedArticle } = props;
   const privateButtonColor = useMemo(() => article.isPrivate ? "tomato" : "steelblue", [article]);
   const privateButtonText = useMemo(() => article.isPrivate ? "Private" : "Public", [article]);
 
@@ -100,6 +101,60 @@ const ArticleListBox = (props: Props) => {
     [article, updateArticle],
   );
 
+  const deleteDraft = useCallback(
+    async (a: ArticleType) => {
+      await defaultApi.apiPrivateDeleteDraftDelete(a.id, a.contentHash);
+    },[]
+  );
+
+  const handleOnDeleteClick = useCallback(
+    () => {
+      deleteDraft(article);
+      window.location.href=pathJoin(Config.host, "manage", "drafts");
+    },[article, deleteDraft]
+  );
+
+  const buttonElements = useCallback(
+    () => {
+      if(tab === "drafts"){
+        return (
+          <ButtonStyled>
+            <Button 
+              backgroundColor="tomato"
+              color="white"
+              text="Delete"
+              width="100"
+              height="40"
+              handleOnClick={handleOnDeleteClick} />
+          </ButtonStyled>
+        );
+      }
+      return (
+        <ButtonStyled>
+          <Button 
+            backgroundColor={privateButtonColor}
+            color="white"
+            text={privateButtonText}
+            width="100"
+            height="40"
+            handleOnClick={handleTogglePublicClick} />
+          <Button 
+            backgroundColor="yellowgreen"
+            color="white"
+            text="Go to"
+            width="100"
+            height="40"
+            handleOnClick={handleGoToClick} />
+        </ButtonStyled>
+      );
+    },[tab, 
+      handleGoToClick, 
+      handleOnDeleteClick,
+      handleTogglePublicClick, 
+      privateButtonColor, 
+      privateButtonText]
+  );
+
   return(
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
@@ -109,22 +164,7 @@ const ArticleListBox = (props: Props) => {
         <h2>{article.title}</h2>
         <h3>{formatDateStr(article.createDate)}</h3>
       </TitleDateStyled>
-      <ButtonStyled>
-        <Button 
-          backgroundColor={privateButtonColor}
-          color="white"
-          text={privateButtonText}
-          width="100"
-          height="40"
-          handleOnClick={handleTogglePublicClick} />
-        <Button 
-          backgroundColor="yellowgreen"
-          color="white"
-          text="Go to"
-          width="100"
-          height="40"
-          handleOnClick={handleGoToClick} />
-      </ButtonStyled>
+      {buttonElements()}
     </ArticleBoxStyled>
   );
 };
