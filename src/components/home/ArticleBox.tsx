@@ -44,7 +44,7 @@ const DateBoxStyled = styled.div`
     padding: 0 10px;
   }
   @media (max-width: 500px) {
-    font-size: 1rem;
+    font-size: 1.6rem;
   }
 `;
 
@@ -63,7 +63,7 @@ const TitleBoxStyled = styled.div`
     margin: 0 3%;
   }
   @media (max-width: 500px) {
-    font-size: 1rem;
+    font-size: 1.6rem;
   }
 `;
 

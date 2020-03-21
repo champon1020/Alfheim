@@ -15,7 +15,7 @@ const MainContainer = styled.div`
   order: 1;
   width: calc(var(--container-width) / 4 * 3);
   @media (max-width: 1000px) {
-    width: 800px;
+    width: 790px;
     margin: 0 auto;
   }
   @media (max-width: 800px) {

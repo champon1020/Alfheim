@@ -100,6 +100,7 @@ const Articles = () => {
   }, [page, tab]);
 
   useEffect(() => {
+    if(window.location.pathname.endsWith("articles")) setTab("articles");
     if(window.location.pathname.endsWith("drafts")) setTab("drafts");
   }, []);
 
@@ -127,6 +128,7 @@ const Articles = () => {
       </ArticleListContainer>
       <PreviewContainer>
         <Preview 
+          tab={tab}
           focusedArticle={focusedArticle} />
       </PreviewContainer>
     </ArticlesContainer>

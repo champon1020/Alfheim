@@ -1,9 +1,6 @@
-import { updateRecommendArticles } from "./sidebarAction";
 import { updateDraftContent, updateResourceArticle, updateDraft } from "./manageAction";
 
 export enum ActionEnum {
-  // sidebar action
-  UPDATE_RECOMMEND_ARTICLES = "UPDATE_RECOMMEND_ARTICLES",
   // manage action
   UPDATE_DRAFT = "UPDATE_DRAFT",
   UPDATE_DRAFT_CONTENT = "UPDATE_DRAFT_CONTENT",
@@ -11,8 +8,6 @@ export enum ActionEnum {
 }
 
 class AppActionCreator {
-  // sidebar action
-  public updateRecommendArticles = updateRecommendArticles;
   // manage action
   public updateDraft = updateDraft;
   public updateDraftContent = updateDraftContent;
