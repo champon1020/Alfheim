@@ -1,10 +1,7 @@
-import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import Editor from "tui-editor";
-import "tui-editor/dist/tui-editor.css"; // editor's ui
-import "tui-editor/dist/tui-editor-contents.css"; // editor's content
-import "codemirror/lib/codemirror.css"; // codemirror
-import "highlight.js/styles/github.css"; // code block highlight
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
+import SimpleMDE from "react-simplemde-editor";
+import "easymde/dist/easymde.min.css";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
 import { parseContents, parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
@@ -17,12 +14,10 @@ import { defaultApi } from "../../../App";
 
 const EditContainerStyled = styled.div`
   background-color: whitesmoke;
+  .CodeMirror {
+    height: 71vh;
+  }
 `;
-
-const observeConfig = { 
-  subtree: true, 
-  childList: true
-};
 
 export type EditorArticle = {
   id: string;
@@ -51,7 +46,6 @@ type Props = {
 
 const ArticleForm = (props: Props) => {
   const { updatingArticle, isArticle } = props;
-  const editorRef = useRef({} as HTMLDivElement);
 
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
@@ -147,24 +141,6 @@ const ArticleForm = (props: Props) => {
       onlineSave();
     },[editorDraft, onlineSave]);
 
-  const observer = useMemo(() => {
-    return new MutationObserver((mutations) => {
-      let flg = false;
-      mutations.forEach((mutation) => {
-        const el = mutation.target as Element;
-        if(el.className === "tui-editor-contents"){
-          flg = true;
-        }
-      });
-      if(flg) onlineSave();
-    });
-  }, [onlineSave]);
-
-  useEffect(() => {
-    const target = editorRef.current;
-    observer.observe(target, observeConfig);
-  }, [editorDraft]);
-
   useEffect(() => {
     // set article and content
     if(updatingArticle !== undefined) {
@@ -172,19 +148,6 @@ const ArticleForm = (props: Props) => {
     }
     // eslint-disable-next-line
   }, [updatingArticle]);
-
-  useEffect(() => {
-    // prepare markdown editor
-    const target = editorRef.current;
-    const instance = new Editor({
-      el: target,
-      initialEditType: "markdown",
-      previewStyle: "vertical",
-      height: "755px"
-    });
-    instance.getHtml();
-    // eslint-disable-next-line
-  },[]);
 
   return(
     <EditContainerStyled>
@@ -198,7 +161,13 @@ const ArticleForm = (props: Props) => {
         setter={setCategoriesHandler}
         errSetter={setErr}
         placeholder="category" />
-      <div ref={editorRef}></div>
+      <SimpleMDE 
+        options={{
+          spellChecker: false,
+          syncSideBySidePreviewScroll: true,
+          forceSync: true,
+        }}
+      />
       <FormFooter
         onSubmit={onSubmit}
         onPreview={onPreview}
