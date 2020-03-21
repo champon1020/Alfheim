@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, MouseEvent, useState, useMemo, useEffect } from "react";
+import React, { useCallback, useState, useMemo, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import MenuIcon from "../../assets/images/menu.svg";
 
