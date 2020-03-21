@@ -7,7 +7,7 @@ export type ArticleType = {
   updateDate: string;
   contentHash: string;
   imageHash: string;
-  _private: boolean;
+  isPrivate: boolean;
 } 
 
 export type CategoryType = {
@@ -34,7 +34,7 @@ export type ArticleRequestType = {
   categories: CategoryRequestType[];
   contentHash: string;
   imageHash: string;
-  _private: boolean;
+  isPrivate: boolean;
 }
 
 export type CategoryRequestType = {

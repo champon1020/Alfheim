@@ -21,7 +21,6 @@ const Images = () => {
   const fetchImages = useCallback(
     async (p: number) => {
       const res = await defaultApi.apiPrivateFindImageListGet(p);
-      console.log(res);
       setImages(res.data.images);
       setNext(res.data.next);
     },

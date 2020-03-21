@@ -24,10 +24,11 @@ const TabElement = styled.li<{selected: boolean}>`
 type Props = {
   tab: string;
   setTab: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Tab = (props: Props) => {
-  const { tab, setTab } = props;
+  const { tab, setTab, setPage } = props;
   const articlesRef = useRef({} as HTMLLIElement);
   const draftsRef = useRef({} as HTMLLIElement);
   
@@ -35,8 +36,9 @@ const Tab = (props: Props) => {
     (e: MouseEvent<HTMLLIElement>) => {
       if(e.currentTarget === articlesRef.current) setTab("articles");
       if(e.currentTarget === draftsRef.current) setTab("drafts");
+      setPage(1);
     },
-    [setTab],
+    [setTab, setPage],
   );
 
   return (

@@ -3,7 +3,7 @@ import ArticleList from "./article/ArticleList";
 import styled from "styled-components";
 import { ArticleType, DraftType } from "src/type";
 import { defaultApi } from "../../App";
-import { formatDateStr, parseDraftToArticle } from "../services/parser";
+import { parseDraftToArticle } from "../services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
 import Tab from "./article/Tab";
@@ -36,7 +36,7 @@ const PageContainerStyled = styled.div`
 `;
 
 const Articles = () => {
-  const [tab, setTab] = useState("articles");
+  const [tab, setTab] = useState("");
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as ArticleType[]);
@@ -45,17 +45,17 @@ const Articles = () => {
   const fetchArticles = useCallback(
     async () => {
       const res = await defaultApi.apiPrivateFindArticleListAllGet(page);
-      const fetchedArticles = res.data.articles;
       const articleList = [] as ArticleType[];
+      const fetchedArticles = res.data.articles;
+
+      if(fetchedArticles === null) {
+        setMaxPage(1);
+        setArticles([]);
+        return;
+      }
 
       fetchedArticles.forEach(v => {
-        const createDate = formatDateStr(v.createDate);
-        const updateDate = formatDateStr(v.updateDate);
-        articleList.push({
-          ...v,
-          createDate,
-          updateDate,
-        });
+        articleList.push(v);
       });
 
       setMaxPage(res.data.maxPage);
@@ -66,13 +66,20 @@ const Articles = () => {
     async () => {
       const res = await defaultApi.apiPrivateFindDraftListGet(1);
       const articleList = [] as ArticleType[];
-      const { drafts } = res.data;
-      drafts.forEach(v => {
+      const fetchedDrafts = res.data.drafts;
+
+      if(fetchedDrafts === null) {
+        setMaxPage(1);
+        setArticles([]);
+        return;
+      }
+
+      fetchedDrafts.forEach(v => {
         const a = parseDraftToArticle(v as DraftType);
-        articleList.push({
-          ...a
-        });
+        articleList.push(a);
       });
+
+      setMaxPage(res.data.maxPage);
       setArticles(articleList);
     }, []);
 
@@ -87,22 +94,24 @@ const Articles = () => {
     },[page]);
   
   useEffect(() => {
-    if(tab === "articles"){
-      fetchArticles();
-    }
-    if(tab === "drafts"){
-      fetchDrafts();
-    }
+    if(tab === "articles") fetchArticles();
+    if(tab === "drafts") fetchDrafts();
     // eslint-disable-next-line
   }, [page, tab]);
+
+  useEffect(() => {
+    if(window.location.pathname.endsWith("drafts")) setTab("drafts");
+  }, []);
 
   return(
     <ArticlesContainer>
       <ArticleListContainer>
         <Tab 
           tab={tab}
-          setTab={setTab} />
-        <ArticleList 
+          setTab={setTab}
+          setPage={setPage} />
+        <ArticleList
+          tab={tab} 
           articles={articles}
           setFocusedArticle={setFocusedArticle} />
         <PageContainerStyled>

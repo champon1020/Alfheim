@@ -36,6 +36,10 @@ input {
   outline: none;
 }
 
+button {
+  outline: none;
+}
+
 html {
   font-size: 62.5%;
   --container-width: 1150px;
