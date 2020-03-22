@@ -57,11 +57,17 @@ const Preview = (props: Props) => {
   );
 
   const fetchContent = useCallback(
-    () => {
+    async () => {
       if(focusedArticle.contentHash === undefined) return;
       const dirName = tab;
-      axios.get(pathJoin(Config.srcHost, dirName, focusedArticle.contentHash))
-        .then(res => setContent(res.data));
+      const res = await axios.get(
+        pathJoin(
+          Config.srcHost, 
+          dirName, 
+          focusedArticle.contentHash + "_html",
+        ),
+      );
+      setContent(res.data);
     },
     [focusedArticle, tab],
   );

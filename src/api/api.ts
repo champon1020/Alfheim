@@ -177,7 +177,7 @@ export interface InlineObject {
      * @type {string}
      * @memberof InlineObject
      */
-    mdeContents: string;
+    mdContents: string;
 }
 /**
  * 
@@ -215,7 +215,7 @@ export interface InlineObject2 {
      * @type {string}
      * @memberof InlineObject2
      */
-    mdeContents: string;
+    mdContents: string;
 }
 /**
  * 
@@ -247,7 +247,7 @@ export interface InlineObject4 {
      * @type {string}
      * @memberof InlineObject4
      */
-    mdeContents: string;
+    mdContents: string;
 }
 /**
  * 

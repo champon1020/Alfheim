@@ -60,7 +60,7 @@ const ArticleView = (props: Props) => {
   const fetchContent = useCallback(
     async (article: ArticleType) => {
       if(article.contentHash === undefined) return;
-      const res = await axios.get(pathJoin(Config.srcHost, "articles", article.contentHash));
+      const res = await axios.get(pathJoin(Config.srcHost, "articles", article.contentHash+"_html"));
       setContent(res.data);
     },[]
   );

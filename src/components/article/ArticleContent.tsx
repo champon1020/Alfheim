@@ -22,6 +22,7 @@ const ArticleContent = (props: Props) => {
 
   const contentRef = useCallback(
     (node: HTMLElement) => {
+      console.log(content);
       if(node !== null){
         node.insertAdjacentHTML("afterbegin", content);
       }

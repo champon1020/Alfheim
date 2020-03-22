@@ -44,7 +44,7 @@ export const defaultEditorDraft: EditorArticle = {
 };
 
 const htmlPreviewClass = ".editor-preview";
-const apiOff = false;
+const apiOff = true;
 
 type Props = {
   updatingArticle?: EditorArticle;
@@ -59,7 +59,7 @@ const ArticleForm = (props: Props) => {
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
   const [editorDraft, setEditorDraft] = useState(defaultEditorDraft);
   const [htmlContents, setHtmlContents] = useState("");
-  const [mdeContents, setMdeContents] = useState("");
+  const [mdContents, setMdContents] = useState("");
   const dispatch = useDispatch();
 
   const registerArticle = useCallback(
@@ -68,7 +68,7 @@ const ArticleForm = (props: Props) => {
       await defaultApi.apiPrivateRegisterArticlePost({
         article: a, 
         htmlContents: htmlCon,
-        mdeContents: mdeCon,
+        mdContents: mdeCon,
       });
     },[]
   );
@@ -79,7 +79,7 @@ const ArticleForm = (props: Props) => {
       await defaultApi.apiPrivateUpdateArticlePut({
         article: a, 
         htmlContents: htmlCon,
-        mdeContents: mdeCon,
+        mdContents: mdeCon,
       });
     },[]
   );
@@ -87,7 +87,10 @@ const ArticleForm = (props: Props) => {
   const updateDraft = useCallback(
     async (d: DraftRequestType, mdeCon: string) => {
       if(apiOff) return;
-      const res = await defaultApi.apiPrivateDraftArticlePost({article: d, mdeContents: mdeCon});
+      const res = await defaultApi.apiPrivateDraftArticlePost({
+        article: d, 
+        mdContents: mdeCon
+      });
       editorDraft.id = res.data.id;
       editorDraft.contentHash = res.data.contentHash;
       editorDraft.imageHash = res.data.imageHash;
@@ -110,7 +113,8 @@ const ArticleForm = (props: Props) => {
         return "";
       }
       const div = document.createElement("div");
-      div.appendChild(newContents.cloneNode(true));
+      const contentsNode = newContents.cloneNode(true);
+      contentsNode.childNodes.forEach(cn => div.appendChild(cn));
       return div.innerHTML;
     },[],
   );
@@ -123,13 +127,13 @@ const ArticleForm = (props: Props) => {
       }
       // call api of saving EditorDraft and mdeContents
       const newTimerId = setTimeout(() => {
-        let newMdeContents = mdeContents;
+        let newMdeContents = mdContents;
         let newHtmlContents = htmlContents;
         if(value !== undefined){
           newMdeContents = value;
           newHtmlContents = parseContents(htmlPreviewClass);
           setHtmlContents(newHtmlContents);
-          setMdeContents(newMdeContents);
+          setMdContents(newMdeContents);
         }
         const reqDraft = parseToRequestDraft(editorDraft);
         const draft = parseToDraft(editorDraft);
@@ -143,7 +147,7 @@ const ArticleForm = (props: Props) => {
       updateDraft,
       isArticle,
       htmlContents,
-      mdeContents,
+      mdContents,
       parseContents],
   );
 
@@ -152,15 +156,15 @@ const ArticleForm = (props: Props) => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
 
       const reqArticle = parseToRequestArticle(editorDraft);
-      if(isArticle) updateArticle(reqArticle, htmlContents, mdeContents);
-      else registerArticle(reqArticle, htmlContents, mdeContents);
+      if(isArticle) updateArticle(reqArticle, htmlContents, mdContents);
+      else registerArticle(reqArticle, htmlContents, mdContents);
     },[editorDraft, 
       validation,
       registerArticle,
       isArticle,
       updateArticle,
       htmlContents,
-      mdeContents],
+      mdContents],
   );
 
   const onPreview = useCallback(
@@ -192,7 +196,7 @@ const ArticleForm = (props: Props) => {
     }
     // set initial content if exist
     if(updatingContents !== undefined){
-      setMdeContents(updatingContents);
+      setMdContents(updatingContents);
     }
     // eslint-disable-next-line
   }, [updatingArticle, updatingContents]);
@@ -212,7 +216,7 @@ const ArticleForm = (props: Props) => {
       <EditorStyled>
         <SimpleMDE
           id="savetest"
-          value={mdeContents}
+          value={mdContents}
           onChange={onlineSave}
           options={{
             spellChecker: false,
