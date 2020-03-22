@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import { ax } from "../../App";
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
-import { defaultApi, Config } from "src/App";
+import { defaultApi } from "src/App";
 import { parseFromArticle, parseFromDraft } from "./editor/parser";
 import { pathJoin } from "../services/parser";
 
@@ -42,7 +42,7 @@ const CreateArticle = (props: Props) => {
   // fetch mde content
   const fetchContent = useCallback(
     async (url: string) => {
-      const res = await axios.get(url);
+      const res = await ax.get(url);
       setUpdatingContents(res.data);
     },[],
   );
@@ -50,11 +50,11 @@ const CreateArticle = (props: Props) => {
   useEffect(() => {
     if(articleId !== undefined) {
       fetchArticle(articleId);
-      fetchContent(pathJoin(Config.srcHost, "articles", updatingArticle.contentHash + "_mde"));
+      fetchContent(pathJoin("articles", updatingArticle.contentHash + "_mde"));
     }
     if(draftId !== undefined) {
       fetchDraft(draftId);
-      fetchContent(pathJoin(Config.srcHost, "drafts", updatingArticle.contentHash + "_mde"));
+      fetchContent(pathJoin("drafts", updatingArticle.contentHash + "_mde"));
     }
     // eslint-disable-next-line
   },[articleId, draftId]);

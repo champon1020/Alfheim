@@ -6,10 +6,14 @@ import ManageView from "./components/view/ManageView";
 import PublicView from "./components/view/PublicView";
 import { PersistGate } from "redux-persist/integration/react";
 import * as api from "./api/index";
+import axios from "axios";
 import config from "./private/config.json";
 
 export const defaultApi = new api.DefaultApi();
 export const Config = config.dev;
+export const ax = axios.create({
+  baseURL: Config.srcHost
+});
 
 const App = () => {
   return(

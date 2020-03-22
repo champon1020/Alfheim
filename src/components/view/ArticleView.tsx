@@ -9,7 +9,7 @@ import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
 import { checkIsDraft } from "../article/util";
 import { parseDraftToArticle, pathJoin } from "../services/parser";
-import axios from "axios";
+import { ax } from "../../App";
 import { defaultApi, Config } from "src/App";
 
 const MainContainer = styled.div`
@@ -60,7 +60,7 @@ const ArticleView = (props: Props) => {
   const fetchContent = useCallback(
     async (article: ArticleType) => {
       if(article.contentHash === undefined) return;
-      const res = await axios.get(pathJoin(Config.srcHost, "articles", article.contentHash+"_html"));
+      const res = await ax.get(pathJoin("articles", article.contentHash+"_html"));
       setContent(res.data);
     },[]
   );

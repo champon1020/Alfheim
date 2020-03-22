@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import axios from "axios";
+import { ax } from "../../../App";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
@@ -62,9 +62,8 @@ const Preview = (props: Props) => {
       const dirName = tab;
       let hash = focusedArticle.contentHash;
       hash += dirName==="drafts" ? "_md" : "_html";
-      const res = await axios.get(
+      const res = await ax.get(
         pathJoin(
-          Config.srcHost, 
           dirName, 
           hash,
         ),
