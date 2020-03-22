@@ -60,11 +60,13 @@ const Preview = (props: Props) => {
     async () => {
       if(focusedArticle.contentHash === undefined) return;
       const dirName = tab;
+      let hash = focusedArticle.contentHash;
+      hash += dirName==="drafts" ? "_md" : "_html";
       const res = await axios.get(
         pathJoin(
           Config.srcHost, 
           dirName, 
-          focusedArticle.contentHash + "_html",
+          hash,
         ),
       );
       setContent(res.data);

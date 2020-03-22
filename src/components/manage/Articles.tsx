@@ -81,7 +81,7 @@ const Articles = () => {
 
       setMaxPage(res.data.maxPage);
       setArticles(articleList);
-    }, []);
+    }, [page]);
 
   const prevCallback = useCallback(
     () => {
