@@ -102,15 +102,3 @@ export const parseFromDraft = (d: DraftType): EditorArticle => {
     isPrivate: true,
   };
 };
-
-export const parseContents = (setContents: React.Dispatch<React.SetStateAction<string>>): string => {
-  const newContents = document.querySelector(".tui-editor-contents");
-  if(newContents === null) {
-    console.error(".tui-editor-contents is null");
-    return "";
-  }
-  const div = document.createElement("div");
-  div.appendChild(newContents.cloneNode(true));
-  setContents(div.innerHTML);
-  return div.innerHTML;
-};

@@ -1,7 +1,9 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
+import axios from "axios";
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
-import { defaultApi } from "src/App";
+import { defaultApi, Config } from "src/App";
 import { parseFromArticle, parseFromDraft } from "./editor/parser";
+import { pathJoin } from "../services/parser";
 
 type Props = {
   articleId?: string;
@@ -11,9 +13,11 @@ type Props = {
 const CreateArticle = (props: Props) => {
   const { articleId, draftId } = props;
   const [updatingArticle, setUpdatingArticle] = useState(defaultEditorDraft);
+  const [updatingContents, setUpdatingContents] = useState("");
 
   const isArticle = useMemo(() => articleId !== undefined, [articleId]);
 
+  // fetch article by id
   const fetchArticle = useCallback(
     async (id: string) => {
       const res = await defaultApi.apiFindArticleIdGet(id);
@@ -35,9 +39,23 @@ const CreateArticle = (props: Props) => {
     [],
   );
 
+  // fetch mde content
+  const fetchContent = useCallback(
+    async (url: string) => {
+      const res = await axios.get(url);
+      setUpdatingContents(res.data);
+    },[],
+  );
+
   useEffect(() => {
-    if(articleId !== undefined) fetchArticle(articleId);
-    if(draftId !== undefined) fetchDraft(draftId);
+    if(articleId !== undefined) {
+      fetchArticle(articleId);
+      fetchContent(pathJoin(Config.srcHost, "articles", updatingArticle.contentHash + "_mde"));
+    }
+    if(draftId !== undefined) {
+      fetchDraft(draftId);
+      fetchContent(pathJoin(Config.srcHost, "drafts", updatingArticle.contentHash + "_mde"));
+    }
     // eslint-disable-next-line
   },[articleId, draftId]);
   
@@ -45,6 +63,7 @@ const CreateArticle = (props: Props) => {
     <div id="create-article-container">
       <ArticleForm 
         updatingArticle={updatingArticle}
+        updatingContents={updatingContents}
         isArticle={isArticle} />
     </div>
   );
