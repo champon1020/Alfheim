@@ -15,10 +15,13 @@ const BlogTitle = styled.h1`
   color: white;
   display: inline-block;
   top: 10%;
-  left: 5%;
+  left: 2%;
   font-size: 3rem;
   &:hover {
     opacity: 0.7;
+  }
+  @media (max-width: 800px) {
+    left: 5%;
   }
 `;
 

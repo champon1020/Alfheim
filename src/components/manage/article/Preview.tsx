@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
-import axios from "axios";
+import { ax } from "../../../App";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
@@ -57,11 +57,18 @@ const Preview = (props: Props) => {
   );
 
   const fetchContent = useCallback(
-    () => {
+    async () => {
       if(focusedArticle.contentHash === undefined) return;
       const dirName = tab;
-      axios.get(pathJoin(Config.srcHost, dirName, focusedArticle.contentHash))
-        .then(res => setContent(res.data));
+      let hash = focusedArticle.contentHash;
+      hash += dirName==="drafts" ? "_md" : "_html";
+      const res = await ax.get(
+        pathJoin(
+          dirName, 
+          hash,
+        ),
+      );
+      setContent(res.data);
     },
     [focusedArticle, tab],
   );

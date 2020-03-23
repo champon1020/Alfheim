@@ -4,7 +4,7 @@ import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
-import { parseContents, parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
+import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
 import { ArticleRequestType, DraftRequestType } from "src/type";
@@ -17,6 +17,10 @@ const EditContainerStyled = styled.div`
   .CodeMirror {
     height: 71vh;
   }
+`;
+
+const EditorStyled = styled.div`
+  font-size: 1.6rem;
 `;
 
 export type EditorArticle = {
@@ -36,42 +40,61 @@ export const defaultEditorDraft: EditorArticle = {
   updateDate: "",
   contentHash: "",
   imageHash: "",
-  isPrivate: true
+  isPrivate: false
 };
+
+const htmlPreviewClass = ".editor-preview";
+const apiOff = true;
 
 type Props = {
   updatingArticle?: EditorArticle;
+  updatingContents?: string;
   isArticle: boolean;
 }
 
 const ArticleForm = (props: Props) => {
-  const { updatingArticle, isArticle } = props;
+  const { updatingArticle, updatingContents, isArticle } = props;
 
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
   const [editorDraft, setEditorDraft] = useState(defaultEditorDraft);
-  const [contents, setContents] = useState("");
+  const [htmlContents, setHtmlContents] = useState("");
+  const [mdContents, setMdContents] = useState("");
   const dispatch = useDispatch();
 
   const registerArticle = useCallback(
-    async (a: ArticleRequestType, c: string) => {
-      await defaultApi.apiPrivateRegisterArticlePost({article: a, contents: c});
+    async (a: ArticleRequestType, htmlCon: string, mdeCon: string) => {
+      if(apiOff) return;
+      await defaultApi.apiPrivateRegisterArticlePost({
+        article: a, 
+        htmlContents: htmlCon,
+        mdContents: mdeCon,
+      });
     },[]
   );
 
   const updateArticle = useCallback(
-    async (a: ArticleRequestType, c: string) => {
-      await defaultApi.apiPrivateUpdateArticlePut({article: a, contents: c});
+    async (a: ArticleRequestType, htmlCon: string, mdeCon: string) => {
+      if(apiOff) return;
+      await defaultApi.apiPrivateUpdateArticlePut({
+        article: a, 
+        htmlContents: htmlCon,
+        mdContents: mdeCon,
+      });
     },[]
   );
 
   const updateDraft = useCallback(
-    async (d: DraftRequestType, c: string) => {
-      // const res = await defaultApi.apiPrivateDraftArticlePost({article: d, contents: c});
-      // editorDraft.id = res.data.id;
-      // editorDraft.contentHash = res.data.contentHash;
-      // editorDraft.imageHash = res.data.imageHash;
-      // window.history.pushState(null, "", "?draftId=" + editorDraft.id);
+    async (d: DraftRequestType, mdeCon: string) => {
+      if(apiOff) return;
+      const res = await defaultApi.apiPrivateDraftArticlePost({
+        article: d, 
+        mdContents: mdeCon
+      });
+      editorDraft.id = res.data.id;
+      editorDraft.contentHash = res.data.contentHash;
+      editorDraft.imageHash = res.data.imageHash;
+      window.history.pushState(null, "", "?draftId=" + editorDraft.id);
       // eslint-disable-next-line
     },[editorDraft]
   );
@@ -82,41 +105,66 @@ const ArticleForm = (props: Props) => {
     },[],
   );
 
+  const parseContents = useCallback(
+    (className: string) => {
+      const newContents = document.querySelector(className);
+      if(newContents === null) {
+        console.error(className + " is null");
+        return "";
+      }
+      const div = document.createElement("div");
+      const contentsNode = newContents.cloneNode(true);
+      contentsNode.childNodes.forEach(cn => div.appendChild(cn));
+      return div.innerHTML;
+    },[],
+  );
+
   const onlineSave = useCallback(
-    () => {
+    (value?: string) => {
       if(isArticle) return;
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
-      // save 
+      // call api of saving EditorDraft and mdeContents
       const newTimerId = setTimeout(() => {
-        const newContents = parseContents(setContents);
+        let newMdeContents = mdContents;
+        let newHtmlContents = htmlContents;
+        if(value !== undefined){
+          newMdeContents = value;
+          newHtmlContents = parseContents(htmlPreviewClass);
+          setHtmlContents(newHtmlContents);
+          setMdContents(newMdeContents);
+        }
         const reqDraft = parseToRequestDraft(editorDraft);
         const draft = parseToDraft(editorDraft);
-        dispatch(appActionCreator.updateDraft(draft, newContents));
-        updateDraft(reqDraft, newContents);
+        dispatch(appActionCreator.updateDraft(draft, newHtmlContents));
+        updateDraft(reqDraft, newMdeContents);
       }, 300);
       setTimerId(newTimerId);
-    },[timerId, 
+    },[timerId,
       editorDraft, 
       dispatch, 
       updateDraft,
-      isArticle],
+      isArticle,
+      htmlContents,
+      mdContents,
+      parseContents],
   );
 
   const onSubmit = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
-      const reqArticle = parseToRequestArticle(editorDraft);
-      const newContents = parseContents(setContents);
 
-      if(isArticle) updateArticle(reqArticle, newContents);
-      else registerArticle(reqArticle, newContents);
+      const reqArticle = parseToRequestArticle(editorDraft);
+      if(isArticle) updateArticle(reqArticle, htmlContents, mdContents);
+      else registerArticle(reqArticle, htmlContents, mdContents);
     },[editorDraft, 
       validation,
       registerArticle,
       isArticle,
-      updateArticle],
+      updateArticle,
+      htmlContents,
+      mdContents],
   );
 
   const onPreview = useCallback(
@@ -142,12 +190,16 @@ const ArticleForm = (props: Props) => {
     },[editorDraft, onlineSave]);
 
   useEffect(() => {
-    // set article and content
+    // set initial article if exist
     if(updatingArticle !== undefined) {
       setEditorDraft(updatingArticle);
     }
+    // set initial content if exist
+    if(updatingContents !== undefined){
+      setMdContents(updatingContents);
+    }
     // eslint-disable-next-line
-  }, [updatingArticle]);
+  }, [updatingArticle, updatingContents]);
 
   return(
     <EditContainerStyled>
@@ -161,13 +213,24 @@ const ArticleForm = (props: Props) => {
         setter={setCategoriesHandler}
         errSetter={setErr}
         placeholder="category" />
-      <SimpleMDE 
-        options={{
-          spellChecker: false,
-          syncSideBySidePreviewScroll: true,
-          forceSync: true,
-        }}
-      />
+      <EditorStyled>
+        <SimpleMDE
+          id="savetest"
+          value={mdContents}
+          onChange={onlineSave}
+          options={{
+            spellChecker: false,
+            syncSideBySidePreviewScroll: true,
+            forceSync: true,
+            autosave: {
+              enabled: false,
+              uniqueId: "savetest",
+              delay: 1000
+            }
+          }}
+        />
+      </EditorStyled>
+      <div id="savetest" />
       <FormFooter
         onSubmit={onSubmit}
         onPreview={onPreview}
