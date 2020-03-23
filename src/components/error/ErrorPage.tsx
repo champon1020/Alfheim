@@ -47,6 +47,20 @@ const Desc = styled.h2<{top: number; fontSize: number}>`
   }
 `;
 
+const Info = styled.div`
+  margin: 2% auto 0 auto;
+  color: gray;
+  display: block;
+  width: fit-content;
+  font-size: 1.2rem;
+  @media (max-width: 650px){
+    font-size: 1rem;
+  }
+  & a {
+    color: gray;
+  }
+`;
+
 const ErrorPage = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -73,6 +87,15 @@ const ErrorPage = () => {
           fontSize={3.5}>
           {"Please try again later."}
         </Desc>
+        <Info>
+          {"The picture is by "}
+          <a href="https://pixabay.com/ja/users/steinchen-21981/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=261888">
+            {"Gaby Stein"}
+          </a>{" from "}
+          <a href="https://pixabay.com/ja/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=261888">
+            {" Pixabay"}
+          </a>
+        </Info>
       </Content>
       <footer>
         <Footer />
