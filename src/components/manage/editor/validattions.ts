@@ -1,4 +1,4 @@
-import { ErrorStatus, ValidationErrorStatus } from "src/components/services/ErrorHandler";
+import { ErrorStatus, ValidationErrorStatus } from "src/components/error/ErrorHandler";
 
 // validation parameters
 const TITLE_MAX_LENGTH = 50;
