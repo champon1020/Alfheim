@@ -97,7 +97,13 @@ const MenuContent = styled.ul<{hidden: boolean}>`
   }
 `;
 
-const Header = () => {
+type Props = {
+  onResizeHandler?: () => void;
+}
+
+const Header = (props: Props) => {
+  const { onResizeHandler } = props;
+
   const [isMenu, setMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -137,8 +143,9 @@ const Header = () => {
     window.onresize = () => {
       if(window.innerWidth <= 800) setMenu(true);
       else setMenu(false);
+      if(onResizeHandler !== undefined) onResizeHandler();
     };
-  }, []);
+  }, [onResizeHandler]);
 
   return(
     <HeaderStyled>
