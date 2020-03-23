@@ -34,7 +34,6 @@ const App = () => {
             <Route exact path={"/manage"} component={ManageView} />
             <Route exact path={"/manage/:mode"} component={ManageView} />
 
-            <Route exact path={"/error/:code"} component={ErrorPage} />
             <Route component={ErrorPage} />
           </Switch>
         </PersistGate>
