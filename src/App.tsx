@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import store, { persistor } from "./stores/store";
 import { Provider } from "react-redux";
@@ -8,6 +8,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import * as api from "./api/index";
 import axios from "axios";
 import config from "./private/config.json";
+import ErrorPage from "./components/error/ErrorPage";
 
 export const defaultApi = new api.DefaultApi();
 export const Config = config.dev;
@@ -32,6 +33,8 @@ const App = () => {
 
             <Route exact path={"/manage"} component={ManageView} />
             <Route exact path={"/manage/:mode"} component={ManageView} />
+
+            <Route component={ErrorPage} />
           </Switch>
         </PersistGate>
       </Provider>

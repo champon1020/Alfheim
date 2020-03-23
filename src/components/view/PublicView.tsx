@@ -8,6 +8,7 @@ import Bar from "../common/Bar";
 import HomeView from "./HomeView";
 import ArticleView from "./ArticleView";
 import CategoryListView from "./CategoryListView";
+import ErrorBoundary from "../error/ErrorBoundary";
 
 const Container = styled.div`
   min-height: 95vh;
@@ -49,21 +50,23 @@ const PublicView = (props: Props) => {
   );
 
   return (
-    <Container>
-      <header>
-        <Header />
-        <ImageHeader />
-      </header>
-      <main>
-        <Bar />
-        <Wrapper>
-          {selectView()}
-        </Wrapper>
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <header>
+          <Header />
+          <ImageHeader />
+        </header>
+        <main>
+          <Bar />
+          <Wrapper>
+            {selectView()}
+          </Wrapper>
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+      </Container>
+    </ErrorBoundary>
   );
 };
 

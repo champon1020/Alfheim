@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import appErrorHandler, { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
+import appErrorHandler, { ErrorStatus, MyErrorStatus } from "src/components/error/ErrorHandler";
 
 const ContainerStyled = styled.div`
   display: flex;

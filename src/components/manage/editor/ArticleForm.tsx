@@ -8,7 +8,7 @@ import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./pars
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
 import { ArticleRequestType, DraftRequestType } from "src/type";
-import { ErrorStatus, MyErrorStatus } from "src/components/services/ErrorHandler";
+import { ErrorStatus, MyErrorStatus } from "src/components/error/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
 import { defaultApi } from "../../../App";
 

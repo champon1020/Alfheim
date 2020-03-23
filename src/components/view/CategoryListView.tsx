@@ -31,7 +31,7 @@ const SubContainer = styled.div`
 const CategoryListView = () => {
   useEffect(() => {
     window.scroll({
-      top: 400,
+      top: 550,
       behavior: "smooth"
     });
   }, []);
