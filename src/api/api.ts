@@ -411,6 +411,19 @@ export interface InlineResponse2008 {
 /**
  * 
  * @export
+ * @interface InlineResponse403
+ */
+export interface InlineResponse403 {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InlineResponse403
+     */
+    verify?: boolean;
+}
+/**
+ * 
+ * @export
  * @interface RequestArticle
  */
 export interface RequestArticle {
