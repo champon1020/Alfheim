@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import Cookie from "js-cookie";
 import ImageList from "./image/ImageList";
 import styled from "styled-components";
 import Page from "./Page";
@@ -20,7 +21,11 @@ const Images = () => {
 
   const fetchImages = useCallback(
     async (p: number) => {
-      const res = await defaultApi.apiPrivateFindImageListGet(p);
+      const res = await defaultApi.apiPrivateFindImageListGet(p, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
       setImages(res.data.images);
       setNext(res.data.next);
     },

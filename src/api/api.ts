@@ -340,16 +340,10 @@ export interface InlineResponse2004 {
 export interface InlineResponse2005 {
     /**
      * 
-     * @type {Array<Draft>}
+     * @type {boolean}
      * @memberof InlineResponse2005
      */
-    drafts: Draft[];
-    /**
-     * 
-     * @type {number}
-     * @memberof InlineResponse2005
-     */
-    maxPage: number;
+    verify?: boolean;
 }
 /**
  * 
@@ -359,10 +353,16 @@ export interface InlineResponse2005 {
 export interface InlineResponse2006 {
     /**
      * 
-     * @type {Draft}
+     * @type {Array<Draft>}
      * @memberof InlineResponse2006
      */
-    draft: Draft;
+    drafts: Draft[];
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineResponse2006
+     */
+    maxPage: number;
 }
 /**
  * 
@@ -372,16 +372,10 @@ export interface InlineResponse2006 {
 export interface InlineResponse2007 {
     /**
      * 
-     * @type {Array<string>}
+     * @type {Draft}
      * @memberof InlineResponse2007
      */
-    images: string[];
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InlineResponse2007
-     */
-    next: boolean;
+    draft: Draft;
 }
 /**
  * 
@@ -391,35 +385,41 @@ export interface InlineResponse2007 {
 export interface InlineResponse2008 {
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof InlineResponse2008
+     */
+    images: string[];
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InlineResponse2008
+     */
+    next: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface InlineResponse2009
+ */
+export interface InlineResponse2009 {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineResponse2009
      */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof InlineResponse2008
+     * @memberof InlineResponse2009
      */
     contentHash: string;
     /**
      * 
      * @type {string}
-     * @memberof InlineResponse2008
+     * @memberof InlineResponse2009
      */
     imageHash: string;
-}
-/**
- * 
- * @export
- * @interface InlineResponse403
- */
-export interface InlineResponse403 {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InlineResponse403
-     */
-    verify?: boolean;
 }
 /**
  * 
@@ -846,6 +846,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
       if (id !== undefined) {
         localVarQueryParameter["id"] = id;
       }
@@ -888,6 +897,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
       if (imageNames) {
         localVarQueryParameter["imageNames"] = imageNames;
       }
@@ -922,6 +940,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
 
     
       localVarHeaderParameter["Content-Type"] = "application/json";
@@ -955,6 +982,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
 
       if (p !== undefined) {
         localVarQueryParameter["p"] = p;
@@ -994,6 +1030,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
       if (id !== undefined) {
         localVarQueryParameter["id"] = id;
       }
@@ -1028,6 +1073,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
       if (p !== undefined) {
         localVarQueryParameter["p"] = p;
       }
@@ -1061,6 +1115,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
 
       if (p !== undefined) {
         localVarQueryParameter["p"] = p;
@@ -1100,6 +1163,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
 
     
       localVarHeaderParameter["Content-Type"] = "application/json";
@@ -1134,6 +1206,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
       const localVarFormParams = new FormData();
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
 
 
       if (images !== undefined) { 
@@ -1176,6 +1257,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
 
     
       localVarHeaderParameter["Content-Type"] = "application/json";
@@ -1214,6 +1304,15 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       const localVarHeaderParameter = {} as any;
       const localVarQueryParameter = {} as any;
 
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
 
     
       localVarHeaderParameter["Content-Type"] = "application/json";
@@ -1224,6 +1323,44 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
       const needsSerialization = (typeof inlineObject2 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
       localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject2 !== undefined ? inlineObject2 : {}) : (inlineObject2 || "");
+
+      return {
+        url: globalImportUrl.format(localVarUrlObj),
+        options: localVarRequestOptions,
+      };
+    },
+    /**
+         * 
+         * @summary Verify token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiVerifyTokenPost(options: any = {}): RequestArgs {
+      const localVarPath = "/api/verify/token";
+      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+      let baseOptions;
+      if (configuration) {
+        baseOptions = configuration.baseOptions;
+      }
+      const localVarRequestOptions = { method: "POST", ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      if (configuration && configuration.accessToken) {
+        const accessToken = typeof configuration.accessToken === "function"
+          ? configuration.accessToken()
+          : configuration.accessToken;
+        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+      }
+
+
+    
+      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+      delete localVarUrlObj.search;
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
 
       return {
         url: globalImportUrl.format(localVarUrlObj),
@@ -1387,7 +1524,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2008> {
+    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2009> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDraftArticlePost(inlineObject4, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1415,7 +1552,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftIdGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006> {
+    apiPrivateFindDraftIdGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2007> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftIdGet(id, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1429,7 +1566,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2005> {
+    apiPrivateFindDraftListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1443,7 +1580,7 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2007> {
+    apiPrivateFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2008> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindImageListGet(p, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1501,6 +1638,19 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
     apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticlePut(inlineObject2, options);
+      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+        return axios.request(axiosRequestArgs);
+      };
+    },
+    /**
+         * 
+         * @summary Verify token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiVerifyTokenPost(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2005> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiVerifyTokenPost(options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1705,6 +1855,15 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
     apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any) {
       return DefaultApiFp(configuration).apiPrivateUpdateArticlePut(inlineObject2, options)(axios, basePath);
+    },
+    /**
+         * 
+         * @summary Verify token.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+    apiVerifyTokenPost(options?: any) {
+      return DefaultApiFp(configuration).apiVerifyTokenPost(options)(axios, basePath);
     },
   };
 };
@@ -1943,6 +2102,17 @@ export class DefaultApi extends BaseAPI {
      */
   public apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any) {
     return DefaultApiFp(this.configuration).apiPrivateUpdateArticlePut(inlineObject2, options)(this.axios, this.basePath);
+  }
+
+  /**
+     * 
+     * @summary Verify token.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+  public apiVerifyTokenPost(options?: any) {
+    return DefaultApiFp(this.configuration).apiVerifyTokenPost(options)(this.axios, this.basePath);
   }
 
 }

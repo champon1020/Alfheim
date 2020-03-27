@@ -17,19 +17,19 @@ export const parseQueryParam = (url: string): Map => {
   return paramMap;
 };
 
-export const parseCookie = (cookies: string): Map => {
-  if(cookies === "")
-    return {};
-  const elem = cookies.split(";");
-  const paramMap: Map = {};
-  elem.forEach(v => {
-    const keyValue = v.split("=");
-    if(keyValue.length === 2){
-      paramMap[keyValue[0]] = keyValue[1];
-    }
-  });
-  return paramMap;
-};
+// export const parseCookie = (cookies: string): Map => {
+//   if(cookies === "")
+//     return {};
+//   const elem = cookies.split(";");
+//   const paramMap: Map = {};
+//   elem.forEach(v => {
+//     const keyValue = v.split("=");
+//     if(keyValue.length === 2){
+//       paramMap[keyValue[0]] = keyValue[1];
+//     }
+//   });
+//   return paramMap;
+// };
 
 export const parsePage = (href: string): number => {
   const page = parseQueryParam(href)["p"];

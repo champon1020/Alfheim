@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import Cookie from "js-cookie";
 import ArticleList from "./article/ArticleList";
 import styled from "styled-components";
 import { ArticleType, DraftType } from "src/type";
@@ -44,7 +45,11 @@ const Articles = () => {
 
   const fetchArticles = useCallback(
     async () => {
-      const res = await defaultApi.apiPrivateFindArticleListAllGet(page);
+      const res = await defaultApi.apiPrivateFindArticleListAllGet(page, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
       const articleList = [] as ArticleType[];
       const fetchedArticles = res.data.articles;
 
@@ -64,7 +69,11 @@ const Articles = () => {
 
   const fetchDrafts = useCallback(
     async () => {
-      const res = await defaultApi.apiPrivateFindDraftListGet(page);
+      const res = await defaultApi.apiPrivateFindDraftListGet(page, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
       const articleList = [] as ArticleType[];
       const fetchedDrafts = res.data.drafts;
 

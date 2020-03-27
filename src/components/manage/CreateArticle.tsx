@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
+import Cookie from "js-cookie";
 import { ax } from "../../App";
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
 import { defaultApi } from "src/App";
@@ -31,7 +32,11 @@ const CreateArticle = (props: Props) => {
   // fetch draft by id
   const fetchDraft = useCallback(
     async (id: string) => {
-      const res = await defaultApi.apiPrivateFindDraftIdGet(id);
+      const res = await defaultApi.apiPrivateFindDraftIdGet(id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
       const fetchedDraft = res.data.draft;
       const editorDraft = parseFromDraft(fetchedDraft);
       setUpdatingArticle(editorDraft);
