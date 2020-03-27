@@ -7,7 +7,7 @@ import { IRouteProps, PathParams } from "./PublicView";
 import { defaultApi } from "../../App";
 import { ArticleType } from "src/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse2003 } from "src/api";
+import { InlineResponse2002 } from "src/api";
 import { parsePage } from "../services/parser";
 
 
@@ -36,7 +36,7 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2003>> => {
+const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2002>> => {
   const path = window.location.pathname;
   const { title, year, month, category } = params;
 

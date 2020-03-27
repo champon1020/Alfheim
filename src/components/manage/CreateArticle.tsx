@@ -7,12 +7,13 @@ import { parseFromArticle, parseFromDraft } from "./editor/parser";
 import { pathJoin } from "../services/parser";
 
 type Props = {
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
   articleId?: string;
   draftId?: string;
 }
 
 const CreateArticle = (props: Props) => {
-  const { articleId, draftId } = props;
+  const { setVerify, articleId, draftId } = props;
   const [updatingArticle, setUpdatingArticle] = useState(defaultEditorDraft);
   const [updatingContents, setUpdatingContents] = useState("");
 
@@ -21,12 +22,15 @@ const CreateArticle = (props: Props) => {
   // fetch article by id
   const fetchArticle = useCallback(
     async (id: string) => {
-      const res = await defaultApi.apiFindArticleIdGet(id);
+      const res = await defaultApi.apiPrivateFindArticleIdGet(id).catch(() => {
+        setVerify(false);
+      });
+      if(typeof res === "undefined") return;
       const fetchedArticle = res.data.article;
       const editorDraft = parseFromArticle(fetchedArticle);
       setUpdatingArticle(editorDraft);
     },
-    [],
+    [setVerify],
   );
 
   // fetch draft by id
@@ -36,12 +40,15 @@ const CreateArticle = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
+      if(typeof res === "undefined") return;
       const fetchedDraft = res.data.draft;
       const editorDraft = parseFromDraft(fetchedDraft);
       setUpdatingArticle(editorDraft);
     },
-    [],
+    [setVerify],
   );
 
   // fetch mde content
@@ -69,7 +76,8 @@ const CreateArticle = (props: Props) => {
       <ArticleForm 
         updatingArticle={updatingArticle}
         updatingContents={updatingContents}
-        isArticle={isArticle} />
+        isArticle={isArticle}
+        setVerify={setVerify} />
     </div>
   );
 };

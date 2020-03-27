@@ -48,7 +48,7 @@ const SignInButton = (props: Props) => {
             return;
           }
         });
-    },[setVerify, doneVerify]
+    },[setVerify, doneVerify, verify]
   );
 
   const onFailure = useCallback(
