@@ -9,6 +9,7 @@ import * as api from "./api/index";
 import axios from "axios";
 import config from "./private/config.json";
 import ErrorPage from "./components/error/ErrorPage";
+import Login from "./components/auth/Login";
 
 export const defaultApi = new api.DefaultApi();
 export const Config = config.dev;
@@ -30,6 +31,8 @@ const App = () => {
             <Route exact path={"/article/:sortedId"} component={PublicView} />
             <Route exact path={"/article-draft/"} component={PublicView} />
             <Route exact path={"/category/list"} component={PublicView} />
+
+            <Route exact path={"/login"} component={Login} />
 
             <Route exact path={"/manage"} component={ManageView} />
             <Route exact path={"/manage/:mode"} component={ManageView} />

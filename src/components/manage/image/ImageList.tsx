@@ -1,5 +1,6 @@
 import React, { useCallback, useState, MouseEvent } from "react";
 import styled from "styled-components";
+import Cookie from "js-cookie";
 import { Config, defaultApi } from "src/App";
 
 const ImageListContainer = styled.div`
@@ -67,7 +68,11 @@ const ImageList = (props: Props) => {
 
   const deleteImages = useCallback(
     async (names: string[]) => {
-      await defaultApi.apiPrivateDeleteImageDelete(names);
+      await defaultApi.apiPrivateDeleteImageDelete(names, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
     },[]
   );
 

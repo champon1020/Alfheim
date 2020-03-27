@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import Cookie from "js-cookie";
 import styled from "styled-components";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -69,6 +70,11 @@ const ArticleForm = (props: Props) => {
         article: a, 
         htmlContents: htmlCon,
         mdContents: mdeCon,
+      }, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
       });
     },[]
   );
@@ -80,6 +86,11 @@ const ArticleForm = (props: Props) => {
         article: a, 
         htmlContents: htmlCon,
         mdContents: mdeCon,
+      }, 
+      {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
       });
     },[]
   );
@@ -90,6 +101,11 @@ const ArticleForm = (props: Props) => {
       const res = await defaultApi.apiPrivateDraftArticlePost({
         article: d, 
         mdContents: mdeCon
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
       });
       editorDraft.id = res.data.id;
       editorDraft.contentHash = res.data.contentHash;
