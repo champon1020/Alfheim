@@ -32,7 +32,18 @@ export const updateResourceArticle = (article: DraftType) => {
 };
 export type UpdateResourceArticleAction = ReturnType<typeof updateResourceArticle>;
 
+export const memoryLastUrl = (url: string) => {
+  return {
+    type: ActionEnum.MEMORY_LAST_URL,
+    payload: {
+      url: url
+    }
+  };
+};
+export type MemoryLastUrlAction = ReturnType<typeof memoryLastUrl>;
+
 export type ManageActionType = 
   UpdateDraftAction |
   UpdateDraftContentAction | 
-  UpdateResourceArticleAction;
+  UpdateResourceArticleAction |
+  MemoryLastUrlAction;

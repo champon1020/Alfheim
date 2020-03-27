@@ -7,6 +7,7 @@ import rootReducer from "../reducers/rootReducer";
 export type ManageState = {
   article: DraftType;
   draftContent: string;
+  url: string;
 }
 
 const persistConfig = {

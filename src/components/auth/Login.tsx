@@ -6,10 +6,16 @@ const LoginContainer = styled.div`
   text-align: center;
 `;
 
-const Login = () => {
+type Props = {
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Login = (props: Props) => {
+  const { setVerify } = props;
+
   return (
     <LoginContainer>
-      <SignInButton />
+      <SignInButton setVerify={setVerify} />
     </LoginContainer>
   );
 };

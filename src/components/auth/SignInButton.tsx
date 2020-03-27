@@ -1,14 +1,48 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Config } from "../../App";
+import styled from "styled-components";
+import Cookie from "js-cookie";
+import { Config, defaultApi } from "../../App";
 
-const SignInButton = () => {
+const ButtonElement = styled.div`
+  display: inline-block;
+`;
+
+type Props = {
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SignInButton = (props: Props) => {
+  const { setVerify } = props;
+  const [doneVerify, setDoneVerify] = useState(false);
   const [auth2, setAuth2] = useState({} as gapi.auth2.GoogleAuth);
 
-  const onSuccess = useCallback(
-    (res: gapi.auth2.GoogleUser) => {
-      console.log(res);
-      // send auth code to server
+  const verify = useCallback(
+    async (user: gapi.auth2.GoogleUser) => {
+      const res = await defaultApi.apiVerifyTokenPost({
+        headers: {
+          Authorization: `Bearer ${user.getAuthResponse().id_token}`
+        }
+      });
+      setDoneVerify(true);
+      return res;
     },[]
+  );
+
+  const onSuccess = useCallback(
+    (user: gapi.auth2.GoogleUser) => {
+      verify(user).then(res => {
+        if(!res.data.verify){
+          if(doneVerify) {
+            window.location.href = Config.host;
+            return;
+          }
+          setDoneVerify(false);
+          return;
+        }
+        Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
+        setVerify(true);
+      });
+    },[setVerify, doneVerify, verify]
   );
 
   const onFailure = useCallback(
@@ -34,11 +68,12 @@ const SignInButton = () => {
       "onsuccess": onSuccess,
       "onfailure": onFailure
     });
-  }, []);
+  }, [onSuccess, onFailure]);
   
   return (
     <>
-      <div id="my-signin"></div>
+      <ButtonElement 
+        id="my-signin" />
     </>
   );
 };

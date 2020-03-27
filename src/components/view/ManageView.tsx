@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useCallback, useState, useMemo } from "react";
+import Cookie from "js-cookie";
 import CreateArticle from "../manage/CreateArticle";
 import ToolBar from "../manage/ToolBar";
 import { RouteComponentProps } from "react-router-dom";
@@ -6,9 +7,11 @@ import Images from "../manage/Images";
 import Articles from "../manage/Articles";
 import Settings from "../manage/Settings";
 import styled from "styled-components";
-import { parseQueryParam, parseCookie } from "../services/parser";
+import { parseQueryParam } from "../services/parser";
+import { defaultApi } from "src/App";
+import { useDispatch } from "react-redux";
+import appActionCreator from "src/actions/actions";
 import Login from "../auth/Login";
-import { Config } from "src/App";
 
 const ManageContainerStyled = styled.div`
   min-height: 100vh;
@@ -25,6 +28,9 @@ type Props = RouteProps;
 
 const ManageView: React.FC<Props> = (props) => {
   const { mode } = props.match.params;
+  const [doneVerify, setDoneVerify] = useState(false);
+  const [isVerify, setVerify] = useState(false);
+  const dispatch = useDispatch();
 
   const child = useCallback(
     () => {
@@ -45,26 +51,46 @@ const ManageView: React.FC<Props> = (props) => {
     [mode],
   );
 
-  const verifyToken = useCallback(
-    (tok: string): boolean => {
-      return true;
-    },
-    [],
+  const verify = useCallback(
+    async () => {
+      const res = await defaultApi.apiVerifyTokenPost({
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      });
+      setVerify(res.data.verify === undefined ? false : res.data.verify);
+      setDoneVerify(true);
+    },[]
+  );
+
+  const view = useMemo(
+    () => {
+      if(isVerify){
+        return(
+          <>
+            <ToolBar mode={mode} />
+            <ManageWrapperStyled>
+              {child()}
+            </ManageWrapperStyled>
+          </>
+        );
+      }
+      if(doneVerify) {
+        dispatch(appActionCreator.memoryLastUrl(window.location.href));
+        Cookie.remove("alfheim_id_token");
+        return <Login setVerify={setVerify} />;
+      }
+      return <div></div>;
+    },[child, dispatch, mode, isVerify, doneVerify]
   );
 
   useEffect(() => {
-    const cookie = parseCookie(document.cookie);
-    if(!verifyToken(cookie["id_token"])) {
-      window.location.href = Config.host + "/login";
-    }
-  },[]);
+    verify();
+  },[verify]);
 
   return(
     <ManageContainerStyled>
-      <ToolBar mode={mode} />
-      <ManageWrapperStyled>
-        {child()}
-      </ManageWrapperStyled>
+      {view}
     </ManageContainerStyled>
   );
 };
