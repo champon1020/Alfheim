@@ -61,7 +61,8 @@ const Images = (props: Props) => {
 
   return(
     <ImagesContainerStyled>
-      <ImageForm />
+      <ImageForm 
+        setVerify={setVerify}/>
       <ImageList 
         images={images}
         setVerify={setVerify} />
