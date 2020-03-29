@@ -15,7 +15,6 @@ const HeaderStyled = styled.div`
   height: 6rem;
   background-color: var(--base-color);
   position: relative;
-  box-shadow: 2px 2px 2px var(--base-color);
 `;
 
 const BlogTitle = styled.h1`
@@ -165,7 +164,7 @@ const Header = (props: Props) => {
   return(
     <HeaderStyled>
       <BlogTitle onClick={handleTitleClick}>
-        {"Champon's Notebook"}
+        {"champon's notebook"}
       </BlogTitle>
       <NavStyled>
         {navigation}
