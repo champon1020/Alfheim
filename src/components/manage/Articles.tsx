@@ -36,7 +36,12 @@ const PageContainerStyled = styled.div`
   padding: 1.9rem 0;
 `;
 
-const Articles = () => {
+type Props = {
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Articles = (props: Props) => {
+  const { setVerify } = props;
   const [tab, setTab] = useState("");
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -49,7 +54,11 @@ const Articles = () => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
+      if(typeof res === "undefined") return;
+
       const articleList = [] as ArticleType[];
       const fetchedArticles = res.data.articles;
 
@@ -65,7 +74,7 @@ const Articles = () => {
 
       setMaxPage(res.data.maxPage);
       setArticles(articleList);
-    }, [page]);
+    }, [page, setVerify]);
 
   const fetchDrafts = useCallback(
     async () => {
@@ -73,7 +82,11 @@ const Articles = () => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
+      if(typeof res === "undefined") return;
+
       const articleList = [] as ArticleType[];
       const fetchedDrafts = res.data.drafts;
 
@@ -90,7 +103,7 @@ const Articles = () => {
 
       setMaxPage(res.data.maxPage);
       setArticles(articleList);
-    }, [page]);
+    }, [page, setVerify]);
 
   const prevCallback = useCallback(
     () => {
@@ -123,7 +136,8 @@ const Articles = () => {
         <ArticleList
           tab={tab} 
           articles={articles}
-          setFocusedArticle={setFocusedArticle} />
+          setFocusedArticle={setFocusedArticle}
+          setVerify={setVerify} />
         <PageContainerStyled>
           <Page 
             current={page}

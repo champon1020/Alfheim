@@ -21,10 +21,11 @@ type Props = {
   tab: string;
   articles: ArticleType[];
   setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ArticleList = (props: Props) => {
-  const { tab, articles, setFocusedArticle } = props;
+  const { tab, articles, setFocusedArticle, setVerify } = props;
 
   const articleList = useCallback(
     () => {
@@ -35,12 +36,13 @@ const ArticleList = (props: Props) => {
             key={i}
             tab={tab}
             article={v}
-            setFocusedArticle={setFocusedArticle} />
+            setFocusedArticle={setFocusedArticle}
+            setVerify={setVerify} />
         );
       });
       return list;
     },
-    [tab, articles, setFocusedArticle],
+    [tab, articles, setFocusedArticle, setVerify],
   );
 
   return(

@@ -53,10 +53,11 @@ const DeleteButton = styled.button`
 
 type Props = {
   images: string[];
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ImageList = (props: Props) => {
-  const { images } = props;
+  const { images, setVerify } = props;
   const [selected] = useState([] as string[]);
 
   const handleOnSelect = useCallback(
@@ -72,8 +73,10 @@ const ImageList = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
-    },[]
+    },[setVerify]
   );
 
   const handleOnDelete = useCallback(
@@ -87,7 +90,7 @@ const ImageList = (props: Props) => {
     () => {
       const list = [] as JSX.Element[];
       images.forEach((v, i) => {
-        const path = Config.srcHost + "/images/" + v;
+        const path = `${Config.srcHost}/images/${v}`;
         list.push(
           <ImageListItemStyled key={i}>
             <CheckBox

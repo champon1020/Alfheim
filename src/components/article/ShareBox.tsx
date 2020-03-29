@@ -34,7 +34,7 @@ const ShareBox = () => {
           <ShareButton
             className="twitter-share-button"
             data-text="sample tweet"
-            data-url={Config.host + "/article/1"}
+            data-url={`${Config.host}/article/1`}
             data-lang="ja"
             href="https://twitter.com/intent/tweet">
           </ShareButton>

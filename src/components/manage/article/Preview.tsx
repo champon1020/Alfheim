@@ -77,7 +77,7 @@ const Preview = (props: Props) => {
     () => {
       if(focusedArticle.id === undefined) return;
       const pName = tab === "articles" ? "articleId" : "draftId";
-      window.open(Config.host + "/manage?"+ pName + "=" + focusedArticle.id, "_self");
+      window.open(`${Config.host}/manage?${pName}=${focusedArticle.id}`, "_self");
     },
     [focusedArticle.id, tab],
   );

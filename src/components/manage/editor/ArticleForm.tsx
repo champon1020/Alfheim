@@ -51,10 +51,11 @@ type Props = {
   updatingArticle?: EditorArticle;
   updatingContents?: string;
   isArticle: boolean;
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ArticleForm = (props: Props) => {
-  const { updatingArticle, updatingContents, isArticle } = props;
+  const { updatingArticle, updatingContents, isArticle, setVerify } = props;
 
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
@@ -75,8 +76,10 @@ const ArticleForm = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
-    },[]
+    },[setVerify]
   );
 
   const updateArticle = useCallback(
@@ -91,8 +94,10 @@ const ArticleForm = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
-    },[]
+    },[setVerify]
   );
 
   const updateDraft = useCallback(
@@ -106,13 +111,16 @@ const ArticleForm = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
+      if(typeof res === "undefined") return;
       editorDraft.id = res.data.id;
       editorDraft.contentHash = res.data.contentHash;
       editorDraft.imageHash = res.data.imageHash;
       window.history.pushState(null, "", "?draftId=" + editorDraft.id);
       // eslint-disable-next-line
-    },[editorDraft]
+    },[editorDraft, setVerify]
   );
 
   const validation = useCallback(
@@ -239,9 +247,9 @@ const ArticleForm = (props: Props) => {
             syncSideBySidePreviewScroll: true,
             forceSync: true,
             autosave: {
-              enabled: false,
+              enabled: true,
               uniqueId: "savetest",
-              delay: 1000
+              delay: 300
             }
           }}
         />

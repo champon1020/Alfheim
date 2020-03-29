@@ -14,7 +14,12 @@ const ImagesContainerStyled = styled.div`
   background-color: white;
 `;
 
-const Images = () => {
+type Props = {
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Images = (props: Props) => {
+  const { setVerify } = props;
   const [images, setImages] = useState([] as string[]);
   const [page, setPage] = useState(1);
   const [next, setNext] = useState(true);
@@ -25,11 +30,14 @@ const Images = () => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
+      if(typeof res === "undefined") return;
       setImages(res.data.images);
       setNext(res.data.next);
     },
-    [],
+    [setVerify],
   );
 
   const nextCallback = useCallback(
@@ -53,9 +61,11 @@ const Images = () => {
 
   return(
     <ImagesContainerStyled>
-      <ImageForm />
+      <ImageForm 
+        setVerify={setVerify}/>
       <ImageList 
-        images={images} />
+        images={images}
+        setVerify={setVerify} />
       <Page
         current={page}
         width={"70"}

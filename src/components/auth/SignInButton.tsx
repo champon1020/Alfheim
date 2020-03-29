@@ -11,6 +11,10 @@ type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const goHome = () => {
+  window.location.href = Config.host;
+};
+
 const SignInButton = (props: Props) => {
   const { setVerify } = props;
   const [doneVerify, setDoneVerify] = useState(false);
@@ -18,36 +22,38 @@ const SignInButton = (props: Props) => {
 
   const verify = useCallback(
     async (user: gapi.auth2.GoogleUser) => {
-      const res = await defaultApi.apiVerifyTokenPost({
+      setDoneVerify(true);
+      return await defaultApi.apiVerifyTokenPost({
         headers: {
           Authorization: `Bearer ${user.getAuthResponse().id_token}`
         }
       });
-      setDoneVerify(true);
-      return res;
     },[]
   );
 
   const onSuccess = useCallback(
     (user: gapi.auth2.GoogleUser) => {
-      verify(user).then(res => {
-        if(!res.data.verify){
-          if(doneVerify) {
-            window.location.href = Config.host;
+      verify(user)
+        .then(res => {
+          if(res.data.verify){
+            Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
+            setVerify(true);
             return;
           }
-          setDoneVerify(false);
-          return;
-        }
-        Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
-        setVerify(true);
-      });
+          goHome();
+        })
+        .catch(() => {
+          if(doneVerify) {
+            goHome();
+            return;
+          }
+        });
     },[setVerify, doneVerify, verify]
   );
 
   const onFailure = useCallback(
     () => {
-      window.location.href = Config.host;
+      goHome();
     },[]
   );
 

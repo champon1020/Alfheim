@@ -35,15 +35,16 @@ const ManageView: React.FC<Props> = (props) => {
   const child = useCallback(
     () => {
       if(mode === "images") 
-        return <Images />;
+        return <Images setVerify={setVerify}/>;
       if(mode === "settings") 
         return <Settings />;
       if(mode === "articles" || mode === "drafts") 
-        return <Articles />;
+        return <Articles setVerify={setVerify}/>;
 
       const qParams = parseQueryParam(window.location.href);
       return(
-        <CreateArticle 
+        <CreateArticle
+          setVerify={setVerify}
           articleId={qParams["articleId"]}
           draftId={qParams["draftId"]} />
       );
@@ -53,12 +54,15 @@ const ManageView: React.FC<Props> = (props) => {
 
   const verify = useCallback(
     async () => {
-      const res = await defaultApi.apiVerifyTokenPost({
+      await defaultApi.apiVerifyTokenPost({
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).then(res => {
+        setVerify(res.data.verify === undefined ? false : res.data.verify);
+      }).catch(() => {
+        setVerify(false);
       });
-      setVerify(res.data.verify === undefined ? false : res.data.verify);
       setDoneVerify(true);
     },[]
   );

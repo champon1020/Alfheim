@@ -66,10 +66,11 @@ type Props = {
   tab: string;
   article: ArticleType;
   setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ArticleListBox = (props: Props) => {
-  const { tab, article, setFocusedArticle } = props;
+  const { tab, article, setFocusedArticle, setVerify } = props;
   const imageSrc = useMemo(() => {
     return pathJoin(Config.srcHost, "images", article.imageHash === "" ? Config.defImg : article.imageHash);
   },[article.imageHash]);
@@ -84,7 +85,7 @@ const ArticleListBox = (props: Props) => {
 
   const handleGoToClick = useCallback(
     () => {
-      window.open(Config.host + "/article/" + article.sortedId);
+      window.open(`${Config.host}/article/${article.sortedId}`);
     },
     [article],
   );
@@ -96,8 +97,10 @@ const ArticleListBox = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
-    },[]
+    },[setVerify]
   );
 
   const handleTogglePublicClick = useCallback(
@@ -115,8 +118,10 @@ const ArticleListBox = (props: Props) => {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
+      }).catch(() => {
+        setVerify(false);
       });
-    },[]
+    },[setVerify]
   );
 
   const handleOnDeleteClick = useCallback(
