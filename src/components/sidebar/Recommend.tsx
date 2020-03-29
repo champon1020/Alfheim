@@ -2,6 +2,13 @@ import React, { useCallback, useState, useEffect } from "react";
 import RecommendBox from "./RecommendBox";
 import { defaultApi } from "src/App";
 import { ArticleType } from "src/type";
+import styled from "styled-components";
+
+const EmptyMessage = styled.h3`
+  font-size: 2rem;
+  color: gray;
+  margin: 5% auto 5% auto;
+`;
 
 const Recommend: React.FC = () => {
   const [pickupArticles, setPickupArticles] = useState([] as ArticleType[]);
@@ -15,7 +22,14 @@ const Recommend: React.FC = () => {
   );
 
   const PickupList = useCallback(
-    (): JSX.Element[] => {
+    () => {
+      if(pickupArticles === undefined || pickupArticles.length === 0){
+        return (
+          <EmptyMessage>
+            {"No Articles"}
+          </EmptyMessage>
+        );
+      }
       const list = [] as JSX.Element[];
       pickupArticles.forEach((v, i) => {
         list.push(

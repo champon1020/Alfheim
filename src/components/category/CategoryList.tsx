@@ -30,6 +30,12 @@ const CategoryListItem = styled.li`
   }
 `;
 
+const EmptyMessage = styled.h3`
+  font-size: 2.4rem;
+  color: gray;
+  margin: 5% auto 5% auto;
+`;
+
 type Props = {
   categories: CategoryType[];
 }
@@ -47,7 +53,14 @@ const CategoryList = (props: Props) => {
   );
 
   const categoryList = useCallback(
-    (): JSX.Element[] => {
+    () => {
+      if(categories === undefined || categories.length === 0){
+        return (
+          <EmptyMessage>
+            {"No Categories"}
+          </EmptyMessage>
+        );
+      }
       const list = [] as JSX.Element[];
       categories.forEach((v, i) => {
         list.push(

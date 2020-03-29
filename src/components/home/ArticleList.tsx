@@ -24,6 +24,12 @@ const ArticleListElementStyled = styled.li`
   }
 `;
 
+const EmptyMessage = styled.h3`
+  font-size: 2.4rem;
+  color: gray;
+  margin: 5% auto 15% auto;
+`;
+
 interface ParentProps {
   articles: ArticleType[];
 }
@@ -36,6 +42,13 @@ const ArticleList = (props: Props) => {
   const articleList = useCallback(
     () => {
       const list = [] as JSX.Element[];
+      if(articles === undefined || articles.length === 0){
+        return (
+          <EmptyMessage>
+            {"No Articles"}
+          </EmptyMessage>
+        );
+      }
       articles.forEach((v, i) => {
         list.push(
           <ArticleListElementStyled key={i}>

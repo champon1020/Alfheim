@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { CategoryType } from "src/type";
 import ChartDataHandler from "./ChartDataHandler";
 
-const ChartBoxStyled = styled.div`
+const ChartBoxStyled = styled.div<{hidden: boolean}>`
+  display: ${({hidden}) => hidden ? "none" : ""};
   cursor: pointer;
 `;
 
@@ -25,8 +26,11 @@ const CircleChart = (props: Props) => {
     [categories],
   );
 
+  const isHidden = useMemo(() => categories === undefined || categories.length === 0 ,[]);
+
   return (
-    <ChartBoxStyled>
+    <ChartBoxStyled 
+      hidden={isHidden}>
       <Pie 
         data={data}
         width={100}
