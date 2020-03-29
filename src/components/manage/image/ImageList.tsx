@@ -90,7 +90,7 @@ const ImageList = (props: Props) => {
     () => {
       const list = [] as JSX.Element[];
       images.forEach((v, i) => {
-        const path = Config.srcHost + "/images/" + v;
+        const path = `${Config.srcHost}/images/${v}`;
         list.push(
           <ImageListItemStyled key={i}>
             <CheckBox

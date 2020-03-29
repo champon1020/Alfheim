@@ -247,9 +247,9 @@ const ArticleForm = (props: Props) => {
             syncSideBySidePreviewScroll: true,
             forceSync: true,
             autosave: {
-              enabled: false,
+              enabled: true,
               uniqueId: "savetest",
-              delay: 1000
+              delay: 300
             }
           }}
         />

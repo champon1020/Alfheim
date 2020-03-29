@@ -88,13 +88,13 @@ const ArticleView = (props: Props) => {
 
   const prevCallback = useCallback(
     () => {
-      window.open(Config.host + "/article/" + prevArticle.sortedId, "_self");
+      window.open(`${Config.host}/article/${prevArticle.sortedId}`, "_self");
     },[prevArticle.sortedId]
   );
 
   const nextCallback = useCallback(
     () => {
-      window.open(Config.host + "/article/" + nextArticle.sortedId, "_self");
+      window.open(`${Config.host}/article/${nextArticle.sortedId}`, "_self");
     },[nextArticle.sortedId]
   );
 
