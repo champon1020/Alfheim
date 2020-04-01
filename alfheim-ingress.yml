@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
         - name: alfheim
-          image: champon1020/alfheim:latest
+          image: champon1020/alfheim:0.1
           imagePullPolicy: Always
           ports:
             - containerPort: 80
