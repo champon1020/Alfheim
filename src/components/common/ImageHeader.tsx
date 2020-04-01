@@ -51,6 +51,7 @@ const ImageHeader = () => {
 
   const updateImage = useCallback(
     (num: number) => {
+      if(imageRef === null) return;
       setTimeout(() => {
         imageRef.current.classList.remove("inactive");
         imageRef.current.classList.add("active");
