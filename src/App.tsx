@@ -12,7 +12,7 @@ import ErrorPage from "./components/error/ErrorPage";
 import Login from "./components/auth/Login";
 
 export const defaultApi = new api.DefaultApi();
-export const Config = config.dev;
+export const Config = config.deploy;
 export const ax = axios.create({
   baseURL: Config.srcHost
 });
