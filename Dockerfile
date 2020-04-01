@@ -18,6 +18,7 @@ RUN npm run build
 FROM nginx:latest
 ARG APP_HOME
 COPY --from=build ${APP_HOME}/build /usr/share/nginx/html
+ADD docker/nginx/default.conf /etc/nginx/conf.d
 
 WORKDIR /usr/share/nginx/html
 CMD ["nginx", "-g", "daemon off;"]
