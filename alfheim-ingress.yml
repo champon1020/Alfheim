@@ -4,6 +4,7 @@ metadata:
   name: alfheim-ingress
   annotations: 
     kubernetes.io/ingress.global-static-ip-name: "myblog-external"
+    networking.gke.io/managed-certificates: alfheim-crt
 spec:
   backend:
     serviceName: alfheim-svc
@@ -40,7 +41,7 @@ spec:
     spec:
       containers:
         - name: alfheim
-          image: champon1020/alfheim:0.2
+          image: champon1020/alfheim:0.3
           imagePullPolicy: Always
           ports:
             - containerPort: 80
