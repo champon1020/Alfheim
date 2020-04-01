@@ -54,7 +54,9 @@ const CategoryList = (props: Props) => {
 
   const categoryList = useCallback(
     () => {
-      if(categories === undefined || categories.length === 0){
+      if(categories === undefined 
+        || categories === null
+        || categories.length === 0){
         return (
           <EmptyMessage>
             {"No Categories"}

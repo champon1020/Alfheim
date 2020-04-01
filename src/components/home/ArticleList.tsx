@@ -42,7 +42,9 @@ const ArticleList = (props: Props) => {
   const articleList = useCallback(
     () => {
       const list = [] as JSX.Element[];
-      if(articles === undefined || articles.length === 0){
+      if(articles === undefined 
+        || articles === null
+        || articles.length === 0){
         return (
           <EmptyMessage>
             {"No Articles"}

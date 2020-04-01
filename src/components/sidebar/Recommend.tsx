@@ -23,7 +23,9 @@ const Recommend: React.FC = () => {
 
   const PickupList = useCallback(
     () => {
-      if(pickupArticles === undefined || pickupArticles.length === 0){
+      if(pickupArticles === undefined 
+        || pickupArticles === null
+        || pickupArticles.length === 0){
         return (
           <EmptyMessage>
             {"No Articles"}
