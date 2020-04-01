@@ -2,11 +2,19 @@ import React, { useCallback, useState, useMemo, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import MenuIcon from "../../assets/images/menu.svg";
 
+const slideDownAnim = keyframes`
+  from {
+    top: -6rem;
+  }
+  to {
+    top: 0rem;
+  }
+`;
+
 const HeaderStyled = styled.div`
   height: 6rem;
   background-color: var(--base-color);
   position: relative;
-  box-shadow: 2px 2px 2px var(--base-color);
 `;
 
 const BlogTitle = styled.h1`
@@ -14,9 +22,10 @@ const BlogTitle = styled.h1`
   cursor: pointer;
   color: white;
   display: inline-block;
-  top: 10%;
   left: 2%;
-  font-size: 3rem;
+  line-height: 6rem;
+  font-size: 2.4rem;
+  animation: ${slideDownAnim} 1.7s ease 0s;
   &:hover {
     opacity: 0.7;
   }
@@ -25,11 +34,16 @@ const BlogTitle = styled.h1`
   }
 `;
 
+// const BlogTitle2 = styled.a`
+//   font-size: 1.8rem;
+// `;
+
 const NavStyled = styled.nav`
   position: absolute;
   display: inline-block;
-  right: 5%;
-  top: 25%;
+  right: 2%;
+  line-height: 6rem;
+  animation: ${slideDownAnim} 1.7s ease 0s;
   @media (max-width: 800px) {
     top: 20%;
   }
@@ -38,7 +52,7 @@ const NavStyled = styled.nav`
 const NavListStyled = styled.ul`
   display: flex;
   flex-direction: row;
-  font-size: 28px;
+  font-size: 2.8rem;
 `;
 
 const NavListItem = styled.li`
@@ -117,9 +131,9 @@ const Header = (props: Props) => {
       <NavListItem onClick={handleCateClick}>
         {"Category"}
       </NavListItem>
-      <NavListItem onClick={handlePortClick}>
+      {/* <NavListItem onClick={handlePortClick}>
         {"Portfolio"}
-      </NavListItem>
+      </NavListItem> */}
     </>
   ), [handleCateClick, handlePortClick]);
 
@@ -150,7 +164,7 @@ const Header = (props: Props) => {
   return(
     <HeaderStyled>
       <BlogTitle onClick={handleTitleClick}>
-        {"ちゃんぽんなべ"}
+        {"champon's notebook"}
       </BlogTitle>
       <NavStyled>
         {navigation}

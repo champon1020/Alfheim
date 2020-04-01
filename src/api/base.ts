@@ -16,8 +16,9 @@ import { Configuration } from "./configuration";
 // Some imports not used depending on template conditions
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance } from "axios";
+import { Config } from "src/App";
 
-export const BASE_PATH = "http://localhost:8000".replace(/\/+$/, "");
+export const BASE_PATH = "https://argus.champonian.com".replace(/\/+$/, "");
 
 /**
  *

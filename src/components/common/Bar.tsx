@@ -14,6 +14,7 @@ const BarStyled = styled.div`
   text-align: center;
   position: relative;
   padding: 20px 100px;
+  overflow-x: hidden;
   @media (max-width: 800px) {
     padding: 20px 0;
   }
@@ -32,20 +33,25 @@ const Bar = () => {
       <SnsLinkListStyled>
         <BarItem 
           icon={TwitterIcon} 
-          href={Accounts.twitter} />
+          href={Accounts.twitter}
+          num={1} />
         <BarItem 
           icon={LinkedinIcon} 
           href={Accounts.linkedin}
-          background="var(--base-color)" />
+          background="var(--base-color)"
+          num={2} />
         <BarItem 
           icon={GithubIcon} 
-          href={Accounts.github}/>
+          href={Accounts.github}
+          num={3} />
         <BarItem 
           icon={WantedlyIcon} 
-          href={Accounts.wantedly} />
+          href={Accounts.wantedly}
+          num={4} />
         <BarItem 
           icon={QiitaIcon}
-          href={Accounts.qiita} />
+          href={Accounts.qiita}
+          num={5} />
       </SnsLinkListStyled>
     </BarStyled>
   );

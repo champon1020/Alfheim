@@ -9,7 +9,7 @@ const InputLabelStyled = styled.label<{isFocused: boolean}>`
   cursor: text;
   position: absolute;
   left: 1em;;
-  top: ${({isFocused}) => (isFocused ? "0rem" : "2.5rem")};
+  top: ${({isFocused}) => (isFocused ? "0rem" : "2.3rem")};
   color: ${({isFocused}) => (isFocused ? "gray" : "var(--base-color)")};
   font-size: ${({isFocused}) => (isFocused ? "1.5rem" : "2rem")};
   transition:

@@ -1,12 +1,22 @@
 import React, { useCallback } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const SnsLinkListItemStyled = styled.li`
+const itemSlideAnim = keyframes`
+  from {
+    transform: translateX(70vw);
+  }
+  to {
+    transform: transalteX(0rem);
+  }
+`;
+
+const SnsLinkListItemStyled = styled.li<{num: number}>`
   margin: 0 30px;
   background-color: var(--base-color);
   height: 50px;
   width: 50px;
   cursor: pointer;
+  animation: ${itemSlideAnim} ${({num}) => `${Math.exp(num*0.1)}s ease-in-out 0s`};
   @media (max-width: 800px) {
     margin: 0 2%;
   }
@@ -29,16 +39,17 @@ type Props = {
   icon: string;
   href: string;
   background?: string;
+  num: number;
 }
 
 const BarItem = (props: Props) => {
-  const { icon, href, background } = props;
+  const { icon, href, background, num } = props;
 
   const handleOnClick = useCallback(
     () => { window.open(href); }, [href]);
 
   return (
-    <SnsLinkListItemStyled>
+    <SnsLinkListItemStyled num={num}>
       <div onClick={handleOnClick}>
         <ImageStyled 
           src={icon}
