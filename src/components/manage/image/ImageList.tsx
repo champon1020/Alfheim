@@ -51,6 +51,12 @@ const DeleteButton = styled.button`
   }
 `;
 
+const EmptyMessage = styled.h3`
+  font-size: 2.4rem;
+  color: gray;
+  margin: 5% auto 15% auto;
+`;
+
 type Props = {
   images: string[];
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
@@ -89,6 +95,11 @@ const ImageList = (props: Props) => {
   const imageList = useCallback(
     () => {
       const list = [] as JSX.Element[];
+      if(images === null
+        || images === undefined
+        || images.length === 0) {
+        return list;
+      }
       images.forEach((v, i) => {
         const path = `${Config.srcHost}/images/${v}`;
         list.push(
