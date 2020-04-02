@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from "react";
+import React, { useMemo, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
 import { CategoryType } from "src/type";
@@ -21,15 +21,15 @@ const CircleChart = (props: Props) => {
 
   const data = useMemo(
     () => {
+      if(categories === undefined 
+        || categories === null
+        || categories.length === 0){
+        setChartHidden(true);
+        return;
+      }
+      setChartHidden(false);
       handler.build(categories);
       return handler.getData();
-    },
-    [categories],
-  );
-
-  const handleChartHidden = useCallback(
-    () => {
-      setChartHidden(categories === undefined || categories.length === 0);
     },
     [categories],
   );
