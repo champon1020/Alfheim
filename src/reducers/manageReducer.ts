@@ -16,7 +16,7 @@ const initManageState: ManageState = {
     title: "",
     categories: "",
     updateDate: "",
-    contentHash: "",
+    content: "",
     imageHash: "",
   },
   draftContent: "",

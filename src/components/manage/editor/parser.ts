@@ -51,7 +51,7 @@ export const parseToRequestArticle = (e: EditorArticle): ArticleRequestType => {
     id: e.id,
     title: e.title,
     categories: parseCategoryStrToList(e.categories),
-    contentHash: e.contentHash,
+    content: e.content,
     imageHash: e.imageHash,
     isPrivate: e.isPrivate,
   };
@@ -62,7 +62,7 @@ export const parseToRequestDraft = (e: EditorArticle): DraftRequestType => {
     id: e.id,
     title: e.title,
     categories: parseCategoryStrToDraftRequest(e.categories),
-    contentHash: e.contentHash,
+    content: e.content,
     imageHash: e.imageHash,
   };
 };
@@ -74,7 +74,7 @@ export const parseToDraft = (e: EditorArticle): DraftType => {
     title: e.title,
     categories: e.categories,
     updateDate: e.updateDate,
-    contentHash: e.contentHash,
+    content: e.content,
     imageHash: e.imageHash
   };
 };
@@ -85,7 +85,7 @@ export const parseFromArticle = (a: ArticleType): EditorArticle => {
     title: a.title,
     categories: parseCategoryListToStr(a.categories),
     updateDate: a.updateDate,
-    contentHash: a.contentHash,
+    content: a.content,
     imageHash: a.imageHash,
     isPrivate: a.isPrivate,
   };
@@ -97,7 +97,7 @@ export const parseFromDraft = (d: DraftType): EditorArticle => {
     title: d.title,
     categories: parseCategoryDraftStrToStr(d.categories),
     updateDate: d.updateDate,
-    contentHash: d.contentHash,
+    content: d.content,
     imageHash: d.imageHash,
     isPrivate: true,
   };
