@@ -27,6 +27,7 @@ type Props = {
 const ArticleList = (props: Props) => {
   const { tab, articles, setFocusedArticle, setVerify } = props;
 
+  // Create article list component.
   const articleList = useCallback(
     () => {
       const list = [] as JSX.Element[];
