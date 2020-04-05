@@ -1,10 +1,8 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
 import Cookie from "js-cookie";
-import { ax } from "../../App";
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
 import { defaultApi } from "src/App";
 import { parseFromArticle, parseFromDraft } from "./editor/parser";
-import { pathJoin } from "../services/parser";
 
 type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;

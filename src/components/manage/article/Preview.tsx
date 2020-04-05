@@ -1,10 +1,8 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { ax } from "../../../App";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
 import { Config } from "src/App";
-import { pathJoin } from "src/components/services/parser";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
