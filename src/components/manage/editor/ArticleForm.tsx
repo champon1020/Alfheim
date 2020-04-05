@@ -184,19 +184,26 @@ const ArticleForm = (props: Props) => {
 
   // On click listener of submit button.
   // Do valitation.
+  // Get editor content.
   // Parse editor article|draft object to request type.
   // Call api.
   const onSubmit = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
-      const reqArticle = parseToRequestArticle(editorDraft);
+      const newMdContents = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
+      const newEditorDraft = {
+        content: newMdContents,
+        ...editorDraft,
+      };
+      const reqArticle = parseToRequestArticle(newEditorDraft);
       if(isArticle) updateArticle(reqArticle);
       else registerArticle(reqArticle);
     },[editorDraft, 
       validation,
       registerArticle,
       isArticle,
-      updateArticle],
+      updateArticle,
+      editorRef],
   );
 
   // On click listener of preview button.
