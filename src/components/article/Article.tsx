@@ -14,18 +14,17 @@ const ArticleContainerStyled = styled.div`
 
 interface ParentProps {
   article: ArticleType;
-  content: string;
 }
 
 type Props = ParentProps;
 
 const Article = (props: Props) => {
-  const { article, content } = props;
+  const { article } = props;
 
   return(
     <ArticleContainerStyled>
       <ArticleHeader article={article} />
-      <ArticleContent content={content} />
+      <ArticleContent content={article.content} />
       <ArticleFooter />
     </ArticleContainerStyled>
   );

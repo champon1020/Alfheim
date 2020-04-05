@@ -57,14 +57,6 @@ const ArticleView = (props: Props) => {
     [match]
   );
 
-  const fetchContent = useCallback(
-    async (article: ArticleType) => {
-      if(article.contentHash === undefined) return;
-      const res = await ax.get(pathJoin("articles", article.contentHash+"_html"));
-      setContent(res.data);
-    },[]
-  );
-
   const fetchArticle = useCallback(
     async (id?: number) => {
       if(checkIsDraft()) {
@@ -79,11 +71,10 @@ const ArticleView = (props: Props) => {
       const fetchedArticle = res.data.article;
       const { next, prev } = res.data;
       setArticle(fetchedArticle);
-      fetchContent(fetchedArticle);
       setPrevArticle(prev);
       setNextArticle(next);
     },
-    [validSortedId, fetchContent, draftsStore],
+    [validSortedId, draftsStore],
   );
 
   const prevCallback = useCallback(
@@ -108,8 +99,7 @@ const ArticleView = (props: Props) => {
     <>
       <MainContainer>
         <Article 
-          article={article}
-          content={content} />
+          article={article} />
         <PageWithTitle
           prevText={prevArticle.title}
           nextText={nextArticle.title}
