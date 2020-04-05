@@ -1,8 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, createRef } from "react";
 import Cookie from "js-cookie";
 import styled from "styled-components";
-import SimpleMDE from "react-simplemde-editor";
-import "easymde/dist/easymde.min.css";
+// import SimpleMDE from "react-simplemde-editor";
+// import "easymde/dist/easymde.min.css";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import { Editor } from "@toast-ui/react-editor";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
 import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
@@ -24,6 +27,7 @@ const EditorStyled = styled.div`
   font-size: 1.6rem;
 `;
 
+// Type of editor article|draft object.
 export type EditorArticle = {
   id: string;
   title: string;
@@ -34,6 +38,7 @@ export type EditorArticle = {
   isPrivate: boolean;
 }
 
+// Default editor article|draft object.
 export const defaultEditorDraft: EditorArticle = {
   id: "",
   title: "",
@@ -44,7 +49,8 @@ export const defaultEditorDraft: EditorArticle = {
   isPrivate: false
 };
 
-const htmlPreviewClass = ".editor-preview";
+// Use as debug.
+// If true, api will not be called.
 const apiOff = true;
 
 type Props = {
@@ -56,13 +62,31 @@ type Props = {
 const ArticleForm = (props: Props) => {
   const { updatingArticle, isArticle, setVerify } = props;
 
-  const [timerId, setTimerId] = useState(0);
+  // This is returned by setTimeout function in onlineSave
+  // This state prevents from multi execution of function.
+  const [timerId, setTimerId] = useState<number | undefined>(undefined);
+
+  // There are some errors or not.
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
+
+  // Article or draft information.
   const [editorDraft, setEditorDraft] = useState(defaultEditorDraft);
-  const [htmlContents, setHtmlContents] = useState("");
-  const [mdContents, setMdContents] = useState("");
+
+  // Editor components is mounted or not.
+  const [firstMount, setFirstMound] = useState(true);
+
+  // Updating or not.
+  // This state prevents from multi execution of function of onlineSave.
+  const [updateMode, setUpdateMode] = useState(false);
+
+  // redux dispatch
   const dispatch = useDispatch();
 
+  // Ref of Editor component.
+  const editorRef = createRef<Editor>();
+
+
+  // Call api of registering article.
   const registerArticle = useCallback(
     async (a: ArticleRequestType) => {
       if(apiOff) return;
@@ -79,6 +103,7 @@ const ArticleForm = (props: Props) => {
     },[setVerify]
   );
 
+  // Call api of updating article.
   const updateArticle = useCallback(
     async (a: ArticleRequestType) => {
       if(apiOff) return;
@@ -95,6 +120,7 @@ const ArticleForm = (props: Props) => {
     },[setVerify]
   );
 
+  // Call api of updating draft.
   const updateDraft = useCallback(
     async (d: DraftRequestType) => {
       if(apiOff) return;
@@ -117,62 +143,53 @@ const ArticleForm = (props: Props) => {
     },[editorDraft, setVerify]
   );
 
+  // Validation function of title and categories string.
   const validation = useCallback(
     (t: string, c: string) => {
       return validateTitle(t, setErr) || validateCategory(c, setErr);
     },[],
   );
 
-  const parseContents = useCallback(
-    (className: string) => {
-      const newContents = document.querySelector(className);
-      if(newContents === null) {
-        console.error(className + " is null");
-        return "";
-      }
-      const div = document.createElement("div");
-      const contentsNode = newContents.cloneNode(true);
-      contentsNode.childNodes.forEach(cn => div.appendChild(cn));
-      return div.innerHTML;
-    },[],
-  );
-
+  // Saving on real time.
+  // If timerId is not undefined, 
+  // do clearTimeout (this means discard last stacked function of setTimeout)
+  // and execute new function of setTimeout.
+  // Then, update state of timerId.
   const onlineSave = useCallback(
-    (value?: string) => {
+    () => {
       if(isArticle) return;
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
-      // call api of saving EditorDraft and mdeContents
       const newTimerId = setTimeout(() => {
-        let newMdeContents = mdContents;
-        let newHtmlContents = htmlContents;
-        if(value !== undefined){
-          newMdeContents = value;
-          newHtmlContents = parseContents(htmlPreviewClass);
-          setHtmlContents(newHtmlContents);
-          setMdContents(newMdeContents);
-        }
-        const reqDraft = parseToRequestDraft(editorDraft);
-        const draft = parseToDraft(editorDraft);
-        dispatch(appActionCreator.updateDraft(draft, newHtmlContents));
+        const newMdContents = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
+        const newEditorDraft = {
+          content: newMdContents,
+          ...editorDraft,
+        };
+        const reqDraft = parseToRequestDraft(newEditorDraft);
+        const draft = parseToDraft(newEditorDraft);
+        dispatch(appActionCreator.updateDraft(draft, newMdContents));
+        setEditorDraft(newEditorDraft);
         updateDraft(reqDraft);
-      }, 300);
+        console.log("save");
+      }, 700);
       setTimerId(newTimerId);
     },[timerId,
       editorDraft, 
       dispatch, 
       updateDraft,
       isArticle,
-      htmlContents,
-      mdContents,
-      parseContents],
+      editorRef],
   );
 
+  // On click listener of submit button.
+  // Do valitation.
+  // Parse editor article|draft object to request type.
+  // Call api.
   const onSubmit = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
-
       const reqArticle = parseToRequestArticle(editorDraft);
       if(isArticle) updateArticle(reqArticle);
       else registerArticle(reqArticle);
@@ -183,6 +200,10 @@ const ArticleForm = (props: Props) => {
       updateArticle],
   );
 
+  // On click listener of preview button.
+  // Do validation.
+  // Open the window of preview.
+  // Detail is compontents/article/Articles.tsx and that children.
   const onPreview = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
@@ -191,6 +212,9 @@ const ArticleForm = (props: Props) => {
     [validation, editorDraft],
   );
 
+  // On change listener of title form.
+  // Update editor article|draft object
+  // and call function of saving on real time.
   const setTitleHandler = useCallback(
     (t: string) => {
       editorDraft.title = t;
@@ -198,6 +222,9 @@ const ArticleForm = (props: Props) => {
       onlineSave();
     },[editorDraft, onlineSave]);
 
+  // On change listener of categories form.
+  // Update editor article|draft object
+  // and call function of saving on real time.
   const setCategoriesHandler = useCallback(
     (c: string) => {
       editorDraft.categories = c;
@@ -205,13 +232,27 @@ const ArticleForm = (props: Props) => {
       onlineSave();
     },[editorDraft, onlineSave]);
 
+  // Set initial article if not undefined.
   useEffect(() => {
-    // set initial article if exist
     if(updatingArticle !== undefined) {
       setEditorDraft(updatingArticle);
     }
-    // eslint-disable-next-line
   }, [updatingArticle]);
+
+  // If updateMode is true, execute onlineSave func.
+  // When editor is mounted, updateMode becomes true and onlineSave is executed.
+  // To prevent this, add firstMount state.
+  useEffect(() => {
+    if(updateMode) {
+      if(firstMount){
+        setFirstMound(false);
+        return;
+      }
+      onlineSave();
+      setUpdateMode(false);
+    }
+    // eslint-disable-next-line
+  },[updateMode]);
 
   return(
     <EditContainerStyled>
@@ -226,23 +267,18 @@ const ArticleForm = (props: Props) => {
         errSetter={setErr}
         placeholder="category" />
       <EditorStyled>
-        <SimpleMDE
-          id="savetest"
-          value={mdContents}
-          onChange={onlineSave}
-          options={{
-            spellChecker: false,
-            syncSideBySidePreviewScroll: true,
-            forceSync: true,
-            autosave: {
-              enabled: true,
-              uniqueId: "savetest",
-              delay: 300
-            }
+        <Editor 
+          previewStyle="vertical"
+          height="750px"
+          initialEditType="markdown"
+          initialValue="- hello"
+          events={{
+            "change": () => { setUpdateMode(true); }
           }}
+          useCommandShortcut={true}
+          ref={editorRef}
         />
       </EditorStyled>
-      <div id="savetest" />
       <FormFooter
         onSubmit={onSubmit}
         onPreview={onPreview}
