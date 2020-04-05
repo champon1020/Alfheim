@@ -1,10 +1,8 @@
-import React, { useCallback, useState, useEffect } from "react";
-import { ax } from "../../../App";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
 import { Config } from "src/App";
-import { pathJoin } from "src/components/services/parser";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
@@ -44,33 +42,15 @@ type Props = {
 
 const Preview = (props: Props) => {
   const { tab, focusedArticle } = props;
-  const [content, setContent] = useState("");
 
   const contentRef = useCallback(
     (node: HTMLElement) => {
       if(node !== null){
         node.innerHTML = "";
-        node.insertAdjacentHTML("afterbegin", content);
+        node.insertAdjacentHTML("afterbegin", focusedArticle.content);
       }
     },
-    [content],
-  );
-
-  const fetchContent = useCallback(
-    async () => {
-      if(focusedArticle.contentHash === undefined) return;
-      const dirName = tab;
-      let hash = focusedArticle.contentHash;
-      hash += dirName==="drafts" ? "_md" : "_html";
-      const res = await ax.get(
-        pathJoin(
-          dirName, 
-          hash,
-        ),
-      );
-      setContent(res.data);
-    },
-    [focusedArticle, tab],
+    [focusedArticle.content],
   );
 
   const handleEditClick = useCallback(
@@ -81,11 +61,6 @@ const Preview = (props: Props) => {
     },
     [focusedArticle.id, tab],
   );
-
-  useEffect(() => {
-    fetchContent();
-    // eslint-disable-next-line
-  }, [focusedArticle]);
 
   return(
     <PreviewContainer>

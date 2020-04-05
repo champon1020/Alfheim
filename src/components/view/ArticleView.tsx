@@ -8,8 +8,7 @@ import { useSelector } from "react-redux";
 import { RootState, ManageState } from "src/stores/store";
 import { ArticleType } from "src/type";
 import { checkIsDraft } from "../article/util";
-import { parseDraftToArticle, pathJoin } from "../services/parser";
-import { ax } from "../../App";
+import { parseDraftToArticle } from "../services/parser";
 import { defaultApi, Config } from "src/App";
 
 const MainContainer = styled.div`
@@ -46,7 +45,6 @@ const ArticleView = (props: Props) => {
   const [prevArticle, setPrevArticle] = useState({title: ""} as ArticleType);
   const [nextArticle, setNextArticle] = useState({title: ""} as ArticleType);
   const [article, setArticle] = useState({} as ArticleType);
-  const [content, setContent] = useState("");
   const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
 
   const validSortedId = useCallback(
@@ -57,20 +55,12 @@ const ArticleView = (props: Props) => {
     [match]
   );
 
-  const fetchContent = useCallback(
-    async (article: ArticleType) => {
-      if(article.contentHash === undefined) return;
-      const res = await ax.get(pathJoin("articles", article.contentHash+"_html"));
-      setContent(res.data);
-    },[]
-  );
-
   const fetchArticle = useCallback(
     async (id?: number) => {
       if(checkIsDraft()) {
         const article = parseDraftToArticle(draftsStore.article);
+        article.content = draftsStore.draftContent;
         setArticle(article);
-        setContent(draftsStore.draftContent);
         return;
       }
 
@@ -79,11 +69,10 @@ const ArticleView = (props: Props) => {
       const fetchedArticle = res.data.article;
       const { next, prev } = res.data;
       setArticle(fetchedArticle);
-      fetchContent(fetchedArticle);
       setPrevArticle(prev);
       setNextArticle(next);
     },
-    [validSortedId, fetchContent, draftsStore],
+    [validSortedId, draftsStore],
   );
 
   const prevCallback = useCallback(
@@ -108,8 +97,7 @@ const ArticleView = (props: Props) => {
     <>
       <MainContainer>
         <Article 
-          article={article}
-          content={content} />
+          article={article} />
         <PageWithTitle
           prevText={prevArticle.title}
           nextText={nextArticle.title}

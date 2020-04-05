@@ -5,7 +5,7 @@ export type ArticleType = {
   categories: CategoryType[];
   createDate: string;
   updateDate: string;
-  contentHash: string;
+  content: string;
   imageHash: string;
   isPrivate: boolean;
 } 
@@ -22,7 +22,7 @@ export type DraftType = {
   title: string;
   categories: string;
   updateDate: string;
-  contentHash: string;
+  content: string;
   imageHash: string;
 }
 
@@ -32,7 +32,7 @@ export type ArticleRequestType = {
   id: string;
   title: string;
   categories: CategoryRequestType[];
-  contentHash: string;
+  content: string;
   imageHash: string;
   isPrivate: boolean;
 }
@@ -46,6 +46,6 @@ export type DraftRequestType = {
   id: string;
   title: string;
   categories: string;
-  contentHash: string;
+  content: string;
   imageHash: string;
 }

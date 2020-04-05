@@ -5,7 +5,7 @@ import { ArticleType } from "src/type";
 import { formatDateStr, pathJoin } from "src/components/services/parser";
 import Button from "./Button";
 import { Config, defaultApi } from "src/App";
-import { InlineObject3 } from "src/api";
+import { InlineObject2 } from "src/api";
 
 const ArticleBoxStyled = styled.li`
   --box-height: 80px;
@@ -92,8 +92,8 @@ const ArticleListBox = (props: Props) => {
 
   const updateArticle = useCallback(
     async (a: ArticleType) => {
-      const body = { article: a } as InlineObject3;
-      await defaultApi.apiPrivateUpdateArticleObjectPut(body, {
+      const body = { article: a } as InlineObject2;
+      await defaultApi.apiPrivateUpdateArticlePut(body, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
@@ -114,7 +114,7 @@ const ArticleListBox = (props: Props) => {
 
   const deleteDraft = useCallback(
     async (a: ArticleType) => {
-      await defaultApi.apiPrivateDeleteDraftDelete(a.id, a.contentHash, {
+      await defaultApi.apiPrivateDeleteDraftDelete(a.id, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }

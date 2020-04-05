@@ -66,7 +66,7 @@ export interface Article {
      * @type {string}
      * @memberof Article
      */
-    contentHash: string;
+    content: string;
     /**
      * 
      * @type {string}
@@ -146,7 +146,7 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    contentHash: string;
+    content: string;
     /**
      * 
      * @type {string}
@@ -166,18 +166,6 @@ export interface InlineObject {
      * @memberof InlineObject
      */
     article: RequestArticle;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineObject
-     */
-    htmlContents: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineObject
-     */
-    mdContents: string;
 }
 /**
  * 
@@ -204,18 +192,6 @@ export interface InlineObject2 {
      * @memberof InlineObject2
      */
     article: RequestArticle;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineObject2
-     */
-    htmlContents: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineObject2
-     */
-    mdContents: string;
 }
 /**
  * 
@@ -225,29 +201,10 @@ export interface InlineObject2 {
 export interface InlineObject3 {
     /**
      * 
-     * @type {RequestArticle}
+     * @type {RequestDraft}
      * @memberof InlineObject3
      */
-    article: RequestArticle;
-}
-/**
- * 
- * @export
- * @interface InlineObject4
- */
-export interface InlineObject4 {
-    /**
-     * 
-     * @type {RequestDraft}
-     * @memberof InlineObject4
-     */
     article: RequestDraft;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineObject4
-     */
-    mdContents: string;
 }
 /**
  * 
@@ -413,7 +370,7 @@ export interface InlineResponse2009 {
      * @type {string}
      * @memberof InlineResponse2009
      */
-    contentHash: string;
+    content: string;
     /**
      * 
      * @type {string}
@@ -450,7 +407,7 @@ export interface RequestArticle {
      * @type {string}
      * @memberof RequestArticle
      */
-    contentHash: string;
+    content: string;
     /**
      * 
      * @type {string}
@@ -512,7 +469,7 @@ export interface RequestDraft {
      * @type {string}
      * @memberof RequestDraft
      */
-    contentHash: string;
+    content: string;
     /**
      * 
      * @type {string}
@@ -785,18 +742,13 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary Delete draft.
          * @param {string} id Draft id.
-         * @param {string} contentHash Draft content hash.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options: any = {}): RequestArgs {
+    apiPrivateDeleteDraftDelete(id: string, options: any = {}): RequestArgs {
       // verify required parameter 'id' is not null or undefined
       if (id === null || id === undefined) {
         throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateDeleteDraftDelete.");
-      }
-      // verify required parameter 'contentHash' is not null or undefined
-      if (contentHash === null || contentHash === undefined) {
-        throw new RequiredError("contentHash","Required parameter contentHash was null or undefined when calling apiPrivateDeleteDraftDelete.");
       }
       const localVarPath = "/api/private/delete/draft";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
@@ -819,10 +771,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
       if (id !== undefined) {
         localVarQueryParameter["id"] = id;
-      }
-
-      if (contentHash !== undefined) {
-        localVarQueryParameter["contentHash"] = contentHash;
       }
 
 
@@ -887,11 +835,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     /**
          * 
          * @summary Draft article.
-         * @param {InlineObject4} [inlineObject4] 
+         * @param {InlineObject3} [inlineObject3] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options: any = {}): RequestArgs {
+    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options: any = {}): RequestArgs {
       const localVarPath = "/api/private/draft/article";
       const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
       let baseOptions;
@@ -919,8 +867,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
       // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
       delete localVarUrlObj.search;
       localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      const needsSerialization = (typeof inlineObject4 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject4 !== undefined ? inlineObject4 : {}) : (inlineObject4 || "");
+      const needsSerialization = (typeof inlineObject3 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
+      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject3 !== undefined ? inlineObject3 : {}) : (inlineObject3 || "");
 
       return {
         url: globalImportUrl.format(localVarUrlObj),
@@ -1237,53 +1185,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     },
     /**
          * 
-         * @summary Update article only object (not include content).
-         * @param {InlineObject3} inlineObject3 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateUpdateArticleObjectPut(inlineObject3: InlineObject3, options: any = {}): RequestArgs {
-      // verify required parameter 'inlineObject3' is not null or undefined
-      if (inlineObject3 === null || inlineObject3 === undefined) {
-        throw new RequiredError("inlineObject3","Required parameter inlineObject3 was null or undefined when calling apiPrivateUpdateArticleObjectPut.");
-      }
-      const localVarPath = "/api/private/update/article/object";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "PUT", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
-
-
-    
-      localVarHeaderParameter["Content-Type"] = "application/json";
-
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      const needsSerialization = (typeof inlineObject3 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject3 !== undefined ? inlineObject3 : {}) : (inlineObject3 || "");
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
          * @summary Update article.
          * @param {InlineObject2} inlineObject2 
          * @param {*} [options] Override http request option.
@@ -1478,12 +1379,11 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          * 
          * @summary Delete draft.
          * @param {string} id Draft id.
-         * @param {string} contentHash Draft content hash.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteDraftDelete(id, contentHash, options);
+    apiPrivateDeleteDraftDelete(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteDraftDelete(id, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1506,12 +1406,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     /**
          * 
          * @summary Draft article.
-         * @param {InlineObject4} [inlineObject4] 
+         * @param {InlineObject3} [inlineObject3] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2009> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDraftArticlePost(inlineObject4, options);
+    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2009> {
+      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDraftArticlePost(inlineObject3, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1610,20 +1510,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
     apiPrivateRegisterImagePost(images?: any, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
       const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterImagePost(images, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Update article only object (not include content).
-         * @param {InlineObject3} inlineObject3 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateUpdateArticleObjectPut(inlineObject3: InlineObject3, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticleObjectPut(inlineObject3, options);
       return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
         const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
         return axios.request(axiosRequestArgs);
@@ -1739,12 +1625,11 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary Delete draft.
          * @param {string} id Draft id.
-         * @param {string} contentHash Draft content hash.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDeleteDraftDelete(id, contentHash, options)(axios, basePath);
+    apiPrivateDeleteDraftDelete(id: string, options?: any) {
+      return DefaultApiFp(configuration).apiPrivateDeleteDraftDelete(id, options)(axios, basePath);
     },
     /**
          * 
@@ -1759,12 +1644,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     /**
          * 
          * @summary Draft article.
-         * @param {InlineObject4} [inlineObject4] 
+         * @param {InlineObject3} [inlineObject3] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDraftArticlePost(inlineObject4, options)(axios, basePath);
+    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any) {
+      return DefaultApiFp(configuration).apiPrivateDraftArticlePost(inlineObject3, options)(axios, basePath);
     },
     /**
          * 
@@ -1835,16 +1720,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
     apiPrivateRegisterImagePost(images?: any, options?: any) {
       return DefaultApiFp(configuration).apiPrivateRegisterImagePost(images, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Update article only object (not include content).
-         * @param {InlineObject3} inlineObject3 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateUpdateArticleObjectPut(inlineObject3: InlineObject3, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateUpdateArticleObjectPut(inlineObject3, options)(axios, basePath);
     },
     /**
          * 
@@ -1963,13 +1838,12 @@ export class DefaultApi extends BaseAPI {
      * 
      * @summary Delete draft.
      * @param {string} id Draft id.
-     * @param {string} contentHash Draft content hash.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateDeleteDraftDelete(id: string, contentHash: string, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDeleteDraftDelete(id, contentHash, options)(this.axios, this.basePath);
+  public apiPrivateDeleteDraftDelete(id: string, options?: any) {
+    return DefaultApiFp(this.configuration).apiPrivateDeleteDraftDelete(id, options)(this.axios, this.basePath);
   }
 
   /**
@@ -1987,13 +1861,13 @@ export class DefaultApi extends BaseAPI {
   /**
      * 
      * @summary Draft article.
-     * @param {InlineObject4} [inlineObject4] 
+     * @param {InlineObject3} [inlineObject3] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateDraftArticlePost(inlineObject4?: InlineObject4, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDraftArticlePost(inlineObject4, options)(this.axios, this.basePath);
+  public apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any) {
+    return DefaultApiFp(this.configuration).apiPrivateDraftArticlePost(inlineObject3, options)(this.axios, this.basePath);
   }
 
   /**
@@ -2078,18 +1952,6 @@ export class DefaultApi extends BaseAPI {
      */
   public apiPrivateRegisterImagePost(images?: any, options?: any) {
     return DefaultApiFp(this.configuration).apiPrivateRegisterImagePost(images, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Update article only object (not include content).
-     * @param {InlineObject3} inlineObject3 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiPrivateUpdateArticleObjectPut(inlineObject3: InlineObject3, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateUpdateArticleObjectPut(inlineObject3, options)(this.axios, this.basePath);
   }
 
   /**

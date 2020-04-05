@@ -39,7 +39,6 @@ const ImageForm = (props: Props) => {
       if(imageRef.current.files === null) return;
       const formData = new FormData();
       formData.append("images", imageRef.current.files[0]);
-      console.log(imageRef.current.files);
       axios.post(`${Config.apiHost}/api/private/register/image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

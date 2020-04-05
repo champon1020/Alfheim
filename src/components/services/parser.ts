@@ -63,7 +63,7 @@ export const parseDraftToArticle = (draft: DraftType): ArticleType => {
     categories: parseCategoryDraftToArticle(draft.categories),
     createDate: today.toISOString(),
     updateDate: "",
-    contentHash: draft.contentHash,
+    content: draft.content,
     imageHash: draft.imageHash,
     isPrivate: true,
   };
