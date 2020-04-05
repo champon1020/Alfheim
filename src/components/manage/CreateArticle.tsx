@@ -15,7 +15,6 @@ type Props = {
 const CreateArticle = (props: Props) => {
   const { setVerify, articleId, draftId } = props;
   const [updatingArticle, setUpdatingArticle] = useState(defaultEditorDraft);
-  const [updatingContents, setUpdatingContents] = useState("");
 
   const isArticle = useMemo(() => articleId !== undefined, [articleId]);
 
@@ -51,22 +50,12 @@ const CreateArticle = (props: Props) => {
     [setVerify],
   );
 
-  // fetch mde content
-  const fetchContent = useCallback(
-    async (url: string) => {
-      const res = await ax.get(url);
-      setUpdatingContents(res.data);
-    },[],
-  );
-
   useEffect(() => {
     if(articleId !== undefined) {
       fetchArticle(articleId);
-      fetchContent(pathJoin("articles", updatingArticle.contentHash + "_mde"));
     }
     if(draftId !== undefined) {
       fetchDraft(draftId);
-      fetchContent(pathJoin("drafts", updatingArticle.contentHash + "_mde"));
     }
     // eslint-disable-next-line
   },[articleId, draftId]);
@@ -75,7 +64,6 @@ const CreateArticle = (props: Props) => {
     <div id="create-article-container">
       <ArticleForm 
         updatingArticle={updatingArticle}
-        updatingContents={updatingContents}
         isArticle={isArticle}
         setVerify={setVerify} />
     </div>

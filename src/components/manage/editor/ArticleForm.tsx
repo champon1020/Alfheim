@@ -29,7 +29,7 @@ export type EditorArticle = {
   title: string;
   categories: string;
   updateDate: string;
-  contentHash: string;
+  content: string;
   imageHash: string;
   isPrivate: boolean;
 }
@@ -39,7 +39,7 @@ export const defaultEditorDraft: EditorArticle = {
   title: "",
   categories: "",
   updateDate: "",
-  contentHash: "",
+  content: "",
   imageHash: "",
   isPrivate: false
 };
@@ -49,13 +49,12 @@ const apiOff = true;
 
 type Props = {
   updatingArticle?: EditorArticle;
-  updatingContents?: string;
   isArticle: boolean;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ArticleForm = (props: Props) => {
-  const { updatingArticle, updatingContents, isArticle, setVerify } = props;
+  const { updatingArticle, isArticle, setVerify } = props;
 
   const [timerId, setTimerId] = useState(0);
   const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
@@ -65,12 +64,10 @@ const ArticleForm = (props: Props) => {
   const dispatch = useDispatch();
 
   const registerArticle = useCallback(
-    async (a: ArticleRequestType, htmlCon: string, mdeCon: string) => {
+    async (a: ArticleRequestType) => {
       if(apiOff) return;
       await defaultApi.apiPrivateRegisterArticlePost({
         article: a, 
-        htmlContents: htmlCon,
-        mdContents: mdeCon,
       }, 
       {
         headers: {
@@ -83,12 +80,10 @@ const ArticleForm = (props: Props) => {
   );
 
   const updateArticle = useCallback(
-    async (a: ArticleRequestType, htmlCon: string, mdeCon: string) => {
+    async (a: ArticleRequestType) => {
       if(apiOff) return;
       await defaultApi.apiPrivateUpdateArticlePut({
         article: a, 
-        htmlContents: htmlCon,
-        mdContents: mdeCon,
       }, 
       {
         headers: {
@@ -101,11 +96,10 @@ const ArticleForm = (props: Props) => {
   );
 
   const updateDraft = useCallback(
-    async (d: DraftRequestType, mdeCon: string) => {
+    async (d: DraftRequestType) => {
       if(apiOff) return;
       const res = await defaultApi.apiPrivateDraftArticlePost({
-        article: d, 
-        mdContents: mdeCon
+        article: d,
       },
       {
         headers: {
@@ -116,7 +110,7 @@ const ArticleForm = (props: Props) => {
       });
       if(typeof res === "undefined") return;
       editorDraft.id = res.data.id;
-      editorDraft.contentHash = res.data.contentHash;
+      editorDraft.content = res.data.content;
       editorDraft.imageHash = res.data.imageHash;
       window.history.pushState(null, "", "?draftId=" + editorDraft.id);
       // eslint-disable-next-line
@@ -162,7 +156,7 @@ const ArticleForm = (props: Props) => {
         const reqDraft = parseToRequestDraft(editorDraft);
         const draft = parseToDraft(editorDraft);
         dispatch(appActionCreator.updateDraft(draft, newHtmlContents));
-        updateDraft(reqDraft, newMdeContents);
+        updateDraft(reqDraft);
       }, 300);
       setTimerId(newTimerId);
     },[timerId,
@@ -180,15 +174,13 @@ const ArticleForm = (props: Props) => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
 
       const reqArticle = parseToRequestArticle(editorDraft);
-      if(isArticle) updateArticle(reqArticle, htmlContents, mdContents);
-      else registerArticle(reqArticle, htmlContents, mdContents);
+      if(isArticle) updateArticle(reqArticle);
+      else registerArticle(reqArticle);
     },[editorDraft, 
       validation,
       registerArticle,
       isArticle,
-      updateArticle,
-      htmlContents,
-      mdContents],
+      updateArticle],
   );
 
   const onPreview = useCallback(
@@ -218,12 +210,8 @@ const ArticleForm = (props: Props) => {
     if(updatingArticle !== undefined) {
       setEditorDraft(updatingArticle);
     }
-    // set initial content if exist
-    if(updatingContents !== undefined){
-      setMdContents(updatingContents);
-    }
     // eslint-disable-next-line
-  }, [updatingArticle, updatingContents]);
+  }, [updatingArticle]);
 
   return(
     <EditContainerStyled>
