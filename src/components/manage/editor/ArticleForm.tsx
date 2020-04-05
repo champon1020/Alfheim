@@ -172,7 +172,6 @@ const ArticleForm = (props: Props) => {
         dispatch(appActionCreator.updateDraft(draft, newMdContents));
         setEditorDraft(newEditorDraft);
         updateDraft(reqDraft);
-        console.log("save");
       }, 700);
       setTimerId(newTimerId);
     },[timerId,
