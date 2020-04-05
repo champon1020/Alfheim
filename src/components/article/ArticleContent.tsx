@@ -1,4 +1,7 @@
 import React, { useCallback } from "react";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import { Viewer } from "@toast-ui/react-editor";
 import styled from "styled-components";
 
 const ArticleContentStyled = styled.article`
@@ -20,17 +23,22 @@ type Props = ParentProps;
 const ArticleContent = (props: Props) => {
   const { content } = props;
 
-  const contentRef = useCallback(
-    (node: HTMLElement) => {
-      if(node !== null){
-        node.insertAdjacentHTML("afterbegin", content);
-      }
+  const viewer = useCallback(
+    () => {
+      if(content === undefined) return <div></div>;
+      return (
+        <Viewer
+          initialValue={content}
+        />
+      );
     },
     [content],
   );
 
   return(
-    <ArticleContentStyled ref={contentRef} />
+    <ArticleContentStyled>
+      {viewer()}
+    </ArticleContentStyled>
   );
 };
 
