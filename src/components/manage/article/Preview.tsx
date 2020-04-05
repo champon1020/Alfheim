@@ -44,33 +44,15 @@ type Props = {
 
 const Preview = (props: Props) => {
   const { tab, focusedArticle } = props;
-  const [content, setContent] = useState("");
 
   const contentRef = useCallback(
     (node: HTMLElement) => {
       if(node !== null){
         node.innerHTML = "";
-        node.insertAdjacentHTML("afterbegin", content);
+        node.insertAdjacentHTML("afterbegin", focusedArticle.content);
       }
     },
-    [content],
-  );
-
-  const fetchContent = useCallback(
-    async () => {
-      if(focusedArticle.contentHash === undefined) return;
-      const dirName = tab;
-      let hash = focusedArticle.contentHash;
-      hash += dirName==="drafts" ? "_md" : "_html";
-      const res = await ax.get(
-        pathJoin(
-          dirName, 
-          hash,
-        ),
-      );
-      setContent(res.data);
-    },
-    [focusedArticle, tab],
+    [focusedArticle.content],
   );
 
   const handleEditClick = useCallback(
@@ -81,11 +63,6 @@ const Preview = (props: Props) => {
     },
     [focusedArticle.id, tab],
   );
-
-  useEffect(() => {
-    fetchContent();
-    // eslint-disable-next-line
-  }, [focusedArticle]);
 
   return(
     <PreviewContainer>
