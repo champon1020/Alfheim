@@ -3,9 +3,16 @@ import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
 import { Config } from "src/App";
-import "codemirror/lib/codemirror.css";
+
+// @toast-ui modules
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
+
+// highlight.js
+import "highlight.js/styles/github.css";
+import hljs from "highlight.js";
+
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
@@ -32,10 +39,10 @@ const Content = styled.div`
   overflow-y: scroll;
   white-space: nowrap;
   height: calc(var(--articles-container-height) - var(--header-height) - 2.3rem);
-  & article {
-    font-size: 1.2rem;
-    margin: 1%;
-  }
+`;
+
+const ViewerWrapper = styled.div`
+  margin: 1% 2%;
 `;
 
 type Props = {
@@ -65,6 +72,11 @@ const Preview = (props: Props) => {
     }
   },[focusedArticle.content, viewerRef]);
 
+  // Initialize highlight.js
+  useEffect(() => {
+    hljs.initHighlightingOnLoad();
+  },[]);
+
   return(
     <PreviewContainer>
       <Header selected={focusedArticle.title !== undefined}>
@@ -79,10 +91,15 @@ const Preview = (props: Props) => {
           height="70"/>
       </Header>
       <Content>
-        <Viewer
-          initialValue={focusedArticle.content}
-          ref={viewerRef}
-        />
+        <ViewerWrapper>
+          <Viewer
+            initialValue={focusedArticle.content}
+            plugins={[
+              codeSyntaxHighlightPlugin
+            ]}
+            ref={viewerRef}
+          />
+        </ViewerWrapper>
       </Content>
     </PreviewContainer>
   );

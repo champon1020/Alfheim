@@ -1,8 +1,13 @@
-import React, { useCallback } from "react";
-import "codemirror/lib/codemirror.css";
+import React, { useCallback, useEffect } from "react";
+import styled from "styled-components";
+
+// @toast-ui modules
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import { Viewer } from "@toast-ui/react-editor";
-import styled from "styled-components";
+
+// highlight.js
+import "highlight.js/styles/github.css";
+import hljs from "highlight.js";
 
 const ArticleContentStyled = styled.article`
   width: 86%;
@@ -34,6 +39,11 @@ const ArticleContent = (props: Props) => {
     },
     [content],
   );
+
+  // Initialize highlight.js
+  useEffect(() => {
+    hljs.initHighlightingOnLoad();
+  },[]);
 
   return(
     <ArticleContentStyled>
