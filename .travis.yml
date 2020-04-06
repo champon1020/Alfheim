@@ -4,7 +4,8 @@ node_js:
   - '10'
 
 env:
-  - workerCount=3 timeout=600000
+  - workerCount=3
+  - timeout=600000
   - REACT_APP_TRAVIS=true
 
 matrix:
