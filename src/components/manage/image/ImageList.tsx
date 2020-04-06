@@ -4,7 +4,7 @@ import Cookie from "js-cookie";
 import { Config, defaultApi } from "src/App";
 
 const ImageListContainer = styled.div`
-  height: calc(var(--images-container-height) - 15rem);
+  margin: 2rem 0;
 `;
 
 const ImageListStyled = styled.ul`
@@ -19,6 +19,13 @@ const ImageListItemStyled = styled.li`
   margin: 0 1%;
   &:hover { 
     opacity: 0.6;
+  }
+  @media (max-width: 1100px) {
+    width: 31%;
+  }
+  @media (max-width: 500px) {
+    margin: 0 2%;
+    width: 45%;
   }
 `;
 
