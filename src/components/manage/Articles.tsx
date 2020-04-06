@@ -220,7 +220,7 @@ const Articles = (props: Props) => {
   return(
     <ArticlesContainer>
       <ArticleListContainer 
-        hidden={!openMenu}
+        hidden={menu && !openMenu}
         menu={menu}>
         <Tab 
           tab={tab}
