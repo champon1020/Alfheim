@@ -25,7 +25,11 @@ const CreateArticle = (props: Props) => {
   // Update the state of updatingArticle.
   const fetchArticle = useCallback(
     async (id: string) => {
-      const res = await defaultApi.apiPrivateFindArticleIdGet(id).catch(() => {
+      const res = await defaultApi.apiPrivateFindArticleIdGet(id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      }).catch(() => {
         setVerify(false);
       });
       if(typeof res === "undefined") return;

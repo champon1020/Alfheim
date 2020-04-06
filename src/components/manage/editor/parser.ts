@@ -114,6 +114,6 @@ export const parseFromDraft = (d: DraftType): EditorArticle => {
     updateDate: d.updateDate,
     content: d.content,
     imageHash: d.imageHash,
-    isPrivate: true,
+    isPrivate: false,
   };
 };

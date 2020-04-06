@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback, createRef } from "react";
 import Cookie from "js-cookie";
 import styled from "styled-components";
-// import SimpleMDE from "react-simplemde-editor";
-// import "easymde/dist/easymde.min.css";
 import "codemirror/lib/codemirror.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
@@ -51,7 +49,10 @@ export const defaultEditorDraft: EditorArticle = {
 
 // Use as debug.
 // If true, api will not be called.
-const apiOff = true;
+const apiOff = false;
+
+// Duration of saving on real time.
+const onlineSaveDuration = 700;
 
 type Props = {
   updatingArticle?: EditorArticle;
@@ -150,6 +151,7 @@ const ArticleForm = (props: Props) => {
     },[],
   );
 
+
   // Saving on real time.
   // If timerId is not undefined, 
   // do clearTimeout (this means discard last stacked function of setTimeout)
@@ -158,21 +160,29 @@ const ArticleForm = (props: Props) => {
   const onlineSave = useCallback(
     () => {
       if(isExistArticle) return;
+
+      // Clear now timer if timerId is no undefined.
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
+
+      // New markdown content.
+      const newMdContent = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
+
+      // Set content to editorDraft.
+      editorDraft.content = newMdContent;
+
+      // Call updating function after onlineSaveDration.
+      // - Dispatch draft and mdContent.
+      // - Update the state of editor draft.
+      // - Call api.
       const newTimerId = setTimeout(() => {
-        const newMdContents = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
-        const newEditorDraft = {
-          content: newMdContents,
-          ...editorDraft,
-        };
-        const reqDraft = parseToRequestDraft(newEditorDraft);
-        const draft = parseToDraft(newEditorDraft);
-        dispatch(appActionCreator.updateDraft(draft, newMdContents));
-        setEditorDraft(newEditorDraft);
+        const reqDraft = parseToRequestDraft(editorDraft);
+        const draft = parseToDraft(editorDraft);
+        dispatch(appActionCreator.updateDraft(draft, newMdContent));
+        setEditorDraft(editorDraft);
         updateDraft(reqDraft);
-      }, 700);
+      }, onlineSaveDuration);
       setTimerId(newTimerId);
     },[timerId,
       editorDraft, 
@@ -182,22 +192,19 @@ const ArticleForm = (props: Props) => {
       editorRef],
   );
 
+
   // On click listener of submit button.
-  // Do valitation.
-  // Get editor content.
-  // Parse editor article|draft object to request type.
-  // Call api.
+  // - Do valitation.
+  // - Get editor content.
+  // - Parse editor article|draft object to request type.
+  // - Call api.
   const onSubmit = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
-      const newMdContents = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
-      const newEditorDraft = {
-        content: newMdContents,
-        ...editorDraft,
-      };
-      const reqArticle = parseToRequestArticle(newEditorDraft);
-      if(isExistArticle) updateArticle(reqArticle);
-      else registerArticle(reqArticle);
+      const newMdContent = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
+      editorDraft.content = newMdContent;
+      const reqArticle = parseToRequestArticle(editorDraft);
+      isExistArticle ? updateArticle(reqArticle) : registerArticle(reqArticle);
     },[editorDraft, 
       validation,
       registerArticle,
@@ -207,9 +214,9 @@ const ArticleForm = (props: Props) => {
   );
 
   // On click listener of preview button.
-  // Do validation.
-  // Open the window of preview.
-  // Detail is compontents/article/Articles.tsx and that children.
+  // - Do validation.
+  // - Open the window of preview.
+  // - Detail is compontents/article/Articles.tsx and that children.
   const onPreview = useCallback(
     () => {
       if(validation(editorDraft.title, editorDraft.categories)) return;
@@ -239,9 +246,13 @@ const ArticleForm = (props: Props) => {
     },[editorDraft, onlineSave]);
 
   // Set initial article if not undefined.
+  // Set intial article.content to editor markdown.
   useEffect(() => {
     if(updatingArticle !== undefined) {
       setEditorDraft(updatingArticle);
+      if (editorRef.current !== null) {
+        editorRef.current.getInstance().setMarkdown(updatingArticle.content);
+      }
     }
   }, [updatingArticle]);
 
@@ -250,11 +261,7 @@ const ArticleForm = (props: Props) => {
   // To prevent this, add firstMount state.
   useEffect(() => {
     if(updateMode) {
-      if(firstMount){
-        setFirstMound(false);
-        return;
-      }
-      onlineSave();
+      firstMount ? setFirstMound(false) : onlineSave();
       setUpdateMode(false);
     }
     // eslint-disable-next-line
@@ -277,7 +284,6 @@ const ArticleForm = (props: Props) => {
           previewStyle="vertical"
           height="750px"
           initialEditType="markdown"
-          initialValue="- hello"
           events={{
             "change": () => { setUpdateMode(true); }
           }}
