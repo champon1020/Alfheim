@@ -35,6 +35,7 @@ export const formatDateStr = (d?: string) => {
 const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
   const categories = category.split(",");
   const categoryList = [] as CategoryType[];
+  if(categories[0] === "") return categoryList;
   categories.forEach(v => {
     categoryList.push({
       id: "id",

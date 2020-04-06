@@ -19,21 +19,29 @@ const InputStyled = styled.input`
 type Props = {
   value: string;
   setter: (value: string) => void;
+  msgSetter: React.Dispatch<React.SetStateAction<string>>;
   errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>;
   placeholder?: string;
 }
 
 const InputForm = (props: Props) => {
-  const { value, errSetter, setter, placeholder } = props;
+  const { 
+    value, 
+    setter, 
+    msgSetter, 
+    errSetter, 
+    placeholder 
+  } = props;
 
   // On change listner of input form.
   // Execute callback and set error or not.
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value);
+      msgSetter("");
       errSetter(MyErrorStatus.NONE);
     },
-    [setter, errSetter],
+    [setter, msgSetter, errSetter],
   );
   
   return (

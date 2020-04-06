@@ -88,7 +88,6 @@ const ArticleView = (props: Props) => {
   );
 
   useEffect(() => {
-    window.history.pushState(null, "", window.location.pathname);
     fetchArticle();
     // eslint-disable-next-line
   }, []);

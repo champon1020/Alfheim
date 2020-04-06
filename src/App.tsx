@@ -10,12 +10,11 @@ import axios from "axios";
 import ErrorPage from "./components/error/ErrorPage";
 import Login from "./components/auth/Login";
 
-
-const config = process.env.REACT_APP_TRAVIS 
+const config = process.env.REACT_APP_TRAVIS==="true" 
   ? require("./private/config_test.json")
   : require("./private/config.json");
 
-export const Config = process.env.REACT_APP_TRAVIS 
+export const Config = process.env.REACT_APP_TRAVIS==="true"
   ? config.test 
   : config.dev;
   // : config.deploy;
