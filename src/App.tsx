@@ -10,12 +10,17 @@ import axios from "axios";
 import ErrorPage from "./components/error/ErrorPage";
 import Login from "./components/auth/Login";
 
-const config = process.env.REACT_APP_TRAVIS ? 
-  require("./private/config_test.json") : require("./private/config.json");
+
+const config = process.env.REACT_APP_TRAVIS 
+  ? require("./private/config_test.json")
+  : require("./private/config.json");
+
+export const Config = process.env.REACT_APP_TRAVIS 
+  ? config.test 
+  : config.dev;
+  // : config.deploy;
 
 export const defaultApi = new api.DefaultApi();
-//export const Config = config.deploy;
-export const Config = config.dev;
 export const ax = axios.create({
   baseURL: Config.srcHost
 });
