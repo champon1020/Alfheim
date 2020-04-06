@@ -1,8 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, createRef, useEffect } from "react";
 import styled from "styled-components";
 import Button from "./Button";
 import { ArticleType } from "src/type";
 import { Config } from "src/App";
+import "codemirror/lib/codemirror.css";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import { Viewer } from "@toast-ui/react-editor";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
@@ -42,17 +45,10 @@ type Props = {
 
 const Preview = (props: Props) => {
   const { tab, focusedArticle } = props;
+  const viewerRef = createRef<Viewer>();
 
-  const contentRef = useCallback(
-    (node: HTMLElement) => {
-      if(node !== null){
-        node.innerHTML = "";
-        node.insertAdjacentHTML("afterbegin", focusedArticle.content);
-      }
-    },
-    [focusedArticle.content],
-  );
-
+  // On click listener of 'Edit' button.
+  // Jump to edit page with article|draft id.
   const handleEditClick = useCallback(
     () => {
       if(focusedArticle.id === undefined) return;
@@ -61,6 +57,13 @@ const Preview = (props: Props) => {
     },
     [focusedArticle.id, tab],
   );
+
+  // Update preview content by change of focusedArticle.content.
+  useEffect(() => {
+    if(viewerRef.current !== null) {
+      viewerRef.current.getInstance().setMarkdown(focusedArticle.content);
+    }
+  },[focusedArticle.content, viewerRef]);
 
   return(
     <PreviewContainer>
@@ -76,7 +79,10 @@ const Preview = (props: Props) => {
           height="70"/>
       </Header>
       <Content>
-        <article ref={contentRef}></article>
+        <Viewer
+          initialValue={focusedArticle.content}
+          ref={viewerRef}
+        />
       </Content>
     </PreviewContainer>
   );

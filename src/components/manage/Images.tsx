@@ -20,10 +20,18 @@ type Props = {
 
 const Images = (props: Props) => {
   const { setVerify } = props;
+
+  // Image list.
   const [images, setImages] = useState([] as string[]);
+
+  // Current page.
   const [page, setPage] = useState(1);
+
+  // Next page is exist or not.
   const [next, setNext] = useState(true);
 
+  // Call api of getting image list.
+  // The next property of response body updates the state of next.
   const fetchImages = useCallback(
     async (p: number) => {
       const res = await defaultApi.apiPrivateFindImageListGet(p, {
@@ -40,6 +48,8 @@ const Images = (props: Props) => {
     [setVerify],
   );
 
+  // On click listener of going next page.
+  // Update page to page+1.
   const nextCallback = useCallback(
     () => {
       setPage(page+1);
@@ -47,6 +57,8 @@ const Images = (props: Props) => {
     [page],
   );
 
+  // On click listener of going previous page.
+  // Update page to page+1.
   const prevCallback = useCallback(
     () => {
       setPage(page-1);
@@ -54,6 +66,8 @@ const Images = (props: Props) => {
     [page],
   );
 
+  // Fetch images.
+  // This called as page is updated.
   useEffect(() => {
     fetchImages(page);
     // eslint-disable-next-line

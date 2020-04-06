@@ -71,25 +71,20 @@ type Props = {
 
 const ArticleListBox = (props: Props) => {
   const { tab, article, setFocusedArticle, setVerify } = props;
+
   const imageSrc = useMemo(() => {
-    return pathJoin(Config.srcHost, "images", article.imageHash === "" ? Config.defImg : article.imageHash);
+    return pathJoin(
+      Config.srcHost, 
+      "images", 
+      article.imageHash === "" ? Config.defImg : article.imageHash
+    );
   },[article.imageHash]);
+
   const privateButtonColor = useMemo(() => article.isPrivate ? "tomato" : "steelblue", [article]);
   const privateButtonText = useMemo(() => article.isPrivate ? "Private" : "Public", [article]);
 
-  const handleOnClick = useCallback(
-    () => {
-      setFocusedArticle(article);
-    }
-    , [article, setFocusedArticle]);
 
-  const handleGoToClick = useCallback(
-    () => {
-      window.open(`${Config.host}/article/${article.sortedId}`);
-    },
-    [article],
-  );
-
+  // Call api of updating article.
   const updateArticle = useCallback(
     async (a: ArticleType) => {
       const body = { article: a } as InlineObject2;
@@ -103,15 +98,7 @@ const ArticleListBox = (props: Props) => {
     },[setVerify]
   );
 
-  const handleTogglePublicClick = useCallback(
-    () => {
-      article.isPrivate = !article.isPrivate;
-      updateArticle(article);
-      window.location.href=pathJoin(Config.host, "manage", "articles");
-    },
-    [article, updateArticle],
-  );
-
+  // Call api of deleting draft.
   const deleteDraft = useCallback(
     async (a: ArticleType) => {
       await defaultApi.apiPrivateDeleteDraftDelete(a.id, {
@@ -124,6 +111,38 @@ const ArticleListBox = (props: Props) => {
     },[setVerify]
   );
 
+  // On focuse listener of article box.
+  // Set focues article.
+  const handleOnClick = useCallback(
+    () => {
+      setFocusedArticle(article);
+    }
+    , [article, setFocusedArticle]);
+
+  // On click listner of 'Go to' button.
+  // Jump to the article's page.
+  const handleGoToClick = useCallback(
+    () => {
+      window.open(`${Config.host}/article/${article.sortedId}`);
+    },
+    [article],
+  );
+
+  // On click listener of 'Public' and 'Private' toggle button.
+  // Call api and update state of article.
+  // Refresh this page because if not, view would be not updated.
+  const handleTogglePublicClick = useCallback(
+    () => {
+      article.isPrivate = !article.isPrivate;
+      updateArticle(article);
+      window.location.href=pathJoin(Config.host, "manage", "articles");
+    },
+    [article, updateArticle],
+  );
+
+  // On click listener of 'Delete' button.
+  // Call api.
+  // Refresh this page because if not, view would be not updated.
   const handleOnDeleteClick = useCallback(
     () => {
       deleteDraft(article);
@@ -131,6 +150,7 @@ const ArticleListBox = (props: Props) => {
     },[article, deleteDraft]
   );
 
+  // Select components of button by the state of tab.
   const buttonElements = useCallback(
     () => {
       if(tab === "drafts"){

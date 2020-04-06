@@ -34,11 +34,20 @@ const ImageForm = (props: Props) => {
   const { setVerify } = props;
   const imageRef = useRef({} as HTMLInputElement);
 
+  // On click listener of sending image.
+  // Parse to multipart/form-data.
+  // Call api.
   const handleOnPost = useCallback(
     () => {
+      // null check
       if(imageRef.current.files === null) return;
+
+      // Parse image from input form and add to formData.
+      // This is the format of multipart/form-data.
       const formData = new FormData();
       formData.append("images", imageRef.current.files[0]);
+      
+      // Call api.
       axios.post(`${Config.apiHost}/api/private/register/image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",

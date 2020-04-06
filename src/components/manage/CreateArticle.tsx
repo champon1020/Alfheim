@@ -12,14 +12,24 @@ type Props = {
 
 const CreateArticle = (props: Props) => {
   const { setVerify, articleId, draftId } = props;
+
+  // Updating article.
+  // This state is used if article or draft is selected.
   const [updatingArticle, setUpdatingArticle] = useState(defaultEditorDraft);
 
-  const isArticle = useMemo(() => articleId !== undefined, [articleId]);
+  // Bool whether updatingArticle has already submit or not.
+  // If articleId is not undefined, this is true. 
+  const isExistArticle = useMemo(() => articleId !== undefined, [articleId]);
 
-  // fetch article by id
+  // Call api of getting article by id.
+  // Update the state of updatingArticle.
   const fetchArticle = useCallback(
     async (id: string) => {
-      const res = await defaultApi.apiPrivateFindArticleIdGet(id).catch(() => {
+      const res = await defaultApi.apiPrivateFindArticleIdGet(id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        }
+      }).catch(() => {
         setVerify(false);
       });
       if(typeof res === "undefined") return;
@@ -30,7 +40,8 @@ const CreateArticle = (props: Props) => {
     [setVerify],
   );
 
-  // fetch draft by id
+  // Call api of getting draft by id.
+  // Update the state of updatingArticle.
   const fetchDraft = useCallback(
     async (id: string) => {
       const res = await defaultApi.apiPrivateFindDraftIdGet(id, {
@@ -48,13 +59,10 @@ const CreateArticle = (props: Props) => {
     [setVerify],
   );
 
+  // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
-    if(articleId !== undefined) {
-      fetchArticle(articleId);
-    }
-    if(draftId !== undefined) {
-      fetchDraft(draftId);
-    }
+    if(articleId !== undefined) fetchArticle(articleId);
+    if(draftId !== undefined) fetchDraft(draftId);
     // eslint-disable-next-line
   },[articleId, draftId]);
   
@@ -62,7 +70,7 @@ const CreateArticle = (props: Props) => {
     <div id="create-article-container">
       <ArticleForm 
         updatingArticle={updatingArticle}
-        isArticle={isArticle}
+        isExistArticle={isExistArticle}
         setVerify={setVerify} />
     </div>
   );

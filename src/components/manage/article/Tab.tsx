@@ -32,6 +32,8 @@ const Tab = (props: Props) => {
   const articlesRef = useRef({} as HTMLLIElement);
   const draftsRef = useRef({} as HTMLLIElement);
   
+  // On click listener of tab.
+  // Toggle tab 'articles' or 'drafts'.
   const handleOnClick = useCallback(
     (e: MouseEvent<HTMLLIElement>) => {
       if(e.currentTarget === articlesRef.current) setTab("articles");
