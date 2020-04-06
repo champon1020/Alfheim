@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback, MouseEvent } from "react";
 import styled from "styled-components";
 
 const ToolBarContainerStyled = styled.div`
@@ -6,26 +6,33 @@ const ToolBarContainerStyled = styled.div`
   margin-bottom: 1rem;
   text-align: center;
   background-color: white;
-  & ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    list-style: none;
-    padding-top: 4px;
+`;
+
+const ToolBarList = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  padding-top: 0.3rem;
+  @media (max-width: 500px) {
+    padding-top: 1.1rem;
   }
-  & li {
-    font-size: 26px;
-    width: 100px;
-    padding: 13px;
-    position: relative;
-    border-radius: 10px 10px 0 0;
+`;
+
+const ToolBarListItem = styled.li<{focused: boolean}>`
+  background-color: ${({focused}) => focused ? "var(--manage-base-color)" : "white"};
+  color: ${({focused}) => focused ? "white" : "var(--manage-base-color)"};
+  font-size: 2.6rem;
+  width: 10rem;
+  padding: 1.3rem;
+  border-radius: 1rem 1rem 0 0;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
   }
-  & .link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+  @media (max-width: 500px) {
+    font-size: 2.0rem;
+    padding: 1.3rem 0.5rem;
   }
 `;
 
@@ -36,37 +43,44 @@ interface ParentProps {
 type Props = ParentProps;
 
 const ToolBar: React.FC<Props> = (props) => {
-  const style = {
-    "backgroundColor": "var(--manage-base-color)",
-    "color": "white"
-  };
-
-  const dummyStyle = {};
+  const handleOnClick = useCallback(
+    (e: MouseEvent<HTMLLIElement>) => {
+      if(e.currentTarget.id === "create") window.open("/manage/", "_self");
+      if(e.currentTarget.id === "images") window.open("/manage/images", "_self");
+      if(e.currentTarget.id === "articles") window.open("/manage/articles", "_self");
+      if(e.currentTarget.id === "settings") window.open("/manage/settings", "_self");
+    },
+    [],
+  );
 
   return(
     <ToolBarContainerStyled>
-      <ul>
-        <li style={props.mode === undefined ? style : dummyStyle}>
-            create
-          {/* eslint-disable-next-line */}
-            <a className="link" href="/manage/"></a>
-        </li>
-        <li style={props.mode === "images" ? style : dummyStyle}>
-            images
-          {/* eslint-disable-next-line */}
-            <a className="link" href="/manage/images"></a>
-        </li>
-        <li style={props.mode === "articles" ? style : dummyStyle}>
-            articles
-          {/* eslint-disable-next-line */}
-            <a className="link" href="/manage/articles"></a>
-        </li>
-        <li style={props.mode === "settings" ? style : dummyStyle}>
-            settings
-          {/* eslint-disable-next-line */}
-            <a className="link" href="/manage/settings"></a>
-        </li>
-      </ul>
+      <ToolBarList>
+        <ToolBarListItem
+          id="create"
+          focused={props.mode===undefined}
+          onClick={handleOnClick}>
+          {"create"}
+        </ToolBarListItem>
+        <ToolBarListItem
+          id="images"
+          focused={props.mode==="images"}
+          onClick={handleOnClick}>
+          {"images"}
+        </ToolBarListItem>
+        <ToolBarListItem 
+          id="articles"
+          focused={props.mode==="articles"}
+          onClick={handleOnClick}>
+          {"articles"}
+        </ToolBarListItem>
+        <ToolBarListItem 
+          id="settings"
+          focused={props.mode==="settings"}
+          onClick={handleOnClick}>
+          {"settings"}
+        </ToolBarListItem>
+      </ToolBarList>
     </ToolBarContainerStyled>
   );
 };

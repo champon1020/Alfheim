@@ -23,30 +23,45 @@ const ArticleBoxStyled = styled.li`
   &:focus, &:hover {
     opacity: 0.9;
   }
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    height: calc(var(--box-height) * 2.5);
+  }
 `;
 
 const ImageBoxStyled = styled.div`
   order: 1;
-  width: 30%;
+  width: 35%;
   text-align: left;
   & img {
-    height: calc(var(--box-height));
-    width: calc(var(--box-height));
+    height: var(--box-height);
+    width: 100%;
+  }
+  @media (max-width: 600px) {
+    width: 100%;
+    & img {
+    height: calc(var(--box-height) * 1.6);
+  }
   }
 `;
 
 const TitleDateStyled = styled.div`
   order: 2;
-  width: 50%;
+  width: 45%;
   text-align: left;
   display: flex;
   flex-direction: column;
   & h2 {
     font-size: 1.5rem;
+    padding-left: 1rem;
   }
   & h3 {
     margin-top: 4%;
     font-size: 1.2rem;
+    padding-left: 1rem;
+  }
+  @media (max-width: 600px) {
+    width: 70%;
   }
 `;
 
@@ -59,6 +74,9 @@ const ButtonStyled = styled.div`
   flex-direction: column;
   & button {
     margin: 5% 0;
+  }
+  @media (max-width: 600px) {
+    width: 30%;
   }
 `;
 
@@ -82,7 +100,6 @@ const ArticleListBox = (props: Props) => {
 
   const privateButtonColor = useMemo(() => article.isPrivate ? "tomato" : "steelblue", [article]);
   const privateButtonText = useMemo(() => article.isPrivate ? "Private" : "Public", [article]);
-
 
   // Call api of updating article.
   const updateArticle = useCallback(

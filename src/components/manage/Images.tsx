@@ -8,10 +8,15 @@ import ImageForm from "./image/ImageForm";
 
 const ImagesContainerStyled = styled.div`
   --images-container-height: calc(100vh - 7rem);
-  margin: 0 15%;
+  margin: 0 8%;
   padding: 0 0.2%;
-  height: calc(var(--images-container-height) - 1rem);
   background-color: white;
+  @media (max-width: 1100px) {
+    margin: 0 5%;
+  }
+  @media (max-width: 800px) {
+    margin: 0;
+  }
 `;
 
 type Props = {

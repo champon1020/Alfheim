@@ -21,6 +21,9 @@ const ManageContainerStyled = styled.div`
 const ManageWrapperStyled = styled.div`
   width: 80%;
   margin: auto;
+  @media (max-width: 1100px) {
+    width: 98%;
+  }
 `;
 
 type RouteProps = RouteComponentProps<{mode: string}>
