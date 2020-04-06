@@ -5,6 +5,7 @@ node_js:
 
 env:
   - workerCount=3 timeout=600000
+  - REACT_APP_TRAVIS=true
 
 matrix:
   fast_finish: true
