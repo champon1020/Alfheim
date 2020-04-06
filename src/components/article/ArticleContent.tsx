@@ -1,8 +1,14 @@
-import React, { useCallback } from "react";
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { Viewer } from "@toast-ui/react-editor";
+import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
+
+// @toast-ui modules
+import "../../assets/styles/toast-ui-wrapper.css";
+import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
+import { Viewer } from "@toast-ui/react-editor";
+
+// highlight.js
+import "highlight.js/styles/darcula.css";
+import hljs from "highlight.js";
 
 const ArticleContentStyled = styled.article`
   width: 86%;
@@ -29,11 +35,19 @@ const ArticleContent = (props: Props) => {
       return (
         <Viewer
           initialValue={content}
+          plugins={[
+            codeSyntaxHighlightPlugin
+          ]}
         />
       );
     },
     [content],
   );
+
+  // Initialize highlight.js
+  useEffect(() => {
+    hljs.initHighlightingOnLoad();
+  },[]);
 
   return(
     <ArticleContentStyled>

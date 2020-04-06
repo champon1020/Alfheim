@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useCallback, createRef } from "react";
 import Cookie from "js-cookie";
 import styled from "styled-components";
-import "codemirror/lib/codemirror.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
 import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
 import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
@@ -13,6 +10,19 @@ import { ArticleRequestType, DraftRequestType } from "src/type";
 import { ErrorStatus, MyErrorStatus, HttpErrorStatus } from "src/components/error/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
 import { defaultApi } from "../../../App";
+
+// @toast-ui modules
+import "codemirror/lib/codemirror.css";
+import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import { Editor } from "@toast-ui/react-editor";
+
+// highlight.js
+import "highlight.js/styles/darcula.css";
+import hljs from "highlight.js";
+
 
 const EditContainerStyled = styled.div`
   background-color: whitesmoke;
@@ -301,6 +311,11 @@ const ArticleForm = (props: Props) => {
     // eslint-disable-next-line
   },[updateMode]);
 
+  // Initialize highlight.js
+  useEffect(() => {
+    hljs.initHighlightingOnLoad();
+  },[]);
+
   return(
     <EditContainerStyled>
       <InputForm 
@@ -327,6 +342,10 @@ const ArticleForm = (props: Props) => {
               setMsg("");
             }
           }}
+          plugins={[
+            colorSyntax,
+            codeSyntaxHighlight,
+          ]}
           useCommandShortcut={true}
           ref={editorRef}
         />
