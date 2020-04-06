@@ -1,17 +1,18 @@
 language: node_js
 
 node_js:
-  - 'node'
   - '10'
 
 env:
-  - workerCount=3 timeout=600000
+  global:
+    - workerCount=3
+    - timeout=600000
+    - REACT_APP_TRAVIS=true
 
 matrix:
   fast_finish: true
 
 dist: trusty
-sudo: false
 cache: yarn
 
 install:
@@ -20,7 +21,7 @@ install:
 branches:
   only:
     - master
-    - develop
 
 script:
   - yarn lint
+  - CI=false npm run build
