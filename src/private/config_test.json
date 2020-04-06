@@ -1,0 +1,9 @@
+{
+  "test": {
+    "clientId": "CLIENT_ID",
+    "host": "HOST",
+    "apiHost": "API_HOST",
+    "srcHost": "SRC_HOST",
+    "defImg": "DEFAULT_IMG"
+  }
+}
