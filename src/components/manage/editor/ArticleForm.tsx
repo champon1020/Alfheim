@@ -14,13 +14,13 @@ import { defaultApi } from "../../../App";
 // @toast-ui modules
 import "codemirror/lib/codemirror.css";
 import "tui-color-picker/dist/tui-color-picker.css";
+import "@toast-ui/editor/dist/toastui-editor.css";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import "@toast-ui/editor/dist/toastui-editor.css";
 import { Editor } from "@toast-ui/react-editor";
 
 // highlight.js
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
 
 
@@ -344,7 +344,7 @@ const ArticleForm = (props: Props) => {
           }}
           plugins={[
             colorSyntax,
-            codeSyntaxHighlight
+            codeSyntaxHighlight,
           ]}
           useCommandShortcut={true}
           ref={editorRef}

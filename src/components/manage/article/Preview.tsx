@@ -5,12 +5,12 @@ import { ArticleType } from "src/type";
 import { Config } from "src/App";
 
 // @toast-ui modules
-import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import "../../../assets/styles/toast-ui-wrapper.css";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
 
 // highlight.js
-import "highlight.js/styles/github.css";
+import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
 
 
