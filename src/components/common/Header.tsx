@@ -34,10 +34,6 @@ const BlogTitle = styled.h1`
   }
 `;
 
-// const BlogTitle2 = styled.a`
-//   font-size: 1.8rem;
-// `;
-
 const NavStyled = styled.nav`
   position: absolute;
   display: inline-block;
@@ -45,7 +41,7 @@ const NavStyled = styled.nav`
   line-height: 6rem;
   animation: ${slideDownAnim} 1.7s ease 0s;
   @media (max-width: 800px) {
-    top: 20%;
+    line-height: 5rem;
   }
 `;
 
@@ -82,7 +78,7 @@ const ShowMenu = keyframes`
     height: 0vh;
   }
   to {
-    height: 30vh;
+    height: 20vh;
   }
 `;
 
@@ -91,7 +87,7 @@ const MenuContent = styled.ul<{hidden: boolean}>`
   right: 0;
   top: 6rem;
   width: 40%;
-  height: 30vh;
+  height: 20vh;
   padding-top: 3%;
   display: ${({hidden}) => hidden ? "none" : "flex"};
   flex-direction: column;
@@ -152,11 +148,12 @@ const Header = (props: Props) => {
     );
   }, [isMenu, toggleMenu, navigationItems]);
 
+  // When the window is resized,
+  // it's toggled that menu icon is active or not.
   useEffect(() => {
     if(window.innerWidth <= 800) setMenu(true);
     window.onresize = () => {
-      if(window.innerWidth <= 800) setMenu(true);
-      else setMenu(false);
+      window.innerWidth <= 800 ? setMenu(true) : setMenu(false);
       if(onResizeHandler !== undefined) onResizeHandler();
     };
   }, [onResizeHandler]);
