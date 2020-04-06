@@ -64,15 +64,12 @@ type Props = {
 
 const ImageList = (props: Props) => {
   const { images, setVerify } = props;
+
+  // Selected images.
+  // Checked images will be deleted as the delete button is clicked.
   const [selected] = useState([] as string[]);
 
-  const handleOnSelect = useCallback(
-    (e: MouseEvent<HTMLInputElement>) => {
-      if(e.currentTarget.checked) selected.push(e.currentTarget.name);
-      else selected.filter(v => v !== e.currentTarget.name);
-    },[selected]
-  );
-
+  // Call api of deleting image.
   const deleteImages = useCallback(
     async (names: string[]) => {
       await defaultApi.apiPrivateDeleteImageDelete(names, {
@@ -85,6 +82,18 @@ const ImageList = (props: Props) => {
     },[setVerify]
   );
 
+  // On focus listener of selecting image.
+  // If focused, push to selected array.
+  const handleOnSelect = useCallback(
+    (e: MouseEvent<HTMLInputElement>) => {
+      if(e.currentTarget.checked) selected.push(e.currentTarget.name);
+      else selected.filter(v => v !== e.currentTarget.name);
+    },[selected]
+  );
+
+  // On click listener of deleting image.
+  // Call api with the array of selected images.
+  // Reload this window.
   const handleOnDelete = useCallback(
     () => {
       deleteImages(selected);
@@ -92,13 +101,21 @@ const ImageList = (props: Props) => {
     },[selected, deleteImages]
   );
 
+  // Create image list.
+  // If images is null or undefined or empty,
+  // return message which tells about empty.
+  // Or return image list component.
   const imageList = useCallback(
     () => {
       const list = [] as JSX.Element[];
       if(images === null
         || images === undefined
         || images.length === 0) {
-        return list;
+        return (
+          <EmptyMessage>
+            {"No Images"}
+          </EmptyMessage>
+        );
       }
       images.forEach((v, i) => {
         const path = `${Config.srcHost}/images/${v}`;
