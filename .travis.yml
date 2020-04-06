@@ -3,8 +3,6 @@ language: node_js
 node_js:
   - '10'
 
-warnings_are_errors: false
-
 env:
   global:
     - workerCount=3
@@ -26,4 +24,4 @@ branches:
 
 script:
   - yarn lint
-  - npm run build
+  - CI=false npm run build
