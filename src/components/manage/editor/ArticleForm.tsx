@@ -189,6 +189,7 @@ const ArticleForm = (props: Props) => {
   const onlineSave = useCallback(
     () => {
       if(isExistArticle) return;
+      if(validation(editorDraft.title, editorDraft.categories)) return;
 
       // Clear now timer if timerId is no undefined.
       if(timerId !== undefined){
@@ -214,6 +215,7 @@ const ArticleForm = (props: Props) => {
       }, onlineSaveDuration);
       setTimerId(newTimerId);
     },[timerId,
+      validation,
       editorDraft, 
       dispatch, 
       updateDraft,
@@ -317,7 +319,11 @@ const ArticleForm = (props: Props) => {
           height="750px"
           initialEditType="markdown"
           events={{
-            "change": () => { setUpdateMode(true); }
+            "change": () => { 
+              setUpdateMode(true);
+              setErr(MyErrorStatus.NONE);
+              setMsg("");
+            }
           }}
           useCommandShortcut={true}
           ref={editorRef}
