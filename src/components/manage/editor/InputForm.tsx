@@ -26,6 +26,8 @@ type Props = {
 const InputForm = (props: Props) => {
   const { value, errSetter, setter, placeholder } = props;
 
+  // On change listner of input form.
+  // Execute callback and set error or not.
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value);

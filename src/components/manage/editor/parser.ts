@@ -1,6 +1,7 @@
 import { ArticleRequestType, CategoryRequestType, DraftType, DraftRequestType, ArticleType, CategoryType } from "src/type";
 import { EditorArticle } from "./ArticleForm";
 
+// Category (string) => CategoryRequestType[]
 const parseCategoryStrToList = (categories: string) => {
   const categoryList = categories.split(",");
   const result = [] as CategoryRequestType[];
@@ -14,6 +15,7 @@ const parseCategoryStrToList = (categories: string) => {
   return result;
 };
 
+// CategoryType[] => Category (string)
 const parseCategoryListToStr = (categories: CategoryType[]): string => {
   let cateStr = "";
   if(categories === null || categories === undefined) return cateStr;
@@ -24,6 +26,10 @@ const parseCategoryListToStr = (categories: CategoryType[]): string => {
   return cateStr;
 };
 
+// Category (string) => Category (string: for draft request)
+// 
+// Difference of above two categories 
+// is separated categories by ',' or '&'.
 const parseCategoryStrToDraftRequest = (category: string): string => {
   if(category === undefined || category === null) return "";
   const el = category.split(",");
@@ -35,6 +41,10 @@ const parseCategoryStrToDraftRequest = (category: string): string => {
   return res;
 };
 
+// Category (string: for draft request) => Category (string)
+//
+// Difference of above two categories 
+// is separated categories by '&' or ','.
 const parseCategoryDraftStrToStr = (category: string): string => {
   if(category === undefined || category === null) return "";
   const el = category.split("&");
@@ -46,6 +56,7 @@ const parseCategoryDraftStrToStr = (category: string): string => {
   return res;
 };
 
+// EditorArticle => ArticleRequestType
 export const parseToRequestArticle = (e: EditorArticle): ArticleRequestType => {
   return {
     id: e.id,
@@ -57,6 +68,7 @@ export const parseToRequestArticle = (e: EditorArticle): ArticleRequestType => {
   };
 };
 
+// EditorArticle => DraftRequestType
 export const parseToRequestDraft = (e: EditorArticle): DraftRequestType => {
   return {
     id: e.id,
@@ -67,6 +79,7 @@ export const parseToRequestDraft = (e: EditorArticle): DraftRequestType => {
   };
 };
 
+// EditorArticle => DraftType
 export const parseToDraft = (e: EditorArticle): DraftType => {
   return {
     id: e.id,
@@ -79,6 +92,7 @@ export const parseToDraft = (e: EditorArticle): DraftType => {
   };
 };
 
+// ArticleType => EditorType
 export const parseFromArticle = (a: ArticleType): EditorArticle => {
   return {
     id: a.id,
@@ -91,6 +105,7 @@ export const parseFromArticle = (a: ArticleType): EditorArticle => {
   };
 };
 
+// DraftType => EditorType
 export const parseFromDraft = (d: DraftType): EditorArticle => {
   return {
     id: d.id,

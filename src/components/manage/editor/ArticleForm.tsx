@@ -55,12 +55,12 @@ const apiOff = true;
 
 type Props = {
   updatingArticle?: EditorArticle;
-  isArticle: boolean;
+  isExistArticle: boolean;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ArticleForm = (props: Props) => {
-  const { updatingArticle, isArticle, setVerify } = props;
+  const { updatingArticle, isExistArticle, setVerify } = props;
 
   // This is returned by setTimeout function in onlineSave
   // This state prevents from multi execution of function.
@@ -157,7 +157,7 @@ const ArticleForm = (props: Props) => {
   // Then, update state of timerId.
   const onlineSave = useCallback(
     () => {
-      if(isArticle) return;
+      if(isExistArticle) return;
       if(timerId !== undefined){
         clearTimeout(timerId);
       }
@@ -178,7 +178,7 @@ const ArticleForm = (props: Props) => {
       editorDraft, 
       dispatch, 
       updateDraft,
-      isArticle,
+      isExistArticle,
       editorRef],
   );
 
@@ -196,12 +196,12 @@ const ArticleForm = (props: Props) => {
         ...editorDraft,
       };
       const reqArticle = parseToRequestArticle(newEditorDraft);
-      if(isArticle) updateArticle(reqArticle);
+      if(isExistArticle) updateArticle(reqArticle);
       else registerArticle(reqArticle);
     },[editorDraft, 
       validation,
       registerArticle,
-      isArticle,
+      isExistArticle,
       updateArticle,
       editorRef],
   );
