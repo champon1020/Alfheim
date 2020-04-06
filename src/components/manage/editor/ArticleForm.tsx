@@ -10,7 +10,7 @@ import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./pars
 import { useDispatch } from "react-redux";
 import appActionCreator from "src/actions/actions";
 import { ArticleRequestType, DraftRequestType } from "src/type";
-import { ErrorStatus, MyErrorStatus } from "src/components/error/ErrorHandler";
+import { ErrorStatus, MyErrorStatus, HttpErrorStatus } from "src/components/error/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
 import { defaultApi } from "../../../App";
 
@@ -67,8 +67,11 @@ const ArticleForm = (props: Props) => {
   // This state prevents from multi execution of function.
   const [timerId, setTimerId] = useState<number | undefined>(undefined);
 
+  // Some message.
+  const [msg, setMsg] = useState("");
+
   // There are some errors or not.
-  const [err, setErr] = useState(MyErrorStatus.NONE as ErrorStatus);
+  const [err, setErr] = useState<ErrorStatus>(MyErrorStatus.NONE);
 
   // Article or draft information.
   const [editorDraft, setEditorDraft] = useState(defaultEditorDraft);
@@ -86,6 +89,18 @@ const ArticleForm = (props: Props) => {
   // Ref of Editor component.
   const editorRef = createRef<Editor>();
 
+  // Error classification.
+  // If status >= 300, return true.
+  const errClassification = useCallback(
+    (status: number): boolean => {
+      if(status === 400) setErr(HttpErrorStatus.ERROR_400);
+      if(status === 403) setVerify(false);
+      if(status === 404) setErr(HttpErrorStatus.ERROR_404);
+      if(status === 500) setErr(HttpErrorStatus.ERROR_500);
+      return status >= 300;
+    },
+    [setVerify],
+  );
 
   // Call api of registering article.
   const registerArticle = useCallback(
@@ -97,11 +112,15 @@ const ArticleForm = (props: Props) => {
       {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        },
+        validateStatus: (stts: number) => {
+          return stts <= 500;
         }
-      }).catch(() => {
-        setVerify(false);
+      }).then(res => {
+        errClassification(res.status);
+        if(res.status === 200) window.open("/manage/articles", "_self");
       });
-    },[setVerify]
+    },[errClassification]
   );
 
   // Call api of updating article.
@@ -114,11 +133,15 @@ const ArticleForm = (props: Props) => {
       {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        },
+        validateStatus: (stts: number) => {
+          return stts <= 500;
         }
-      }).catch(() => {
-        setVerify(false);
+      }).then(res => {
+        errClassification(res.status);
+        if(res.status === 200) setMsg("Updated!");
       });
-    },[setVerify]
+    },[errClassification]
   );
 
   // Call api of updating draft.
@@ -131,17 +154,23 @@ const ArticleForm = (props: Props) => {
       {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+        },
+        validateStatus: (stts: number) => {
+          return stts <= 500;
         }
-      }).catch(() => {
-        setVerify(false);
       });
-      if(typeof res === "undefined") return;
-      editorDraft.id = res.data.id;
-      editorDraft.content = res.data.content;
-      editorDraft.imageHash = res.data.imageHash;
-      window.history.pushState(null, "", "?draftId=" + editorDraft.id);
+
+      // Handle error.
+      if(errClassification(res.status)) return;
+      if(res.status === 200) setMsg("Saved!");
+
+      // Update editor draft id and reload.
+      // editorDraft.id = res.data.id;
+      // editorDraft.content = res.data.content;
+      // editorDraft.imageHash = res.data.imageHash;
+      window.history.pushState(null, "", "?draftId=" + res.data.id);
       // eslint-disable-next-line
-    },[editorDraft, setVerify]
+    },[setVerify]
   );
 
   // Validation function of title and categories string.
@@ -254,6 +283,7 @@ const ArticleForm = (props: Props) => {
         editorRef.current.getInstance().setMarkdown(updatingArticle.content);
       }
     }
+    // eslint-disable-next-line
   }, [updatingArticle]);
 
   // If updateMode is true, execute onlineSave func.
@@ -272,11 +302,13 @@ const ArticleForm = (props: Props) => {
       <InputForm 
         value={editorDraft.title}
         setter={setTitleHandler}
+        msgSetter={setMsg}
         errSetter={setErr}
         placeholder="title" />
       <InputForm 
         value={editorDraft.categories}
         setter={setCategoriesHandler}
+        msgSetter={setMsg}
         errSetter={setErr}
         placeholder="category" />
       <EditorStyled>
@@ -294,6 +326,7 @@ const ArticleForm = (props: Props) => {
       <FormFooter
         onSubmit={onSubmit}
         onPreview={onPreview}
+        msg={msg}
         err={err} />
     </EditContainerStyled>
   );

@@ -1,4 +1,5 @@
 export enum HttpErrorStatus {
+  ERROR_400 = "ERROR_400",
   ERROR_403 = "ERROR_403",
   ERROR_404 = "ERROR_404",
   ERROR_500 = "ERROR_500",
@@ -26,6 +27,8 @@ export class AppErrorHandler implements ErrorHandler {
   public message = (err?: ErrorStatus): string => {
     switch(err) {
     // HttpErrorStatus
+    case HttpErrorStatus.ERROR_400:
+      return "HttpError: Status 400: No Authorization";
     case HttpErrorStatus.ERROR_403:
       return "HttpError: Status 403: Forbidden";
     case HttpErrorStatus.ERROR_404:

@@ -6,45 +6,62 @@ const ContainerStyled = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 0.2rem 0.2rem;
 `;
 
-const ErrorMsg = styled.h3`
-  color: red;
+const Msg = styled.h3<{color: string}>`
+  color: ${({color}) => color};
   padding-left: 2rem;
   font-size: 1.6rem;
   margin-top: 0.8em;
 `;
 
 const ButtonStyled = styled.button`
-  height: 40px;
-  width: 200px;
+  margin: 0 0.1rem;
+  height: 4rem;
+  width: 20rem;
   cursor: pointer;
   border-radius: 5px;
   outline: none;
+  background-color: lightsteelblue;
+  border: solid thin gray;
+  font-size: 1.6rem;
+  &:hover {
+    opacity: 0.6;
+  }
 `;
 
 type Props = {
   onSubmit: () => void;
   onPreview: () => void;
+  msg: string;
   err?: ErrorStatus;
 }
 
 const FormFooter = (props: Props) => {
-  const { onSubmit, onPreview, err } = props;
+  const { onSubmit, onPreview, msg, err } = props;
 
-  const errMsg = useMemo(() => {
+  const message = useMemo(() => {
     if(err !== MyErrorStatus.NONE){
       //appErrorHandler.print(err);
-      return appErrorHandler.message(err);
+      return (
+        <Msg color="red">
+          {appErrorHandler.message(err)}
+        </Msg>
+      );
     }
-    return "";
-  }, [err]);
+    return (
+      <Msg color="blue">
+        {msg}
+      </Msg>
+    );
+  }, [msg, err]);
 
   return (
     <ContainerStyled>
-      <ErrorMsg>
-        {errMsg}
-      </ErrorMsg>
+      <div>
+        {message}
+      </div>
       <div>
         <ButtonStyled onClick={onPreview}>
           Preview
