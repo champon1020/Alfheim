@@ -183,6 +183,7 @@ const ArticleForm = (props: Props) => {
       if(res.status === 200) setMsg("Saved!");
 
       // Update editor draft id and reload.
+      editorDraft.id = res.data.id;
       window.history.pushState(null, "", "?draftId=" + res.data.id);
       // eslint-disable-next-line
     },[setVerify, validation]
