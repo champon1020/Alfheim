@@ -43,7 +43,7 @@ export const defaultEditorDraft: EditorArticle = {
   categories: "",
   updateDate: "",
   content: "",
-  imageHash: "",
+  imageHash: "default.jpg",
   isPrivate: false
 };
 
@@ -102,6 +102,13 @@ const ArticleForm = (props: Props) => {
     [setVerify],
   );
 
+  // Validation function of title and categories string.
+  const validation = useCallback(
+    (t: string, c: string) => {
+      return validateTitle(t, setErr) || validateCategory(c, setErr);
+    },[],
+  );
+
   // Call api of registering article.
   const registerArticle = useCallback(
     async (a: ArticleRequestType) => {
@@ -148,6 +155,7 @@ const ArticleForm = (props: Props) => {
   const updateDraft = useCallback(
     async (d: DraftRequestType) => {
       if(apiOff) return;
+      if(validation(d.title, d.categories)) return;
       const res = await defaultApi.apiPrivateDraftArticlePost({
         article: d,
       },
@@ -165,19 +173,9 @@ const ArticleForm = (props: Props) => {
       if(res.status === 200) setMsg("Saved!");
 
       // Update editor draft id and reload.
-      // editorDraft.id = res.data.id;
-      // editorDraft.content = res.data.content;
-      // editorDraft.imageHash = res.data.imageHash;
       window.history.pushState(null, "", "?draftId=" + res.data.id);
       // eslint-disable-next-line
-    },[setVerify]
-  );
-
-  // Validation function of title and categories string.
-  const validation = useCallback(
-    (t: string, c: string) => {
-      return validateTitle(t, setErr) || validateCategory(c, setErr);
-    },[],
+    },[setVerify, validation]
   );
 
 
@@ -188,9 +186,6 @@ const ArticleForm = (props: Props) => {
   // Then, update state of timerId.
   const onlineSave = useCallback(
     () => {
-      if(isExistArticle) return;
-      if(validation(editorDraft.title, editorDraft.categories)) return;
-
       // Clear now timer if timerId is no undefined.
       if(timerId !== undefined){
         clearTimeout(timerId);
@@ -207,15 +202,14 @@ const ArticleForm = (props: Props) => {
       // - Update the state of editor draft.
       // - Call api.
       const newTimerId = setTimeout(() => {
+        if(isExistArticle) return;
         const reqDraft = parseToRequestDraft(editorDraft);
         const draft = parseToDraft(editorDraft);
         dispatch(appActionCreator.updateDraft(draft, newMdContent));
-        setEditorDraft(editorDraft);
         updateDraft(reqDraft);
       }, onlineSaveDuration);
       setTimerId(newTimerId);
     },[timerId,
-      validation,
       editorDraft, 
       dispatch, 
       updateDraft,
@@ -262,7 +256,6 @@ const ArticleForm = (props: Props) => {
   const setTitleHandler = useCallback(
     (t: string) => {
       editorDraft.title = t;
-      setEditorDraft(editorDraft);
       onlineSave();
     },[editorDraft, onlineSave]);
 
@@ -272,9 +265,18 @@ const ArticleForm = (props: Props) => {
   const setCategoriesHandler = useCallback(
     (c: string) => {
       editorDraft.categories = c;
-      setEditorDraft(editorDraft);
       onlineSave();
     },[editorDraft, onlineSave]);
+
+  // On change listener of image form.
+  // Update editor article|draft object
+  // and call function of saving on real time.
+  const setImageHandler = useCallback(
+    (i: string) => {
+      editorDraft.imageHash = i;
+      onlineSave();
+    },[editorDraft, onlineSave],
+  );
 
   // Set initial article if not undefined.
   // Set intial article.content to editor markdown.
@@ -330,8 +332,10 @@ const ArticleForm = (props: Props) => {
         />
       </EditorStyled>
       <FormFooter
+        imageHash={editorDraft.imageHash}
         onSubmit={onSubmit}
         onPreview={onPreview}
+        setter={setImageHandler}
         msg={msg}
         err={err} />
     </EditContainerStyled>
