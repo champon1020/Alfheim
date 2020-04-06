@@ -63,7 +63,7 @@ const Preview = (props: Props) => {
     if(viewerRef.current !== null) {
       viewerRef.current.getInstance().setMarkdown(focusedArticle.content);
     }
-  },[focusedArticle.content]);
+  },[focusedArticle.content, viewerRef]);
 
   return(
     <PreviewContainer>
