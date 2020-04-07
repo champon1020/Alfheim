@@ -18,6 +18,7 @@ import { Configuration } from "./configuration";
 import globalAxios, { AxiosPromise, AxiosInstance } from "axios";
 
 export const BASE_PATH = "https://blog.champonian.com".replace(/\/+$/, "");
+//export const BASE_PATH = "http://localhost:8000".replace(/\/+$/, "");
 
 /**
  *
