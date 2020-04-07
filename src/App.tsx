@@ -16,8 +16,8 @@ const config = process.env.REACT_APP_TRAVIS==="true"
 
 export const Config = process.env.REACT_APP_TRAVIS==="true"
   ? config.test 
-  : config.dev;
-  // : config.deploy;
+  // : config.dev;
+  : config.deploy;
 
 export const defaultApi = new api.DefaultApi();
 export const ax = axios.create({

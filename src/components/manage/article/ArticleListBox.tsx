@@ -102,30 +102,28 @@ const ArticleListBox = (props: Props) => {
   const privateButtonText = useMemo(() => article.isPrivate ? "Private" : "Public", [article]);
 
   // Call api of updating article.
+  // Return promise.
   const updateArticle = useCallback(
     async (a: ArticleType) => {
       const body = { article: a } as InlineObject2;
-      await defaultApi.apiPrivateUpdateArticlePut(body, {
+      return await defaultApi.apiPrivateUpdateArticlePut(body, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
-      }).catch(() => {
-        setVerify(false);
       });
-    },[setVerify]
+    },[]
   );
 
   // Call api of deleting draft.
+  // Return promise.
   const deleteDraft = useCallback(
     async (a: ArticleType) => {
       await defaultApi.apiPrivateDeleteDraftDelete(a.id, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
         }
-      }).catch(() => {
-        setVerify(false);
       });
-    },[setVerify]
+    },[]
   );
 
   // On focuse listener of article box.
@@ -151,10 +149,14 @@ const ArticleListBox = (props: Props) => {
   const handleTogglePublicClick = useCallback(
     () => {
       article.isPrivate = !article.isPrivate;
-      updateArticle(article);
-      window.location.href=pathJoin(Config.host, "manage", "articles");
+      updateArticle(article)
+        .then(() => {
+          window.location.href=pathJoin(Config.host, "manage", "articles");
+        }).catch(() => {
+          setVerify(false);
+        });
     },
-    [article, updateArticle],
+    [article, updateArticle, setVerify],
   );
 
   // On click listener of 'Delete' button.
@@ -162,9 +164,14 @@ const ArticleListBox = (props: Props) => {
   // Refresh this page because if not, view would be not updated.
   const handleOnDeleteClick = useCallback(
     () => {
-      deleteDraft(article);
-      window.location.href=pathJoin(Config.host, "manage", "drafts");
-    },[article, deleteDraft]
+      deleteDraft(article)
+        .then(() => {
+          window.location.href=pathJoin(Config.host, "manage", "drafts");
+        })
+        .catch(() => {
+          setVerify(false);
+        });
+    },[article, deleteDraft, setVerify]
   );
 
   // Select components of button by the state of tab.

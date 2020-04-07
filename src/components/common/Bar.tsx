@@ -1,11 +1,11 @@
 import * as React from "react";
 import styled from "styled-components";
 import BarItem from "./BarItem";
-import TwitterIcon from "../../assets/images/twitter.svg";
-import QiitaIcon from "../../assets/images/qiita.png";
-import WantedlyIcon from "../../assets/images/wantedly.svg";
-import LinkedinIcon from "../../assets/images/linkedin.png";
-import GithubIcon from "../../assets/images/github.png";
+import TwitterIcon from "../../assets/images/accounts/twitter.svg";
+import QiitaIcon from "../../assets/images/accounts/qiita.png";
+import WantedlyIcon from "../../assets/images/accounts/wantedly.svg";
+import LinkedinIcon from "../../assets/images/accounts/linkedin.png";
+import GithubIcon from "../../assets/images/accounts/github.png";
 import Accounts from "../../private/accounts.json";
 
 const BarStyled = styled.div`
