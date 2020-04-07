@@ -8,7 +8,7 @@ import { parseDraftToArticle } from "../services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
 import Tab from "./article/Tab";
-import MenuIcon from "../../assets/images/menu.svg";
+import MenuIcon from "../../assets/images/icons/menu.svg";
 
 const slideFromLeft = keyframes`
   from {

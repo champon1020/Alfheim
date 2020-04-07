@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import NextIcon from "../../assets/images/next.svg";
-import BackIcon from "../../assets/images/back.svg";
+import NextIcon from "../../assets/images/icons/next.svg";
+import BackIcon from "../../assets/images/icons/back.svg";
 
 const PageContainer = styled.div<{height: number; width: string | undefined}>`
   width: ${({width}) => width===undefined ? "" : width+"%"};
