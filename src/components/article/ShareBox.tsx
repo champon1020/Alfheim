@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { Config } from "../../App";
 import { ArticleType } from "src/type";
 import { Helmet } from "react-helmet";
+import { TwitterShareButton, FacebookShareButton, LinkedinShareButton } from "react-share";
+import TwitterIcon from "../../assets/images/shareIcon/twitter.svg";
+import FacebookIcon from "../../assets/images/shareIcon/facebook.png";
+import LinkedinIcon from "../../assets/images/shareIcon/linkedin.png";
 
 const ArticleShareBoxStyled = styled.div`
   margin-bottom: 50px;
@@ -18,12 +22,14 @@ const ShareListStyled = styled.ul`
 
 const ShareListItemStyled = styled.li`
   margin-right: 2rem;
-`;
-
-const ShareDivButton = styled.div`
   &:hover {
     opacity: 0.6;
   }
+`;
+
+const IconImage = styled.img`
+  height: 4rem;
+  width: 4rem;
 `;
 
 type Props = {
@@ -33,13 +39,13 @@ type Props = {
 const ShareBox = (props: Props) => {
   const { article } = props;
 
-  const hashtags = useCallback(
+  const hashtagArray = useCallback(
     () => {
-      let hash = "";
+      const hash: string[] = [];
       if(article.categories === null 
         || article.categories === undefined 
         || article.categories.length === 0) return hash;
-      article.categories.forEach(c => hash += `#${c.name} `);
+      article.categories.forEach(c => hash.push(c.name));
       return hash;
     },
     [article.categories],
@@ -64,54 +70,38 @@ const ShareBox = (props: Props) => {
     [article],
   );
 
-  const twitterButton = useCallback(
-    () => {
-      return(
-        <ShareListItemStyled>
-          <script async src="https://platform.twitter.com/widgets.js"></script>
-          <a
-            className="twitter-share-button"
-            data-text={`champon's notebook から 「${article.title}」 ${hashtags()}`}
-            data-url={`${Config.host}/article/${article.sortedId}`}
-            data-lang="ja"
-            href="https://twitter.com/intent/tweet">
-          </a>
-        </ShareListItemStyled>
-      );
-    },
-    [article, hashtags],
-  );
-
-  const facebookButton = useCallback(
-    () => {
-      return(
-        <ShareListItemStyled>
-          <ShareDivButton
-            className="fb-share-button"
-            //data-href={`${Config.host}/article/${article.sortedId}`}
-            data-href={`https://blog.champonian.com/article/${article.sortedId}`}
-            data-layout="button" 
-            data-size="small">
-            <a 
-              rel="noopener noreferrer"
-              target="_blank"
-              href="https://www.facebook.com/sharer/sharer.php" 
-              className="fb-xfbml-parse-ignore">
-              シェア
-            </a>
-          </ShareDivButton>
-        </ShareListItemStyled>
-      );
-    },
-    [article.sortedId],
-  );
-
   return (
     <ArticleShareBoxStyled>
+      {meta()}
       <ShareListStyled>
-        {meta()}
-        {twitterButton()}
-        {facebookButton()}
+        <ShareListItemStyled>
+          <TwitterShareButton
+            url={`${Config.host}/article/${article.sortedId}`}
+            title={article.title}
+            hashtags={hashtagArray()}>
+            <IconImage 
+              src={TwitterIcon}
+              alt={"twitter share"} />
+          </TwitterShareButton>
+        </ShareListItemStyled>
+        <ShareListItemStyled>
+          <FacebookShareButton
+            url={`${Config.host}/article/${article.sortedId}`}
+            title={article.title}>
+            <IconImage
+              src={FacebookIcon}
+              alt={"facebook share"} />
+          </FacebookShareButton>
+        </ShareListItemStyled>
+        <ShareListItemStyled>
+          <LinkedinShareButton 
+            url={`${Config.host}/article/${article.sortedId}`}
+            title={article.title}>
+            <IconImage
+              src={LinkedinIcon}
+              alt={"linkedin share"} />
+          </LinkedinShareButton>
+        </ShareListItemStyled>
       </ShareListStyled>
     </ArticleShareBoxStyled>
   );
