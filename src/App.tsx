@@ -20,9 +20,9 @@ export const Config = process.env.REACT_APP_TRAVIS==="true"
     ? config.dev
     : config.deploy;
 
-export const BASE_PATH = process.env.ALFHEIM_MODE==="dev" 
-  ? "http://localhost:8000".replace(/\/+$/, "")
-  : "https://blog.champonian.com".replace(/\/+$/, "");
+// export const BASE_PATH = process.env.REACT_APP_ALFHEIM_MODE==="dev" 
+//   ? "http://localhost:8000".replace(/\/+$/, "")
+//   : "https://blog.champonian.com".replace(/\/+$/, "");
 
 export const defaultApi = new api.DefaultApi();
 export const ax = axios.create({
