@@ -50,11 +50,14 @@ const ShareBox = (props: Props) => {
       return(<Helmet
         title={article.title}
         meta={[
-          { property: "og:url", content: `${Config.host}/article/${article.sortedId}`},
+          { name: "twitter:card", content: "summary" },
+          { name: "twitter:title", content: `${article.title}` },
+          { name: "twitter:description", content: `${article.content}` },
           { property: "og:title", content: `${article.title}` },
           { property: "og:description", content: `${article.content}` },
           { property: "og:type", content: "article" },
-          { name: "og:image ", content: `${Config.srcHost}/images/${article.imageHash}` },
+          { property: "og:url", content: `${Config.host}/article/${article.sortedId}`},
+          { property: "og:image ", content: `${Config.srcHost}/images/${article.imageHash}` },
         ]}
       />);
     },
@@ -76,7 +79,7 @@ const ShareBox = (props: Props) => {
         </ShareListItemStyled>
       );
     },
-    [article.sortedId, article.title, hashtags],
+    [article, hashtags],
   );
 
   const facebookButton = useCallback(
