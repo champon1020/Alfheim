@@ -41,3 +41,9 @@ docker-compose up -d
 ### Deploy
 
 Writter in README of server side repository => https://github.com/champon1020/argus
+
+## Environment Variable
+
+```REACT_APP_TRAVIS```: CI or not
+
+```REACT_APP_ALFHEIM_MODE```: "dev" | "deploy"
