@@ -1,15 +1,22 @@
 import * as React from "react";
 import styled from "styled-components";
 import ShareBox from "./ShareBox";
+import { ArticleType } from "src/type";
 
 const ArticleFooterStyled = styled.div`
   height: 50px;
 `;
 
-const ArticleFooter = () => {
+type Props = {
+  article: ArticleType;
+}
+
+const ArticleFooter = (props: Props) => {
+  const { article } = props;
+
   return(
     <ArticleFooterStyled>
-      <ShareBox />
+      <ShareBox article={article} />
     </ArticleFooterStyled>
   );
 };

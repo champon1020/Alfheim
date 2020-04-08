@@ -25,7 +25,7 @@ const Article = (props: Props) => {
     <ArticleContainerStyled>
       <ArticleHeader article={article} />
       <ArticleContent content={article.content} />
-      <ArticleFooter />
+      <ArticleFooter article={article} />
     </ArticleContainerStyled>
   );
 };

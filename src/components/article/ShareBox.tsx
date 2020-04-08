@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { Config } from "../../App";
+import { ArticleType } from "src/type";
+import { Helmet } from "react-helmet";
 
 const ArticleShareBoxStyled = styled.div`
   margin-bottom: 50px;
@@ -18,42 +20,95 @@ const ShareListItemStyled = styled.li`
   margin-right: 2rem;
 `;
 
-const ShareButton = styled.a`
-  position: relative;
+const ShareDivButton = styled.div`
   &:hover {
     opacity: 0.6;
   }
 `;
 
-const ShareBox = () => {
-  return (
-    <ArticleShareBoxStyled>
-      <ShareListStyled>
+type Props = {
+  article: ArticleType;
+}
+
+const ShareBox = (props: Props) => {
+  const { article } = props;
+
+  const hashtags = useCallback(
+    () => {
+      let hash = "";
+      if(article.categories === null 
+        || article.categories === undefined 
+        || article.categories.length === 0) return hash;
+      article.categories.forEach(c => hash += `#${c.name} `);
+      return hash;
+    },
+    [article.categories],
+  );
+
+  const meta = useCallback(
+    () => {
+      return(<Helmet
+        title={article.title}
+        meta={[
+          { property: "og:url", content: `${Config.host}/article/${article.sortedId}`},
+          { property: "og:title", content: `${article.title}` },
+          { property: "og:description", content: `${article.content}` },
+          { property: "og:type", content: "article" },
+          { name: "og:image ", content: `${Config.srcHost}/images/${article.imageHash}` },
+        ]}
+      />);
+    },
+    [article],
+  );
+
+  const twitterButton = useCallback(
+    () => {
+      return(
         <ShareListItemStyled>
           <script async src="https://platform.twitter.com/widgets.js"></script>
-          <ShareButton
+          <a
             className="twitter-share-button"
-            data-text="sample tweet"
-            data-url={`${Config.host}/article/1`}
+            data-text={`champon's notebook から 「${article.title}」 ${hashtags()}`}
+            data-url={`${Config.host}/article/${article.sortedId}`}
             data-lang="ja"
             href="https://twitter.com/intent/tweet">
-          </ShareButton>
+          </a>
         </ShareListItemStyled>
+      );
+    },
+    [article.sortedId, article.title, hashtags],
+  );
+
+  const facebookButton = useCallback(
+    () => {
+      return(
         <ShareListItemStyled>
-          <div 
-            className="fb-share-button" 
-            data-href="https://developers.facebook.com/docs/plugins/" 
+          <ShareDivButton
+            className="fb-share-button"
+            //data-href={`${Config.host}/article/${article.sortedId}`}
+            data-href={`https://blog.champonian.com/article/${article.sortedId}`}
             data-layout="button" 
             data-size="small">
             <a 
               rel="noopener noreferrer"
               target="_blank"
-              href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" 
+              href="https://www.facebook.com/sharer/sharer.php" 
               className="fb-xfbml-parse-ignore">
-            シェア
+              シェア
             </a>
-          </div>
+          </ShareDivButton>
         </ShareListItemStyled>
+      );
+    },
+    [article.sortedId],
+  );
+
+  return (
+    <ArticleShareBoxStyled>
+      <ShareListStyled>
+        {meta()}
+        {twitterButton()}
+        {facebookButton()}
       </ShareListStyled>
     </ArticleShareBoxStyled>
   );

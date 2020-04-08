@@ -16,9 +16,9 @@ const config = process.env.REACT_APP_TRAVIS==="true"
 
 export const Config = process.env.REACT_APP_TRAVIS==="true"
   ? config.test 
-  : process.env.ALFHEIM_MODE==="dev" 
+  : (process.env.REACT_APP_ALFHEIM_MODE==="dev" 
     ? config.dev
-    : config.deploy;
+    : config.deploy);
 
 // export const BASE_PATH = process.env.REACT_APP_ALFHEIM_MODE==="dev" 
 //   ? "http://localhost:8000".replace(/\/+$/, "")
