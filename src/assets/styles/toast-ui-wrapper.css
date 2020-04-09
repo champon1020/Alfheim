@@ -1,5 +1,5 @@
 .tui-editor-contents {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #333;
 }
 
@@ -34,6 +34,6 @@
 }
 
 .tui-editor-contents p {
-  white-space: pre-wrap;
+  word-break: break-word;
   overflow-wrap: break-word;
 }

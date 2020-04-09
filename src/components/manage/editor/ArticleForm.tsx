@@ -63,7 +63,7 @@ export const defaultEditorDraft: EditorArticle = {
 const apiOff = false;
 
 // Duration of saving on real time.
-const onlineSaveDuration = 700;
+const onlineSaveDuration = 3000;
 
 type Props = {
   updatingArticle?: EditorArticle;

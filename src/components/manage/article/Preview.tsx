@@ -38,7 +38,6 @@ const Header = styled.div<{selected: boolean}>`
 
 const Content = styled.div`
   overflow-y: scroll;
-  white-space: nowrap;
   height: calc(var(--articles-container-height) - var(--header-height) - 2.3rem);
 `;
 
