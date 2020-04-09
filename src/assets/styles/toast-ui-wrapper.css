@@ -1,38 +1,39 @@
 .tui-editor-contents {
   font-size: 1.4rem;
-}
-
-.tui-editor-contents p,
-.tui-editor-contents li {
-  color: black;
+  color: #333;
 }
 
 .tui-editor-contents h1 {
-  font-size: 5rem;
-}
-
-.tui-editor-contents h2 {
-  font-size: 4rem;
-}
-
-.tui-editor-contents h3 {
-  font-size: 3rem;
-}
-
-.tui-editor-contents h4 {
   font-size: 2.5rem;
 }
 
+.tui-editor-contents h2 {
+  font-size: 2.2rem;
+}
+
+.tui-editor-contents h3 {
+  font-size: 2.0rem;
+}
+
+.tui-editor-contents h4 {
+  font-size: 1.8rem;
+}
+
 .tui-editor-contents h5 {
-  font-size: 2rem;
+  font-size: 1.6rem;
 }
 
 .tui-editor-contents h6 {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 }
 
 .tui-editor-contents pre {
   font-size: 1.4rem;
   color: #f8f8f2;
   background: #2f2f2f;
+}
+
+.tui-editor-contents p {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
 }

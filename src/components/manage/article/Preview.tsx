@@ -6,6 +6,7 @@ import { Config } from "src/App";
 
 // @toast-ui modules
 import "../../../assets/styles/toast-ui-wrapper.css";
+import "@toast-ui/editor/dist/i18n/ja-jp";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
 

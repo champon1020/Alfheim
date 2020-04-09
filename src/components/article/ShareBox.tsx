@@ -56,9 +56,6 @@ const ShareBox = (props: Props) => {
       return(<Helmet
         title={article.title}
         meta={[
-          { name: "twitter:card", content: "summary" },
-          { name: "twitter:title", content: `${article.title}` },
-          { name: "twitter:description", content: `${article.content}` },
           { property: "og:title", content: `${article.title}` },
           { property: "og:description", content: `${article.content}` },
           { property: "og:type", content: "article" },
