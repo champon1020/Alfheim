@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 // @toast-ui modules
@@ -10,6 +10,9 @@ import { Viewer } from "@toast-ui/react-editor";
 // highlight.js
 import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
+
+// mathjax
+import { loadMathJax } from "src/App";
 
 const ArticleContentStyled = styled.article`
   width: 90%;
@@ -29,6 +32,7 @@ type Props = ParentProps;
 
 const ArticleContent = (props: Props) => {
   const { content } = props;
+  const contentRef = useRef({} as HTMLDivElement);
 
   const viewer = useCallback(
     () => {
@@ -45,13 +49,19 @@ const ArticleContent = (props: Props) => {
     [content],
   );
 
+  useEffect(() => {
+    if(contentRef !== null && contentRef.current.innerHTML !== "<div></div>"){
+      loadMathJax();
+    }
+  },[viewer]);
+
   // Initialize highlight.js
   useEffect(() => {
     hljs.initHighlightingOnLoad();
   },[]);
 
   return(
-    <ArticleContentStyled>
+    <ArticleContentStyled ref={contentRef}>
       {viewer()}
     </ArticleContentStyled>
   );
