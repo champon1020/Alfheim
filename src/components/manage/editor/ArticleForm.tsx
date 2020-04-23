@@ -15,6 +15,7 @@ import { defaultApi } from "../../../App";
 import "codemirror/lib/codemirror.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ja-jp";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Editor } from "@toast-ui/react-editor";
@@ -62,7 +63,7 @@ export const defaultEditorDraft: EditorArticle = {
 const apiOff = false;
 
 // Duration of saving on real time.
-const onlineSaveDuration = 700;
+const onlineSaveDuration = 3000;
 
 type Props = {
   updatingArticle?: EditorArticle;
@@ -208,15 +209,16 @@ const ArticleForm = (props: Props) => {
       // Set content to editorDraft.
       editorDraft.content = newMdContent;
 
+      // Update the state of editor draft.
+      const draft = parseToDraft(editorDraft);
+      dispatch(appActionCreator.updateDraft(draft, newMdContent));
+
       // Call updating function after onlineSaveDration.
       // - Dispatch draft and mdContent.
-      // - Update the state of editor draft.
       // - Call api.
       const newTimerId = setTimeout(() => {
         if(isExistArticle) return;
         const reqDraft = parseToRequestDraft(editorDraft);
-        const draft = parseToDraft(editorDraft);
-        dispatch(appActionCreator.updateDraft(draft, newMdContent));
         updateDraft(reqDraft);
       }, onlineSaveDuration);
       setTimerId(newTimerId);

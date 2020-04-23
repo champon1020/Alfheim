@@ -9,7 +9,6 @@ const ArticleBoxStyled = styled.div`
   position: relative;
   z-index: 1;
   width: calc(var(--container-width) / 8 * 2.7);
-  height: calc(var(--container-width) / 8 * 2.7);
   cursor: pointer;
   &:hover {
       opacity: 0.8;
@@ -57,6 +56,7 @@ const TitleBoxStyled = styled.div`
   color: var(--base-color);
   font-size: 2.4rem;
   width: 100%;
+  word-break: break-word;
   & h3 {
     display: inline-block;
     text-align: left;

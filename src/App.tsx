@@ -25,9 +25,14 @@ export const Config = process.env.REACT_APP_TRAVIS==="true"
 //   : "https://blog.champonian.com".replace(/\/+$/, "");
 
 export const defaultApi = new api.DefaultApi();
-export const ax = axios.create({
+export const ax = axios.create({ 
   baseURL: Config.srcHost
 });
+
+export const MathJax = {
+  tex: {inlineMath: [["\\$", "\\$"], ["\\(", "\\)"]]},
+  svg: {fontCache: "global"}
+};
 
 const App = () => {
   return(

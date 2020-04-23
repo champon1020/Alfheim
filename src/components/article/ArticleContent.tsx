@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 // @toast-ui modules
 import "../../assets/styles/toast-ui-wrapper.css";
+import "@toast-ui/editor/dist/i18n/ja-jp";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
 
@@ -11,7 +12,7 @@ import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
 
 const ArticleContentStyled = styled.article`
-  width: 86%;
+  width: 90%;
   margin: 10% auto 50px auto;
   font-size: 1.6rem;
   @media (max-width: 500px) {

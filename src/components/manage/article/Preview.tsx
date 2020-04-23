@@ -6,6 +6,7 @@ import { Config } from "src/App";
 
 // @toast-ui modules
 import "../../../assets/styles/toast-ui-wrapper.css";
+import "@toast-ui/editor/dist/i18n/ja-jp";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
 
@@ -37,7 +38,6 @@ const Header = styled.div<{selected: boolean}>`
 
 const Content = styled.div`
   overflow-y: scroll;
-  white-space: nowrap;
   height: calc(var(--articles-container-height) - var(--header-height) - 2.3rem);
 `;
 

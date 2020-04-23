@@ -30,12 +30,16 @@ const TitleBoxStyled = styled.div`
   height: 100%;
   background-color: black;
   opacity: 0.5;
-  & h2 {
-    position: relative;
-    top: 33%;
-    color: white;
-    opacity: 1;
-  }
+`;
+
+const TitleWord = styled.h2`
+  position: relative;
+  top: 33%;
+  width: 93%;
+  margin: auto;
+  color: white;
+  opacity: 1;
+  word-break: break-word;
 `;
 
 type Props = {
@@ -59,7 +63,9 @@ const RecommendBox = (props: Props) => {
         src={pathJoin(Config.srcHost, "images", article.imageHash)}
       />
       <TitleBoxStyled>
-        <h2>{article.title}</h2>
+        <TitleWord>
+          {article.title}
+        </TitleWord>
       </TitleBoxStyled>
     </ListItemStyled>
   );
