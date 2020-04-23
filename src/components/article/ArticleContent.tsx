@@ -12,7 +12,7 @@ import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
 
 const ArticleContentStyled = styled.article`
-  width: 86%;
+  width: 90%;
   margin: 10% auto 50px auto;
   font-size: 1.6rem;
   @media (max-width: 500px) {

@@ -31,6 +31,7 @@
   font-size: 1.4rem;
   color: #f8f8f2;
   background: #2f2f2f;
+  overflow-x: scroll;
 }
 
 .tui-editor-contents p {

@@ -6,10 +6,13 @@ import styled from "styled-components";
 import { ArticleType } from "src/type";
 
 const ArticleContainerStyled = styled.div`
-  background-color: whitesmoke;
+  background-color: ghostwhite;
   padding: 40px 10px;
   margin-bottom: 70px;
   box-shadow: 2px 2px 4px gray;
+  @media (max-width: 500px) {
+    box-shadow: none;
+  }
 `;
 
 interface ParentProps {

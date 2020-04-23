@@ -16,12 +16,15 @@ const MainContainer = styled.div`
   width: calc(var(--container-width) / 4 * 3);
   margin-right: 20px;
   @media (max-width: 1000px) {
-    width: 800px;
+    width: 780px;
     margin: 0 auto;
   }
   @media (max-width: 800px) {
     width: 80%;
     margin: 0 auto;
+  }
+  @media (max-width: 500px) {
+    width: 100%;
   }
 `;
 
