@@ -9,8 +9,6 @@ import Settings from "../manage/Settings";
 import styled from "styled-components";
 import { parseQueryParam } from "../services/parser";
 import { defaultApi } from "src/App";
-import { useDispatch } from "react-redux";
-import appActionCreator from "src/actions/actions";
 import Login from "../auth/Login";
 
 const ManageContainerStyled = styled.div`
@@ -33,7 +31,6 @@ const ManageView: React.FC<Props> = (props) => {
   const { mode } = props.match.params;
   const [doneVerify, setDoneVerify] = useState(false);
   const [isVerify, setVerify] = useState(false);
-  const dispatch = useDispatch();
 
   const child = useCallback(
     () => {
@@ -83,12 +80,11 @@ const ManageView: React.FC<Props> = (props) => {
         );
       }
       if(doneVerify) {
-        dispatch(appActionCreator.memoryLastUrl(window.location.href));
         Cookie.remove("alfheim_id_token");
         return <Login setVerify={setVerify} />;
       }
       return <div></div>;
-    },[child, dispatch, mode, isVerify, doneVerify]
+    },[child, mode, isVerify, doneVerify]
   );
 
   useEffect(() => {
