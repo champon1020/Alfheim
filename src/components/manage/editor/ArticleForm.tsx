@@ -209,15 +209,16 @@ const ArticleForm = (props: Props) => {
       // Set content to editorDraft.
       editorDraft.content = newMdContent;
 
+      // Update the state of editor draft.
+      const draft = parseToDraft(editorDraft);
+      dispatch(appActionCreator.updateDraft(draft, newMdContent));
+
       // Call updating function after onlineSaveDration.
       // - Dispatch draft and mdContent.
-      // - Update the state of editor draft.
       // - Call api.
       const newTimerId = setTimeout(() => {
         if(isExistArticle) return;
         const reqDraft = parseToRequestDraft(editorDraft);
-        const draft = parseToDraft(editorDraft);
-        dispatch(appActionCreator.updateDraft(draft, newMdContent));
         updateDraft(reqDraft);
       }, onlineSaveDuration);
       setTimerId(newTimerId);
