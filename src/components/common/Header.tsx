@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useMemo, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import MenuIcon from "../../assets/images/icons/menu.svg";
+import TagIcon from "../../assets/images/icons/tag.svg";
 
 const slideDownAnim = keyframes`
   from {
@@ -52,6 +53,8 @@ const NavListStyled = styled.ul`
 `;
 
 const NavListItem = styled.li`
+  display: flex;
+  justify-content: center;
   margin: 0 2rem;
   color: white;
   cursor: pointer;
@@ -59,9 +62,14 @@ const NavListItem = styled.li`
     opacity: 0.7;
   }
   @media (max-width: 800px) {
-    margin: 1rem 20%;
+    margin: 1rem 13%;
     border-bottom: solid thin white;
   }
+`;
+
+const NavListItemImg = styled.img`
+  width: 3rem;
+  margin-right: 1rem;
 `;
 
 const NavMenuImage = styled.img`
@@ -125,6 +133,7 @@ const Header = (props: Props) => {
   const navigationItems = useMemo(() => (
     <>
       <NavListItem onClick={handleCateClick}>
+        <NavListItemImg src={TagIcon} />
         {"Category"}
       </NavListItem>
       {/* <NavListItem onClick={handlePortClick}>
