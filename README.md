@@ -13,6 +13,7 @@
 [![](https://img.shields.io/badge/axios-^0.19.2-red)](https://github.com/axios/axios)
 [![](https://img.shields.io/badge/chart.js-^2.9.3-yellow)](https://github.com/chartjs/Chart.js)
 [![](https://img.shields.io/badge/openapi-3.0-green)](https://github.com/OAI/OpenAPI-Specification)
+[![](https://img.shields.io/badge/mathjax-v3-yellow)](https://github.com/mathjax/MathJax-src)
 
 ## Description
 My blog's front side. (New version)
