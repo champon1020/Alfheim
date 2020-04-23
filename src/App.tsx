@@ -29,9 +29,19 @@ export const ax = axios.create({
   baseURL: Config.srcHost
 });
 
-export const MathJax = {
-  tex: {inlineMath: [["\\$", "\\$"], ["\\(", "\\)"]]},
-  svg: {fontCache: "global"}
+const AddScript = (src: string, isAsync: boolean, id?: string) => {
+  const script = document.createElement("script");
+  script.src = src;
+  script.async = isAsync;
+  if(id !== undefined){
+    script.id = id;
+  }
+  document.head.appendChild(script);
+};
+
+export const loadMathJax = () => {
+  AddScript("https://polyfill.io/v3/polyfill.min.js?features=es6", false);
+  AddScript("https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg-full.js", false);
 };
 
 const App = () => {
