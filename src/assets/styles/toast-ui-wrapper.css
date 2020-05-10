@@ -32,6 +32,9 @@
   color: #f8f8f2;
   background: #2f2f2f;
   overflow-x: scroll;
+}
+
+.tui-editor-contents pre code {
   white-space: unset;
 }
 

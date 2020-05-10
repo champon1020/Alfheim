@@ -105,9 +105,10 @@ const ImageHeader = () => {
   const updateImage = useCallback(
     (num: number) => {
       if(imageRef === null) return;
+
+      imageRef.current.classList.add("active");
       setTimeout(() => {
         imageRef.current.classList.remove("inactive");
-        imageRef.current.classList.add("active");
         const cur = num % imageList.length;
         setImg(imageList[cur]);
         setAuthor(authorList[cur]);
