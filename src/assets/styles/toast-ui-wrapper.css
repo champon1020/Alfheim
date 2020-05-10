@@ -32,6 +32,7 @@
   color: #f8f8f2;
   background: #2f2f2f;
   overflow-x: scroll;
+  white-space: unset;
 }
 
 .tui-editor-contents p {
