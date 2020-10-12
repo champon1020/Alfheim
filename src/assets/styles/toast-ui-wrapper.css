@@ -34,6 +34,10 @@
   overflow-x: scroll;
 }
 
+.tui-editor-contents pre code {
+  white-space: unset;
+}
+
 .tui-editor-contents p {
   word-break: break-word;
   overflow-wrap: break-word;
