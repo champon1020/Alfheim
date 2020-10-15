@@ -1,8 +1,8 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
-import { ArticleType } from "~/type";
 import { Config } from "~/App";
 import { pathJoin } from "~/components/services/parser";
+import { ArticleType } from "~/type";
+import React, { useCallback } from "react";
+import styled from "styled-components";
 
 const ListItemStyled = styled.li`
   position: relative;
@@ -44,28 +44,25 @@ const TitleWord = styled.h2`
 
 type Props = {
   article: ArticleType;
-}
+};
 
 const RecommendBox = (props: Props) => {
   const { article } = props;
 
-  const handelOnClick = useCallback(
-    () => {
-      window.open(pathJoin(Config.host, "article", article.sortedId.toString()), "_self");
-    },
-    [article],
-  );
+  const handelOnClick = useCallback(() => {
+    window.open(
+      pathJoin(Config.host, "article", article.sortedId.toString()),
+      "_self"
+    );
+  }, [article]);
 
   return (
-    <ListItemStyled
-      onClick={handelOnClick} >
-      <ImageStyled 
+    <ListItemStyled onClick={handelOnClick}>
+      <ImageStyled
         src={pathJoin(Config.srcHost, "images", article.imageHash)}
       />
       <TitleBoxStyled>
-        <TitleWord>
-          {article.title}
-        </TitleWord>
+        <TitleWord>{article.title}</TitleWord>
       </TitleBoxStyled>
     </ListItemStyled>
   );

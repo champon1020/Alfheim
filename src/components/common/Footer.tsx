@@ -20,14 +20,10 @@ const Powered = styled.h3`
 `;
 
 const Footer = () => {
-  return(
+  return (
     <FooterStyled>
-      <CopyRight>
-        {"Copyright champon"}
-      </CopyRight>
-      <Powered>
-        {"Powered by Golang & React"}
-      </Powered>
+      <CopyRight>{"Copyright champon"}</CopyRight>
+      <Powered>{"Powered by Golang & React"}</Powered>
     </FooterStyled>
   );
 };

@@ -1,8 +1,9 @@
-import React from "react";
-import Category from "./Category";
-import styled from "styled-components";
-import { ArticleType } from "~/type";
 import { formatDateStr } from "~/components/services/parser";
+import { ArticleType } from "~/type";
+import React from "react";
+import styled from "styled-components";
+
+import Category from "./Category";
 
 const ArticleHeaderStyled = styled.div`
   & p {
@@ -12,7 +13,7 @@ const ArticleHeaderStyled = styled.div`
 
 const DateContainerStyled = styled.div`
   display: inline-block;
-  font-size: 2.0rem;
+  font-size: 2rem;
   border-bottom: solid thin gray;
   margin-left: 8%;
   padding: 0 5px;
@@ -42,30 +43,24 @@ const CategoryContainerStyled = styled.div`
 `;
 
 type ParentProps = {
-  article: ArticleType;
-}
+  article: ArticleType,
+};
 
 type Props = ParentProps;
 
 const ArticleHeader = (props: Props) => {
   const { article } = props;
 
-  return(
+  return (
     <ArticleHeaderStyled>
       <DateContainerStyled>
-        <p>
-          {formatDateStr(article.createDate)}
-        </p>
+        <p>{formatDateStr(article.createDate)}</p>
       </DateContainerStyled>
       <TitleContainerStyled>
-        <h2>
-          {article.title}
-        </h2>
+        <h2>{article.title}</h2>
       </TitleContainerStyled>
       <CategoryContainerStyled>
-        <Category 
-          categories={article.categories} 
-        />
+        <Category categories={article.categories} />
       </CategoryContainerStyled>
     </ArticleHeaderStyled>
   );

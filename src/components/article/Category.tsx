@@ -1,6 +1,6 @@
-import React, { useCallback, MouseEvent } from "react";
-import styled from "styled-components";
 import { CategoryType } from "~/type";
+import React, { MouseEvent, useCallback } from "react";
+import styled from "styled-components";
 
 const CategoryListStyled = styled.ul`
   display: flex;
@@ -27,44 +27,37 @@ const CategoryListItemStyled = styled.li`
 
 type ParentProps = {
   categories: CategoryType[];
-}
+};
 
 type Props = ParentProps;
 
 const Category = (props: Props) => {
   const { categories } = props;
 
-  const handleOnClick = useCallback(
-    (e: MouseEvent<HTMLLIElement>) => {
-      const len = e.currentTarget.classList.length;
-      const cName = e.currentTarget.classList[len-1];
-      window.open("/home/category/" + cName, "_self");
-    },[]);
+  const handleOnClick = useCallback((e: MouseEvent<HTMLLIElement>) => {
+    const len = e.currentTarget.classList.length;
+    const cName = e.currentTarget.classList[len - 1];
+    window.open("/home/category/" + cName, "_self");
+  }, []);
 
-  const categoryList = useCallback(
-    () => {
-      const list = [] as JSX.Element[];
-      if(categories === null || categories === undefined) return list;
-      categories.forEach((v, i) => {
-        list.push(
-          <CategoryListItemStyled 
-            key={i}
-            className={v.name}
-            onClick={handleOnClick}>
-            {v.name}
-          </CategoryListItemStyled>
-        );
-      });
-      return list;
-    },
-    [categories, handleOnClick],
-  );
+  const categoryList = useCallback(() => {
+    const list = [] as JSX.Element[];
+    if (categories === null || categories === undefined) return list;
+    categories.forEach((v, i) => {
+      list.push(
+        <CategoryListItemStyled
+          key={i}
+          className={v.name}
+          onClick={handleOnClick}
+        >
+          {v.name}
+        </CategoryListItemStyled>
+      );
+    });
+    return list;
+  }, [categories, handleOnClick]);
 
-  return(
-    <CategoryListStyled>
-      {categoryList()}
-    </CategoryListStyled>
-  );
+  return <CategoryListStyled>{categoryList()}</CategoryListStyled>;
 };
 
 export default Category;

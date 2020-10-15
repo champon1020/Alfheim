@@ -1,15 +1,15 @@
-import React, { useEffect, useCallback, useState, useMemo } from "react";
-import Cookie from "js-cookie";
-import CreateArticle from "~/components/manage/CreateArticle";
-import ToolBar from "~/components/manage/ToolBar";
-import { RouteComponentProps } from "react-router-dom";
-import Images from "~/components/manage/Images";
-import Articles from "~/components/manage/Articles";
-import Settings from "~/components/manage/Settings";
-import styled from "styled-components";
-import { parseQueryParam } from "~/components/services/parser";
 import { defaultApi } from "~/App";
 import Login from "~/components/auth/Login";
+import Articles from "~/components/manage/Articles";
+import CreateArticle from "~/components/manage/CreateArticle";
+import Images from "~/components/manage/Images";
+import Settings from "~/components/manage/Settings";
+import ToolBar from "~/components/manage/ToolBar";
+import { parseQueryParam } from "~/components/services/parser";
+import Cookie from "js-cookie";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { RouteComponentProps } from "react-router-dom";
+import styled from "styled-components";
 
 const ManageContainerStyled = styled.div`
   min-height: 100vh;
@@ -24,7 +24,7 @@ const ManageWrapperStyled = styled.div`
   }
 `;
 
-type RouteProps = RouteComponentProps<{mode: string}>
+type RouteProps = RouteComponentProps<{ mode: string }>;
 type Props = RouteProps;
 
 const ManageView: React.FC<Props> = (props) => {
@@ -32,70 +32,59 @@ const ManageView: React.FC<Props> = (props) => {
   const [doneVerify, setDoneVerify] = useState(false);
   const [isVerify, setVerify] = useState(false);
 
-  const child = useCallback(
-    () => {
-      if(mode === "images") 
-        return <Images setVerify={setVerify}/>;
-      if(mode === "settings") 
-        return <Settings />;
-      if(mode === "articles" || mode === "drafts") 
-        return <Articles setVerify={setVerify}/>;
+  const child = useCallback(() => {
+    if (mode === "images") return <Images setVerify={setVerify} />;
+    if (mode === "settings") return <Settings />;
+    if (mode === "articles" || mode === "drafts")
+      return <Articles setVerify={setVerify} />;
 
-      const qParams = parseQueryParam(window.location.href);
-      return(
-        <CreateArticle
-          setVerify={setVerify}
-          articleId={qParams["articleId"]}
-          draftId={qParams["draftId"]} />
-      );
-    },
-    [mode],
-  );
+    const qParams = parseQueryParam(window.location.href);
+    return (
+      <CreateArticle
+        setVerify={setVerify}
+        articleId={qParams["articleId"]}
+        draftId={qParams["draftId"]}
+      />
+    );
+  }, [mode]);
 
-  const verify = useCallback(
-    async () => {
-      await defaultApi.apiVerifyTokenPost({
+  const verify = useCallback(async () => {
+    await defaultApi
+      .apiVerifyTokenPost({
         headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
-        }
-      }).then(res => {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      })
+      .then((res) => {
         setVerify(res.data.verify === undefined ? false : res.data.verify);
-      }).catch(() => {
+      })
+      .catch(() => {
         setVerify(false);
       });
-      setDoneVerify(true);
-    },[]
-  );
+    setDoneVerify(true);
+  }, []);
 
-  const view = useMemo(
-    () => {
-      if(isVerify){
-        return(
-          <>
-            <ToolBar mode={mode} />
-            <ManageWrapperStyled>
-              {child()}
-            </ManageWrapperStyled>
-          </>
-        );
-      }
-      if(doneVerify) {
-        Cookie.remove("alfheim_id_token");
-        return <Login setVerify={setVerify} />;
-      }
-      return <div></div>;
-    },[child, mode, isVerify, doneVerify]
-  );
+  const view = useMemo(() => {
+    if (isVerify) {
+      return (
+        <>
+          <ToolBar mode={mode} />
+          <ManageWrapperStyled>{child()}</ManageWrapperStyled>
+        </>
+      );
+    }
+    if (doneVerify) {
+      Cookie.remove("alfheim_id_token");
+      return <Login setVerify={setVerify} />;
+    }
+    return <div></div>;
+  }, [child, mode, isVerify, doneVerify]);
 
   useEffect(() => {
     verify();
-  },[verify]);
+  }, [verify]);
 
-  return(
-    <ManageContainerStyled>
-      {view}
-    </ManageContainerStyled>
-  );
+  return <ManageContainerStyled>{view}</ManageContainerStyled>;
 };
 
 export default ManageView;

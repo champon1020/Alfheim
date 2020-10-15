@@ -1,15 +1,16 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { Config, defaultApi } from "~/App";
 import Article from "~/components/article/Article";
+import { checkIsDraft } from "~/components/article/util";
 import SideBar from "~/components/common/SideBar";
+import { parseDraftToArticle } from "~/components/services/parser";
+import { ManageState, RootState } from "~/stores/store";
+import { ArticleType } from "~/type";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+
 import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
-import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { RootState, ManageState } from "~/stores/store";
-import { ArticleType } from "~/type";
-import { checkIsDraft } from "~/components/article/util";
-import { parseDraftToArticle } from "~/components/services/parser";
-import { defaultApi, Config } from "~/App";
 
 const MainContainer = styled.div`
   order: 1;
@@ -45,22 +46,21 @@ type Props = IRouteProps;
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const [prevArticle, setPrevArticle] = useState({title: ""} as ArticleType);
-  const [nextArticle, setNextArticle] = useState({title: ""} as ArticleType);
+  const [prevArticle, setPrevArticle] = useState({ title: "" } as ArticleType);
+  const [nextArticle, setNextArticle] = useState({ title: "" } as ArticleType);
   const [article, setArticle] = useState({} as ArticleType);
-  const draftsStore = useSelector<RootState, ManageState>((state: any) => state.manageReducer);
-
-  const validSortedId = useCallback(
-    () => {
-      const id = match.params.sortedId;
-      return id === undefined ? -1 : Number.parseInt(id);
-    },
-    [match]
+  const draftsStore = useSelector<RootState, ManageState>(
+    (state: any) => state.manageReducer
   );
+
+  const validSortedId = useCallback(() => {
+    const id = match.params.sortedId;
+    return id === undefined ? -1 : Number.parseInt(id);
+  }, [match]);
 
   const fetchArticle = useCallback(
     async (id?: number) => {
-      if(checkIsDraft()) {
+      if (checkIsDraft()) {
         const article = parseDraftToArticle(draftsStore.article);
         article.content = draftsStore.draftContent;
         setArticle(article);
@@ -75,36 +75,32 @@ const ArticleView = (props: Props) => {
       setPrevArticle(prev);
       setNextArticle(next);
     },
-    [validSortedId, draftsStore],
+    [validSortedId, draftsStore]
   );
 
-  const prevCallback = useCallback(
-    () => {
-      window.open(`${Config.host}/article/${prevArticle.sortedId}`, "_self");
-    },[prevArticle.sortedId]
-  );
+  const prevCallback = useCallback(() => {
+    window.open(`${Config.host}/article/${prevArticle.sortedId}`, "_self");
+  }, [prevArticle.sortedId]);
 
-  const nextCallback = useCallback(
-    () => {
-      window.open(`${Config.host}/article/${nextArticle.sortedId}`, "_self");
-    },[nextArticle.sortedId]
-  );
+  const nextCallback = useCallback(() => {
+    window.open(`${Config.host}/article/${nextArticle.sortedId}`, "_self");
+  }, [nextArticle.sortedId]);
 
   useEffect(() => {
     fetchArticle();
     // eslint-disable-next-line
   }, []);
 
-  return(
+  return (
     <>
       <MainContainer>
-        <Article 
-          article={article} />
+        <Article article={article} />
         <PageWithTitle
           prevText={prevArticle.title}
           nextText={nextArticle.title}
           prevCallback={prevCallback}
-          nextCallback={nextCallback} />
+          nextCallback={nextCallback}
+        />
       </MainContainer>
       <SubContainer>
         <SideBar />

@@ -1,7 +1,7 @@
-import React, { useCallback, useState, MouseEvent } from "react";
-import styled from "styled-components";
-import Cookie from "js-cookie";
 import { Config, defaultApi } from "~/App";
+import Cookie from "js-cookie";
+import React, { MouseEvent, useCallback, useState } from "react";
+import styled from "styled-components";
 
 const ImageListContainer = styled.div`
   margin: 2rem 0;
@@ -17,7 +17,7 @@ const ImageListStyled = styled.ul`
 const ImageListItemStyled = styled.li`
   width: 23%;
   margin: 0 1%;
-  &:hover { 
+  &:hover {
     opacity: 0.6;
   }
   @media (max-width: 1100px) {
@@ -67,7 +67,7 @@ const EmptyMessage = styled.h3`
 type Props = {
   images: string[];
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const ImageList = (props: Props) => {
   const { images, setVerify } = props;
@@ -79,80 +79,65 @@ const ImageList = (props: Props) => {
   // Call api of deleting image.
   const deleteImages = useCallback(
     async (names: string[]) => {
-      await defaultApi.apiPrivateDeleteImageDelete(names, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
-        }
-      }).catch(() => {
-        setVerify(false);
-      });
-    },[setVerify]
+      await defaultApi
+        .apiPrivateDeleteImageDelete(names, {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        })
+        .catch(() => {
+          setVerify(false);
+        });
+    },
+    [setVerify]
   );
 
   // On focus listener of selecting image.
   // If focused, push to selected array.
   const handleOnSelect = useCallback(
     (e: MouseEvent<HTMLInputElement>) => {
-      if(e.currentTarget.checked) selected.push(e.currentTarget.name);
-      else selected.filter(v => v !== e.currentTarget.name);
-    },[selected]
+      if (e.currentTarget.checked) selected.push(e.currentTarget.name);
+      else selected.filter((v) => v !== e.currentTarget.name);
+    },
+    [selected]
   );
 
   // On click listener of deleting image.
   // Call api with the array of selected images.
   // Reload this window.
-  const handleOnDelete = useCallback(
-    () => {
-      deleteImages(selected);
-      window.location.reload();
-    },[selected, deleteImages]
-  );
+  const handleOnDelete = useCallback(() => {
+    deleteImages(selected);
+    window.location.reload();
+  }, [selected, deleteImages]);
 
   // Create image list.
   // If images is null or undefined or empty,
   // return message which tells about empty.
   // Or return image list component.
-  const imageList = useCallback(
-    () => {
-      const list = [] as JSX.Element[];
-      if(images === null
-        || images === undefined
-        || images.length === 0) {
-        return (
-          <EmptyMessage>
-            {"No Images"}
-          </EmptyMessage>
-        );
-      }
-      images.forEach((v, i) => {
-        const path = `${Config.srcHost}/images/${v}`;
-        list.push(
-          <ImageListItemStyled key={i}>
-            <CheckBox
-              type="checkbox"
-              name={v}
-              onClick={handleOnSelect} />
-            <a href={path}>
-              <ImageStyled src={path} />
-            </a>
-          </ImageListItemStyled>
-        );
-      });
-      return list;
-    },
-    [images, handleOnSelect],
-  );
+  const imageList = useCallback(() => {
+    const list = [] as JSX.Element[];
+    if (images === null || images === undefined || images.length === 0) {
+      return <EmptyMessage>{"No Images"}</EmptyMessage>;
+    }
+    images.forEach((v, i) => {
+      const path = `${Config.srcHost}/images/${v}`;
+      list.push(
+        <ImageListItemStyled key={i}>
+          <CheckBox type="checkbox" name={v} onClick={handleOnSelect} />
+          <a href={path}>
+            <ImageStyled src={path} />
+          </a>
+        </ImageListItemStyled>
+      );
+    });
+    return list;
+  }, [images, handleOnSelect]);
 
-  return(
+  return (
     <ImageListContainer>
-      <ImageListStyled>
-        {imageList()}
-      </ImageListStyled>
+      <ImageListStyled>{imageList()}</ImageListStyled>
       <DeleteButtonBox>
-        <DeleteButton
-          onClick={handleOnDelete}>
-          {"Delete"}
-        </DeleteButton>
+        <DeleteButton onClick={handleOnDelete}>{"Delete"}</DeleteButton>
       </DeleteButtonBox>
     </ImageListContainer>
   );

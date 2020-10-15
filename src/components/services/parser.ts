@@ -1,18 +1,16 @@
-import { DraftType, ArticleType, CategoryType } from "~/type";
+import { ArticleType, CategoryType, DraftType } from "~/type";
 
-type Map = { [key: string]: string }
-
+type Map = { [key: string]: string };
 
 // Parse query parameters and return the map of them.
 export const parseQueryParam = (url: string): Map => {
   const elem = url.split("?");
-  if(elem.length === 1)
-    return {};
+  if (elem.length === 1) return {};
   const paramMap: Map = {};
   const paramSection = elem[1];
-  paramSection.split("&").forEach(v => {
+  paramSection.split("&").forEach((v) => {
     const keyValue = v.split("=");
-    if(keyValue.length === 2) {
+    if (keyValue.length === 2) {
       paramMap[keyValue[0]] = keyValue[1];
     }
   });
@@ -27,7 +25,7 @@ export const parsePage = (href: string): number => {
 
 // Format date string which is RFC3339 to HHHH/MM/DD.
 export const formatDateStr = (d?: string) => {
-  if(d === undefined) return "";
+  if (d === undefined) return "";
   return d.substr(0, 10);
 };
 
@@ -35,12 +33,12 @@ export const formatDateStr = (d?: string) => {
 const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
   const categories = category.split(",");
   const categoryList = [] as CategoryType[];
-  if(categories[0] === "") return categoryList;
-  categories.forEach(v => {
+  if (categories[0] === "") return categoryList;
+  categories.forEach((v) => {
     categoryList.push({
       id: "id",
       name: v,
-      articleNum: 1
+      articleNum: 1,
     });
   });
   return categoryList;
@@ -66,7 +64,7 @@ export const parseDraftToArticle = (draft: DraftType): ArticleType => {
 export const pathJoin = (...el: string[]): string => {
   let res = "";
   el?.forEach((v, i) => {
-    if(i !== 0) res += "/";
+    if (i !== 0) res += "/";
     res += v;
   });
   return res;

@@ -32,22 +32,18 @@ type Props = {
   nextText: string;
   prevCallback: () => void;
   nextCallback: () => void;
-}
+};
 
 const Page = (props: Props) => {
   const { prevText, nextText, prevCallback, nextCallback } = props;
 
-  return(
+  return (
     <PageStyled>
       <PageElementStyled>
-        <PageElementText onClick={prevCallback}>
-          {prevText}
-        </PageElementText>
+        <PageElementText onClick={prevCallback}>{prevText}</PageElementText>
       </PageElementStyled>
       <PageElementStyled>
-        <PageElementText onClick={nextCallback}>
-          {nextText}
-        </PageElementText>
+        <PageElementText onClick={nextCallback}>{nextText}</PageElementText>
       </PageElementStyled>
     </PageStyled>
   );

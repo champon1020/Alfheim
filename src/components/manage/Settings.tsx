@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 const SettingContainerStyled = styled.div`
-  margin-top: 40px; 
+  margin-top: 40px;
 `;
 
 const SettingFormStyled = styled.div`
@@ -27,7 +27,7 @@ const SettingElementStyled = styled.div`
 `;
 
 const Settings = () => {
-  return(
+  return (
     <SettingContainerStyled>
       <SettingFormStyled>
         <SettingElementStyled>

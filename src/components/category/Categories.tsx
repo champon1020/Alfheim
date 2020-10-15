@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useCallback } from "react";
-import styled from "styled-components";
-import CircleChart from "./CircleChart";
-import { CategoryType } from "~/type";
 import { defaultApi } from "~/App";
+import { CategoryType } from "~/type";
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
+
 import CategoryList from "./CategoryList";
+import CircleChart from "./CircleChart";
 
 const CategoryListTitle = styled.div`
   color: var(--base-color);
@@ -26,31 +27,24 @@ const CategoryListStyled = styled.div`
 const Categories = () => {
   const [categories, setCategories] = useState([] as CategoryType[]);
 
-  const fetchCategories = useCallback(
-    async () => {
-      const res = await defaultApi.apiFindCategoryListGet();
-      const resCat = res.data.categories;
-      setCategories(resCat);
-    },
-    [],
-  );
+  const fetchCategories = useCallback(async () => {
+    const res = await defaultApi.apiFindCategoryListGet();
+    const resCat = res.data.categories;
+    setCategories(resCat);
+  }, []);
 
   useEffect(() => {
     fetchCategories();
     // eslint-disable-next-line
   }, []);
 
-  return(
+  return (
     <CategoryListStyled>
       <CategoryListTitle>
         <h2>Category List</h2>
       </CategoryListTitle>
-      <CircleChart 
-        categories={categories} 
-      />
-      <CategoryList
-        categories={categories}
-      />
+      <CircleChart categories={categories} />
+      <CategoryList categories={categories} />
     </CategoryListStyled>
   );
 };

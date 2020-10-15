@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useEffect } from "react";
-import ArticleList from "~/components/home/ArticleList";
-import SideBar from "~/components/common/SideBar";
-import Page from "./Page";
-import styled from "styled-components";
-import { IRouteProps, PathParams } from "./PublicView";
+import { InlineResponse2002 } from "~/api/api";
 import { defaultApi } from "~/App";
+import SideBar from "~/components/common/SideBar";
+import ArticleList from "~/components/home/ArticleList";
+import { parsePage } from "~/components/services/parser";
 import { ArticleType } from "~/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse2002 } from "~/api/api";
-import { parsePage } from "~/components/services/parser";
+import React, { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
 
+import Page from "./Page";
+import { IRouteProps, PathParams } from "./PublicView";
 
 const MainContainer = styled.div`
   order: 1;
@@ -36,20 +36,34 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<InlineResponse2002>> => {
+const proxy = async (
+  params: PathParams,
+  p: number
+): Promise<AxiosResponse<InlineResponse2002>> => {
   const path = window.location.pathname;
   const { title, year, month, category } = params;
 
-  if(path.startsWith("/home/title") && title !== undefined) {
+  if (path.startsWith("/home/title") && title !== undefined) {
     return await defaultApi.apiFindArticleListTitleGet(title, p);
   }
 
-  if(path.startsWith("/home/date") && year !== undefined && month !== undefined) {
-    return await defaultApi.apiFindArticleListCreateDateGet(year+month, p);
+  if (
+    path.startsWith("/home/date") &&
+    year !== undefined &&
+    month !== undefined
+  ) {
+    return await defaultApi.apiFindArticleListCreateDateGet(year + month, p);
   }
 
-  if(path.startsWith("/home/category") && category !== undefined && category !== "") {
-    return await defaultApi.apiFindArticleListCategoryGet(category.split("-"), p);
+  if (
+    path.startsWith("/home/category") &&
+    category !== undefined &&
+    category !== ""
+  ) {
+    return await defaultApi.apiFindArticleListCategoryGet(
+      category.split("-"),
+      p
+    );
   }
 
   return await defaultApi.apiFindArticleListGet(p);
@@ -58,7 +72,7 @@ const proxy = async (params: PathParams, p: number): Promise<AxiosResponse<Inlin
 const scroll = () => {
   window.scroll({
     top: 430,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 };
 
@@ -75,34 +89,27 @@ const HomeView = (props: Props) => {
   const [articles, setArticles] = useState([] as ArticleType[]);
   const [maxPage, setMaxPage] = useState(0);
 
-  const fetchArticle = useCallback(
-    async () => {
-      const res = await proxy(params, page);
-      const fetchedArticles = res.data.articles;
-      if(fetchedArticles === null) return; // set empty deal
-      setMaxPage(res.data.maxPage);
-      setArticles(fetchedArticles);
-    }, 
-    [params, page]
-  );
+  const fetchArticle = useCallback(async () => {
+    const res = await proxy(params, page);
+    const fetchedArticles = res.data.articles;
+    if (fetchedArticles === null) return; // set empty deal
+    setMaxPage(res.data.maxPage);
+    setArticles(fetchedArticles);
+  }, [params, page]);
 
-  const prevCallback = useCallback(
-    () => {
-      window.history.pushState(null, "", pageAppendedPath(page-1));
-      setPage(page-1);
+  const prevCallback = useCallback(() => {
+    window.history.pushState(null, "", pageAppendedPath(page - 1));
+    setPage(page - 1);
+    scroll();
+  }, [page]);
+
+  const nextCallback = useCallback(() => {
+    if (page + 1 > 1) {
+      window.history.pushState(null, "", pageAppendedPath(page + 1));
+      setPage(page + 1);
       scroll();
-    },[page]
-  );
-
-  const nextCallback = useCallback(
-    () => {
-      if(page+1 > 1) {
-        window.history.pushState(null, "", pageAppendedPath(page+1));
-        setPage(page+1);
-        scroll();
-      }
-    },[page]
-  );
+    }
+  }, [page]);
 
   window.onpopstate = () => {
     setPage(parsePage(window.location.href));
@@ -117,14 +124,14 @@ const HomeView = (props: Props) => {
     window.history.pushState(null, "", window.location.pathname);
   }, []);
 
-  return(
+  return (
     <>
       <MainContainer>
         <ArticleList articles={articles} />
         <Page
           current={page}
-          hiddenPrev={page===1}
-          hiddenNext={page===maxPage || maxPage === 0}
+          hiddenPrev={page === 1}
+          hiddenNext={page === maxPage || maxPage === 0}
           prevText="Back"
           nextText="Next"
           prevCallback={prevCallback}

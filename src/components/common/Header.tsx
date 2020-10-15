@@ -1,7 +1,7 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
-import styled, { keyframes } from "styled-components";
 import MenuIcon from "~/assets/images/icons/menu.svg";
 import TagIcon from "~/assets/images/icons/tag.svg";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 const slideDownAnim = keyframes`
   from {
@@ -90,20 +90,20 @@ const ShowMenu = keyframes`
   }
 `;
 
-const MenuContent = styled.ul<{hidden: boolean}>`
+const MenuContent = styled.ul<{ hidden: boolean }>`
   position: absolute;
   right: 0;
   top: 6rem;
   width: 40%;
   height: 20vh;
   padding-top: 3%;
-  display: ${({hidden}) => hidden ? "none" : "flex"};
+  display: ${({ hidden }) => (hidden ? "none" : "flex")};
   flex-direction: column;
   font-size: 3rem;
   text-align: center;
   background-color: var(--base-color);
   z-index: 999;
-  animation: ${ShowMenu} .7s cubic-bezier(0, 0, 0.20, 1.0) 0s;
+  animation: ${ShowMenu} 0.7s cubic-bezier(0, 0, 0.2, 1) 0s;
   @media (max-width: 600px) {
     width: 50%;
   }
@@ -117,7 +117,7 @@ const MenuContent = styled.ul<{hidden: boolean}>`
 
 type Props = {
   onResizeHandler?: () => void;
-}
+};
 
 const Header = (props: Props) => {
   const { onResizeHandler } = props;
@@ -125,60 +125,60 @@ const Header = (props: Props) => {
   const [isMenu, setMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
-  const toggleMenu = useCallback(() => { setOpenMenu(!openMenu); },[openMenu]);
-  const handleTitleClick = useCallback(() => { window.open("/", "_self"); },[]);
-  const handleCateClick = useCallback(() => { window.open("/category/list", "_self"); },[]);
-  const handlePortClick = useCallback(() => { window.open("##", "_self"); },[]);
+  const toggleMenu = useCallback(() => {
+    setOpenMenu(!openMenu);
+  }, [openMenu]);
+  const handleTitleClick = useCallback(() => {
+    window.open("/", "_self");
+  }, []);
+  const handleCateClick = useCallback(() => {
+    window.open("/category/list", "_self");
+  }, []);
+  const handlePortClick = useCallback(() => {
+    window.open("##", "_self");
+  }, []);
 
-  const navigationItems = useMemo(() => (
-    <>
-      <NavListItem onClick={handleCateClick}>
-        <NavListItemImg src={TagIcon} />
-        {"Category"}
-      </NavListItem>
-      {/* <NavListItem onClick={handlePortClick}>
+  const navigationItems = useMemo(
+    () => (
+      <>
+        <NavListItem onClick={handleCateClick}>
+          <NavListItemImg src={TagIcon} />
+          {"Category"}
+        </NavListItem>
+        {/* <NavListItem onClick={handlePortClick}>
         {"Portfolio"}
       </NavListItem> */}
-    </>
-  ), [handleCateClick, handlePortClick]);
+      </>
+    ),
+    [handleCateClick, handlePortClick]
+  );
 
   const navigation = useMemo(() => {
-    if(isMenu){
+    if (isMenu) {
       return (
         <div onClick={toggleMenu}>
           <NavMenuImage src={MenuIcon} />
         </div>
       );
     }
-    return (
-      <NavListStyled>
-        {navigationItems}
-      </NavListStyled>
-    );
+    return <NavListStyled>{navigationItems}</NavListStyled>;
   }, [isMenu, toggleMenu, navigationItems]);
 
   // When the window is resized,
   // it's toggled that menu icon is active or not.
   useEffect(() => {
-    if(window.innerWidth <= 800) setMenu(true);
+    if (window.innerWidth <= 800) setMenu(true);
     window.onresize = () => {
       window.innerWidth <= 800 ? setMenu(true) : setMenu(false);
-      if(onResizeHandler !== undefined) onResizeHandler();
+      if (onResizeHandler !== undefined) onResizeHandler();
     };
   }, [onResizeHandler]);
 
-  return(
+  return (
     <HeaderStyled>
-      <BlogTitle onClick={handleTitleClick}>
-        {"champon's notebook"}
-      </BlogTitle>
-      <NavStyled>
-        {navigation}
-      </NavStyled>
-      <MenuContent 
-        hidden={!openMenu}>
-        {navigationItems}
-      </MenuContent>
+      <BlogTitle onClick={handleTitleClick}>{"champon's notebook"}</BlogTitle>
+      <NavStyled>{navigation}</NavStyled>
+      <MenuContent hidden={!openMenu}>{navigationItems}</MenuContent>
     </HeaderStyled>
   );
 };

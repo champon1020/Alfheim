@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
-import Header from "~/components/common/Header";
-import styled from "styled-components";
 import ErrorImage from "~/assets/images/base_error.jpg";
 import Footer from "~/components/common/Footer";
+import Header from "~/components/common/Header";
+import React, { useCallback, useState } from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   min-height: 95vh;
@@ -17,32 +17,32 @@ const Content = styled.div`
   color: brown;
 `;
 
-const Image = styled.img<{width: number}>`
-  width: ${({width}) => `${Math.min(100, 123.65 - 0.0473 * width) + "%"}`};
+const Image = styled.img<{ width: number }>`
+  width: ${({ width }) => `${Math.min(100, 123.65 - 0.0473 * width) + "%"}`};
 `;
 
 const Title = styled.h1`
   margin-top: -5%;
   font-size: 4rem;
-  @media (max-width: 1400px){
+  @media (max-width: 1400px) {
     margin-top: -10%;
     font-size: 4rem;
   }
-  @media (max-width: 650px){
+  @media (max-width: 650px) {
     font-size: 3rem;
   }
-  @media (max-width: 500px){
+  @media (max-width: 500px) {
     font-size: 2rem;
   }
 `;
 
-const Desc = styled.h2<{top: number; fontSize: number}>`
-  margin-top: ${({top}) => top+"%"};
-  font-size: ${({fontSize}) => fontSize+"rem"};
-  @media (max-width: 800px){
+const Desc = styled.h2<{ top: number; fontSize: number }>`
+  margin-top: ${({ top }) => top + "%"};
+  font-size: ${({ fontSize }) => fontSize + "rem"};
+  @media (max-width: 800px) {
     font-size: 3rem;
   }
-  @media (max-width: 650px){
+  @media (max-width: 650px) {
     font-size: 2rem;
   }
 `;
@@ -53,7 +53,7 @@ const Info = styled.div`
   display: block;
   width: fit-content;
   font-size: 1.2rem;
-  @media (max-width: 650px){
+  @media (max-width: 650px) {
     font-size: 1rem;
   }
   & a {
@@ -64,34 +64,27 @@ const Info = styled.div`
 const ErrorPage = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
-  const handleOnResize = useCallback(
-    () => {
-      setWidth(window.innerWidth);
-    },
-    [],
-  );
+  const handleOnResize = useCallback(() => {
+    setWidth(window.innerWidth);
+  }, []);
 
   return (
     <Container>
       <header>
-        <Header 
-          onResizeHandler={handleOnResize} />
+        <Header onResizeHandler={handleOnResize} />
       </header>
       <Content>
-        <Image 
-          src={ErrorImage} 
-          width={width}/>
+        <Image src={ErrorImage} width={width} />
         <Title>{"I'm sorry, this page is no available now."}</Title>
-        <Desc
-          top={2}
-          fontSize={3.5}>
+        <Desc top={2} fontSize={3.5}>
           {"Please try again later."}
         </Desc>
         <Info>
           {"The picture is by "}
           <a href="https://pixabay.com/ja/users/steinchen-21981/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=261888">
             {"Gaby Stein"}
-          </a>{" from "}
+          </a>
+          {" from "}
           <a href="https://pixabay.com/ja/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=261888">
             {" Pixabay"}
           </a>

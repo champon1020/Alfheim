@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import SideBar from "~/components/common/SideBar";
 import Categories from "~/components/category/Categories";
+import SideBar from "~/components/common/SideBar";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const MainContainer = styled.div`
@@ -36,7 +36,7 @@ const CategoryListView = () => {
     // });
   }, []);
 
-  return(
+  return (
     <>
       <MainContainer>
         <Categories />

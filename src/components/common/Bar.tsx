@@ -1,12 +1,11 @@
+import GithubIcon from "~/assets/images/accounts/github.png";
+import LinkedinIcon from "~/assets/images/accounts/linkedin.png";
+import TwitterIcon from "~/assets/images/accounts/twitter.svg";
+import Accounts from "~/private/accounts.json";
 import * as React from "react";
 import styled from "styled-components";
+
 import BarItem from "./BarItem";
-import TwitterIcon from "~/assets/images/accounts/twitter.svg";
-import LinkedinIcon from "~/assets/images/accounts/linkedin.png";
-import GithubIcon from "~/assets/images/accounts/github.png";
-// import QiitaIcon from "~/assets/images/accounts/qiita.png";
-// import WantedlyIcon from "~/assets/images/accounts/wantedly.svg";
-import Accounts from "~/private/accounts.json";
 
 const BarStyled = styled.div`
   background-color: var(--base-color);
@@ -28,22 +27,17 @@ const SnsLinkListStyled = styled.ul`
 `;
 
 const Bar = () => {
-  return(
+  return (
     <BarStyled>
       <SnsLinkListStyled>
-        <BarItem 
-          icon={TwitterIcon} 
-          href={Accounts.twitter}
-          num={1} />
-        <BarItem 
-          icon={LinkedinIcon} 
+        <BarItem icon={TwitterIcon} href={Accounts.twitter} num={1} />
+        <BarItem
+          icon={LinkedinIcon}
           href={Accounts.linkedin}
           background="var(--base-color)"
-          num={2} />
-        <BarItem 
-          icon={GithubIcon} 
-          href={Accounts.github}
-          num={3} />
+          num={2}
+        />
+        <BarItem icon={GithubIcon} href={Accounts.github} num={3} />
         {/* <BarItem 
           icon={WantedlyIcon} 
           href={Accounts.wantedly}

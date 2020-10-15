@@ -1,9 +1,10 @@
+import { ArticleType } from "~/type";
 import React from "react";
-import ArticleHeader from "./ArticleHeader";
+import styled from "styled-components";
+
 import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
-import styled from "styled-components";
-import { ArticleType } from "~/type";
+import ArticleHeader from "./ArticleHeader";
 
 const ArticleContainerStyled = styled.div`
   background-color: ghostwhite;
@@ -24,7 +25,7 @@ type Props = ParentProps;
 const Article = (props: Props) => {
   const { article } = props;
 
-  return(
+  return (
     <ArticleContainerStyled>
       <ArticleHeader article={article} />
       <ArticleContent content={article.content} />

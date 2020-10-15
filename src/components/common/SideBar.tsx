@@ -1,8 +1,9 @@
-import * as React from "react";
-import SideBarBox from "./SideBarBox";
-import styled from "styled-components";
 import Recommend from "~/components//sidebar/Recommend";
 import Search from "~/components/sidebar/Search";
+import * as React from "react";
+import styled from "styled-components";
+
+import SideBarBox from "./SideBarBox";
 
 const SideBarListStyled = styled.ul`
   width: 100%;
@@ -12,18 +13,14 @@ const SideBarListStyled = styled.ul`
 `;
 
 const SideBar = () => {
-  return(
+  return (
     <div>
       <SideBarListStyled>
         <li>
-          <SideBarBox 
-            title="Search"
-            ContentComponent={Search} />
+          <SideBarBox title="Search" ContentComponent={Search} />
         </li>
         <li>
-          <SideBarBox 
-            title="Pick up"
-            ContentComponent={Recommend} />
+          <SideBarBox title="Pick up" ContentComponent={Recommend} />
         </li>
       </SideBarListStyled>
     </div>

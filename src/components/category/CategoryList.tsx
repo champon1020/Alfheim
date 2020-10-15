@@ -1,6 +1,6 @@
-import React, { useCallback, MouseEvent } from "react";
-import styled from "styled-components";
 import { CategoryType } from "~/type";
+import React, { MouseEvent, useCallback } from "react";
+import styled from "styled-components";
 
 const CategoryListContainer = styled.ul`
   display: flex;
@@ -38,52 +38,37 @@ const EmptyMessage = styled.h3`
 
 type Props = {
   categories: CategoryType[];
-}
+};
 
 const CategoryList = (props: Props) => {
   const { categories } = props;
 
-  const handleOnClick = useCallback(
-    (e: MouseEvent<HTMLLIElement>) => {
-      const len = e.currentTarget.classList.length;
-      const cName = e.currentTarget.classList[len-1];
-      window.open("/home/category/" + cName, "_self");
-    },
-    [],
-  );
+  const handleOnClick = useCallback((e: MouseEvent<HTMLLIElement>) => {
+    const len = e.currentTarget.classList.length;
+    const cName = e.currentTarget.classList[len - 1];
+    window.open("/home/category/" + cName, "_self");
+  }, []);
 
-  const categoryList = useCallback(
-    () => {
-      if(categories === undefined 
-        || categories === null
-        || categories.length === 0){
-        return (
-          <EmptyMessage>
-            {"No Categories"}
-          </EmptyMessage>
-        );
-      }
-      const list = [] as JSX.Element[];
-      categories.forEach((v, i) => {
-        list.push(
-          <CategoryListItem
-            key={i}
-            className={v.name}
-            onClick={handleOnClick}>
-            {v.name + "(" + v.articleNum + ")"}
-          </CategoryListItem>
-        );
-      });
-      return list;
-    },
-    [categories, handleOnClick],
-  );
+  const categoryList = useCallback(() => {
+    if (
+      categories === undefined ||
+      categories === null ||
+      categories.length === 0
+    ) {
+      return <EmptyMessage>{"No Categories"}</EmptyMessage>;
+    }
+    const list = [] as JSX.Element[];
+    categories.forEach((v, i) => {
+      list.push(
+        <CategoryListItem key={i} className={v.name} onClick={handleOnClick}>
+          {v.name + "(" + v.articleNum + ")"}
+        </CategoryListItem>
+      );
+    });
+    return list;
+  }, [categories, handleOnClick]);
 
-  return (
-    <CategoryListContainer>
-      {categoryList()}
-    </CategoryListContainer>
-  );
+  return <CategoryListContainer>{categoryList()}</CategoryListContainer>;
 };
 
 export default CategoryList;

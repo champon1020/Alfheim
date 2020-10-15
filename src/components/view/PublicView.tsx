@@ -1,14 +1,15 @@
-import * as React from "react";
-import styled, { keyframes } from "styled-components";
+import Bar from "~/components/common/Bar";
+import Footer from "~/components/common/Footer";
 import Header from "~/components/common/Header";
 import ImageHeader from "~/components/common/ImageHeader";
-import Footer from "~/components/common/Footer";
+import ErrorBoundary from "~/components/error/ErrorBoundary";
+import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-import Bar from "~/components/common/Bar";
-import HomeView from "./HomeView";
+import styled, { keyframes } from "styled-components";
+
 import ArticleView from "./ArticleView";
 import CategoryListView from "./CategoryListView";
-import ErrorBoundary from "~/components/error/ErrorBoundary";
+import HomeView from "./HomeView";
 
 const fadeIn = keyframes`
   from {
@@ -42,22 +43,19 @@ export type PathParams = {
   category?: string;
   year?: string;
   month?: string;
-}
+};
 
 export type IRouteProps = RouteComponentProps<PathParams>;
 
 type Props = IRouteProps;
 
 const PublicView = (props: Props) => {
-  const selectView = React.useCallback(
-    () => {
-      const path = window.location.pathname;
-      if(path.startsWith("/article")) return <ArticleView {...props}/>;
-      if(path.startsWith("/category")) return <CategoryListView />;
-      return <HomeView {...props} />;
-    },
-    [props],
-  );
+  const selectView = React.useCallback(() => {
+    const path = window.location.pathname;
+    if (path.startsWith("/article")) return <ArticleView {...props} />;
+    if (path.startsWith("/category")) return <CategoryListView />;
+    return <HomeView {...props} />;
+  }, [props]);
 
   return (
     <ErrorBoundary>
@@ -68,9 +66,7 @@ const PublicView = (props: Props) => {
         </header>
         <main>
           <Bar />
-          <Wrapper>
-            {selectView()}
-          </Wrapper>
+          <Wrapper>{selectView()}</Wrapper>
         </main>
         <footer>
           <Footer />

@@ -1,9 +1,10 @@
+import { Config } from "~/App";
+import { formatDateStr, pathJoin } from "~/components/services/parser";
+import { ArticleType } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
+
 import ArticleBoxCategory from "./ArticleBoxCategory";
-import { ArticleType } from "~/type";
-import { formatDateStr, pathJoin } from "~/components/services/parser";
-import { Config } from "~/App";
 
 const ArticleBoxStyled = styled.div`
   position: relative;
@@ -11,7 +12,7 @@ const ArticleBoxStyled = styled.div`
   width: calc(var(--container-width) / 8 * 2.7);
   cursor: pointer;
   &:hover {
-      opacity: 0.8;
+    opacity: 0.8;
   }
   &:hover img {
     transform: scale(1.1);
@@ -69,22 +70,26 @@ const TitleBoxStyled = styled.div`
 
 type Props = {
   article: ArticleType;
-}
+};
 
 const ArticleBox = (props: Props) => {
   const { article } = props;
 
-  const handleOnClick = useCallback(
-    () => {
-      window.location.href = pathJoin(Config.host, "article", article.sortedId.toString());
-    },
-    [article],
-  );
+  const handleOnClick = useCallback(() => {
+    window.location.href = pathJoin(
+      Config.host,
+      "article",
+      article.sortedId.toString()
+    );
+  }, [article]);
 
-  return(
+  return (
     <ArticleBoxStyled onClick={handleOnClick}>
       <ImageBoxStyled>
-        <ImageStyled src={pathJoin(Config.srcHost, "images", article.imageHash)} alt="article box" />
+        <ImageStyled
+          src={pathJoin(Config.srcHost, "images", article.imageHash)}
+          alt="article box"
+        />
       </ImageBoxStyled>
       <DateBoxStyled>
         <p>{formatDateStr(article.createDate)}</p>

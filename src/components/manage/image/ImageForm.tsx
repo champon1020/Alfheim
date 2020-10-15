@@ -1,8 +1,8 @@
-import React, { useRef, useCallback } from "react";
-import styled from "styled-components";
 import { Config } from "~/App";
 import axios from "axios";
 import Cookie from "js-cookie";
+import React, { useCallback, useRef } from "react";
+import styled from "styled-components";
 
 const FormContainer = styled.div`
   text-align: center;
@@ -28,7 +28,7 @@ const SubmitButton = styled.input`
 
 type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const ImageForm = (props: Props) => {
   const { setVerify } = props;
@@ -37,43 +37,37 @@ const ImageForm = (props: Props) => {
   // On click listener of sending image.
   // Parse to multipart/form-data.
   // Call api.
-  const handleOnPost = useCallback(
-    () => {
-      // null check
-      if(imageRef.current.files === null) return;
+  const handleOnPost = useCallback(() => {
+    // null check
+    if (imageRef.current.files === null) return;
 
-      // Parse image from input form and add to formData.
-      // This is the format of multipart/form-data.
-      const formData = new FormData();
-      formData.append("images", imageRef.current.files[0]);
-      
-      // Call api.
-      axios.post(`${Config.apiHost}/api/private/register/image`, formData, {
+    // Parse image from input form and add to formData.
+    // This is the format of multipart/form-data.
+    const formData = new FormData();
+    formData.append("images", imageRef.current.files[0]);
+
+    // Call api.
+    axios
+      .post(`${Config.apiHost}/api/private/register/image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
-        }
-      }).then(res => {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      })
+      .then((res) => {
         setVerify(res.status === 200);
-        if(res.status === 200) window.location.href = `${Config.host}/manage/images`;
-      }).catch(() => {
+        if (res.status === 200)
+          window.location.href = `${Config.host}/manage/images`;
+      })
+      .catch(() => {
         setVerify(false);
       });
-    },
-    [setVerify],
-  );
-  
+  }, [setVerify]);
+
   return (
     <FormContainer>
-      <FileInput
-        type="file"
-        name="images"
-        ref={imageRef}
-        accept="image/*"/>
-      <SubmitButton 
-        type="submit"
-        value="Upload"
-        onClick={handleOnPost}/>
+      <FileInput type="file" name="images" ref={imageRef} accept="image/*" />
+      <SubmitButton type="submit" value="Upload" onClick={handleOnPost} />
     </FormContainer>
   );
 };

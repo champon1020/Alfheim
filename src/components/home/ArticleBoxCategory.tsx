@@ -1,6 +1,6 @@
+import { CategoryType } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { CategoryType } from "~/type";
 
 const CategoryBoxStyled = styled.ul`
   display: flex;
@@ -21,34 +21,23 @@ const CategoryBoxStyled = styled.ul`
 
 type ParentProps = {
   categories: CategoryType[];
-}
+};
 
 type Props = ParentProps;
 
 const ArticleBoxCategory = (props: Props) => {
   const { categories } = props;
 
-  const categoryList = useCallback(
-    () => {
-      const list = [] as JSX.Element[];
-      if(categories === null || categories === undefined) return list;
-      categories.forEach((v, i) => {
-        list.push(
-          <li key={i}>
-            {v.name}
-          </li>
-        );
-      });
-      return list;
-    },
-    [categories],
-  );
+  const categoryList = useCallback(() => {
+    const list = [] as JSX.Element[];
+    if (categories === null || categories === undefined) return list;
+    categories.forEach((v, i) => {
+      list.push(<li key={i}>{v.name}</li>);
+    });
+    return list;
+  }, [categories]);
 
-  return(
-    <CategoryBoxStyled>
-      {categoryList()}
-    </CategoryBoxStyled>
-  );
+  return <CategoryBoxStyled>{categoryList()}</CategoryBoxStyled>;
 };
 
 export default ArticleBoxCategory;

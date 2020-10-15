@@ -1,29 +1,34 @@
-import React, { useEffect, useState, useCallback, createRef } from "react";
-import Cookie from "js-cookie";
-import styled from "styled-components";
-import InputForm from "./InputForm";
-import FormFooter from "./FormFooter";
-import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
-import { useDispatch } from "react-redux";
-import appActionCreator from "~/actions/actions";
-import { ArticleRequestType, DraftRequestType } from "~/type";
-import { ErrorStatus, MyErrorStatus, HttpErrorStatus } from "~/components/error/ErrorHandler";
-import { validateTitle, validateCategory } from "./validattions";
-import { defaultApi } from "~/App";
-
-// @toast-ui modules
 import "codemirror/lib/codemirror.css";
 import "tui-color-picker/dist/tui-color-picker.css";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import "@toast-ui/editor/dist/i18n/ja-jp";
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import { Editor } from "@toast-ui/react-editor";
-
-// highlight.js
 import "highlight.js/styles/darcula.css";
-import hljs from "highlight.js";
 
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
+import { Editor } from "@toast-ui/react-editor";
+import appActionCreator from "~/actions/actions";
+import { defaultApi } from "~/App";
+import {
+  ErrorStatus,
+  HttpErrorStatus,
+  MyErrorStatus,
+} from "~/components/error/ErrorHandler";
+import { ArticleRequestType, DraftRequestType } from "~/type";
+import hljs from "highlight.js";
+import Cookie from "js-cookie";
+import React, { createRef, useCallback, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+
+import FormFooter from "./FormFooter";
+import InputForm from "./InputForm";
+import {
+  parseToDraft,
+  parseToRequestArticle,
+  parseToRequestDraft,
+} from "./parser";
+import { validateCategory, validateTitle } from "./validattions";
 
 const EditContainerStyled = styled.div`
   background-color: whitesmoke;
@@ -45,7 +50,7 @@ export type EditorArticle = {
   content: string;
   imageHash: string;
   isPrivate: boolean;
-}
+};
 
 // Default editor article|draft object.
 export const defaultEditorDraft: EditorArticle = {
@@ -55,7 +60,7 @@ export const defaultEditorDraft: EditorArticle = {
   updateDate: "",
   content: "",
   imageHash: "default.jpg",
-  isPrivate: false
+  isPrivate: false,
 };
 
 // Use as debug.
@@ -69,7 +74,7 @@ type Props = {
   updatingArticle?: EditorArticle;
   isExistArticle: boolean;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const ArticleForm = (props: Props) => {
   const { updatingArticle, isExistArticle, setVerify } = props;
@@ -104,164 +109,169 @@ const ArticleForm = (props: Props) => {
   // If status >= 300, return true.
   const errClassification = useCallback(
     (status: number): boolean => {
-      if(status === 400) setErr(HttpErrorStatus.ERROR_400);
-      if(status === 403) setVerify(false);
-      if(status === 404) setErr(HttpErrorStatus.ERROR_404);
-      if(status === 500) setErr(HttpErrorStatus.ERROR_500);
+      if (status === 400) setErr(HttpErrorStatus.ERROR_400);
+      if (status === 403) setVerify(false);
+      if (status === 404) setErr(HttpErrorStatus.ERROR_404);
+      if (status === 500) setErr(HttpErrorStatus.ERROR_500);
       return status >= 300;
     },
-    [setVerify],
+    [setVerify]
   );
 
   // Validation function of title and categories string.
-  const validation = useCallback(
-    (t: string, c: string) => {
-      return validateTitle(t, setErr) || validateCategory(c, setErr);
-    },[],
-  );
+  const validation = useCallback((t: string, c: string) => {
+    return validateTitle(t, setErr) || validateCategory(c, setErr);
+  }, []);
 
   // Call api of registering article.
   const registerArticle = useCallback(
     async (a: ArticleRequestType) => {
-      if(apiOff) return;
-      await defaultApi.apiPrivateRegisterArticlePost({
-        article: a, 
-      }, 
-      {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
-        },
-        validateStatus: (stts: number) => {
-          return stts <= 500;
-        }
-      }).then(res => {
-        errClassification(res.status);
-        if(res.status === 200) window.open("/manage/articles", "_self");
-      });
-    },[errClassification]
+      if (apiOff) return;
+      await defaultApi
+        .apiPrivateRegisterArticlePost(
+          {
+            article: a,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+            },
+            validateStatus: (stts: number) => {
+              return stts <= 500;
+            },
+          }
+        )
+        .then((res) => {
+          errClassification(res.status);
+          if (res.status === 200) window.open("/manage/articles", "_self");
+        });
+    },
+    [errClassification]
   );
 
   // Call api of updating article.
   const updateArticle = useCallback(
     async (a: ArticleRequestType) => {
-      if(apiOff) return;
-      await defaultApi.apiPrivateUpdateArticlePut({
-        article: a, 
-      }, 
-      {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
-        },
-        validateStatus: (stts: number) => {
-          return stts <= 500;
-        }
-      }).then(res => {
-        errClassification(res.status);
-        if(res.status === 200) setMsg("Updated!");
-      });
-    },[errClassification]
+      if (apiOff) return;
+      await defaultApi
+        .apiPrivateUpdateArticlePut(
+          {
+            article: a,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+            },
+            validateStatus: (stts: number) => {
+              return stts <= 500;
+            },
+          }
+        )
+        .then((res) => {
+          errClassification(res.status);
+          if (res.status === 200) setMsg("Updated!");
+        });
+    },
+    [errClassification]
   );
 
   // Call api of updating draft.
   const updateDraft = useCallback(
     async (d: DraftRequestType) => {
-      if(apiOff) return;
-      if(validation(d.title, d.categories)) return;
-      const res = await defaultApi.apiPrivateDraftArticlePost({
-        article: d,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`
+      if (apiOff) return;
+      if (validation(d.title, d.categories)) return;
+      const res = await defaultApi.apiPrivateDraftArticlePost(
+        {
+          article: d,
         },
-        validateStatus: (stts: number) => {
-          return stts <= 500;
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+          validateStatus: (stts: number) => {
+            return stts <= 500;
+          },
         }
-      });
+      );
 
       // Handle error.
-      if(errClassification(res.status)) return;
-      if(res.status === 200) setMsg("Saved!");
+      if (errClassification(res.status)) return;
+      if (res.status === 200) setMsg("Saved!");
 
       // Update editor draft id and reload.
       editorDraft.id = res.data.id;
       window.history.pushState(null, "", "?draftId=" + res.data.id);
       // eslint-disable-next-line
-    },[setVerify, validation]
+    },
+    [setVerify, validation]
   );
 
-
   // Saving on real time.
-  // If timerId is not undefined, 
+  // If timerId is not undefined,
   // do clearTimeout (this means discard last stacked function of setTimeout)
   // and execute new function of setTimeout.
   // Then, update state of timerId.
-  const onlineSave = useCallback(
-    () => {
-      // Clear now timer if timerId is no undefined.
-      if(timerId !== undefined){
-        clearTimeout(timerId);
-      }
+  const onlineSave = useCallback(() => {
+    // Clear now timer if timerId is no undefined.
+    if (timerId !== undefined) {
+      clearTimeout(timerId);
+    }
 
-      // New markdown content.
-      const newMdContent = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
+    // New markdown content.
+    const newMdContent =
+      editorRef.current === null
+        ? ""
+        : editorRef.current.getInstance().getMarkdown();
 
-      // Set content to editorDraft.
-      editorDraft.content = newMdContent;
+    // Set content to editorDraft.
+    editorDraft.content = newMdContent;
 
-      // Update the state of editor draft.
-      const draft = parseToDraft(editorDraft);
-      dispatch(appActionCreator.updateDraft(draft, newMdContent));
+    // Update the state of editor draft.
+    const draft = parseToDraft(editorDraft);
+    dispatch(appActionCreator.updateDraft(draft, newMdContent));
 
-      // Call updating function after onlineSaveDration.
-      // - Dispatch draft and mdContent.
-      // - Call api.
-      const newTimerId = setTimeout(() => {
-        if(isExistArticle) return;
-        const reqDraft = parseToRequestDraft(editorDraft);
-        updateDraft(reqDraft);
-      }, onlineSaveDuration);
-      setTimerId(newTimerId);
-    },[timerId,
-      editorDraft, 
-      dispatch, 
-      updateDraft,
-      isExistArticle,
-      editorRef],
-  );
-
+    // Call updating function after onlineSaveDration.
+    // - Dispatch draft and mdContent.
+    // - Call api.
+    const newTimerId = setTimeout(() => {
+      if (isExistArticle) return;
+      const reqDraft = parseToRequestDraft(editorDraft);
+      updateDraft(reqDraft);
+    }, onlineSaveDuration);
+    setTimerId(newTimerId);
+  }, [timerId, editorDraft, dispatch, updateDraft, isExistArticle, editorRef]);
 
   // On click listener of submit button.
   // - Do valitation.
   // - Get editor content.
   // - Parse editor article|draft object to request type.
   // - Call api.
-  const onSubmit = useCallback(
-    () => {
-      if(validation(editorDraft.title, editorDraft.categories)) return;
-      const newMdContent = editorRef.current === null ? "" : editorRef.current.getInstance().getMarkdown();
-      editorDraft.content = newMdContent;
-      const reqArticle = parseToRequestArticle(editorDraft);
-      isExistArticle ? updateArticle(reqArticle) : registerArticle(reqArticle);
-    },[editorDraft, 
-      validation,
-      registerArticle,
-      isExistArticle,
-      updateArticle,
-      editorRef],
-  );
+  const onSubmit = useCallback(() => {
+    if (validation(editorDraft.title, editorDraft.categories)) return;
+    const newMdContent =
+      editorRef.current === null
+        ? ""
+        : editorRef.current.getInstance().getMarkdown();
+    editorDraft.content = newMdContent;
+    const reqArticle = parseToRequestArticle(editorDraft);
+    isExistArticle ? updateArticle(reqArticle) : registerArticle(reqArticle);
+  }, [
+    editorDraft,
+    validation,
+    registerArticle,
+    isExistArticle,
+    updateArticle,
+    editorRef,
+  ]);
 
   // On click listener of preview button.
   // - Do validation.
   // - Open the window of preview.
   // - Detail is compontents/article/Articles.tsx and that children.
-  const onPreview = useCallback(
-    () => {
-      if(validation(editorDraft.title, editorDraft.categories)) return;
-      window.open("/article-draft/");
-    },
-    [validation, editorDraft],
-  );
+  const onPreview = useCallback(() => {
+    if (validation(editorDraft.title, editorDraft.categories)) return;
+    window.open("/article-draft/");
+  }, [validation, editorDraft]);
 
   // On change listener of title form.
   // Update editor article|draft object
@@ -270,7 +280,9 @@ const ArticleForm = (props: Props) => {
     (t: string) => {
       editorDraft.title = t;
       onlineSave();
-    },[editorDraft, onlineSave]);
+    },
+    [editorDraft, onlineSave]
+  );
 
   // On change listener of categories form.
   // Update editor article|draft object
@@ -279,7 +291,9 @@ const ArticleForm = (props: Props) => {
     (c: string) => {
       editorDraft.categories = c;
       onlineSave();
-    },[editorDraft, onlineSave]);
+    },
+    [editorDraft, onlineSave]
+  );
 
   // On change listener of image form.
   // Update editor article|draft object
@@ -288,13 +302,14 @@ const ArticleForm = (props: Props) => {
     (i: string) => {
       editorDraft.imageHash = i;
       onlineSave();
-    },[editorDraft, onlineSave],
+    },
+    [editorDraft, onlineSave]
   );
 
   // Set initial article if not undefined.
   // Set intial article.content to editor markdown.
   useEffect(() => {
-    if(updatingArticle !== undefined) {
+    if (updatingArticle !== undefined) {
       setEditorDraft(updatingArticle);
       if (editorRef.current !== null) {
         editorRef.current.getInstance().setMarkdown(updatingArticle.content);
@@ -307,48 +322,47 @@ const ArticleForm = (props: Props) => {
   // When editor is mounted, updateMode becomes true and onlineSave is executed.
   // To prevent this, add firstMount state.
   useEffect(() => {
-    if(updateMode) {
+    if (updateMode) {
       firstMount ? setFirstMound(false) : onlineSave();
       setUpdateMode(false);
     }
     // eslint-disable-next-line
-  },[updateMode]);
+  }, [updateMode]);
 
   // Initialize highlight.js
   useEffect(() => {
     hljs.initHighlightingOnLoad();
-  },[]);
+  }, []);
 
-  return(
+  return (
     <EditContainerStyled>
-      <InputForm 
+      <InputForm
         value={editorDraft.title}
         setter={setTitleHandler}
         msgSetter={setMsg}
         errSetter={setErr}
-        placeholder="title" />
-      <InputForm 
+        placeholder="title"
+      />
+      <InputForm
         value={editorDraft.categories}
         setter={setCategoriesHandler}
         msgSetter={setMsg}
         errSetter={setErr}
-        placeholder="category" />
+        placeholder="category"
+      />
       <EditorStyled>
-        <Editor 
+        <Editor
           previewStyle="vertical"
           height="750px"
           initialEditType="markdown"
           events={{
-            "change": () => { 
+            change: () => {
               setUpdateMode(true);
               setErr(MyErrorStatus.NONE);
               setMsg("");
-            }
+            },
           }}
-          plugins={[
-            colorSyntax,
-            codeSyntaxHighlight,
-          ]}
+          plugins={[colorSyntax, codeSyntaxHighlight]}
           useCommandShortcut={true}
           ref={editorRef}
         />
@@ -359,7 +373,8 @@ const ArticleForm = (props: Props) => {
         onPreview={onPreview}
         setter={setImageHandler}
         msg={msg}
-        err={err} />
+        err={err}
+      />
     </EditContainerStyled>
   );
 };

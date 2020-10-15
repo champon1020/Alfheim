@@ -1,13 +1,14 @@
+import { DraftType } from "~/type";
+
 import { ActionEnum } from "./actions";
-import { DraftType } from "src/type";
 
 export const updateDraft = (draft: DraftType, contents: string) => {
   return {
     type: ActionEnum.UPDATE_DRAFT,
     payload: {
       article: draft,
-      draftContent: contents
-    }
+      draftContent: contents,
+    },
   };
 };
 export type UpdateDraftAction = ReturnType<typeof updateDraft>;

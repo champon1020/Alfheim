@@ -1,12 +1,12 @@
+import BackIcon from "~/assets/images/icons/back.svg";
+import NextIcon from "~/assets/images/icons/next.svg";
 import React from "react";
 import styled from "styled-components";
-import NextIcon from "~/assets/images/icons/next.svg";
-import BackIcon from "~/assets/images/icons/back.svg";
 
-const PageContainer = styled.div<{height: number; width: string | undefined}>`
-  width: ${({width}) => width===undefined ? "" : width+"%"};
-  height: ${({height}) => (height*0.8)+"rem"};
-  padding: ${({height}) => (height*0.1)+"rem"} 2rem;
+const PageContainer = styled.div<{ height: number; width: string | undefined }>`
+  width: ${({ width }) => (width === undefined ? "" : width + "%")};
+  height: ${({ height }) => height * 0.8 + "rem"};
+  padding: ${({ height }) => height * 0.1 + "rem"} 2rem;
   display: flex;
   justify-content: center;
   margin: auto;
@@ -20,8 +20,8 @@ const IconBox = styled.div`
   }
 `;
 
-const IconStyled = styled.img<{hidden: boolean}>`
-  visibility: ${({hidden}) => `${hidden ? "hidden" : ""}`};
+const IconStyled = styled.img<{ hidden: boolean }>`
+  visibility: ${({ hidden }) => `${hidden ? "hidden" : ""}`};
   height: 98%;
   cursor: pointer;
 `;
@@ -40,39 +40,37 @@ type Props = {
   prev: boolean;
   nextCallback: () => void;
   prevCallback: () => void;
-}
+};
 
 const Page = (props: Props) => {
-  const { 
-    current, 
-    width, 
-    height, 
-    next, 
+  const {
+    current,
+    width,
+    height,
+    next,
     prev,
     nextCallback,
-    prevCallback
+    prevCallback,
   } = props;
 
   return (
-    <PageContainer 
-      height={Number.parseInt(height)}
-      width={width}>
+    <PageContainer height={Number.parseInt(height)} width={width}>
       <IconBox>
         <IconStyled
           onClick={prevCallback}
           hidden={prev}
-          src={BackIcon} 
-          alt="back" />
+          src={BackIcon}
+          alt="back"
+        />
       </IconBox>
-      <CurrentStyled>
-        {current}
-      </CurrentStyled>
+      <CurrentStyled>{current}</CurrentStyled>
       <IconBox>
-        <IconStyled 
+        <IconStyled
           onClick={nextCallback}
           hidden={next}
-          src={NextIcon} 
-          alt="next" />
+          src={NextIcon}
+          alt="next"
+        />
       </IconBox>
     </PageContainer>
   );

@@ -8,13 +8,13 @@ export type ArticleType = {
   content: string;
   imageHash: string;
   isPrivate: boolean;
-} 
+};
 
 export type CategoryType = {
   id: string;
   name: string;
   articleNum: number;
-}
+};
 
 export type DraftType = {
   id: string;
@@ -24,8 +24,7 @@ export type DraftType = {
   updateDate: string;
   content: string;
   imageHash: string;
-}
-
+};
 
 // request types
 export type ArticleRequestType = {
@@ -35,12 +34,12 @@ export type ArticleRequestType = {
   content: string;
   imageHash: string;
   isPrivate: boolean;
-}
+};
 
 export type CategoryRequestType = {
   id: string;
   name: string;
-}
+};
 
 export type DraftRequestType = {
   id: string;
@@ -48,4 +47,4 @@ export type DraftRequestType = {
   categories: string;
   content: string;
   imageHash: string;
-}
+};

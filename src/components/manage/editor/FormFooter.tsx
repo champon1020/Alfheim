@@ -1,6 +1,9 @@
-import React, { useMemo, useCallback, ChangeEvent } from "react";
+import appErrorHandler, {
+  ErrorStatus,
+  MyErrorStatus,
+} from "~/components/error/ErrorHandler";
+import React, { ChangeEvent, useCallback, useMemo } from "react";
 import styled from "styled-components";
-import appErrorHandler, { ErrorStatus, MyErrorStatus } from "~/components/error/ErrorHandler";
 
 const ContainerStyled = styled.div`
   display: flex;
@@ -14,8 +17,8 @@ const MessageBox = styled.div`
   width: 40%;
 `;
 
-const Msg = styled.h3<{color: string}>`
-  color: ${({color}) => color};
+const Msg = styled.h3<{ color: string }>`
+  color: ${({ color }) => color};
   padding-left: 2rem;
   font-size: 1.6rem;
   margin-top: 0.8em;
@@ -65,17 +68,10 @@ type Props = {
   setter: (i: string) => void;
   msg: string;
   err?: ErrorStatus;
-}
+};
 
 const FormFooter = (props: Props) => {
-  const { 
-    imageHash, 
-    onSubmit, 
-    onPreview, 
-    setter, 
-    msg, 
-    err 
-  } = props;
+  const { imageHash, onSubmit, onPreview, setter, msg, err } = props;
 
   // On change listner of input form.
   // Execute callback and set error or not.
@@ -83,42 +79,25 @@ const FormFooter = (props: Props) => {
     (e: ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value);
     },
-    [setter],
+    [setter]
   );
 
   // Return message component.
   const message = useMemo(() => {
-    if(err !== MyErrorStatus.NONE){
+    if (err !== MyErrorStatus.NONE) {
       //appErrorHandler.print(err);
-      return (
-        <Msg color="red">
-          {appErrorHandler.message(err)}
-        </Msg>
-      );
+      return <Msg color="red">{appErrorHandler.message(err)}</Msg>;
     }
-    return (
-      <Msg color="blue">
-        {msg}
-      </Msg>
-    );
+    return <Msg color="blue">{msg}</Msg>;
   }, [msg, err]);
 
   return (
     <ContainerStyled>
-      <MessageBox>
-        {message}
-      </MessageBox>
+      <MessageBox>{message}</MessageBox>
       <RightSideBox>
-        <InputForm 
-          value={imageHash}
-          onChange={onChangeHandler}
-        />
-        <ButtonStyled onClick={onPreview}>
-          Preview
-        </ButtonStyled>
-        <ButtonStyled onClick={onSubmit}>
-          Submit
-        </ButtonStyled>
+        <InputForm value={imageHash} onChange={onChangeHandler} />
+        <ButtonStyled onClick={onPreview}>Preview</ButtonStyled>
+        <ButtonStyled onClick={onSubmit}>Submit</ButtonStyled>
       </RightSideBox>
     </ContainerStyled>
   );

@@ -1,25 +1,22 @@
-import React, { useCallback, createRef, useEffect } from "react";
-import styled from "styled-components";
-import Button from "./Button";
-import { ArticleType } from "~/type";
-import { Config } from "~/App";
-
-// @toast-ui modules
-import "../../../assets/styles/toast-ui-wrapper.css";
 import "@toast-ui/editor/dist/i18n/ja-jp";
+import "highlight.js/styles/darcula.css";
+import "~/assets/styles/toast-ui-wrapper.css";
+
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
-
-// highlight.js
-import "highlight.js/styles/darcula.css";
+import { Config } from "~/App";
+import { ArticleType } from "~/type";
 import hljs from "highlight.js";
+import React, { createRef, useCallback, useEffect } from "react";
+import styled from "styled-components";
 
+import Button from "./Button";
 
 const PreviewContainer = styled.div`
   --header-height: 7rem;
 `;
 
-const Header = styled.div<{selected: boolean}>`
+const Header = styled.div<{ selected: boolean }>`
   display: flex;
   height: var(--header-height);
   border-bottom: solid 3px lightgray;
@@ -28,7 +25,7 @@ const Header = styled.div<{selected: boolean}>`
   & h2 {
     width: 80%;
     font-size: 2rem;
-    color: ${({selected}) => `${selected ? "black" : "gray"}`}
+    color: ${({ selected }) => `${selected ? "black" : "gray"}`};
   }
   & button {
     width: 20%;
@@ -38,7 +35,9 @@ const Header = styled.div<{selected: boolean}>`
 
 const Content = styled.div`
   overflow-y: scroll;
-  height: calc(var(--articles-container-height) - var(--header-height) - 2.3rem);
+  height: calc(
+    var(--articles-container-height) - var(--header-height) - 2.3rem
+  );
 `;
 
 const ViewerWrapper = styled.div`
@@ -48,7 +47,7 @@ const ViewerWrapper = styled.div`
 type Props = {
   tab: string;
   focusedArticle: ArticleType;
-}
+};
 
 const Preview = (props: Props) => {
   const { tab, focusedArticle } = props;
@@ -56,47 +55,46 @@ const Preview = (props: Props) => {
 
   // On click listener of 'Edit' button.
   // Jump to edit page with article|draft id.
-  const handleEditClick = useCallback(
-    () => {
-      if(focusedArticle.id === undefined) return;
-      const pName = tab === "articles" ? "articleId" : "draftId";
-      window.open(`${Config.host}/manage?${pName}=${focusedArticle.id}`, "_self");
-    },
-    [focusedArticle.id, tab],
-  );
+  const handleEditClick = useCallback(() => {
+    if (focusedArticle.id === undefined) return;
+    const pName = tab === "articles" ? "articleId" : "draftId";
+    window.open(`${Config.host}/manage?${pName}=${focusedArticle.id}`, "_self");
+  }, [focusedArticle.id, tab]);
 
   // Update preview content by change of focusedArticle.content.
   useEffect(() => {
-    if(viewerRef.current !== null) {
+    if (viewerRef.current !== null) {
       viewerRef.current.getInstance().setMarkdown(focusedArticle.content);
     }
-  },[focusedArticle.content, viewerRef]);
+  }, [focusedArticle.content, viewerRef]);
 
   // Initialize highlight.js
   useEffect(() => {
     hljs.initHighlightingOnLoad();
-  },[]);
+  }, []);
 
-  return(
+  return (
     <PreviewContainer>
       <Header selected={focusedArticle.title !== undefined}>
-        <h2>{focusedArticle.title === undefined 
-          ? "Select Article" : focusedArticle.title}</h2>
+        <h2>
+          {focusedArticle.title === undefined
+            ? "Select Article"
+            : focusedArticle.title}
+        </h2>
         <Button
           backgroundColor="yellowgreen"
           color="white"
           handleOnClick={handleEditClick}
           text="Edit"
           width="80"
-          height="70"/>
+          height="70"
+        />
       </Header>
       <Content>
         <ViewerWrapper>
           <Viewer
             initialValue={focusedArticle.content}
-            plugins={[
-              codeSyntaxHighlightPlugin
-            ]}
+            plugins={[codeSyntaxHighlightPlugin]}
             ref={viewerRef}
           />
         </ViewerWrapper>

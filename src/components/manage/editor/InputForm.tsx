@@ -1,6 +1,6 @@
+import { ErrorStatus, MyErrorStatus } from "~/components/error/ErrorHandler";
 import React, { ChangeEvent, useCallback } from "react";
 import styled from "styled-components";
-import { ErrorStatus, MyErrorStatus } from "~/components/error/ErrorHandler";
 
 const ContainerStyled = styled.div`
   text-align: center;
@@ -22,16 +22,10 @@ type Props = {
   msgSetter: React.Dispatch<React.SetStateAction<string>>;
   errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>;
   placeholder?: string;
-}
+};
 
 const InputForm = (props: Props) => {
-  const { 
-    value, 
-    setter, 
-    msgSetter, 
-    errSetter, 
-    placeholder 
-  } = props;
+  const { value, setter, msgSetter, errSetter, placeholder } = props;
 
   // On change listner of input form.
   // Execute callback and set error or not.
@@ -41,15 +35,16 @@ const InputForm = (props: Props) => {
       msgSetter("");
       errSetter(MyErrorStatus.NONE);
     },
-    [setter, msgSetter, errSetter],
+    [setter, msgSetter, errSetter]
   );
-  
+
   return (
     <ContainerStyled>
       <InputStyled
         value={value}
         onChange={onChangeHandler}
-        placeholder={placeholder} />
+        placeholder={placeholder}
+      />
     </ContainerStyled>
   );
 };
