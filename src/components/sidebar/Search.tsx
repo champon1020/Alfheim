@@ -34,11 +34,16 @@ const Search = () => {
   }, []);
 
   const handleOnBlur = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.currentTarget.value.length === 0) setFocused(false);
+    if (e.currentTarget.value.length === 0) {
+      setFocused(false);
+    }
   }, []);
 
   const handleOnKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter" || inputRef.current.value === "") return;
+    if (e.key !== "Enter" || inputRef.current.value === "") {
+      return;
+    }
+
     window.open("/home/title/" + inputRef.current.value, "_self");
   }, []);
 

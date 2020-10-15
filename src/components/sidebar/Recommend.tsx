@@ -11,35 +11,36 @@ const EmptyMessage = styled.h3`
   margin: 5% auto 5% auto;
 `;
 
+const newArticlesNum = 5;
+
 const Recommend: React.FC = () => {
-  const [pickupArticles, setPickupArticles] = useState([] as ArticleType[]);
+  const [newArticles, setNewArticles] = useState([] as ArticleType[]);
 
-  const fetchArticles = useCallback(async () => {
-    const res = await defaultApi.apiFindArticlePickupGet();
-    setPickupArticles(res.data.articles);
-  }, []);
-
-  const PickupList = useCallback(() => {
+  const NewArticlesList = useCallback(() => {
     if (
-      pickupArticles === undefined ||
-      pickupArticles === null ||
-      pickupArticles.length === 0
+      newArticles === undefined ||
+      newArticles === null ||
+      newArticles.length === 0
     ) {
       return <EmptyMessage>{"No Articles"}</EmptyMessage>;
     }
+
     const list = [] as JSX.Element[];
-    pickupArticles.forEach((v, i) => {
+    newArticles.forEach((v, i) => {
       list.push(<RecommendBox article={v} key={i} />);
     });
+
     return list;
-  }, [pickupArticles]);
+  }, [newArticles]);
 
   useEffect(() => {
-    fetchArticles();
+    defaultApi.apiFindArticle(1, newArticlesNum).then((res) => {
+      setNewArticles(res.data.articles);
+    });
     // eslint-disable-next-line
   }, []);
 
-  return <ul>{PickupList()}</ul>;
+  return <ul>{NewArticleList()}</ul>;
 };
 
 export default Recommend;
