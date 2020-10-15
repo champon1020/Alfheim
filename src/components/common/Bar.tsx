@@ -2,7 +2,7 @@ import GithubIcon from "~/assets/images/accounts/github.png";
 import LinkedinIcon from "~/assets/images/accounts/linkedin.png";
 import TwitterIcon from "~/assets/images/accounts/twitter.svg";
 import Accounts from "~/private/accounts.json";
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 
 import BarItem from "./BarItem";

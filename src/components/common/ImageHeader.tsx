@@ -100,7 +100,6 @@ const duration = 12000;
 
 const ImageHeader = () => {
   const initCur = Math.round(Math.random() * (authorList.length - 1));
-
   const [img, setImg] = useState(imageList[initCur]);
   const [author, setAuthor] = useState(authorList[initCur]);
   const imageRef = useRef({} as HTMLImageElement);
@@ -109,6 +108,7 @@ const ImageHeader = () => {
     if (imageRef === null) return;
 
     imageRef.current.classList.add("active");
+
     setTimeout(() => {
       imageRef.current.classList.remove("inactive");
       const cur = num % imageList.length;

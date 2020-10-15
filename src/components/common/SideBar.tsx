@@ -1,6 +1,6 @@
 import Recommend from "~/components//sidebar/Recommend";
 import Search from "~/components/sidebar/Search";
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 
 import SideBarBox from "./SideBarBox";

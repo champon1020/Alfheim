@@ -121,19 +121,21 @@ type Props = {
 
 const Header = (props: Props) => {
   const { onResizeHandler } = props;
-
   const [isMenu, setMenu] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
 
   const toggleMenu = useCallback(() => {
     setOpenMenu(!openMenu);
   }, [openMenu]);
+
   const handleTitleClick = useCallback(() => {
     window.open("/", "_self");
   }, []);
+
   const handleCateClick = useCallback(() => {
     window.open("/category/list", "_self");
   }, []);
+
   const handlePortClick = useCallback(() => {
     window.open("##", "_self");
   }, []);
@@ -161,16 +163,22 @@ const Header = (props: Props) => {
         </div>
       );
     }
+
     return <NavListStyled>{navigationItems}</NavListStyled>;
   }, [isMenu, toggleMenu, navigationItems]);
 
   // When the window is resized,
   // it's toggled that menu icon is active or not.
   useEffect(() => {
-    if (window.innerWidth <= 800) setMenu(true);
+    if (window.innerWidth <= 800) {
+      setMenu(true);
+    }
+
     window.onresize = () => {
       window.innerWidth <= 800 ? setMenu(true) : setMenu(false);
-      if (onResizeHandler !== undefined) onResizeHandler();
+      if (onResizeHandler !== undefined) {
+        onResizeHandler();
+      }
     };
   }, [onResizeHandler]);
 
