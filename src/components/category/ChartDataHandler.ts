@@ -34,14 +34,15 @@ class ChartDataHandler {
 
   private handleData() {
     this.sortCategories();
-    let dataArticleNum = 0;
 
+    let dataArticleNum = 0;
     this.categories.forEach((v, i) => {
       if (i < this.MAX_VIEW) {
         this.data.push(v.articleNum);
         this.labels.push(v.name);
         dataArticleNum += v.articleNum;
       }
+
       this.total += v.articleNum;
     });
 

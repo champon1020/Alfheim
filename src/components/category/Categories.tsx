@@ -27,14 +27,10 @@ const CategoryListStyled = styled.div`
 const Categories = () => {
   const [categories, setCategories] = useState([] as CategoryType[]);
 
-  const fetchCategories = useCallback(async () => {
-    const res = await defaultApi.apiFindCategoryListGet();
-    const resCat = res.data.categories;
-    setCategories(resCat);
-  }, []);
-
   useEffect(() => {
-    fetchCategories();
+    defaultApi.apiFindCategoryListGet().then((res) => {
+      setCategories(res.data.categories);
+    });
     // eslint-disable-next-line
   }, []);
 

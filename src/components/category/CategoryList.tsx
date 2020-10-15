@@ -57,7 +57,9 @@ const CategoryList = (props: Props) => {
     ) {
       return <EmptyMessage>{"No Categories"}</EmptyMessage>;
     }
+
     const list = [] as JSX.Element[];
+
     categories.forEach((v, i) => {
       list.push(
         <CategoryListItem key={i} className={v.name} onClick={handleOnClick}>
@@ -65,6 +67,7 @@ const CategoryList = (props: Props) => {
         </CategoryListItem>
       );
     });
+
     return list;
   }, [categories, handleOnClick]);
 
