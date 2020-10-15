@@ -1,4 +1,4 @@
-import { ArticleRequestType, CategoryRequestType, DraftType, DraftRequestType, ArticleType, CategoryType } from "src/type";
+import { ArticleRequestType, CategoryRequestType, DraftType, DraftRequestType, ArticleType, CategoryType } from "~/type";
 import { EditorArticle } from "./ArticleForm";
 
 // Category (string) => CategoryRequestType[]

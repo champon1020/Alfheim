@@ -5,11 +5,11 @@ import InputForm from "./InputForm";
 import FormFooter from "./FormFooter";
 import { parseToRequestDraft, parseToRequestArticle, parseToDraft } from "./parser";
 import { useDispatch } from "react-redux";
-import appActionCreator from "src/actions/actions";
-import { ArticleRequestType, DraftRequestType } from "src/type";
-import { ErrorStatus, MyErrorStatus, HttpErrorStatus } from "src/components/error/ErrorHandler";
+import appActionCreator from "~/actions/actions";
+import { ArticleRequestType, DraftRequestType } from "~/type";
+import { ErrorStatus, MyErrorStatus, HttpErrorStatus } from "~/components/error/ErrorHandler";
 import { validateTitle, validateCategory } from "./validattions";
-import { defaultApi } from "../../../App";
+import { defaultApi } from "~/App";
 
 // @toast-ui modules
 import "codemirror/lib/codemirror.css";

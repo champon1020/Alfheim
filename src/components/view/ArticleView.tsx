@@ -1,15 +1,15 @@
 import React, { useCallback, useState, useEffect } from "react";
-import Article from "../article/Article";
-import SideBar from "../common/SideBar";
+import Article from "~/components/article/Article";
+import SideBar from "~/components/common/SideBar";
 import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { RootState, ManageState } from "src/stores/store";
-import { ArticleType } from "src/type";
-import { checkIsDraft } from "../article/util";
-import { parseDraftToArticle } from "../services/parser";
-import { defaultApi, Config } from "src/App";
+import { RootState, ManageState } from "~/stores/store";
+import { ArticleType } from "~/type";
+import { checkIsDraft } from "~/components/article/util";
+import { parseDraftToArticle } from "~/components/services/parser";
+import { defaultApi, Config } from "~/App";
 
 const MainContainer = styled.div`
   order: 1;
@@ -48,7 +48,7 @@ const ArticleView = (props: Props) => {
   const [prevArticle, setPrevArticle] = useState({title: ""} as ArticleType);
   const [nextArticle, setNextArticle] = useState({title: ""} as ArticleType);
   const [article, setArticle] = useState({} as ArticleType);
-  const draftsStore = useSelector<RootState, ManageState>(state => state.manageReducer);
+  const draftsStore = useSelector<RootState, ManageState>((state: any) => state.manageReducer);
 
   const validSortedId = useCallback(
     () => {

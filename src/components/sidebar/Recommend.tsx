@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from "react";
 import RecommendBox from "./RecommendBox";
-import { defaultApi } from "src/App";
-import { ArticleType } from "src/type";
+import { defaultApi } from "~/App";
+import { ArticleType } from "~/type";
 import styled from "styled-components";
 
 const EmptyMessage = styled.h3`

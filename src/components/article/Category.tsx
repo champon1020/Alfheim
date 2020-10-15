@@ -1,6 +1,6 @@
 import React, { useCallback, MouseEvent } from "react";
 import styled from "styled-components";
-import { CategoryType } from "src/type";
+import { CategoryType } from "~/type";
 
 const CategoryListStyled = styled.ul`
   display: flex;

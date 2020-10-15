@@ -1,4 +1,4 @@
-import { ErrorStatus, ValidationErrorStatus } from "src/components/error/ErrorHandler";
+import { ErrorStatus, ValidationErrorStatus } from "~/components/error/ErrorHandler";
 
 // Max length of title.
 const TITLE_MAX_LENGTH = 50;

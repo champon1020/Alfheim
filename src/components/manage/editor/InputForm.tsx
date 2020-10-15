@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback } from "react";
 import styled from "styled-components";
-import { ErrorStatus, MyErrorStatus } from "src/components/error/ErrorHandler";
+import { ErrorStatus, MyErrorStatus } from "~/components/error/ErrorHandler";
 
 const ContainerStyled = styled.div`
   text-align: center;

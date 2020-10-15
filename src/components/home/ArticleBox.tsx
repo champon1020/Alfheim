@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBoxCategory from "./ArticleBoxCategory";
-import { ArticleType } from "src/type";
-import { formatDateStr, pathJoin } from "../services/parser";
-import { Config } from "src/App";
+import { ArticleType } from "~/type";
+import { formatDateStr, pathJoin } from "~/components/services/parser";
+import { Config } from "~/App";
 
 const ArticleBoxStyled = styled.div`
   position: relative;

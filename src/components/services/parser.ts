@@ -1,4 +1,4 @@
-import { DraftType, ArticleType, CategoryType } from "src/type";
+import { DraftType, ArticleType, CategoryType } from "~/type";
 
 type Map = { [key: string]: string }
 

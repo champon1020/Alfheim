@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
 import Cookie from "js-cookie";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
-import { formatDateStr, pathJoin } from "src/components/services/parser";
+import { ArticleType } from "~/type";
+import { formatDateStr, pathJoin } from "~/components/services/parser";
 import Button from "./Button";
-import { Config, defaultApi } from "src/App";
-import { InlineObject2 } from "src/api";
+import { Config, defaultApi } from "~/App";
+import { InlineObject2 } from "~/api/api";
 
 const ArticleBoxStyled = styled.li`
   --box-height: 80px;

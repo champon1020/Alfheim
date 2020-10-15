@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useMemo, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
-import MenuIcon from "../../assets/images/icons/menu.svg";
-import TagIcon from "../../assets/images/icons/tag.svg";
+import MenuIcon from "~/assets/images/icons/menu.svg";
+import TagIcon from "~/assets/images/icons/tag.svg";
 
 const slideDownAnim = keyframes`
   from {

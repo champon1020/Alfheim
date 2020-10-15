@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 import ArticleBox from "./ArticleBox";
-import { ArticleType } from "../../type";
+import { ArticleType } from "~/type";
 
 const ArticleListStyled = styled.ul`
   display: flex;

@@ -1,8 +1,8 @@
 import React from "react";
 import Category from "./Category";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
-import { formatDateStr } from "../services/parser";
+import { ArticleType } from "~/type";
+import { formatDateStr } from "~/components/services/parser";
 
 const ArticleHeaderStyled = styled.div`
   & p {

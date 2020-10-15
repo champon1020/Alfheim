@@ -2,13 +2,13 @@ import React, { useEffect, useState, useCallback } from "react";
 import Cookie from "js-cookie";
 import ArticleList from "./article/ArticleList";
 import styled, { keyframes } from "styled-components";
-import { ArticleType, DraftType } from "src/type";
-import { defaultApi } from "../../App";
-import { parseDraftToArticle } from "../services/parser";
+import { ArticleType, DraftType } from "~/type";
+import { defaultApi } from "~/App";
+import { parseDraftToArticle } from "~/components/services/parser";
 import Preview from "./article/Preview";
 import Page from "./Page";
 import Tab from "./article/Tab";
-import MenuIcon from "../../assets/images/icons/menu.svg";
+import MenuIcon from "~/assets/images/icons/menu.svg";
 
 const slideFromLeft = keyframes`
   from {

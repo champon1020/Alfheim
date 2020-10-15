@@ -1,8 +1,8 @@
 import * as React from "react";
 import SideBarBox from "./SideBarBox";
 import styled from "styled-components";
-import Recommend from "../sidebar/Recommend";
-import Search from "../sidebar/Search";
+import Recommend from "~/components//sidebar/Recommend";
+import Search from "~/components/sidebar/Search";
 
 const SideBarListStyled = styled.ul`
   width: 100%;

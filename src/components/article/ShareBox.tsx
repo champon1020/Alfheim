@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { Config } from "../../App";
-import { ArticleType } from "src/type";
+import { Config } from "~/App";
+import { ArticleType } from "~/type";
 import { Helmet } from "react-helmet";
 import { TwitterShareButton, FacebookShareButton, LinkedinShareButton } from "react-share";
-import TwitterIcon from "../../assets/images/shareIcon/twitter.svg";
-import FacebookIcon from "../../assets/images/shareIcon/facebook.png";
-import LinkedinIcon from "../../assets/images/shareIcon/linkedin.png";
+import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
+import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
+import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 
 const ArticleShareBoxStyled = styled.div`
   margin-bottom: 50px;

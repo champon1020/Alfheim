@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import store, { persistor } from "./stores/store";
+import store, { persistor } from "stores/store";
 import { Provider } from "react-redux";
 import ManageView from "./components/view/ManageView";
 import PublicView from "./components/view/PublicView";
@@ -10,13 +10,13 @@ import axios from "axios";
 import ErrorPage from "./components/error/ErrorPage";
 import Login from "./components/auth/Login";
 
-const config = process.env.REACT_APP_TRAVIS==="true" 
+const config = process.env.REACT_APP_TRAVIS==="true"
   ? require("./private/config_test.json")
   : require("./private/config.json");
 
 export const Config = process.env.REACT_APP_TRAVIS==="true"
-  ? config.test 
-  : (process.env.REACT_APP_ALFHEIM_MODE==="dev" 
+  ? config.test
+  : (process.env.REACT_APP_ALFHEIM_MODE==="dev"
     ? config.dev
     : config.deploy);
 

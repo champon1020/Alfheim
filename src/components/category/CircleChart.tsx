@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
-import { CategoryType } from "src/type";
+import { CategoryType } from "~/type";
 import ChartDataHandler from "./ChartDataHandler";
 
 const ChartBoxStyled = styled.div`

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import CircleChart from "./CircleChart";
-import { CategoryType } from "src/type";
-import { defaultApi } from "../../App";
+import { CategoryType } from "~/type";
+import { defaultApi } from "~/App";
 import CategoryList from "./CategoryList";
 
 const CategoryListTitle = styled.div`

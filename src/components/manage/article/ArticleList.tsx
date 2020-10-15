@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import ArticleListBox from "./ArticleListBox";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
+import { ArticleType } from "~/type";
 
 const ArticleListStyled = styled.ul`
   overflow-y: scroll;

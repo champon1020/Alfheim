@@ -3,7 +3,7 @@ import Cookie from "js-cookie";
 import ImageList from "./image/ImageList";
 import styled from "styled-components";
 import Page from "./Page";
-import { defaultApi } from "src/App";
+import { defaultApi } from "~/App";
 import ImageForm from "./image/ImageForm";
 
 const ImagesContainerStyled = styled.div`

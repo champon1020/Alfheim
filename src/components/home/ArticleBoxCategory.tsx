@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { CategoryType } from "src/type";
+import { CategoryType } from "~/type";
 
 const CategoryBoxStyled = styled.ul`
   display: flex;

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import Cookie from "js-cookie";
-import { Config, defaultApi } from "../../App";
+import { Config, defaultApi } from "~/App";
 
 const ButtonElement = styled.div`
   display: inline-block;

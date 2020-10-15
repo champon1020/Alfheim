@@ -1,8 +1,8 @@
 import React, { useCallback, createRef, useEffect } from "react";
 import styled from "styled-components";
 import Button from "./Button";
-import { ArticleType } from "src/type";
-import { Config } from "src/App";
+import { ArticleType } from "~/type";
+import { Config } from "~/App";
 
 // @toast-ui modules
 import "../../../assets/styles/toast-ui-wrapper.css";

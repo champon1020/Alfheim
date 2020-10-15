@@ -1,7 +1,7 @@
 import React, { useCallback, useState, MouseEvent } from "react";
 import styled from "styled-components";
 import Cookie from "js-cookie";
-import { Config, defaultApi } from "src/App";
+import { Config, defaultApi } from "~/App";
 
 const ImageListContainer = styled.div`
   margin: 2rem 0;

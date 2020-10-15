@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from "react";
 import styled from "styled-components";
-import { Config } from "src/App";
+import { Config } from "~/App";
 import axios from "axios";
 import Cookie from "js-cookie";
 

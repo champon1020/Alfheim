@@ -1,14 +1,14 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import Cat from "../../assets/images/header/cat.jpg";
-import Space from "../../assets/images/header/space.jpg";
-import Landscape from "../../assets/images/header/landscape.jpg";
-import Processor from "../../assets/images/header/processor.jpg";
-import Flower from "../../assets/images/header/flower.jpg";
-import Book from "../../assets/images/header/book.jpg";
-import Penguin from "../../assets/images/header/penguin.jpg";
-import Gtr from "../../assets/images/header/gtr.jpg";
-import Delta from "../../assets/images/header/delta.jpg";
-import Goku from "../../assets/images/header/goku.jpg";
+import Cat from "~/assets/images/header/cat.jpg";
+import Space from "~/assets/images/header/space.jpg";
+import Landscape from "~/assets/images/header/landscape.jpg";
+import Processor from "~/assets/images/header/processor.jpg";
+import Flower from "~/assets/images/header/flower.jpg";
+import Book from "~/assets/images/header/book.jpg";
+import Penguin from "~/assets/images/header/penguin.jpg";
+import Gtr from "~/assets/images/header/gtr.jpg";
+import Delta from "~/assets/images/header/delta.jpg";
+import Goku from "~/assets/images/header/goku.jpg";
 import styled, { keyframes } from "styled-components";
 
 const ImageHeaderStyled = styled.div`

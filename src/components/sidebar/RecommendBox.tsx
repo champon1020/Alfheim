@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
-import { Config } from "src/App";
-import { pathJoin } from "../services/parser";
+import { ArticleType } from "~/type";
+import { Config } from "~/App";
+import { pathJoin } from "~/components/services/parser";
 
 const ListItemStyled = styled.li`
   position: relative;

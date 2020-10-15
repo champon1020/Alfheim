@@ -1,14 +1,14 @@
 import * as React from "react";
 import styled, { keyframes } from "styled-components";
-import Header from "../common/Header";
-import ImageHeader from "../common/ImageHeader";
-import Footer from "../common/Footer";
+import Header from "~/components/common/Header";
+import ImageHeader from "~/components/common/ImageHeader";
+import Footer from "~/components/common/Footer";
 import { RouteComponentProps } from "react-router-dom";
-import Bar from "../common/Bar";
+import Bar from "~/components/common/Bar";
 import HomeView from "./HomeView";
 import ArticleView from "./ArticleView";
 import CategoryListView from "./CategoryListView";
-import ErrorBoundary from "../error/ErrorBoundary";
+import ErrorBoundary from "~/components/error/ErrorBoundary";
 
 const fadeIn = keyframes`
   from {

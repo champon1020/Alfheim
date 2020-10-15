@@ -3,7 +3,7 @@ import ArticleHeader from "./ArticleHeader";
 import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
 import styled from "styled-components";
-import { ArticleType } from "src/type";
+import { ArticleType } from "~/type";
 
 const ArticleContainerStyled = styled.div`
   background-color: ghostwhite;

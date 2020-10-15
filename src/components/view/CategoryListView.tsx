@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import SideBar from "../common/SideBar";
-import Categories from "../category/Categories";
+import SideBar from "~/components/common/SideBar";
+import Categories from "~/components/category/Categories";
 import styled from "styled-components";
 
 const MainContainer = styled.div`

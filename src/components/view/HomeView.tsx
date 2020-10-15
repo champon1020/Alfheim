@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useEffect } from "react";
-import ArticleList from "../home/ArticleList";
-import SideBar from "../common/SideBar";
+import ArticleList from "~/components/home/ArticleList";
+import SideBar from "~/components/common/SideBar";
 import Page from "./Page";
 import styled from "styled-components";
 import { IRouteProps, PathParams } from "./PublicView";
-import { defaultApi } from "../../App";
-import { ArticleType } from "src/type";
+import { defaultApi } from "~/App";
+import { ArticleType } from "~/type";
 import { AxiosResponse } from "axios";
-import { InlineResponse2002 } from "src/api";
-import { parsePage } from "../services/parser";
+import { InlineResponse2002 } from "~/api/api";
+import { parsePage } from "~/components/services/parser";
 
 
 const MainContainer = styled.div`

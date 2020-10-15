@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
-import Header from "../common/Header";
+import Header from "~/components/common/Header";
 import styled from "styled-components";
-import ErrorImage from "../../assets/images/base_error.jpg";
-import Footer from "../common/Footer";
+import ErrorImage from "~/assets/images/base_error.jpg";
+import Footer from "~/components/common/Footer";
 
 const Container = styled.div`
   min-height: 95vh;

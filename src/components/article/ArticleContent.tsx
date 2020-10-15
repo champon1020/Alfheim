@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 // @toast-ui modules
-import "../../assets/styles/toast-ui-wrapper.css";
+import "~/assets/styles/toast-ui-wrapper.css";
 import "@toast-ui/editor/dist/i18n/ja-jp";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
@@ -12,7 +12,7 @@ import "highlight.js/styles/darcula.css";
 import hljs from "highlight.js";
 
 // mathjax
-import { loadMathJax } from "src/App";
+import { loadMathJax } from "~/App";
 
 const ArticleContentStyled = styled.article`
   width: 90%;

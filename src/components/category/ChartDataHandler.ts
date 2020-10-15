@@ -1,4 +1,4 @@
-import { CategoryType } from "src/type";
+import { CategoryType } from "~/type";
 
 // example
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

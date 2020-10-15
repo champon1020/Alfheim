@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
 import Cookie from "js-cookie";
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
-import { defaultApi } from "src/App";
+import { defaultApi } from "~/App";
 import { parseFromArticle, parseFromDraft } from "./editor/parser";
 
 type Props = {

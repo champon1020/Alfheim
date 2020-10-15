@@ -1,15 +1,15 @@
 import React, { useEffect, useCallback, useState, useMemo } from "react";
 import Cookie from "js-cookie";
-import CreateArticle from "../manage/CreateArticle";
-import ToolBar from "../manage/ToolBar";
+import CreateArticle from "~/components/manage/CreateArticle";
+import ToolBar from "~/components/manage/ToolBar";
 import { RouteComponentProps } from "react-router-dom";
-import Images from "../manage/Images";
-import Articles from "../manage/Articles";
-import Settings from "../manage/Settings";
+import Images from "~/components/manage/Images";
+import Articles from "~/components/manage/Articles";
+import Settings from "~/components/manage/Settings";
 import styled from "styled-components";
-import { parseQueryParam } from "../services/parser";
-import { defaultApi } from "src/App";
-import Login from "../auth/Login";
+import { parseQueryParam } from "~/components/services/parser";
+import { defaultApi } from "~/App";
+import Login from "~/components/auth/Login";
 
 const ManageContainerStyled = styled.div`
   min-height: 100vh;
