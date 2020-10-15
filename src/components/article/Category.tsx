@@ -25,11 +25,9 @@ const CategoryListItemStyled = styled.li`
   }
 `;
 
-type ParentProps = {
+type Props = {
   categories: CategoryType[];
 };
-
-type Props = ParentProps;
 
 const Category = (props: Props) => {
   const { categories } = props;
@@ -42,7 +40,11 @@ const Category = (props: Props) => {
 
   const categoryList = useCallback(() => {
     const list = [] as JSX.Element[];
-    if (categories === null || categories === undefined) return list;
+
+    if (categories === null || categories === undefined) {
+      return list;
+    }
+
     categories.forEach((v, i) => {
       list.push(
         <CategoryListItemStyled
@@ -54,6 +56,7 @@ const Category = (props: Props) => {
         </CategoryListItemStyled>
       );
     });
+
     return list;
   }, [categories, handleOnClick]);
 

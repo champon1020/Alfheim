@@ -6,7 +6,7 @@ import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highl
 import { Viewer } from "@toast-ui/react-editor";
 import { loadMathJax } from "~/App";
 import hljs from "highlight.js";
-import React, { HTMLDivElement, useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 
 const ArticleContentStyled = styled.article`
@@ -25,10 +25,13 @@ type Props = {
 
 const ArticleContent = (props: Props) => {
   const { content } = props;
-  const contentRef = useRef({});
+  const contentRef = useRef({} as HTMLDivElement);
 
   const viewer = useCallback(() => {
-    if (content === undefined) return <div></div>;
+    if (content === undefined) {
+      return <div></div>;
+    }
+
     return (
       <Viewer initialValue={content} plugins={[codeSyntaxHighlightPlugin]} />
     );

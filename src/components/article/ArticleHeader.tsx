@@ -42,11 +42,9 @@ const CategoryContainerStyled = styled.div`
   margin: 0 auto;
 `;
 
-type ParentProps = {
-  article: ArticleType,
+type Props = {
+  article: ArticleType;
 };
-
-type Props = ParentProps;
 
 const ArticleHeader = (props: Props) => {
   const { article } = props;

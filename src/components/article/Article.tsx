@@ -16,11 +16,9 @@ const ArticleContainerStyled = styled.div`
   }
 `;
 
-interface ParentProps {
+interface Props {
   article: ArticleType;
 }
-
-type Props = ParentProps;
 
 const Article = (props: Props) => {
   const { article } = props;
