@@ -1,4 +1,4 @@
-export type ArticleType = {
+export interface ArticleType {
   id: string;
   sortedId: number;
   title: string;
@@ -8,15 +8,15 @@ export type ArticleType = {
   content: string;
   imageHash: string;
   isPrivate: boolean;
-};
+}
 
-export type CategoryType = {
+export interface CategoryType {
   id: string;
   name: string;
   articleNum: number;
-};
+}
 
-export type DraftType = {
+export interface DraftType {
   id: string;
   sortedId: number;
   title: string;
@@ -24,27 +24,26 @@ export type DraftType = {
   updateDate: string;
   content: string;
   imageHash: string;
-};
+}
 
-// request types
-export type ArticleRequestType = {
+export interface ArticleRequestType {
   id: string;
   title: string;
   categories: CategoryRequestType[];
   content: string;
   imageHash: string;
   isPrivate: boolean;
-};
+}
 
-export type CategoryRequestType = {
+export interface CategoryRequestType {
   id: string;
   name: string;
-};
+}
 
-export type DraftRequestType = {
+export interface DraftRequestType {
   id: string;
   title: string;
   categories: string;
   content: string;
   imageHash: string;
-};
+}
