@@ -27,11 +27,11 @@ const CategoryListStyled = styled.div`
 const Categories = () => {
   const [categories, setCategories] = useState([] as CategoryType[]);
 
+  // Fetch categories.
   useEffect(() => {
     defaultApi.apiFindCategoryListGet().then((res) => {
       setCategories(res.data.categories);
     });
-    // eslint-disable-next-line
   }, []);
 
   return (

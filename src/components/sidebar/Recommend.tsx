@@ -33,11 +33,11 @@ const Recommend: React.FC = () => {
     return list;
   }, [newArticles]);
 
+  // Fetch new articles.
   useEffect(() => {
     defaultApi.apiFindArticle(1, newArticlesNum).then((res) => {
       setNewArticles(res.data.articles);
     });
-    // eslint-disable-next-line
   }, []);
 
   return <ul>{NewArticleList()}</ul>;

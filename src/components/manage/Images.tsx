@@ -36,26 +36,6 @@ const Images = (props: Props) => {
   // Next page is exist or not.
   const [next, setNext] = useState(true);
 
-  // Call api of getting image list.
-  // The next property of response body updates the state of next.
-  const fetchImages = useCallback(
-    async (p: number) => {
-      const res = await defaultApi
-        .apiPrivateFindImageListGet(p, {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
-        })
-        .catch(() => {
-          setVerify(false);
-        });
-      if (typeof res === "undefined") return;
-      setImages(res.data.images);
-      setNext(res.data.next);
-    },
-    [setVerify]
-  );
-
   // On click listener of going next page.
   // Update page to page+1.
   const nextCallback = useCallback(() => {
@@ -71,9 +51,23 @@ const Images = (props: Props) => {
   // Fetch images.
   // This called as page is updated.
   useEffect(() => {
-    fetchImages(page);
-    // eslint-disable-next-line
-  }, [page]);
+    defaultApi
+      .apiPrivateFindImageListGet(page, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      })
+      .then((res) => {
+        if (typeof res === "undefined") {
+          return;
+        }
+        setImages(res.data.images);
+        setNext(res.data.next);
+      })
+      .catch(() => {
+        setVerify(false);
+      });
+  }, [page, setVerify]);
 
   return (
     <ImagesContainerStyled>

@@ -29,14 +29,25 @@ type Props = RouteProps;
 
 const ManageView: React.FC<Props> = (props) => {
   const { mode } = props.match.params;
+
+  // If the verification is done or not.
   const [doneVerify, setDoneVerify] = useState(false);
+
+  // If the verification is success or not.
   const [isVerify, setVerify] = useState(false);
 
-  const child = useCallback(() => {
-    if (mode === "images") return <Images setVerify={setVerify} />;
-    if (mode === "settings") return <Settings />;
-    if (mode === "articles" || mode === "drafts")
+  const childContainer = useCallback(() => {
+    if (mode === "images") {
+      return <Images setVerify={setVerify} />;
+    }
+
+    if (mode === "settings") {
+      return <Settings />;
+    }
+
+    if (mode === "articles" || mode === "drafts") {
       return <Articles setVerify={setVerify} />;
+    }
 
     const qParams = parseQueryParam(window.location.href);
     return (
@@ -48,8 +59,30 @@ const ManageView: React.FC<Props> = (props) => {
     );
   }, [mode]);
 
-  const verify = useCallback(async () => {
-    await defaultApi
+  const manageContainerView = useMemo(() => {
+    // If verification has been successed.
+    if (isVerify) {
+      return (
+        <>
+          <ToolBar mode={mode} />
+          <ManageWrapperStyled>{childContainer()}</ManageWrapperStyled>
+        </>
+      );
+    }
+
+    // If the verification has been failed, mount the login page.
+    if (doneVerify) {
+      Cookie.remove("alfheim_id_token");
+      return <Login setVerify={setVerify} />;
+    }
+
+    return <div></div>;
+  }, [child, mode, isVerify, doneVerify]);
+
+  // Verify token from cookie.
+  // If verify is success, update the state of verify to true.
+  useEffect(() => {
+    defaultApi
       .apiVerifyTokenPost({
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
@@ -61,30 +94,11 @@ const ManageView: React.FC<Props> = (props) => {
       .catch(() => {
         setVerify(false);
       });
+
     setDoneVerify(true);
   }, []);
 
-  const view = useMemo(() => {
-    if (isVerify) {
-      return (
-        <>
-          <ToolBar mode={mode} />
-          <ManageWrapperStyled>{child()}</ManageWrapperStyled>
-        </>
-      );
-    }
-    if (doneVerify) {
-      Cookie.remove("alfheim_id_token");
-      return <Login setVerify={setVerify} />;
-    }
-    return <div></div>;
-  }, [child, mode, isVerify, doneVerify]);
-
-  useEffect(() => {
-    verify();
-  }, [verify]);
-
-  return <ManageContainerStyled>{view}</ManageContainerStyled>;
+  return <ManageContainerStyled>{manageContainerView}</ManageContainerStyled>;
 };
 
 export default ManageView;

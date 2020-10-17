@@ -36,7 +36,8 @@ const SubContainer = styled.div`
   }
 `;
 
-const proxy = async (
+// Fetch articles by some terms.
+const fetchArticles = async (
   params: PathParams,
   p: number
 ): Promise<AxiosResponse<InlineResponse2002>> => {
@@ -45,14 +46,6 @@ const proxy = async (
 
   if (path.startsWith("/home/title") && title !== undefined) {
     return await defaultApi.apiFindArticleListTitleGet(title, p);
-  }
-
-  if (
-    path.startsWith("/home/date") &&
-    year !== undefined &&
-    month !== undefined
-  ) {
-    return await defaultApi.apiFindArticleListCreateDateGet(year + month, p);
   }
 
   if (
@@ -69,6 +62,7 @@ const proxy = async (
   return await defaultApi.apiFindArticleListGet(p);
 };
 
+// Scroll to the top of articles.
 const scroll = () => {
   window.scroll({
     top: 430,
@@ -76,6 +70,7 @@ const scroll = () => {
   });
 };
 
+// Append query parameter to pathname.
 const pageAppendedPath = (page: string | number) => {
   const path = window.location.pathname;
   return path + "?p=" + page;
@@ -89,20 +84,14 @@ const HomeView = (props: Props) => {
   const [articles, setArticles] = useState([] as ArticleType[]);
   const [maxPage, setMaxPage] = useState(0);
 
-  const fetchArticle = useCallback(async () => {
-    const res = await proxy(params, page);
-    const fetchedArticles = res.data.articles;
-    if (fetchedArticles === null) return; // set empty deal
-    setMaxPage(res.data.maxPage);
-    setArticles(fetchedArticles);
-  }, [params, page]);
-
+  // Jump to previous page.
   const prevCallback = useCallback(() => {
     window.history.pushState(null, "", pageAppendedPath(page - 1));
     setPage(page - 1);
     scroll();
   }, [page]);
 
+  // Jump to next page.
   const nextCallback = useCallback(() => {
     if (page + 1 > 1) {
       window.history.pushState(null, "", pageAppendedPath(page + 1));
@@ -115,10 +104,18 @@ const HomeView = (props: Props) => {
     setPage(parsePage(window.location.href));
   };
 
+  // Fetch articles.
   useEffect(() => {
-    fetchArticle();
-    // eslint-disable-next-line
-  }, [page]);
+    const res = await fetchArticles(params, page);
+    const fetchedArticles = res.data.articles;
+    if (fetchedArticles === null) {
+      return;
+    }
+
+    // Update states.
+    setMaxPage(res.data.maxPage);
+    setArticles(fetchedArticles);
+  }, [params, page]);
 
   useEffect(() => {
     window.history.pushState(null, "", window.location.pathname);

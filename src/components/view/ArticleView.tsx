@@ -44,51 +44,54 @@ const SubContainer = styled.div`
 
 type Props = IRouteProps;
 
+// Check if this is the draft or not from pathname.
+export const checkIsDraft = () => {
+  return window.location.pathname.startsWith("/article-draft");
+};
+
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const [prevArticle, setPrevArticle] = useState({ title: "" } as ArticleType);
-  const [nextArticle, setNextArticle] = useState({ title: "" } as ArticleType);
+  const [prevArticle, setPrevArticle] = useState({} as ArticleType);
+  const [nextArticle, setNextArticle] = useState({} as ArticleType);
   const [article, setArticle] = useState({} as ArticleType);
+
   const draftsStore = useSelector<RootState, ManageState>(
     (state: any) => state.manageReducer
   );
 
+  // Validate sorted id.
   const validSortedId = useCallback(() => {
     const id = match.params.sortedId;
     return id === undefined ? -1 : Number.parseInt(id);
   }, [match]);
 
-  const fetchArticle = useCallback(
-    async (id?: number) => {
-      if (checkIsDraft()) {
-        const article = parseDraftToArticle(draftsStore.article);
-        article.content = draftsStore.draftContent;
-        setArticle(article);
-        return;
-      }
-
-      const sortedId = id === undefined ? validSortedId() : id;
-      const res = await defaultApi.apiFindArticleSortedIdGet(sortedId);
-      const fetchedArticle = res.data.article;
-      const { next, prev } = res.data;
-      setArticle(fetchedArticle);
-      setPrevArticle(prev);
-      setNextArticle(next);
-    },
-    [validSortedId, draftsStore]
-  );
-
+  // Callback function to jump to previous article.
   const prevCallback = useCallback(() => {
     window.open(`${Config.host}/article/${prevArticle.sortedId}`, "_self");
   }, [prevArticle.sortedId]);
 
+  // Callbakc function to jump to next article.
   const nextCallback = useCallback(() => {
     window.open(`${Config.host}/article/${nextArticle.sortedId}`, "_self");
   }, [nextArticle.sortedId]);
 
-  useEffect(() => {
-    fetchArticle();
-    // eslint-disable-next-line
+  // Fetch article.
+  // If this is draft, get draft from redux store.
+  // If this is article, call api to get article.
+  useEffect((id?: number) => {
+    if (checkIsDraft()) {
+      const article = parseDraftToArticle(draftsStore.article);
+      article.content = draftsStore.draftContent;
+      setArticle(article);
+      return;
+    }
+
+    const sortedId = id === undefined ? validSortedId() : id;
+    defaultApi.apiFindArticleSortedIdGet(sortedId).then((res) => {
+      setArticle(res.data.article);
+      setPrevArticle(res.data.prevArticle);
+      setNextArticle(res.data.nextArticle);
+    });
   }, []);
 
   return (

@@ -3,7 +3,7 @@ import Footer from "~/components/common/Footer";
 import Header from "~/components/common/Header";
 import ImageHeader from "~/components/common/ImageHeader";
 import ErrorBoundary from "~/components/error/ErrorBoundary";
-import * as React from "react";
+import React, { useCallback } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
@@ -50,10 +50,16 @@ export type IRouteProps = RouteComponentProps<PathParams>;
 type Props = IRouteProps;
 
 const PublicView = (props: Props) => {
-  const selectView = React.useCallback(() => {
+  const selectView = useCallback(() => {
     const path = window.location.pathname;
-    if (path.startsWith("/article")) return <ArticleView {...props} />;
-    if (path.startsWith("/category")) return <CategoryListView />;
+    if (path.startsWith("/article")) {
+      return <ArticleView {...props} />;
+    }
+
+    if (path.startsWith("/category")) {
+      return <CategoryListView />;
+    }
+
     return <HomeView {...props} />;
   }, [props]);
 
