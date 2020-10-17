@@ -8,13 +8,13 @@ import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import { Editor } from "@toast-ui/react-editor";
 import appActionCreator from "~/actions/actions";
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
 import {
   ErrorStatus,
   HttpErrorStatus,
   MyErrorStatus,
 } from "~/components/error/ErrorHandler";
-import { ArticleRequestType, DraftRequestType } from "~/type";
+import { ArticleReq, DraftReq } from "~/type";
 import hljs from "highlight.js";
 import Cookie from "js-cookie";
 import React, { createRef, useCallback, useEffect, useState } from "react";
@@ -70,6 +70,11 @@ const apiOff = false;
 // Duration of saving on real time.
 const onlineSaveDuration = 3000;
 
+// Validation function of title and categories string.
+const validation = (t: string, c: string) => {
+  return validateTitle(t, setErr) || validateCategory(c, setErr);
+};
+
 type Props = {
   updatingArticle?: EditorArticle;
   isExistArticle: boolean;
@@ -118,68 +123,81 @@ const ArticleForm = (props: Props) => {
     [setVerify]
   );
 
-  // Validation function of title and categories string.
-  const validation = useCallback((t: string, c: string) => {
-    return validateTitle(t, setErr) || validateCategory(c, setErr);
-  }, []);
-
   // Call api of registering article.
-  const registerArticle = useCallback(
-    async (a: ArticleRequestType) => {
-      if (apiOff) return;
-      await defaultApi
-        .apiPrivateRegisterArticlePost(
-          {
-            article: a,
+  const registerArticle = (a: ArticleReq) => {
+    if (apiOff) {
+      return;
+    }
+
+    try {
+      const res = await defaultApi.apiPrivateRegisterArticlePost(
+        {
+          article: a,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-            },
-            validateStatus: (stts: number) => {
-              return stts <= 500;
-            },
-          }
-        )
-        .then((res) => {
-          errClassification(res.status);
-          if (res.status === 200) window.open("/manage/articles", "_self");
-        });
-    },
-    [errClassification]
-  );
+          validateStatus: (stts: number) => {
+            return stts <= 500;
+          },
+        }
+      );
+
+      if (errClassification(res.status)) {
+        return;
+      }
+
+      if (res.status === 200) {
+        window.open("/manage/articles", "_self");
+      }
+    } catch (err) {
+      // Handle error.
+      errClassification(500);
+    }
+  };
 
   // Call api of updating article.
-  const updateArticle = useCallback(
-    async (a: ArticleRequestType) => {
-      if (apiOff) return;
-      await defaultApi
-        .apiPrivateUpdateArticlePut(
-          {
-            article: a,
+  const updateArticle = (a: ArticleReq) => {
+    if (apiOff) {
+      return;
+    }
+
+    try {
+      const res = await defaultApi.apiPrivateUpdateArticlePut(
+        {
+          article: a,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-            },
-            validateStatus: (stts: number) => {
-              return stts <= 500;
-            },
-          }
-        )
-        .then((res) => {
-          errClassification(res.status);
-          if (res.status === 200) setMsg("Updated!");
-        });
-    },
-    [errClassification]
-  );
+          validateStatus: (stts: number) => {
+            return stts <= 500;
+          },
+        }
+      );
+
+      if (errClassification(res.status)) {
+        return;
+      }
+
+      if (res.status === 200) {
+        setMsg("Updated!");
+      }
+    } catch (err) {
+      // Handle error.
+      errClassification(500);
+    }
+  };
 
   // Call api of updating draft.
-  const updateDraft = useCallback(
-    async (d: DraftRequestType) => {
-      if (apiOff) return;
-      if (validation(d.title, d.categories)) return;
+  const updateDraft = (d: DraftReq) => {
+    if (apiOff || validation(d.title, d.categories)) {
+      return;
+    }
+
+    try {
       const res = await defaultApi.apiPrivateDraftArticlePost(
         {
           article: d,
@@ -194,17 +212,22 @@ const ArticleForm = (props: Props) => {
         }
       );
 
-      // Handle error.
-      if (errClassification(res.status)) return;
-      if (res.status === 200) setMsg("Saved!");
+      if (errClassification(res.status)) {
+        return;
+      }
+
+      if (res.status === 200) {
+        setMsg("Saved!");
+      }
 
       // Update editor draft id and reload.
       editorDraft.id = res.data.id;
       window.history.pushState(null, "", "?draftId=" + res.data.id);
-      // eslint-disable-next-line
-    },
-    [setVerify, validation]
-  );
+    } catch (err) {
+      // Handle error.
+      errClassification(500);
+    }
+  };
 
   // Saving on real time.
   // If timerId is not undefined,
@@ -234,10 +257,14 @@ const ArticleForm = (props: Props) => {
     // - Dispatch draft and mdContent.
     // - Call api.
     const newTimerId = setTimeout(() => {
-      if (isExistArticle) return;
+      if (isExistArticle) {
+        return;
+      }
+
       const reqDraft = parseToRequestDraft(editorDraft);
       updateDraft(reqDraft);
     }, onlineSaveDuration);
+
     setTimerId(newTimerId);
   }, [timerId, editorDraft, dispatch, updateDraft, isExistArticle, editorRef]);
 
@@ -247,14 +274,24 @@ const ArticleForm = (props: Props) => {
   // - Parse editor article|draft object to request type.
   // - Call api.
   const onSubmit = useCallback(() => {
-    if (validation(editorDraft.title, editorDraft.categories)) return;
+    if (validation(editorDraft.title, editorDraft.categories)) {
+      return;
+    }
+
     const newMdContent =
       editorRef.current === null
         ? ""
         : editorRef.current.getInstance().getMarkdown();
+
     editorDraft.content = newMdContent;
+
     const reqArticle = parseToRequestArticle(editorDraft);
-    isExistArticle ? updateArticle(reqArticle) : registerArticle(reqArticle);
+
+    if (isExistArticle) {
+      updateArticle(reqArticle);
+    } else {
+      registerArticle(reqArticle);
+    }
   }, [
     editorDraft,
     validation,
@@ -269,7 +306,10 @@ const ArticleForm = (props: Props) => {
   // - Open the window of preview.
   // - Detail is compontents/article/Articles.tsx and that children.
   const onPreview = useCallback(() => {
-    if (validation(editorDraft.title, editorDraft.categories)) return;
+    if (validation(editorDraft.title, editorDraft.categories)) {
+      return;
+    }
+
     window.open("/article-draft/");
   }, [validation, editorDraft]);
 

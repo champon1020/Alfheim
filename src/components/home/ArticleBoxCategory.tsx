@@ -1,4 +1,4 @@
-import { CategoryType } from "~/type";
+import { CategoryIface } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ const CategoryBoxStyled = styled.ul`
 `;
 
 type ParentProps = {
-  categories: CategoryType[];
+  categories: CategoryIface[];
 };
 
 type Props = ParentProps;

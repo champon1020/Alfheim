@@ -1,5 +1,5 @@
-import { ArticleType } from "~/type";
-import * as React from "react";
+import { ArticleIface } from "~/type";
+import React from "react";
 import styled from "styled-components";
 
 import ShareBox from "./ShareBox";
@@ -9,7 +9,7 @@ const ArticleFooterStyled = styled.div`
 `;
 
 type Props = {
-  article: ArticleType,
+  article: ArticleIface;
 };
 
 const ArticleFooter = (props: Props) => {

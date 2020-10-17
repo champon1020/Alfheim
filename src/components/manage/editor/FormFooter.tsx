@@ -85,9 +85,9 @@ const FormFooter = (props: Props) => {
   // Return message component.
   const message = useMemo(() => {
     if (err !== MyErrorStatus.NONE) {
-      //appErrorHandler.print(err);
       return <Msg color="red">{appErrorHandler.message(err)}</Msg>;
     }
+
     return <Msg color="blue">{msg}</Msg>;
   }, [msg, err]);
 

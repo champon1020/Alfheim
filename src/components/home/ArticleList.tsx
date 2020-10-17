@@ -1,4 +1,4 @@
-import { ArticleType } from "~/type";
+import { ArticleIface } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -32,7 +32,7 @@ const EmptyMessage = styled.h3`
 `;
 
 interface ParentProps {
-  articles: ArticleType[];
+  articles: ArticleIface[];
 }
 
 type Props = ParentProps;

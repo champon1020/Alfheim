@@ -1,4 +1,4 @@
-import { CategoryType } from "~/type";
+import { CategoryIface } from "~/type";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
@@ -37,7 +37,7 @@ const EmptyMessage = styled.h3`
 `;
 
 type Props = {
-  categories: CategoryType[];
+  categories: CategoryIface[];
 };
 
 const CategoryList = (props: Props) => {

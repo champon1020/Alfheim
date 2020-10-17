@@ -1,4 +1,4 @@
-import { Config, defaultApi } from "~/App";
+import { Config, defaultApi } from "~/api/entry";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";

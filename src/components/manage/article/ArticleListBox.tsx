@@ -1,7 +1,7 @@
-import { InlineObject2 } from "~/api/api";
-import { Config, defaultApi } from "~/App";
-import { formatDateStr, pathJoin } from "~/components/services/parser";
-import { ArticleType } from "~/type";
+import { defaultApi } from "~/api/entry";
+import { formatDateStr, pathJoin } from "~/components/parser";
+import { Config } from "~/config";
+import { ArticleIface } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
@@ -84,8 +84,8 @@ const ButtonStyled = styled.div`
 
 type Props = {
   tab: string;
-  article: ArticleType;
-  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+  article: ArticleIface;
+  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleIface>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -111,24 +111,40 @@ const ArticleListBox = (props: Props) => {
 
   // Call api of updating article.
   // Return promise.
-  const updateArticle = useCallback(async (a: ArticleType) => {
-    const body = { article: a } as InlineObject2;
-    return await defaultApi.apiPrivateUpdateArticlePut(body, {
-      headers: {
-        Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-      },
-    });
-  }, []);
+  const updateArticle = async (a: ArticleIface) => {
+    try {
+      await defaultApi.apiPrivateUpdateArticlePut(
+        { article: a },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        }
+      );
+
+      // Jump to /manage/articles
+      window.location.href = pathJoin(Config.host, "manage", "articles");
+    } catch (err) {
+      setVerify(false);
+    }
+  };
 
   // Call api of deleting draft.
   // Return promise.
-  const deleteDraft = useCallback(async (a: ArticleType) => {
-    await defaultApi.apiPrivateDeleteDraftDelete(a.id, {
-      headers: {
-        Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-      },
-    });
-  }, []);
+  const deleteDraft = async (a: ArticleIface) => {
+    try {
+      await defaultApi.apiPrivateDeleteDraftDelete(a.id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      });
+
+      // Jump to /manage/drafts
+      window.location.href = pathJoin(Config.host, "manage", "drafts");
+    } catch (err) {
+      setVerify(false);
+    }
+  };
 
   // On focuse listener of article box.
   // Set focues article.
@@ -146,28 +162,16 @@ const ArticleListBox = (props: Props) => {
   // Call api and update state of article.
   // Refresh this page because if not, view would be not updated.
   const handleTogglePublicClick = useCallback(() => {
+    updateArticle(article);
     article.isPrivate = !article.isPrivate;
-    updateArticle(article)
-      .then(() => {
-        window.location.href = pathJoin(Config.host, "manage", "articles");
-      })
-      .catch(() => {
-        setVerify(false);
-      });
-  }, [article, updateArticle, setVerify]);
+  }, [article, updateArticle]);
 
   // On click listener of 'Delete' button.
   // Call api.
   // Refresh this page because if not, view would be not updated.
   const handleOnDeleteClick = useCallback(() => {
-    deleteDraft(article)
-      .then(() => {
-        window.location.href = pathJoin(Config.host, "manage", "drafts");
-      })
-      .catch(() => {
-        setVerify(false);
-      });
-  }, [article, deleteDraft, setVerify]);
+    deleteDraft(article);
+  }, [article, deleteDraft]);
 
   // Select components of button by the state of tab.
   const buttonElements = useCallback(() => {
@@ -185,6 +189,7 @@ const ArticleListBox = (props: Props) => {
         </ButtonStyled>
       );
     }
+
     return (
       <ButtonStyled>
         <Button

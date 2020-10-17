@@ -1,4 +1,4 @@
-import { Config } from "~/App";
+import { Config } from "~/config";
 import axios from "axios";
 import Cookie from "js-cookie";
 import React, { useCallback, useRef } from "react";
@@ -37,7 +37,7 @@ const ImageForm = (props: Props) => {
   // On click listener of sending image.
   // Parse to multipart/form-data.
   // Call api.
-  const handleOnPost = useCallback(() => {
+  const handleOnPost = () => {
     // null check
     if (imageRef.current.files === null) return;
 
@@ -62,7 +62,7 @@ const ImageForm = (props: Props) => {
       .catch(() => {
         setVerify(false);
       });
-  }, [setVerify]);
+  };
 
   return (
     <FormContainer>

@@ -4,7 +4,7 @@ import { checkIsDraft } from "~/components/article/util";
 import SideBar from "~/components/common/SideBar";
 import { parseDraftToArticle } from "~/components/services/parser";
 import { ManageState, RootState } from "~/stores/store";
-import { ArticleType } from "~/type";
+import { ArticleIface } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -45,15 +45,15 @@ const SubContainer = styled.div`
 type Props = IRouteProps;
 
 // Check if this is the draft or not from pathname.
-export const checkIsDraft = () => {
+const checkIsDraft = () => {
   return window.location.pathname.startsWith("/article-draft");
 };
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const [prevArticle, setPrevArticle] = useState({} as ArticleType);
-  const [nextArticle, setNextArticle] = useState({} as ArticleType);
-  const [article, setArticle] = useState({} as ArticleType);
+  const [prevArticle, setPrevArticle] = useState({} as ArticleIface);
+  const [nextArticle, setNextArticle] = useState({} as ArticleIface);
+  const [article, setArticle] = useState({} as ArticleIface);
 
   const draftsStore = useSelector<RootState, ManageState>(
     (state: any) => state.manageReducer

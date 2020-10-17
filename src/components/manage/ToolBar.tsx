@@ -44,14 +44,23 @@ interface ParentProps {
 type Props = ParentProps;
 
 const ToolBar: React.FC<Props> = (props) => {
-  const handleOnClick = useCallback((e: MouseEvent<HTMLLIElement>) => {
-    if (e.currentTarget.id === "create") window.open("/manage/", "_self");
-    if (e.currentTarget.id === "images") window.open("/manage/images", "_self");
-    if (e.currentTarget.id === "articles")
+  const handleOnClick = (e: MouseEvent<HTMLLIElement>) => {
+    if (e.currentTarget.id === "create") {
+      window.open("/manage/", "_self");
+    }
+
+    if (e.currentTarget.id === "images") {
+      window.open("/manage/images", "_self");
+    }
+
+    if (e.currentTarget.id === "articles") {
       window.open("/manage/articles", "_self");
-    if (e.currentTarget.id === "settings")
+    }
+
+    if (e.currentTarget.id === "settings") {
       window.open("/manage/settings", "_self");
-  }, []);
+    }
+  };
 
   return (
     <ToolBarContainerStyled>

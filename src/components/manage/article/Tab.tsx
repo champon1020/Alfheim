@@ -37,8 +37,14 @@ const Tab = (props: Props) => {
   // Toggle tab 'articles' or 'drafts'.
   const handleOnClick = useCallback(
     (e: MouseEvent<HTMLLIElement>) => {
-      if (e.currentTarget === articlesRef.current) setTab("articles");
-      if (e.currentTarget === draftsRef.current) setTab("drafts");
+      if (e.currentTarget === articlesRef.current) {
+        setTab("articles");
+      }
+
+      if (e.currentTarget === draftsRef.current) {
+        setTab("drafts");
+      }
+
       setPage(1);
     },
     [setTab, setPage]

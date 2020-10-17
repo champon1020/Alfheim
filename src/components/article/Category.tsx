@@ -1,4 +1,4 @@
-import { CategoryType } from "~/type";
+import { CategoryIface } from "~/type";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
@@ -26,7 +26,7 @@ const CategoryListItemStyled = styled.li`
 `;
 
 type Props = {
-  categories: CategoryType[];
+  categories: CategoryIface[];
 };
 
 const Category = (props: Props) => {

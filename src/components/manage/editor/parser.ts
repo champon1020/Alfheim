@@ -1,18 +1,17 @@
 import {
-  ArticleRequestType,
-  ArticleType,
-  CategoryRequestType,
-  CategoryType,
-  DraftRequestType,
-  DraftType,
+  ArticleIface,
+  ArticleReq,
+  CategoryIface,
+  DraftIface,
+  DraftReq,
 } from "~/type";
 
 import { EditorArticle } from "./ArticleForm";
 
-// Category (string) => CategoryRequestType[]
+// Category (string) => CategoryIface[]
 const parseCategoryStrToList = (categories: string) => {
   const categoryList = categories.split(",");
-  const result = [] as CategoryRequestType[];
+  const result = [] as CategoryIface[];
   if (categoryList[0] === "") return result;
   categoryList.forEach((v) => {
     result.push({
@@ -23,8 +22,8 @@ const parseCategoryStrToList = (categories: string) => {
   return result;
 };
 
-// CategoryType[] => Category (string)
-const parseCategoryListToStr = (categories: CategoryType[]): string => {
+// CategoryIface[] => Category (string)
+const parseCategoryListToStr = (categories: CategoryIface[]): string => {
   let cateStr = "";
   if (categories === null || categories === undefined) return cateStr;
   categories.forEach((v, i) => {
@@ -64,8 +63,8 @@ const parseCategoryDraftStrToStr = (category: string): string => {
   return res;
 };
 
-// EditorArticle => ArticleRequestType
-export const parseToRequestArticle = (e: EditorArticle): ArticleRequestType => {
+// EditorArticle => ArticleReq
+export const parseToRequestArticle = (e: EditorArticle): ArticleReq => {
   return {
     id: e.id,
     title: e.title,
@@ -76,8 +75,8 @@ export const parseToRequestArticle = (e: EditorArticle): ArticleRequestType => {
   };
 };
 
-// EditorArticle => DraftRequestType
-export const parseToRequestDraft = (e: EditorArticle): DraftRequestType => {
+// EditorArticle => DraftReq
+export const parseToRequestDraft = (e: EditorArticle): DraftReq => {
   return {
     id: e.id,
     title: e.title,
@@ -87,8 +86,8 @@ export const parseToRequestDraft = (e: EditorArticle): DraftRequestType => {
   };
 };
 
-// EditorArticle => DraftType
-export const parseToDraft = (e: EditorArticle): DraftType => {
+// EditorArticle => DraftIface
+export const parseToDraft = (e: EditorArticle): DraftIface => {
   return {
     id: e.id,
     sortedId: -1,
@@ -100,8 +99,8 @@ export const parseToDraft = (e: EditorArticle): DraftType => {
   };
 };
 
-// ArticleType => EditorType
-export const parseFromArticle = (a: ArticleType): EditorArticle => {
+// ArticleIface => EditorType
+export const parseFromArticle = (a: ArticleIface): EditorArticle => {
   return {
     id: a.id,
     title: a.title,
@@ -113,8 +112,8 @@ export const parseFromArticle = (a: ArticleType): EditorArticle => {
   };
 };
 
-// DraftType => EditorType
-export const parseFromDraft = (d: DraftType): EditorArticle => {
+// DraftIface => EditorType
+export const parseFromDraft = (d: DraftIface): EditorArticle => {
   return {
     id: d.id,
     title: d.title,

@@ -1,4 +1,4 @@
-import { CategoryType } from "~/type";
+import { CategoryIface } from "~/type";
 
 // example
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,12 +15,12 @@ const data = {
 
 class ChartDataHandler {
   private MAX_VIEW = 9;
-  private categories = [] as CategoryType[];
+  private categories = [] as CategoryIface[];
   private labels = [] as string[];
   private data = [] as number[];
   private total = 0;
 
-  constructor(categories?: CategoryType[]) {
+  constructor(categories?: CategoryIface[]) {
     if (categories === undefined) return;
     this.categories = categories;
     this.handleData();
@@ -58,7 +58,7 @@ class ChartDataHandler {
     this.total = 0;
   }
 
-  build(categories: CategoryType[]) {
+  build(categories: CategoryIface[]) {
     this.categories = categories;
     this.reset();
     this.handleData();

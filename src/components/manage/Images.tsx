@@ -50,24 +50,20 @@ const Images = (props: Props) => {
 
   // Fetch images.
   // This called as page is updated.
-  useEffect(() => {
-    defaultApi
-      .apiPrivateFindImageListGet(page, {
+  useEffect(async () => {
+    try {
+      const res = await defaultApi.apiPrivateFindImageListGet(page, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
         },
-      })
-      .then((res) => {
-        if (typeof res === "undefined") {
-          return;
-        }
-        setImages(res.data.images);
-        setNext(res.data.next);
-      })
-      .catch(() => {
-        setVerify(false);
       });
-  }, [page, setVerify]);
+
+      setImages(res.data.images);
+      setNext(res.data.next);
+    } catch (err) {
+      setVerify(false);
+    }
+  }, [page]);
 
   return (
     <ImagesContainerStyled>

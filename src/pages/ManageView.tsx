@@ -1,4 +1,4 @@
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
 import Login from "~/components/auth/Login";
 import Articles from "~/components/manage/Articles";
 import CreateArticle from "~/components/manage/CreateArticle";

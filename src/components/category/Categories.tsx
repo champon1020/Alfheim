@@ -1,5 +1,5 @@
-import { defaultApi } from "~/App";
-import { CategoryType } from "~/type";
+import { defaultApi } from "~/api/entry";
+import { CategoryIface } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -25,7 +25,7 @@ const CategoryListStyled = styled.div`
 `;
 
 const Categories = () => {
-  const [categories, setCategories] = useState([] as CategoryType[]);
+  const [categories, setCategories] = useState([] as CategoryIface[]);
 
   // Fetch categories.
   useEffect(() => {

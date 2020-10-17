@@ -1,7 +1,7 @@
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
 import MenuIcon from "~/assets/images/icons/menu.svg";
 import { parseDraftToArticle } from "~/components/services/parser";
-import { ArticleType, DraftType } from "~/type";
+import { ArticleIface, DraftIface } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
@@ -93,14 +93,15 @@ const Articles = (props: Props) => {
 
   // Menu is displayed or not.
   const [menu, setMenu] = useState(false);
+
   // Menu is opened or not.
   const [openMenu, setOpenMenu] = useState(false);
 
   const [tab, setTab] = useState("");
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [articles, setArticles] = useState([] as ArticleType[]);
-  const [focusedArticle, setFocusedArticle] = useState({} as ArticleType);
+  const [articles, setArticles] = useState([] as ArticleIface[]);
+  const [focusedArticle, setFocusedArticle] = useState({} as ArticleIface);
 
   const toggleMenu = useCallback(() => {
     setOpenMenu(!openMenu);
@@ -109,74 +110,55 @@ const Articles = (props: Props) => {
   // Call api of getting article list
   // and handle got articles.
   const fetchArticles = useCallback(async () => {
-    // Call api.
-    const res = await defaultApi
-      .apiPrivateFindArticleListAllGet(page, {
+    try {
+      const res = await defaultApi.apiPrivateFindArticleListAllGet(page, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
         },
-      })
-      .catch(() => {
-        setVerify(false);
       });
-    if (typeof res === "undefined") return;
 
-    const articleList = [] as ArticleType[];
-    const fetchedArticles = res.data.articles;
+      const fetchedArticles = res.data.articles;
 
-    // null check.
-    if (fetchedArticles === null) {
-      setMaxPage(1);
-      setArticles([]);
-      return;
+      // null and undefined check.
+      if (fetchedArticles === null || fetchedArticles == undefined) {
+        setMaxPage(1);
+        setArticles([]);
+        return;
+      }
+
+      setMaxPage(res.data.maxPage);
+      setArticles(articleList);
+    } catch (err) {
+      // If calling api is failed, set verify false.
+      setVerify(false);
     }
-
-    // Repeat each articles and push them to articleList.
-    // This statement means type of fetchedArticles
-    // whose type is Article (swagger declared automatically)
-    // are changed to ArticleType.
-    fetchedArticles.forEach((v) => {
-      articleList.push(v);
-    });
-    setMaxPage(res.data.maxPage);
-    setArticles(articleList);
   }, [page, setVerify]);
 
   // Call api of getting draft list
   // and handle got articles.
   const fetchDrafts = useCallback(async () => {
-    // Call api.
-    const res = await defaultApi
-      .apiPrivateFindDraftListGet(page, {
+    try {
+      const res = await defaultApi.apiPrivateFindDraftListGet(page, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
         },
-      })
-      .catch(() => {
-        setVerify(false);
       });
-    if (typeof res === "undefined") return;
 
-    const articleList = [] as ArticleType[];
-    const fetchedDrafts = res.data.drafts;
+      const fetchedDrafts = res.data.drafts;
 
-    // null check.
-    if (fetchedDrafts === null) {
-      setMaxPage(1);
-      setArticles([]);
-      return;
+      // null and undefined check.
+      if (fetchedDrafts === null || fetchedDrafts == undefined) {
+        setMaxPage(1);
+        setArticles([]);
+        return;
+      }
+
+      setMaxPage(res.data.maxPage);
+      setArticles(articleList);
+    } catch (err) {
+      // If calling api is failed, set verify false.
+      setVerify(false);
     }
-
-    // Repeat each articles and push them to articleList.
-    // This statement means type of fetchedArticles
-    // whose type is Article (swagger declared automatically)
-    // are changed to ArticleType.
-    fetchedDrafts.forEach((v) => {
-      const a = parseDraftToArticle(v as DraftType);
-      articleList.push(a);
-    });
-    setMaxPage(res.data.maxPage);
-    setArticles(articleList);
   }, [page, setVerify]);
 
   // On click listener of going previous button.
@@ -194,17 +176,29 @@ const Articles = (props: Props) => {
   // Fetch articles or drafts.
   // Selected by the state of tab.
   useEffect(() => {
-    if (tab === "articles") fetchArticles();
-    if (tab === "drafts") fetchDrafts();
-    // eslint-disable-next-line
+    if (tab === "articles") {
+      fetchArticles();
+    }
+    if (tab === "drafts") {
+      fetchDrafts();
+    }
   }, [page, tab]);
 
   // Set state of tab by url pathname.
   // On resize listener.
   useEffect(() => {
-    if (window.location.pathname.endsWith("articles")) setTab("articles");
-    if (window.location.pathname.endsWith("drafts")) setTab("drafts");
-    if (window.innerWidth <= 600) setMenu(true);
+    if (window.location.pathname.endsWith("articles")) {
+      setTab("articles");
+    }
+
+    if (window.location.pathname.endsWith("drafts")) {
+      setTab("drafts");
+    }
+
+    if (window.innerWidth <= 600) {
+      setMenu(true);
+    }
+
     window.onresize = () => {
       window.innerWidth <= 600 ? setMenu(true) : setMenu(false);
     };
@@ -214,7 +208,9 @@ const Articles = (props: Props) => {
   // If openMenu = true, set openMenu false.
   useEffect(() => {
     window.onclick = () => {
-      if (openMenu) setOpenMenu(false);
+      if (openMenu) {
+        setOpenMenu(false);
+      }
     };
   }, [openMenu]);
 

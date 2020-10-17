@@ -4,7 +4,7 @@ import "highlight.js/styles/darcula.css";
 
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
-import { loadMathJax } from "~/App";
+import { loadMathJax } from "~/func";
 import hljs from "highlight.js";
 import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";

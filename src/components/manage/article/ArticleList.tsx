@@ -1,4 +1,4 @@
-import { ArticleType } from "~/type";
+import { ArticleIface } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -20,8 +20,8 @@ const EmptyMessage = styled.h3<{ hidden: boolean }>`
 
 type Props = {
   tab: string;
-  articles: ArticleType[];
-  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleType>>;
+  articles: ArticleIface[];
+  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleIface>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -42,6 +42,7 @@ const ArticleList = (props: Props) => {
         />
       );
     });
+
     return list;
   }, [tab, articles, setFocusedArticle, setVerify]);
 

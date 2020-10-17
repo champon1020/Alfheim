@@ -31,6 +31,7 @@ type Props = {
 
 const Button = (props: Props) => {
   const { text, width, height, backgroundColor, color, handleOnClick } = props;
+
   return (
     <ButtonStyled
       onClick={handleOnClick}

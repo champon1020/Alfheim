@@ -24,51 +24,48 @@ const CreateArticle = (props: Props) => {
 
   // Call api of getting article by id.
   // Update the state of updatingArticle.
-  const fetchArticle = useCallback(
-    async (id: string) => {
-      const res = await defaultApi
-        .apiPrivateFindArticleIdGet(id, {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
-        })
-        .catch(() => {
-          setVerify(false);
-        });
-      if (typeof res === "undefined") return;
-      const fetchedArticle = res.data.article;
-      const editorDraft = parseFromArticle(fetchedArticle);
+  const fetchArticle = async (id: string) => {
+    try {
+      const res = await defaultApi.apiPrivateFindArticleIdGet(id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      });
+
+      const editorDraft = parseFromArticle(res.data.article);
       setUpdatingArticle(editorDraft);
-    },
-    [setVerify]
-  );
+    } catch (err) {
+      // If calling api is failed, set verify false.
+      setVerify(false);
+    }
+  };
 
   // Call api of getting draft by id.
   // Update the state of updatingArticle.
-  const fetchDraft = useCallback(
-    async (id: string) => {
-      const res = await defaultApi
-        .apiPrivateFindDraftIdGet(id, {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
-        })
-        .catch(() => {
-          setVerify(false);
-        });
-      if (typeof res === "undefined") return;
-      const fetchedDraft = res.data.draft;
-      const editorDraft = parseFromDraft(fetchedDraft);
+  const fetchDraft = async (id: string) => {
+    try {
+      const res = await defaultApi.apiPrivateFindDraftIdGet(id, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      });
+
+      const editorDraft = parseFromDraft(res.data.draft);
       setUpdatingArticle(editorDraft);
-    },
-    [setVerify]
-  );
+    } catch (err) {
+      // If calling api is failed, set verify false.
+      setVerify(false);
+    }
+  };
 
   // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
-    if (articleId !== undefined) fetchArticle(articleId);
-    if (draftId !== undefined) fetchDraft(draftId);
-    // eslint-disable-next-line
+    if (articleId !== undefined) {
+      fetchArticle(articleId);
+    }
+    if (draftId !== undefined) {
+      fetchDraft(draftId);
+    }
   }, [articleId, draftId]);
 
   return (

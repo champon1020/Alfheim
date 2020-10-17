@@ -4,6 +4,9 @@
     "host": "HOST",
     "apiHost": "API_HOST",
     "srcHost": "SRC_HOST",
-    "defImg": "DEFAULT_IMG"
+    "defImg": "DEFAULT_IMG",
+    "maxDisplayArticleNum": 6,
+    "maxDisplaySettingImageNum": 12,
+    "maxDisplaySettingArticleNum": 10
   }
 }

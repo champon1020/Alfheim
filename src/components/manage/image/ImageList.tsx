@@ -1,4 +1,5 @@
-import { Config, defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
+import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { MouseEvent, useCallback, useState } from "react";
 import styled from "styled-components";
@@ -77,27 +78,27 @@ const ImageList = (props: Props) => {
   const [selected] = useState([] as string[]);
 
   // Call api of deleting image.
-  const deleteImages = useCallback(
-    async (names: string[]) => {
-      await defaultApi
-        .apiPrivateDeleteImageDelete(names, {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
-        })
-        .catch(() => {
-          setVerify(false);
-        });
-    },
-    [setVerify]
-  );
+  const deleteImages = (names: string[]) => {
+    defaultApi
+      .apiPrivateDeleteImageDelete(names, {
+        headers: {
+          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        },
+      })
+      .catch(() => {
+        setVerify(false);
+      });
+  };
 
   // On focus listener of selecting image.
   // If focused, push to selected array.
   const handleOnSelect = useCallback(
     (e: MouseEvent<HTMLInputElement>) => {
-      if (e.currentTarget.checked) selected.push(e.currentTarget.name);
-      else selected.filter((v) => v !== e.currentTarget.name);
+      if (e.currentTarget.checked) {
+        selected.push(e.currentTarget.name);
+      } else {
+        selected.filter((v) => v !== e.currentTarget.name);
+      }
     },
     [selected]
   );
@@ -119,6 +120,7 @@ const ImageList = (props: Props) => {
     if (images === null || images === undefined || images.length === 0) {
       return <EmptyMessage>{"No Images"}</EmptyMessage>;
     }
+
     images.forEach((v, i) => {
       const path = `${Config.srcHost}/images/${v}`;
       list.push(
@@ -130,6 +132,7 @@ const ImageList = (props: Props) => {
         </ImageListItemStyled>
       );
     });
+
     return list;
   }, [images, handleOnSelect]);
 

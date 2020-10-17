@@ -4,8 +4,8 @@ import "~/assets/styles/toast-ui-wrapper.css";
 
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
-import { Config } from "~/App";
-import { ArticleType } from "~/type";
+import { Config } from "~/config";
+import { ArticleIface } from "~/type";
 import hljs from "highlight.js";
 import React, { createRef, useCallback, useEffect } from "react";
 import styled from "styled-components";
@@ -46,7 +46,7 @@ const ViewerWrapper = styled.div`
 
 type Props = {
   tab: string;
-  focusedArticle: ArticleType;
+  focusedArticle: ArticleIface;
 };
 
 const Preview = (props: Props) => {
@@ -56,7 +56,10 @@ const Preview = (props: Props) => {
   // On click listener of 'Edit' button.
   // Jump to edit page with article|draft id.
   const handleEditClick = useCallback(() => {
-    if (focusedArticle.id === undefined) return;
+    if (focusedArticle.id === undefined) {
+      return;
+    }
+
     const pName = tab === "articles" ? "articleId" : "draftId";
     window.open(`${Config.host}/manage?${pName}=${focusedArticle.id}`, "_self");
   }, [focusedArticle.id, tab]);

@@ -1,8 +1,8 @@
-export interface ArticleType {
+export interface ArticleIface {
   id: string;
   sortedId: number;
   title: string;
-  categories: CategoryType[];
+  categories: CategoryIface[];
   createDate: string;
   updateDate: string;
   content: string;
@@ -10,13 +10,12 @@ export interface ArticleType {
   isPrivate: boolean;
 }
 
-export interface CategoryType {
+export interface CategoryIface {
   id: string;
   name: string;
-  articleNum: number;
 }
 
-export interface DraftType {
+export interface DraftIface {
   id: string;
   sortedId: number;
   title: string;
@@ -26,21 +25,16 @@ export interface DraftType {
   imageHash: string;
 }
 
-export interface ArticleRequestType {
+export interface ArticleReq {
   id: string;
   title: string;
-  categories: CategoryRequestType[];
+  categories: CategoryIface[];
   content: string;
   imageHash: string;
   isPrivate: boolean;
 }
 
-export interface CategoryRequestType {
-  id: string;
-  name: string;
-}
-
-export interface DraftRequestType {
+export interface DraftReq {
   id: string;
   title: string;
   categories: string;

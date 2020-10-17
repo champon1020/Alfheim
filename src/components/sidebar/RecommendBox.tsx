@@ -1,6 +1,6 @@
-import { Config } from "~/App";
-import { pathJoin } from "~/components/services/parser";
-import { ArticleType } from "~/type";
+import { pathJoin } from "~/components/parser";
+import { Config } from "~/config";
+import { ArticleIface } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -43,7 +43,7 @@ const TitleWord = styled.h2`
 `;
 
 type Props = {
-  article: ArticleType;
+  article: ArticleIface;
 };
 
 const RecommendBox = (props: Props) => {

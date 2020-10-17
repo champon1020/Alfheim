@@ -1,9 +1,9 @@
 import { InlineResponse2002 } from "~/api/api";
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
 import SideBar from "~/components/common/SideBar";
 import ArticleList from "~/components/home/ArticleList";
 import { parsePage } from "~/components/services/parser";
-import { ArticleType } from "~/type";
+import { ArticleIface } from "~/type";
 import { AxiosResponse } from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -81,7 +81,7 @@ type Props = IRouteProps;
 const HomeView = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
-  const [articles, setArticles] = useState([] as ArticleType[]);
+  const [articles, setArticles] = useState([] as ArticleIface[]);
   const [maxPage, setMaxPage] = useState(0);
 
   // Jump to previous page.
