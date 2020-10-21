@@ -2,8 +2,7 @@ import { defaultApi } from "~/api/entry";
 import SideBar from "~/components/common/SideBar";
 import ArticleList from "~/components/home/ArticleList";
 import { Config } from "~/config";
-import { parsePage } from "~/func";
-import { countToMaxPage } from "~/func";
+import { countToMaxPage, parsePage } from "~/func";
 import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -11,7 +10,7 @@ import styled from "styled-components";
 import Page from "./Page";
 import { IRouteProps, PathParams } from "./PublicView";
 
-const MainContainer = styled.div`
+const StyledMain = styled.div`
   order: 1;
   width: calc(var(--container-width) / 4 * 3);
   @media (max-width: 1000px) {
@@ -21,10 +20,10 @@ const MainContainer = styled.div`
   @media (max-width: 800px) {
     width: 80%;
     margin: 0 auto;
-  }
+  }n
 `;
 
-const SubContainer = styled.div`
+const StyledSub = styled.div`
   order: 2;
   width: calc(var(--container-width) / 4);
   @media (max-width: 1000px) {
@@ -36,20 +35,6 @@ const SubContainer = styled.div`
   }
 `;
 
-// Scroll to the top of articles.
-const scroll = () => {
-  window.scroll({
-    top: 430,
-    behavior: "smooth",
-  });
-};
-
-// Append query parameter to pathname.
-const pageAppendedPath = (page: string | number) => {
-  const path = window.location.pathname;
-  return path + "?p=" + page;
-};
-
 type Props = IRouteProps;
 
 const HomeView = (props: Props) => {
@@ -58,25 +43,15 @@ const HomeView = (props: Props) => {
   const [articles, setArticles] = useState([] as IArticle[]);
   const [maxPage, setMaxPage] = useState(0);
 
-  // Jump to previous page.
+  // Callback function called as jumping to previous page.
   const prevCallback = useCallback(() => {
-    window.history.pushState(null, "", pageAppendedPath(page - 1));
-    setPage(page - 1);
-    scroll();
+    window.open(`${Config.url}?p=${page - 1}`, "_self");
   }, [page]);
 
-  // Jump to next page.
+  // Callback function called as jumping to next page.
   const nextCallback = useCallback(() => {
-    if (page + 1 > 1) {
-      window.history.pushState(null, "", pageAppendedPath(page + 1));
-      setPage(page + 1);
-      scroll();
-    }
+    window.open(`${Config.url}?p=${page + 1}`, "_self");
   }, [page]);
-
-  window.onpopstate = () => {
-    setPage(parsePage(window.location.href));
-  };
 
   // Fetch articles.
   useEffect(() => {
@@ -116,7 +91,6 @@ const HomeView = (props: Props) => {
           return;
         }
 
-        // Update states.
         setMaxPage(countToMaxPage(res.data.count, Config.maxArticleNum));
         setArticles(res.data.articles);
       } catch (err) {
@@ -127,13 +101,15 @@ const HomeView = (props: Props) => {
     fetchArticles();
   }, [params, page]);
 
+  // Parse page number from query parameter.
   useEffect(() => {
-    window.history.pushState(null, "", window.location.pathname);
+    const page = parsePage(window.location.href);
+    setPage(page);
   }, []);
 
   return (
     <>
-      <MainContainer>
+      <StyledMain>
         <ArticleList articles={articles} />
         <Page
           current={page}
@@ -144,10 +120,10 @@ const HomeView = (props: Props) => {
           prevCallback={prevCallback}
           nextCallback={nextCallback}
         />
-      </MainContainer>
-      <SubContainer>
+      </StyledMain>
+      <StyledSub>
         <SideBar />
-      </SubContainer>
+      </StyledSub>
     </>
   );
 };

@@ -3,7 +3,7 @@ import SideBar from "~/components/common/SideBar";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-const MainContainer = styled.div`
+const StyledMain = styled.div`
   order: 1;
   width: calc(var(--container-width) / 4 * 3);
   @media (max-width: 1000px) {
@@ -16,7 +16,7 @@ const MainContainer = styled.div`
   }
 `;
 
-const SubContainer = styled.div`
+const StyledSub = styled.div`
   order: 2;
   width: calc(var(--container-width) / 4);
   @media (max-width: 1000px) {
@@ -29,21 +29,14 @@ const SubContainer = styled.div`
 `;
 
 const CategoryListView = () => {
-  useEffect(() => {
-    // window.scroll({
-    //   top: 1000,
-    //   behavior: "smooth"
-    // });
-  }, []);
-
   return (
     <>
-      <MainContainer>
+      <StyledMain>
         <Categories />
-      </MainContainer>
-      <SubContainer>
+      </StyledMain>
+      <StyledSub>
         <SideBar />
-      </SubContainer>
+      </StyledSub>
     </>
   );
 };

@@ -12,7 +12,7 @@ import styled from "styled-components";
 import PageWithTitle from "./PageWithTitle";
 import { IRouteProps } from "./PublicView";
 
-const MainContainer = styled.div`
+const StyledMain = styled.div`
   order: 1;
   width: calc(var(--container-width) / 4 * 3);
   margin-right: 20px;
@@ -29,7 +29,7 @@ const MainContainer = styled.div`
   }
 `;
 
-const SubContainer = styled.div`
+const StyledSub = styled.div`
   order: 2;
   margin: 0;
   width: calc(var(--container-width) / 4);
@@ -55,7 +55,7 @@ const ArticleView = (props: Props) => {
   const [nextArticle, setNextArticle] = useState({} as IArticle);
   const [article, setArticle] = useState({} as IArticle);
 
-  const draftsStore = useSelector<RootState, ManageState>(
+  const draftStore = useSelector<RootState, ManageState>(
     (state: any) => state.manageReducer
   );
 
@@ -65,12 +65,12 @@ const ArticleView = (props: Props) => {
     return id === undefined ? -1 : Number.parseInt(id);
   }, [match]);
 
-  // Callback function to jump to previous article.
+  // Callback function called as moving to previous article.
   const prevCallback = useCallback(() => {
     window.open(`${Config.url}/article/${prevArticle.sortedId}`, "_self");
   }, [prevArticle.sortedId]);
 
-  // Callbakc function to jump to next article.
+  // Callback function called as moving to next article.
   const nextCallback = useCallback(() => {
     window.open(`${Config.url}/article/${nextArticle.sortedId}`, "_self");
   }, [nextArticle.sortedId]);
@@ -80,8 +80,8 @@ const ArticleView = (props: Props) => {
   // If this is article, call api to get article.
   useEffect((id?: number) => {
     if (checkIsDraft()) {
-      const article: IArticle = parse(draftsStore.article, "IArticle");
-      article.content = draftsStore.draftContent;
+      const article: IArticle = parse(draftStore.article, "IArticle");
+      article.content = draftStore.draftContent;
       setArticle(article);
       return;
     }
@@ -103,7 +103,7 @@ const ArticleView = (props: Props) => {
 
   return (
     <>
-      <MainContainer>
+      <StyledMain>
         <Article article={article} />
         <PageWithTitle
           prevText={prevArticle.title}
@@ -111,10 +111,10 @@ const ArticleView = (props: Props) => {
           prevCallback={prevCallback}
           nextCallback={nextCallback}
         />
-      </MainContainer>
-      <SubContainer>
+      </StyledMain>
+      <StyledSub>
         <SideBar />
-      </SubContainer>
+      </StyledSub>
     </>
   );
 };

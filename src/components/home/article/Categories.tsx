@@ -2,7 +2,8 @@ import { ICategory } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-const CategoryBoxStyled = styled.ul`
+const StyledCategories = styled.ul`
+  margin-top: 3%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -23,7 +24,7 @@ interface Props {
   categories: ICategory[];
 }
 
-const ArticleBoxCategory = (props: Props) => {
+const Categories = (props: Props) => {
   const { categories } = props;
 
   const categoryList = useCallback(() => {
@@ -39,7 +40,7 @@ const ArticleBoxCategory = (props: Props) => {
     return list;
   }, [categories]);
 
-  return <CategoryBoxStyled>{categoryList()}</CategoryBoxStyled>;
+  return <StyledCategories>{categoryList()}</StyledCategories>;
 };
 
-export default ArticleBoxCategory;
+export default Categories;

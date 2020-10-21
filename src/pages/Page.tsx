@@ -1,27 +1,27 @@
 import * as React from "react";
 import styled from "styled-components";
 
-const PageStyled = styled.ul`
+const StyledPageBox = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: center;
   padding: 0 3%;
 `;
 
-const PageCurrentStyled = styled.li<{ current: string | number | boolean }>`
+const StyledCurrentPage = styled.li<{ current: string | number | boolean }>`
   display: ${({ current }) => `${!current ? "hidden" : ""}`};
   font-size: 2.8rem;
   width: 20%;
   text-align: center;
 `;
 
-const PageElementStyled = styled.li`
+const StyledPage = styled.li`
   font-size: 2.4rem;
   text-align: center;
   width: 40%;
 `;
 
-const PageElementText = styled.div<{ hidden: boolean }>`
+const StyledText = styled.div<{ hidden: boolean }>`
   display: ${({ hidden }) => `${hidden ? "none" : "inline-block"}`};
   font-size: 2.4rem;
   width: 100%;
@@ -56,19 +56,19 @@ const Page = (props: Props) => {
   } = props;
 
   return (
-    <PageStyled>
-      <PageElementStyled>
-        <PageElementText hidden={hiddenPrev} onClick={prevCallback}>
+    <StyledPageBox>
+      <StyledPage>
+        <StyledText hidden={hiddenPrev} onClick={prevCallback}>
           {prevText}
-        </PageElementText>
-      </PageElementStyled>
-      <PageCurrentStyled current={current}>{current}</PageCurrentStyled>
-      <PageElementStyled>
-        <PageElementText hidden={hiddenNext} onClick={nextCallback}>
+        </StyledText>
+      </StyledPage>
+      <StyledCurrentPage current={current}>{current}</StyledCurrentPage>
+      <StyledPage>
+        <StyledText hidden={hiddenNext} onClick={nextCallback}>
           {nextText}
-        </PageElementText>
-      </PageElementStyled>
-    </PageStyled>
+        </StyledText>
+      </StyledPage>
+    </StyledPageBox>
   );
 };
 

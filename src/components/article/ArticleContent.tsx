@@ -9,7 +9,7 @@ import hljs from "highlight.js";
 import React, { useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 
-const ArticleContentStyled = styled.article`
+const StyledContainer = styled.article`
   width: 90%;
   margin: 10% auto 50px auto;
   font-size: 1.6rem;
@@ -48,9 +48,7 @@ const ArticleContent = (props: Props) => {
     hljs.initHighlightingOnLoad();
   }, []);
 
-  return (
-    <ArticleContentStyled ref={contentRef}>{viewer()}</ArticleContentStyled>
-  );
+  return <StyledContainer ref={contentRef}>{viewer()}</StyledContainer>;
 };
 
 export default ArticleContent;

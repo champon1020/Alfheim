@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import ShareBox from "./ShareBox";
 
-const ArticleFooterStyled = styled.div`
+const StyledFooter = styled.div`
   height: 50px;
 `;
 
@@ -16,9 +16,9 @@ const ArticleFooter = (props: Props) => {
   const { article } = props;
 
   return (
-    <ArticleFooterStyled>
+    <StyledFooter>
       <ShareBox article={article} />
-    </ArticleFooterStyled>
+    </StyledFooter>
   );
 };
 

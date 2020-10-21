@@ -2,7 +2,7 @@ import { ICategory } from "~/type";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
-const CategoryListStyled = styled.ul`
+const StyledCategories = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -14,7 +14,7 @@ const CategoryListStyled = styled.ul`
   }
 `;
 
-const CategoryListItemStyled = styled.li`
+const StyledCategory = styled.li`
   margin: 0 10px;
   color: brown;
   border: solid 1px brown;
@@ -47,20 +47,16 @@ const Category = (props: Props) => {
 
     categories.forEach((v, i) => {
       list.push(
-        <CategoryListItemStyled
-          key={i}
-          className={v.name}
-          onClick={onClickCategory}
-        >
+        <StyledCategory key={i} className={v.name} onClick={onClickCategory}>
           {v.name}
-        </CategoryListItemStyled>
+        </StyledCategory>
       );
     });
 
     return list;
   }, [categories, onClickCategory]);
 
-  return <CategoryListStyled>{categoryList()}</CategoryListStyled>;
+  return <StyledCategories>{categoryList()}</StyledCategories>;
 };
 
 export default Category;

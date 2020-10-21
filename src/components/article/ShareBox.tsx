@@ -12,11 +12,11 @@ import {
 } from "react-share";
 import styled from "styled-components";
 
-const ArticleShareBoxStyled = styled.div`
+const StyledShareBox = styled.div`
   margin-bottom: 50px;
 `;
 
-const ShareListStyled = styled.ul`
+const StyledShareList = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -24,14 +24,14 @@ const ShareListStyled = styled.ul`
   margin: 0 auto;
 `;
 
-const ShareListItemStyled = styled.li`
+const StyledShareItem = styled.li`
   margin-right: 2rem;
   &:hover {
     opacity: 0.6;
   }
 `;
 
-const IconImage = styled.img`
+const StyledIcon = styled.img`
   height: 4rem;
   width: 4rem;
 `;
@@ -81,36 +81,36 @@ const ShareBox = (props: Props) => {
   }, [article]);
 
   return (
-    <ArticleShareBoxStyled>
+    <StyledShareBox>
       {meta()}
-      <ShareListStyled>
-        <ShareListItemStyled>
+      <StyledShareList>
+        <StyledShareItem>
           <TwitterShareButton
             url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
             hashtags={hashtagArray()}
           >
-            <IconImage src={TwitterIcon} alt={"twitter share"} />
+            <StyledIcon src={TwitterIcon} alt={"twitter share"} />
           </TwitterShareButton>
-        </ShareListItemStyled>
-        <ShareListItemStyled>
+        </StyledShareItem>
+        <StyledShareItem>
           <FacebookShareButton
             url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
           >
-            <IconImage src={FacebookIcon} alt={"facebook share"} />
+            <StyledIcon src={FacebookIcon} alt={"facebook share"} />
           </FacebookShareButton>
-        </ShareListItemStyled>
-        <ShareListItemStyled>
+        </StyledShareItem>
+        <StyledShareItem>
           <LinkedinShareButton
             url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
           >
-            <IconImage src={LinkedinIcon} alt={"linkedin share"} />
+            <StyledIcon src={LinkedinIcon} alt={"linkedin share"} />
           </LinkedinShareButton>
-        </ShareListItemStyled>
-      </ShareListStyled>
-    </ArticleShareBoxStyled>
+        </StyledShareItem>
+      </StyledShareList>
+    </StyledShareBox>
   );
 };
 

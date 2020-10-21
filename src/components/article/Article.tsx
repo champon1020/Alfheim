@@ -6,7 +6,7 @@ import ArticleContent from "./ArticleContent";
 import ArticleFooter from "./ArticleFooter";
 import ArticleHeader from "./ArticleHeader";
 
-const ArticleContainerStyled = styled.div`
+const StyledContainer = styled.div`
   background-color: ghostwhite;
   padding: 40px 10px;
   margin-bottom: 70px;
@@ -24,11 +24,11 @@ const Article = (props: Props) => {
   const { article } = props;
 
   return (
-    <ArticleContainerStyled>
+    <StyledContainer>
       <ArticleHeader article={article} />
       <ArticleContent content={article.content} />
       <ArticleFooter article={article} />
-    </ArticleContainerStyled>
+    </StyledContainer>
   );
 };
 

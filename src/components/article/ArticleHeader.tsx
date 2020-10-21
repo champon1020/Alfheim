@@ -5,13 +5,13 @@ import styled from "styled-components";
 
 import Category from "./Category";
 
-const ArticleHeaderStyled = styled.div`
+const StyledHeader = styled.div`
   & p {
     margin: 0;
   }
 `;
 
-const DateContainerStyled = styled.div`
+const StyledDate = styled.div`
   display: inline-block;
   font-size: 2rem;
   border-bottom: solid thin gray;
@@ -22,7 +22,7 @@ const DateContainerStyled = styled.div`
   }
 `;
 
-const TitleContainerStyled = styled.div`
+const StyledTitle = styled.div`
   text-align: center;
   font-size: 2.4rem;
   width: 80%;
@@ -37,7 +37,7 @@ const TitleContainerStyled = styled.div`
   }
 `;
 
-const CategoryContainerStyled = styled.div`
+const StyledCategory = styled.div`
   width: 80%;
   margin: 0 auto;
 `;
@@ -50,17 +50,17 @@ const ArticleHeader = (props: Props) => {
   const { article } = props;
 
   return (
-    <ArticleHeaderStyled>
-      <DateContainerStyled>
+    <StyledHeader>
+      <StyledDate>
         <p>{formatDateStr(article.createDate)}</p>
-      </DateContainerStyled>
-      <TitleContainerStyled>
+      </StyledDate>
+      <StyledTitle>
         <h2>{article.title}</h2>
-      </TitleContainerStyled>
-      <CategoryContainerStyled>
+      </StyledTitle>
+      <StyledCategory>
         <Category categories={article.categories} />
-      </CategoryContainerStyled>
-    </ArticleHeaderStyled>
+      </StyledCategory>
+    </StyledHeader>
   );
 };
 

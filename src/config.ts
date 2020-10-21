@@ -20,6 +20,8 @@ const getConfig = (): ConfigType => {
     return require("./private/config.test.json");
   }
 
+  console.log(process.env.REACT_APP_TRAVIS);
+
   // Return dev mode configuration.
   if (process.env.REACT_APP_ALFHEIM_MODE === "dev") {
     return require("./private/config.dev.json");
