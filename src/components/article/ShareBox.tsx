@@ -2,7 +2,7 @@ import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
 import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
 import { Config } from "~/config";
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import { Helmet } from "react-helmet";
 import {
@@ -37,7 +37,7 @@ const IconImage = styled.img`
 `;
 
 type Props = {
-  article: ArticleIface;
+  article: IArticle;
 };
 
 const ShareBox = (props: Props) => {

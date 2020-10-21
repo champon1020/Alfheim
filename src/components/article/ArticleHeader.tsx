@@ -1,5 +1,5 @@
-import { formatDateStr } from "~/components/parser";
-import { ArticleIface } from "~/type";
+import { formatDateStr } from "~/func";
+import { IArticle } from "~/type";
 import React from "react";
 import styled from "styled-components";
 
@@ -43,7 +43,7 @@ const CategoryContainerStyled = styled.div`
 `;
 
 type Props = {
-  article: ArticleIface;
+  article: IArticle;
 };
 
 const ArticleHeader = (props: Props) => {

@@ -1,11 +1,11 @@
 import rootReducer from "~/reducers/rootReducer";
-import { DraftIface } from "~/type";
+import { IDraft } from "~/type";
 import { AnyAction, Store, createStore } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 export type ManageState = {
-  article: DraftIface;
+  article: IDraft;
   draftContent: string;
 };
 

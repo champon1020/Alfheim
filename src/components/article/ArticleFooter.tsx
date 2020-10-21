@@ -1,4 +1,4 @@
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React from "react";
 import styled from "styled-components";
 
@@ -9,7 +9,7 @@ const ArticleFooterStyled = styled.div`
 `;
 
 type Props = {
-  article: ArticleIface;
+  article: IArticle;
 };
 
 const ArticleFooter = (props: Props) => {

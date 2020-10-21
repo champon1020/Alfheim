@@ -1,4 +1,4 @@
-import { CategoryIface } from "~/type";
+import { ICategory } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -20,7 +20,7 @@ const CategoryBoxStyled = styled.ul`
 `;
 
 interface Props {
-  categories: CategoryIface[];
+  categories: ICategory[];
 }
 
 const ArticleBoxCategory = (props: Props) => {

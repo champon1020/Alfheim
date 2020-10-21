@@ -1,6 +1,6 @@
-import { formatDateStr, pathJoin } from "~/components/parser";
 import { Config } from "~/config";
-import { ArticleIface } from "~/type";
+import { formatDateStr, pathJoin } from "~/func";
+import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -69,7 +69,7 @@ const TitleBoxStyled = styled.div`
 `;
 
 interface Props {
-  article: ArticleIface;
+  article: IArticle;
 }
 
 const ArticleBox = (props: Props) => {

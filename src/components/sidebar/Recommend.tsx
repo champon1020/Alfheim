@@ -1,5 +1,5 @@
 import { defaultApi } from "~/api/entry";
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -14,7 +14,7 @@ const EmptyMessage = styled.h3`
 const newArticlesNum = 5;
 
 const Recommend: React.FC = () => {
-  const [newArticles, setNewArticles] = useState([] as ArticleIface[]);
+  const [newArticles, setNewArticles] = useState([] as IArticle[]);
 
   const newArticleList = useCallback(() => {
     if (

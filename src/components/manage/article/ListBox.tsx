@@ -1,7 +1,7 @@
 import { defaultApi } from "~/api/entry";
-import { formatDateStr, pathJoin } from "~/components/parser";
 import { Config } from "~/config";
-import { ArticleIface } from "~/type";
+import { formatDateStr, pathJoin } from "~/func";
+import { IArticle } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
@@ -68,9 +68,9 @@ const TitleDateStyled = styled.div`
 `;
 
 interface Props {
-  article: ArticleIface;
+  article: IArticle;
   tab: string;
-  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleIface>>;
+  setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

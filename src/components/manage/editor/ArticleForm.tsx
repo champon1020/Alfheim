@@ -15,7 +15,7 @@ import {
   MyErrorStatus,
 } from "~/components/error/ErrorHandler";
 import { parse } from "~/parser";
-import { ArticleReq, DraftIface, DraftReq, EditorArticle } from "~/type";
+import { IArticleReq, IDraft, IDraftReq, IEditorArticle } from "~/type";
 import hljs from "highlight.js";
 import Cookie from "js-cookie";
 import React, { createRef, useCallback, useEffect, useState } from "react";
@@ -38,7 +38,7 @@ const EditorStyled = styled.div`
 `;
 
 // Default editor article|draft object.
-export const defaultEditorDraft: EditorArticle = {
+export const defaultEditorDraft: IEditorArticle = {
   id: "",
   title: "",
   categories: "",
@@ -56,7 +56,7 @@ const apiOff = false;
 const onlineSaveDuration = 3000;
 
 type Props = {
-  updatingArticle?: EditorArticle;
+  updatingArticle?: IEditorArticle;
   isExistArticle: boolean;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -109,7 +109,7 @@ const ArticleForm = (props: Props) => {
   };
 
   // Call api of registering article.
-  const registerArticle = async (a: ArticleReq) => {
+  const registerArticle = async (a: IArticleReq) => {
     if (apiOff) {
       return;
     }
@@ -143,7 +143,7 @@ const ArticleForm = (props: Props) => {
   };
 
   // Call api of updating article.
-  const updateArticle = async (a: ArticleReq) => {
+  const updateArticle = async (a: IArticleReq) => {
     if (apiOff) {
       return;
     }
@@ -177,7 +177,7 @@ const ArticleForm = (props: Props) => {
   };
 
   // Call api of updating draft.
-  const updateDraft = async (d: DraftReq) => {
+  const updateDraft = async (d: IDraftReq) => {
     if (apiOff || validation(d.title, d.categories)) {
       return;
     }
@@ -235,7 +235,7 @@ const ArticleForm = (props: Props) => {
     editorDraft.content = newMdContent;
 
     // Update the state of editor draft.
-    const draft: DraftIface = parse(editorDraft, "IDraft");
+    const draft: IDraft = parse(editorDraft, "IDraft");
     dispatch(appActionCreator.updateDraft(draft, newMdContent));
 
     // Call updating function after onlineSaveDration.
@@ -246,7 +246,7 @@ const ArticleForm = (props: Props) => {
         return;
       }
 
-      const reqDraft: DraftReq = parse(editorDraft, "IDraftReq");
+      const reqDraft: IDraftReq = parse(editorDraft, "IDraftReq");
       updateDraft(reqDraft);
     }, onlineSaveDuration);
 
@@ -270,7 +270,7 @@ const ArticleForm = (props: Props) => {
 
     editorDraft.content = newMdContent;
 
-    const reqArticle: ArticleReq = parse(editorDraft, "IArticleReq");
+    const reqArticle: IArticleReq = parse(editorDraft, "IArticleReq");
 
     if (isExistArticle) {
       updateArticle(reqArticle);

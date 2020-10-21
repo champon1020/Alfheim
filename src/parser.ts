@@ -1,10 +1,10 @@
 import {
-  ArticleIface,
-  ArticleReq,
-  CategoryIface,
-  DraftIface,
-  DraftReq,
-  EditorArticle,
+  IArticle,
+  IArticleReq,
+  ICategory,
+  IDraft,
+  IDraftReq,
+  IEditorArticle,
   implementsIArticle,
   implementsIDraft,
   implementsIEditorArticle,
@@ -18,7 +18,7 @@ type ParseDist =
   | "IDraftReq";
 
 export const parse = (
-  obj: ArticleIface | CategoryIface | DraftIface | EditorArticle,
+  obj: IArticle | ICategory | IDraft | IEditorArticle,
   dist: ParseDist
 ): any => {
   switch (dist) {
@@ -66,8 +66,8 @@ export const parse = (
 };
 
 // IDraft => IArticle
-const parseIDraftToIArticle = (d: DraftIface): ArticleIface => {
-  const categories: CategoryIface[] = parseCategory(d.categories, "List");
+const parseIDraftToIArticle = (d: IDraft): IArticle => {
+  const categories: ICategory[] = parseCategory(d.categories, "List");
 
   return {
     id: d.id,
@@ -83,7 +83,7 @@ const parseIDraftToIArticle = (d: DraftIface): ArticleIface => {
 };
 
 // IEditorArticle => IDraft
-export const parseIEditorArticleToIDraft = (e: EditorArticle): DraftIface => {
+export const parseIEditorArticleToIDraft = (e: IEditorArticle): IDraft => {
   return {
     id: e.id,
     sortedId: -1,
@@ -96,7 +96,7 @@ export const parseIEditorArticleToIDraft = (e: EditorArticle): DraftIface => {
 };
 
 // IArticle => IEditorArticle
-const parseIArticleToIEditorArticle = (a: ArticleIface): EditorArticle => {
+const parseIArticleToIEditorArticle = (a: IArticle): IEditorArticle => {
   const categories: string = parseCategory(a.categories, "Str");
 
   return {
@@ -111,7 +111,7 @@ const parseIArticleToIEditorArticle = (a: ArticleIface): EditorArticle => {
 };
 
 // IDraft => IEditorArticle
-const parseIDraftToIEditorArticle = (d: DraftIface): EditorArticle => {
+const parseIDraftToIEditorArticle = (d: IDraft): IEditorArticle => {
   const categories: string = parseCategory(d.categories, "Str");
 
   return {
@@ -126,8 +126,8 @@ const parseIDraftToIEditorArticle = (d: DraftIface): EditorArticle => {
 };
 
 // IEditorArticle => IArticleReq
-const parseIEditorArticleToIArticleReq = (e: EditorArticle): ArticleReq => {
-  const categories: CategoryIface[] = parseCategory(e.categories, "List");
+const parseIEditorArticleToIArticleReq = (e: IEditorArticle): IArticleReq => {
+  const categories: ICategory[] = parseCategory(e.categories, "List");
 
   return {
     id: e.id,
@@ -140,7 +140,7 @@ const parseIEditorArticleToIArticleReq = (e: EditorArticle): ArticleReq => {
 };
 
 // EditorArticle => IDraftReq
-const parseIEditorArticleToIDraftReq = (e: EditorArticle): DraftReq => {
+const parseIEditorArticleToIDraftReq = (e: IEditorArticle): IDraftReq => {
   const categories: string = parseCategory(e.categories, "ReqStr");
   return {
     id: e.id,
@@ -152,7 +152,7 @@ const parseIEditorArticleToIDraftReq = (e: EditorArticle): DraftReq => {
 };
 
 const parseCategory = (
-  obj: CategoryIface[] | string,
+  obj: ICategory[] | string,
   dist: "List" | "Str" | "ReqStr"
 ): any => {
   switch (dist) {
@@ -181,14 +181,14 @@ const parseCategory = (
   return null;
 };
 
-// Category (string: for draft object) => CategoryIface[]
-const parseCategoryStrToList = (category: string): CategoryIface[] => {
+// Category (string: for draft object) => ICategory[]
+const parseCategoryStrToList = (category: string): ICategory[] => {
   const categories = category.split(",");
   if (categories[0] === "") {
     return [];
   }
 
-  const categoryList = [] as CategoryIface[];
+  const categoryList = [] as ICategory[];
   categories.forEach((v) => {
     categoryList.push({
       id: "id",
@@ -200,8 +200,8 @@ const parseCategoryStrToList = (category: string): CategoryIface[] => {
   return categoryList;
 };
 
-// CategoryIface[] => Category (string: for draft object)
-const parseCategoryListToStr = (categories: CategoryIface[]): string => {
+// ICategory[] => Category (string: for draft object)
+const parseCategoryListToStr = (categories: ICategory[]): string => {
   if (categories === null) {
     return "";
   }

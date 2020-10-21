@@ -1,6 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import { parse } from "~/parser";
-import { EditorArticle } from "~/type";
+import { IEditorArticle } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
@@ -33,7 +33,7 @@ const CreateArticle = (props: Props) => {
         },
       });
 
-      const editorDraft: EditorArticle = parse(
+      const editorDraft: IEditorArticle = parse(
         res.data.article,
         "IEditorArticle"
       );
@@ -54,7 +54,7 @@ const CreateArticle = (props: Props) => {
         },
       });
 
-      const editorDraft: EditorArticle = parse(
+      const editorDraft: IEditorArticle = parse(
         res.data.draft,
         "IEditorArticle"
       );

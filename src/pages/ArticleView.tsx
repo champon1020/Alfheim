@@ -1,10 +1,10 @@
 import { defaultApi } from "~/api/entry";
 import Article from "~/components/article/Article";
 import SideBar from "~/components/common/SideBar";
-import { parseDraftToArticle } from "~/components/parser";
 import { Config } from "~/config";
+import { parse } from "~/parser";
 import { ManageState, RootState } from "~/stores/store";
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -51,9 +51,9 @@ const checkIsDraft = () => {
 
 const ArticleView = (props: Props) => {
   const { match } = props;
-  const [prevArticle, setPrevArticle] = useState({} as ArticleIface);
-  const [nextArticle, setNextArticle] = useState({} as ArticleIface);
-  const [article, setArticle] = useState({} as ArticleIface);
+  const [prevArticle, setPrevArticle] = useState({} as IArticle);
+  const [nextArticle, setNextArticle] = useState({} as IArticle);
+  const [article, setArticle] = useState({} as IArticle);
 
   const draftsStore = useSelector<RootState, ManageState>(
     (state: any) => state.manageReducer
@@ -80,7 +80,7 @@ const ArticleView = (props: Props) => {
   // If this is article, call api to get article.
   useEffect((id?: number) => {
     if (checkIsDraft()) {
-      const article = parseDraftToArticle(draftsStore.article);
+      const article: IArticle = parse(draftsStore.article, "IArticle");
       article.content = draftsStore.draftContent;
       setArticle(article);
       return;

@@ -5,7 +5,7 @@ import CreateArticle from "~/components/manage/CreateArticle";
 import Images from "~/components/manage/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
-import { parseQueryParam } from "~/components/parser";
+import { parseQueryParam } from "~/func";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -32,7 +32,7 @@ const EmptyMessage = styled.h3`
 `;
 
 interface Props {
-  articles: ArticleIface[];
+  articles: IArticle[];
 }
 
 const ArticleList = (props: Props) => {

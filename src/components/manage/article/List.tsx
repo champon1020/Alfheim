@@ -1,4 +1,4 @@
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -20,8 +20,8 @@ const EmptyMessage = styled.h3<{ hidden: boolean }>`
 
 interface Props {
   tab: string;
-  articles: ArticleIface[];
-  setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleIface>>;
+  articles: IArticle[];
+  setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }
 

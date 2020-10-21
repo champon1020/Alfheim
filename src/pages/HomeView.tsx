@@ -1,10 +1,10 @@
 import { defaultApi } from "~/api/entry";
 import SideBar from "~/components/common/SideBar";
 import ArticleList from "~/components/home/ArticleList";
-import { parsePage } from "~/components/parser";
 import { Config } from "~/config";
+import { parsePage } from "~/func";
 import { countToMaxPage } from "~/func";
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -55,7 +55,7 @@ type Props = IRouteProps;
 const HomeView = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
-  const [articles, setArticles] = useState([] as ArticleIface[]);
+  const [articles, setArticles] = useState([] as IArticle[]);
   const [maxPage, setMaxPage] = useState(0);
 
   // Jump to previous page.

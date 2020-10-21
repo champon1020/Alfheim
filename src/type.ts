@@ -1,8 +1,8 @@
-export interface ArticleIface {
+export interface IArticle {
   id: string;
   sortedId: number;
   title: string;
-  categories: CategoryIface[];
+  categories: ICategory[];
   createDate: string;
   updateDate: string;
   content: string;
@@ -10,7 +10,7 @@ export interface ArticleIface {
   isPrivate: boolean;
 }
 
-export const implementsIArticle = (arg: any): arg is ArticleIface => {
+export const implementsIArticle = (arg: any): arg is IArticle => {
   return (
     arg !== null &&
     typeof arg === "object" &&
@@ -26,7 +26,7 @@ export const implementsIArticle = (arg: any): arg is ArticleIface => {
   );
 };
 
-export interface DraftIface {
+export interface IDraft {
   id: string;
   sortedId: number;
   title: string;
@@ -36,7 +36,7 @@ export interface DraftIface {
   imageHash: string;
 }
 
-export const implementsIDraft = (arg: any): arg is DraftIface => {
+export const implementsIDraft = (arg: any): arg is IDraft => {
   return (
     arg !== null &&
     typeof arg === "object" &&
@@ -50,14 +50,14 @@ export const implementsIDraft = (arg: any): arg is DraftIface => {
   );
 };
 
-export interface CategoryIface {
+export interface ICategory {
   id: string;
   name: string;
   articleNum: number;
 }
 
 // Type of editor article|draft object.
-export interface EditorArticle {
+export interface IEditorArticle {
   id: string;
   title: string;
   categories: string;
@@ -67,7 +67,7 @@ export interface EditorArticle {
   isPrivate: boolean;
 }
 
-export const implementsIEditorArticle = (arg: any): arg is EditorArticle => {
+export const implementsIEditorArticle = (arg: any): arg is IEditorArticle => {
   return (
     arg !== null &&
     typeof arg === "object" &&
@@ -81,16 +81,16 @@ export const implementsIEditorArticle = (arg: any): arg is EditorArticle => {
   );
 };
 
-export interface ArticleReq {
+export interface IArticleReq {
   id: string;
   title: string;
-  categories: CategoryIface[];
+  categories: ICategory[];
   content: string;
   imageHash: string;
   isPrivate: boolean;
 }
 
-export interface DraftReq {
+export interface IDraftReq {
   id: string;
   title: string;
   categories: string;

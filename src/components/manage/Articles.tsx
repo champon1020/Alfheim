@@ -3,7 +3,7 @@ import MenuIcon from "~/assets/images/icons/menu.svg";
 import { Config } from "~/config";
 import { countToMaxPage } from "~/func";
 import { parse } from "~/parser";
-import { ArticleIface, DraftIface } from "~/type";
+import { IArticle } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
@@ -102,8 +102,8 @@ const Articles = (props: Props) => {
   const [tab, setTab] = useState("");
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [articles, setArticles] = useState([] as ArticleIface[]);
-  const [focusedArticle, setFocusedArticle] = useState({} as ArticleIface);
+  const [articles, setArticles] = useState([] as IArticle[]);
+  const [focusedArticle, setFocusedArticle] = useState({} as IArticle);
 
   const toggleMenu = useCallback(() => {
     setOpenMenu(!openMenu);
@@ -163,9 +163,9 @@ const Articles = (props: Props) => {
         return;
       }
 
-      const fetchedDraftsAsArticles = [] as ArticleIface[];
+      const fetchedDraftsAsArticles = [] as IArticle[];
       fetchedDrafts.forEach((v) => {
-        const a: ArticleIface = parse(v, "IArticle");
+        const a: IArticle = parse(v, "IArticle");
         fetchedDraftsAsArticles.push(a);
       });
 

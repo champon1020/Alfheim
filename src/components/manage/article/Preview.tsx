@@ -5,7 +5,7 @@ import "~/assets/styles/toast-ui-wrapper.css";
 import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
 import { Viewer } from "@toast-ui/react-editor";
 import { Config } from "~/config";
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import hljs from "highlight.js";
 import React, { createRef, useCallback, useEffect } from "react";
 import styled from "styled-components";
@@ -46,7 +46,7 @@ const ViewerWrapper = styled.div`
 
 type Props = {
   tab: string;
-  focusedArticle: ArticleIface;
+  focusedArticle: IArticle;
 };
 
 const Preview = (props: Props) => {

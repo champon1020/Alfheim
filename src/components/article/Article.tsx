@@ -1,4 +1,4 @@
-import { ArticleIface } from "~/type";
+import { IArticle } from "~/type";
 import React from "react";
 import styled from "styled-components";
 
@@ -17,7 +17,7 @@ const ArticleContainerStyled = styled.div`
 `;
 
 interface Props {
-  article: ArticleIface;
+  article: IArticle;
 }
 
 const Article = (props: Props) => {
