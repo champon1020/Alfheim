@@ -12,7 +12,7 @@ type Props = {
   article: IArticle;
 };
 
-const ArticleFooter = (props: Props) => {
+const Footer = (props: Props) => {
   const { article } = props;
 
   return (
@@ -22,4 +22,4 @@ const ArticleFooter = (props: Props) => {
   );
 };
 
-export default ArticleFooter;
+export default Footer;

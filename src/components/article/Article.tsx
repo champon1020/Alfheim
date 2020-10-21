@@ -2,9 +2,9 @@ import { IArticle } from "~/type";
 import React from "react";
 import styled from "styled-components";
 
-import ArticleContent from "./ArticleContent";
-import ArticleFooter from "./ArticleFooter";
-import ArticleHeader from "./ArticleHeader";
+import Content from "./Content";
+import Footer from "./footer/Footer";
+import Header from "./header/Header";
 
 const StyledContainer = styled.div`
   background-color: ghostwhite;
@@ -25,9 +25,9 @@ const Article = (props: Props) => {
 
   return (
     <StyledContainer>
-      <ArticleHeader article={article} />
-      <ArticleContent content={article.content} />
-      <ArticleFooter article={article} />
+      <Header article={article} />
+      <Content content={article.content} />
+      <Footer article={article} />
     </StyledContainer>
   );
 };

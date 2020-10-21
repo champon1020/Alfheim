@@ -7,6 +7,8 @@ const StyledCategories = styled.ul`
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+  width: 80%;
+  margin: 0 auto;
   font-size: 1.6rem;
   padding: 0;
   @media (max-width: 500px) {
