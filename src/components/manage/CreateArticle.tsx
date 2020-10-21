@@ -1,9 +1,10 @@
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
+import { parse } from "~/parser";
+import { EditorArticle } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import ArticleForm, { defaultEditorDraft } from "./editor/ArticleForm";
-import { parseFromArticle, parseFromDraft } from "./editor/parser";
 
 type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,7 +33,10 @@ const CreateArticle = (props: Props) => {
         },
       });
 
-      const editorDraft = parseFromArticle(res.data.article);
+      const editorDraft: EditorArticle = parse(
+        res.data.article,
+        "IEditorArticle"
+      );
       setUpdatingArticle(editorDraft);
     } catch (err) {
       // If calling api is failed, set verify false.
@@ -50,7 +54,10 @@ const CreateArticle = (props: Props) => {
         },
       });
 
-      const editorDraft = parseFromDraft(res.data.draft);
+      const editorDraft: EditorArticle = parse(
+        res.data.draft,
+        "IEditorArticle"
+      );
       setUpdatingArticle(editorDraft);
     } catch (err) {
       // If calling api is failed, set verify false.

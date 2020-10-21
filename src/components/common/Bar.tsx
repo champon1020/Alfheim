@@ -1,7 +1,7 @@
 import GithubIcon from "~/assets/images/accounts/github.png";
 import LinkedinIcon from "~/assets/images/accounts/linkedin.png";
 import TwitterIcon from "~/assets/images/accounts/twitter.svg";
-import Accounts from "~/private/accounts.json";
+import { Config } from "~/config";
 import React from "react";
 import styled from "styled-components";
 
@@ -30,22 +30,14 @@ const Bar = () => {
   return (
     <BarStyled>
       <SnsLinkListStyled>
-        <BarItem icon={TwitterIcon} href={Accounts.twitter} num={1} />
+        <BarItem icon={TwitterIcon} href={Config.twitterUrl} num={1} />
         <BarItem
           icon={LinkedinIcon}
-          href={Accounts.linkedin}
+          href={Config.linkedinUrl}
           background="var(--base-color)"
           num={2}
         />
-        <BarItem icon={GithubIcon} href={Accounts.github} num={3} />
-        {/* <BarItem 
-          icon={WantedlyIcon} 
-          href={Accounts.wantedly}
-          num={4} />
-        <BarItem 
-          icon={QiitaIcon}
-          href={Accounts.qiita}
-          num={5} /> */}
+        <BarItem icon={GithubIcon} href={Config.githubUrl} num={3} />
       </SnsLinkListStyled>
     </BarStyled>
   );

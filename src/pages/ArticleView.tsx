@@ -1,8 +1,8 @@
-import { Config, defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
 import Article from "~/components/article/Article";
-import { checkIsDraft } from "~/components/article/util";
 import SideBar from "~/components/common/SideBar";
-import { parseDraftToArticle } from "~/components/services/parser";
+import { parseDraftToArticle } from "~/components/parser";
+import { Config } from "~/config";
 import { ManageState, RootState } from "~/stores/store";
 import { ArticleIface } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
@@ -67,12 +67,12 @@ const ArticleView = (props: Props) => {
 
   // Callback function to jump to previous article.
   const prevCallback = useCallback(() => {
-    window.open(`${Config.host}/article/${prevArticle.sortedId}`, "_self");
+    window.open(`${Config.url}/article/${prevArticle.sortedId}`, "_self");
   }, [prevArticle.sortedId]);
 
   // Callbakc function to jump to next article.
   const nextCallback = useCallback(() => {
-    window.open(`${Config.host}/article/${nextArticle.sortedId}`, "_self");
+    window.open(`${Config.url}/article/${nextArticle.sortedId}`, "_self");
   }, [nextArticle.sortedId]);
 
   // Fetch article.
@@ -86,12 +86,19 @@ const ArticleView = (props: Props) => {
       return;
     }
 
-    const sortedId = id === undefined ? validSortedId() : id;
-    defaultApi.apiFindArticleSortedIdGet(sortedId).then((res) => {
-      setArticle(res.data.article);
-      setPrevArticle(res.data.prevArticle);
-      setNextArticle(res.data.nextArticle);
-    });
+    const fetchArticle = async () => {
+      const sortedId = id === undefined ? validSortedId() : id;
+      try {
+        const res = await defaultApi.apiFindArticleSortedIdGet(sortedId);
+        setArticle(res.data.article);
+        setPrevArticle(res.data.prevArticle);
+        setNextArticle(res.data.nextArticle);
+      } catch (err) {
+        // handle error
+      }
+    };
+
+    fetchArticle();
   }, []);
 
   return (

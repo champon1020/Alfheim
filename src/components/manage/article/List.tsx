@@ -2,9 +2,9 @@ import { ArticleIface } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import ArticleListBox from "./ArticleListBox";
+import ListBox from "./ListBox";
 
-const ArticleListStyled = styled.ul`
+const ListStyled = styled.ul`
   overflow-y: scroll;
   white-space: nowrap;
   height: calc(var(--articles-container-height) - 9rem - 4.5rem);
@@ -18,12 +18,12 @@ const EmptyMessage = styled.h3<{ hidden: boolean }>`
   margin-top: 5%;
 `;
 
-type Props = {
+interface Props {
   tab: string;
   articles: ArticleIface[];
   setFocusedArticle: React.Dispatch<React.SetStateAction<ArticleIface>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const ArticleList = (props: Props) => {
   const { tab, articles, setFocusedArticle, setVerify } = props;
@@ -31,9 +31,10 @@ const ArticleList = (props: Props) => {
   // Create article list component.
   const articleList = useCallback(() => {
     const list = [] as JSX.Element[];
+
     articles.forEach((v, i) => {
       list.push(
-        <ArticleListBox
+        <ListBox
           key={i}
           tab={tab}
           article={v}
@@ -47,10 +48,10 @@ const ArticleList = (props: Props) => {
   }, [tab, articles, setFocusedArticle, setVerify]);
 
   return (
-    <ArticleListStyled>
+    <ListStyled>
       <EmptyMessage hidden={articles.length === 0}>{"Empty"}</EmptyMessage>
       {articleList()}
-    </ArticleListStyled>
+    </ListStyled>
   );
 };
 

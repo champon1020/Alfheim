@@ -47,13 +47,13 @@ type Props = {
 const BarItem = (props: Props) => {
   const { icon, href, background, num } = props;
 
-  const handleOnClick = useCallback(() => {
+  const onClickIcon = useCallback(() => {
     window.open(href);
   }, [href]);
 
   return (
     <SnsLinkListItemStyled num={num}>
-      <div onClick={handleOnClick}>
+      <div onClick={onClickIcon}>
         <ImageStyled src={icon} background={background} />
       </div>
     </SnsLinkListItemStyled>

@@ -37,7 +37,7 @@ const ImageForm = (props: Props) => {
   // On click listener of sending image.
   // Parse to multipart/form-data.
   // Call api.
-  const handleOnPost = () => {
+  const onPostImage = () => {
     // null check
     if (imageRef.current.files === null) return;
 
@@ -48,7 +48,7 @@ const ImageForm = (props: Props) => {
 
     // Call api.
     axios
-      .post(`${Config.apiHost}/api/private/register/image`, formData, {
+      .post(`${Config.apiUrl}/api/private/register/image`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
@@ -57,7 +57,7 @@ const ImageForm = (props: Props) => {
       .then((res) => {
         setVerify(res.status === 200);
         if (res.status === 200)
-          window.location.href = `${Config.host}/manage/images`;
+          window.location.href = `${Config.url}/manage/images`;
       })
       .catch(() => {
         setVerify(false);
@@ -67,7 +67,7 @@ const ImageForm = (props: Props) => {
   return (
     <FormContainer>
       <FileInput type="file" name="images" ref={imageRef} accept="image/*" />
-      <SubmitButton type="submit" value="Upload" onClick={handleOnPost} />
+      <SubmitButton type="submit" value="Upload" onClick={onPostImage} />
     </FormContainer>
   );
 };

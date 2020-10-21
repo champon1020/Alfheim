@@ -43,7 +43,7 @@ type Props = {
 const CategoryList = (props: Props) => {
   const { categories } = props;
 
-  const handleOnClick = useCallback((e: MouseEvent<HTMLLIElement>) => {
+  const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
     const len = e.currentTarget.classList.length;
     const cName = e.currentTarget.classList[len - 1];
     window.open("/home/category/" + cName, "_self");
@@ -62,14 +62,14 @@ const CategoryList = (props: Props) => {
 
     categories.forEach((v, i) => {
       list.push(
-        <CategoryListItem key={i} className={v.name} onClick={handleOnClick}>
+        <CategoryListItem key={i} className={v.name} onClick={onClickCategory}>
           {v.name + "(" + v.articleNum + ")"}
         </CategoryListItem>
       );
     });
 
     return list;
-  }, [categories, handleOnClick]);
+  }, [categories, onClickCategory]);
 
   return <CategoryListContainer>{categoryList()}</CategoryListContainer>;
 };

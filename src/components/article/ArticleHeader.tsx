@@ -1,4 +1,4 @@
-import { formatDateStr } from "~/components/services/parser";
+import { formatDateStr } from "~/components/parser";
 import { ArticleIface } from "~/type";
 import React from "react";
 import styled from "styled-components";

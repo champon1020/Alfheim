@@ -1,10 +1,10 @@
-import { InlineResponse2002 } from "~/api/api";
 import { defaultApi } from "~/api/entry";
 import SideBar from "~/components/common/SideBar";
 import ArticleList from "~/components/home/ArticleList";
-import { parsePage } from "~/components/services/parser";
+import { parsePage } from "~/components/parser";
+import { Config } from "~/config";
+import { countToMaxPage } from "~/func";
 import { ArticleIface } from "~/type";
-import { AxiosResponse } from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -35,32 +35,6 @@ const SubContainer = styled.div`
     width: 78%;
   }
 `;
-
-// Fetch articles by some terms.
-const fetchArticles = async (
-  params: PathParams,
-  p: number
-): Promise<AxiosResponse<InlineResponse2002>> => {
-  const path = window.location.pathname;
-  const { title, year, month, category } = params;
-
-  if (path.startsWith("/home/title") && title !== undefined) {
-    return await defaultApi.apiFindArticleListTitleGet(title, p);
-  }
-
-  if (
-    path.startsWith("/home/category") &&
-    category !== undefined &&
-    category !== ""
-  ) {
-    return await defaultApi.apiFindArticleListCategoryGet(
-      category.split("-"),
-      p
-    );
-  }
-
-  return await defaultApi.apiFindArticleListGet(p);
-};
 
 // Scroll to the top of articles.
 const scroll = () => {
@@ -106,15 +80,51 @@ const HomeView = (props: Props) => {
 
   // Fetch articles.
   useEffect(() => {
-    const res = await fetchArticles(params, page);
-    const fetchedArticles = res.data.articles;
-    if (fetchedArticles === null) {
-      return;
-    }
+    const fetchArticles = async () => {
+      const path = window.location.pathname;
+      const { title, year, month, category } = params;
+      let res = {} as any;
 
-    // Update states.
-    setMaxPage(res.data.maxPage);
-    setArticles(fetchedArticles);
+      try {
+        if (path.startsWith("/home/title") && title !== undefined) {
+          // Search for articles by title.
+          res = await defaultApi.apiFindArticleListTitleGet(
+            title,
+            page,
+            Config.maxArticleNum
+          );
+        } else if (
+          path.startsWith("/home/category") &&
+          category !== undefined &&
+          category !== ""
+        ) {
+          // Search for articles by category.
+          res = await defaultApi.apiFindArticleListCategoryGet(
+            category.split("-"),
+            page,
+            Config.maxArticleNum
+          );
+        } else {
+          // Search for all public articles.
+          res = await await defaultApi.apiFindArticleListGet(
+            page,
+            Config.maxArticleNum
+          );
+        }
+
+        if (res.data.articles === null) {
+          return;
+        }
+
+        // Update states.
+        setMaxPage(countToMaxPage(res.data.count, Config.maxArticleNum));
+        setArticles(res.data.articles);
+      } catch (err) {
+        // handle error
+      }
+    };
+
+    fetchArticles();
   }, [params, page]);
 
   useEffect(() => {

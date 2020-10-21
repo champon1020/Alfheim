@@ -29,9 +29,16 @@ const Categories = () => {
 
   // Fetch categories.
   useEffect(() => {
-    defaultApi.apiFindCategoryListGet().then((res) => {
-      setCategories(res.data.categories);
-    });
+    const fetchCategories = async () => {
+      try {
+        const res = await defaultApi.apiFindCategoryListGet();
+        setCategories(res.data.categories);
+      } catch (err) {
+        // handle error
+      }
+    };
+
+    fetchCategories();
   }, []);
 
   return (

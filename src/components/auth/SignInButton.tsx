@@ -1,4 +1,5 @@
-import { Config, defaultApi } from "~/api/entry";
+import { defaultApi } from "~/api/entry";
+import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -11,47 +12,39 @@ type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const goHome = () => {
-  window.location.href = Config.host;
+const jumpToHome = () => {
+  window.location.href = Config.url;
 };
 
 const SignInButton = (props: Props) => {
   const { setVerify } = props;
-  const [doneVerify, setDoneVerify] = useState(false);
   const [auth2, setAuth2] = useState({} as gapi.auth2.GoogleAuth);
 
-  const verify = useCallback(async (user: gapi.auth2.GoogleUser) => {
-    setDoneVerify(true);
-    return await defaultApi.apiVerifyTokenPost({
-      headers: {
-        Authorization: `Bearer ${user.getAuthResponse().id_token}`,
-      },
-    });
-  }, []);
+  const onSuccess = async (user: gapi.auth2.GoogleUser) => {
+    try {
+      const res = await defaultApi.apiVerifyTokenPost({
+        headers: {
+          Authorization: `Bearer ${user.getAuthResponse().id_token}`,
+        },
+      });
 
-  const onSuccess = useCallback(
-    (user: gapi.auth2.GoogleUser) => {
-      verify(user)
-        .then((res) => {
-          if (res.data.verify) {
-            Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
-            setVerify(true);
-            return;
-          }
-          goHome();
-        })
-        .catch(() => {
-          if (doneVerify) {
-            goHome();
-            return;
-          }
-        });
-    },
-    [setVerify, doneVerify, verify]
-  );
+      // If verify was success, set token.
+      if (res.status == 200) {
+        Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
+        setVerify(true);
+        return;
+      }
+
+      // If verify was failed, jump to home.
+      jumpToHome();
+    } catch (err) {
+      // If error was occurred, jump to home.
+      jumpToHome();
+    }
+  };
 
   const onFailure = useCallback(() => {
-    goHome();
+    jumpToHome();
   }, []);
 
   useEffect(() => {

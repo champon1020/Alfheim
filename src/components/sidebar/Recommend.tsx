@@ -16,7 +16,7 @@ const newArticlesNum = 5;
 const Recommend: React.FC = () => {
   const [newArticles, setNewArticles] = useState([] as ArticleIface[]);
 
-  const NewArticlesList = useCallback(() => {
+  const newArticleList = useCallback(() => {
     if (
       newArticles === undefined ||
       newArticles === null ||
@@ -35,12 +35,19 @@ const Recommend: React.FC = () => {
 
   // Fetch new articles.
   useEffect(() => {
-    defaultApi.apiFindArticle(1, newArticlesNum).then((res) => {
-      setNewArticles(res.data.articles);
-    });
+    const fetchNewArticles = async () => {
+      try {
+        const res = await defaultApi.apiFindArticleListGet(1, 5);
+        setNewArticles(res.data.articles);
+      } catch (err) {
+        // handle error
+      }
+    };
+
+    fetchNewArticles();
   }, []);
 
-  return <ul>{NewArticleList()}</ul>;
+  return <ul>{newArticleList()}</ul>;
 };
 
 export default Recommend;

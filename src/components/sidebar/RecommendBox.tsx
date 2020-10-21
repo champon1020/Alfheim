@@ -51,7 +51,7 @@ const RecommendBox = (props: Props) => {
 
   const handelOnClick = useCallback(() => {
     window.open(
-      pathJoin(Config.host, "article", article.sortedId.toString()),
+      pathJoin(Config.url, "article", article.sortedId.toString()),
       "_self"
     );
   }, [article]);
@@ -59,7 +59,7 @@ const RecommendBox = (props: Props) => {
   return (
     <ListItemStyled onClick={handelOnClick}>
       <ImageStyled
-        src={pathJoin(Config.srcHost, "images", article.imageHash)}
+        src={pathJoin(Config.fileUrl, "images", article.imageHash)}
       />
       <TitleBoxStyled>
         <TitleWord>{article.title}</TitleWord>

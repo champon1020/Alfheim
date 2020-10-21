@@ -1,4 +1,5 @@
-import { defaultApi } from "~/App";
+import { defaultApi } from "~/api/entry";
+import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -50,19 +51,27 @@ const Images = (props: Props) => {
 
   // Fetch images.
   // This called as page is updated.
-  useEffect(async () => {
-    try {
-      const res = await defaultApi.apiPrivateFindImageListGet(page, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      });
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await defaultApi.apiPrivateFindImageListGet(
+          page,
+          Config.maxSettingImageNum,
+          {
+            headers: {
+              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+            },
+          }
+        );
 
-      setImages(res.data.images);
-      setNext(res.data.next);
-    } catch (err) {
-      setVerify(false);
-    }
+        setImages(res.data.images);
+        setNext(res.data.next);
+      } catch (err) {
+        setVerify(false);
+      }
+    };
+
+    fetchImages();
   }, [page]);
 
   return (

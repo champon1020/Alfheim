@@ -160,6 +160,12 @@ export interface Category {
      * @memberof Category
      */
     name: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Category
+     */
+    articleNum: number;
 }
 /**
  * 
@@ -324,6 +330,19 @@ export interface InlineObject5 {
      * @memberof InlineObject5
      */
     id?: string;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject6
+ */
+export interface InlineObject6 {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof InlineObject6
+     */
+    imageNames?: Array<string>;
 }
 /**
  * 
@@ -750,11 +769,11 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Delete images.
-         * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
+         * @param {InlineObject6} [inlineObject6] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, options: any = {}): RequestArgs {
+        apiPrivateDeleteImageDelete(inlineObject6?: InlineObject6, options: any = {}): RequestArgs {
             const localVarPath = `/api/private/delete/image`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -782,8 +801,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
             delete localVarUrlObj.search;
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-            const needsSerialization = (typeof UNKNOWN_BASE_TYPE !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(UNKNOWN_BASE_TYPE !== undefined ? UNKNOWN_BASE_TYPE : {}) : (UNKNOWN_BASE_TYPE || "");
+            const needsSerialization = (typeof inlineObject6 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject6 !== undefined ? inlineObject6 : {}) : (inlineObject6 || "");
 
             return {
                 url: globalImportUrl.format(localVarUrlObj),
@@ -1417,12 +1436,12 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Delete images.
-         * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
+         * @param {InlineObject6} [inlineObject6] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE, options);
+        apiPrivateDeleteImageDelete(inlineObject6?: InlineObject6, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
+            const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(inlineObject6, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1660,12 +1679,12 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Delete images.
-         * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
+         * @param {InlineObject6} [inlineObject6] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, options?: any) {
-            return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE, options)(axios, basePath);
+        apiPrivateDeleteImageDelete(inlineObject6?: InlineObject6, options?: any) {
+            return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(inlineObject6, options)(axios, basePath);
         },
         /**
          * 
@@ -1868,13 +1887,13 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Delete images.
-     * @param {UNKNOWN_BASE_TYPE} [UNKNOWN_BASE_TYPE] 
+     * @param {InlineObject6} [inlineObject6] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE?: UNKNOWN_BASE_TYPE, options?: any) {
-        return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(UNKNOWN_BASE_TYPE, options)(this.axios, this.basePath);
+    public apiPrivateDeleteImageDelete(inlineObject6?: InlineObject6, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(inlineObject6, options)(this.axios, this.basePath);
     }
 
     /**

@@ -128,31 +128,24 @@ const Header = (props: Props) => {
     setOpenMenu(!openMenu);
   }, [openMenu]);
 
-  const handleTitleClick = useCallback(() => {
+  const onClickTitle = useCallback(() => {
     window.open("/", "_self");
   }, []);
 
-  const handleCateClick = useCallback(() => {
+  const onClickCategory = useCallback(() => {
     window.open("/category/list", "_self");
-  }, []);
-
-  const handlePortClick = useCallback(() => {
-    window.open("##", "_self");
   }, []);
 
   const navigationItems = useMemo(
     () => (
       <>
-        <NavListItem onClick={handleCateClick}>
+        <NavListItem onClick={onClickCategory}>
           <NavListItemImg src={TagIcon} />
           {"Category"}
         </NavListItem>
-        {/* <NavListItem onClick={handlePortClick}>
-        {"Portfolio"}
-      </NavListItem> */}
       </>
     ),
-    [handleCateClick, handlePortClick]
+    [onClickCategory]
   );
 
   const navigation = useMemo(() => {
@@ -184,7 +177,7 @@ const Header = (props: Props) => {
 
   return (
     <HeaderStyled>
-      <BlogTitle onClick={handleTitleClick}>{"champon's notebook"}</BlogTitle>
+      <BlogTitle onClick={onClickTitle}>{"champon's notebook"}</BlogTitle>
       <NavStyled>{navigation}</NavStyled>
       <MenuContent hidden={!openMenu}>{navigationItems}</MenuContent>
     </HeaderStyled>

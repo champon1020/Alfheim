@@ -20,7 +20,7 @@ const SideBar = () => {
           <SideBarBox title="Search" ContentComponent={Search} />
         </li>
         <li>
-          <SideBarBox title="Pick up" ContentComponent={Recommend} />
+          <SideBarBox title="New" ContentComponent={Recommend} />
         </li>
       </SideBarListStyled>
     </div>

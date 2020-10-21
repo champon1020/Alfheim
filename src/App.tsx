@@ -9,7 +9,7 @@ import ErrorPage from "./components/error/ErrorPage";
 import ManageView from "./pages/ManageView";
 import PublicView from "./pages/PublicView";
 
-const Route = () => {
+const Router = () => {
   return (
     <BrowserRouter basename="/">
       <Provider store={store}>
@@ -48,7 +48,7 @@ const Route = () => {
 const App = () => {
   return (
     <>
-      <Route />
+      <Router />
     </>
   );
 };

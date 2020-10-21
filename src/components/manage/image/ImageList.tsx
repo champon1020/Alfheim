@@ -78,21 +78,21 @@ const ImageList = (props: Props) => {
   const [selected] = useState([] as string[]);
 
   // Call api of deleting image.
-  const deleteImages = (names: string[]) => {
-    defaultApi
-      .apiPrivateDeleteImageDelete(names, {
+  const deleteImages = async (names: string[]) => {
+    try {
+      await defaultApi.apiPrivateDeleteImageDelete(names, {
         headers: {
           Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
         },
-      })
-      .catch(() => {
-        setVerify(false);
       });
+    } catch (err) {
+      setVerify(false);
+    }
   };
 
   // On focus listener of selecting image.
   // If focused, push to selected array.
-  const handleOnSelect = useCallback(
+  const onClickImage = useCallback(
     (e: MouseEvent<HTMLInputElement>) => {
       if (e.currentTarget.checked) {
         selected.push(e.currentTarget.name);
@@ -106,7 +106,7 @@ const ImageList = (props: Props) => {
   // On click listener of deleting image.
   // Call api with the array of selected images.
   // Reload this window.
-  const handleOnDelete = useCallback(() => {
+  const onClickDelete = useCallback(() => {
     deleteImages(selected);
     window.location.reload();
   }, [selected, deleteImages]);
@@ -122,10 +122,10 @@ const ImageList = (props: Props) => {
     }
 
     images.forEach((v, i) => {
-      const path = `${Config.srcHost}/images/${v}`;
+      const path = `${Config.fileUrl}/images/${v}`;
       list.push(
         <ImageListItemStyled key={i}>
-          <CheckBox type="checkbox" name={v} onClick={handleOnSelect} />
+          <CheckBox type="checkbox" name={v} onClick={onClickImage} />
           <a href={path}>
             <ImageStyled src={path} />
           </a>
@@ -134,13 +134,13 @@ const ImageList = (props: Props) => {
     });
 
     return list;
-  }, [images, handleOnSelect]);
+  }, [images, onClickImage]);
 
   return (
     <ImageListContainer>
       <ImageListStyled>{imageList()}</ImageListStyled>
       <DeleteButtonBox>
-        <DeleteButton onClick={handleOnDelete}>{"Delete"}</DeleteButton>
+        <DeleteButton onClick={onClickDelete}>{"Delete"}</DeleteButton>
       </DeleteButtonBox>
     </ImageListContainer>
   );

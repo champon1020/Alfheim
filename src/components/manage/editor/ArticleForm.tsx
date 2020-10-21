@@ -14,7 +14,8 @@ import {
   HttpErrorStatus,
   MyErrorStatus,
 } from "~/components/error/ErrorHandler";
-import { ArticleReq, DraftReq } from "~/type";
+import { parse } from "~/parser";
+import { ArticleReq, DraftIface, DraftReq, EditorArticle } from "~/type";
 import hljs from "highlight.js";
 import Cookie from "js-cookie";
 import React, { createRef, useCallback, useEffect, useState } from "react";
@@ -23,11 +24,6 @@ import styled from "styled-components";
 
 import FormFooter from "./FormFooter";
 import InputForm from "./InputForm";
-import {
-  parseToDraft,
-  parseToRequestArticle,
-  parseToRequestDraft,
-} from "./parser";
 import { validateCategory, validateTitle } from "./validattions";
 
 const EditContainerStyled = styled.div`
@@ -40,17 +36,6 @@ const EditContainerStyled = styled.div`
 const EditorStyled = styled.div`
   font-size: 1.6rem;
 `;
-
-// Type of editor article|draft object.
-export type EditorArticle = {
-  id: string;
-  title: string;
-  categories: string;
-  updateDate: string;
-  content: string;
-  imageHash: string;
-  isPrivate: boolean;
-};
 
 // Default editor article|draft object.
 export const defaultEditorDraft: EditorArticle = {
@@ -69,11 +54,6 @@ const apiOff = false;
 
 // Duration of saving on real time.
 const onlineSaveDuration = 3000;
-
-// Validation function of title and categories string.
-const validation = (t: string, c: string) => {
-  return validateTitle(t, setErr) || validateCategory(c, setErr);
-};
 
 type Props = {
   updatingArticle?: EditorArticle;
@@ -123,8 +103,13 @@ const ArticleForm = (props: Props) => {
     [setVerify]
   );
 
+  // Validation function of title and categories string.
+  const validation = (t: string, c: string) => {
+    return validateTitle(t, setErr) || validateCategory(c, setErr);
+  };
+
   // Call api of registering article.
-  const registerArticle = (a: ArticleReq) => {
+  const registerArticle = async (a: ArticleReq) => {
     if (apiOff) {
       return;
     }
@@ -158,7 +143,7 @@ const ArticleForm = (props: Props) => {
   };
 
   // Call api of updating article.
-  const updateArticle = (a: ArticleReq) => {
+  const updateArticle = async (a: ArticleReq) => {
     if (apiOff) {
       return;
     }
@@ -192,13 +177,13 @@ const ArticleForm = (props: Props) => {
   };
 
   // Call api of updating draft.
-  const updateDraft = (d: DraftReq) => {
+  const updateDraft = async (d: DraftReq) => {
     if (apiOff || validation(d.title, d.categories)) {
       return;
     }
 
     try {
-      const res = await defaultApi.apiPrivateDraftArticlePost(
+      const res = await defaultApi.apiPrivateRegisterDraftPost(
         {
           article: d,
         },
@@ -250,7 +235,7 @@ const ArticleForm = (props: Props) => {
     editorDraft.content = newMdContent;
 
     // Update the state of editor draft.
-    const draft = parseToDraft(editorDraft);
+    const draft: DraftIface = parse(editorDraft, "IDraft");
     dispatch(appActionCreator.updateDraft(draft, newMdContent));
 
     // Call updating function after onlineSaveDration.
@@ -261,7 +246,7 @@ const ArticleForm = (props: Props) => {
         return;
       }
 
-      const reqDraft = parseToRequestDraft(editorDraft);
+      const reqDraft: DraftReq = parse(editorDraft, "IDraftReq");
       updateDraft(reqDraft);
     }, onlineSaveDuration);
 
@@ -285,7 +270,7 @@ const ArticleForm = (props: Props) => {
 
     editorDraft.content = newMdContent;
 
-    const reqArticle = parseToRequestArticle(editorDraft);
+    const reqArticle: ArticleReq = parse(editorDraft, "IArticleReq");
 
     if (isExistArticle) {
       updateArticle(reqArticle);

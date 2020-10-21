@@ -1,10 +1,13 @@
 // Configuration type.
 type ConfigType = {
   clientId: string;
-  host: string;
-  apiHost: string;
-  srcHost: string;
-  defImage: string;
+  url: string;
+  apiUrl: string;
+  fileUrl: string;
+  twitterUrl: string;
+  linkedinUrl: string;
+  githubUrl: string;
+  defImg: string;
   maxArticleNum: number;
   maxSettingArticleNum: number;
   maxSettingImageNum: number;
@@ -12,20 +15,17 @@ type ConfigType = {
 
 // getConfig returns the configuration object.
 const getConfig = (): ConfigType => {
-  // Return as the test mode.
+  // Return test mode configuration.
   if (process.env.REACT_APP_TRAVIS === "true") {
-    const conf = require("./private/config_test.json");
-    return config.test;
+    return require("./private/config.test.json");
   }
 
-  const conf = require("./private/config.json");
-
-  // Return as the dev mode.
+  // Return dev mode configuration.
   if (process.env.REACT_APP_ALFHEIM_MODE === "dev") {
-    return config.dev;
+    return require("./private/config.dev.json");
   }
 
-  return config.deploy;
+  return require("./private/config.prod.json");
 };
 
 export const Config = getConfig();

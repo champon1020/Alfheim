@@ -5,7 +5,7 @@ import CreateArticle from "~/components/manage/CreateArticle";
 import Images from "~/components/manage/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
-import { parseQueryParam } from "~/components/services/parser";
+import { parseQueryParam } from "~/components/parser";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -24,8 +24,7 @@ const ManageWrapperStyled = styled.div`
   }
 `;
 
-type RouteProps = RouteComponentProps<{ mode: string }>;
-type Props = RouteProps;
+type Props = RouteComponentProps<{ mode: string }>;
 
 const ManageView: React.FC<Props> = (props) => {
   const { mode } = props.match.params;
@@ -77,25 +76,30 @@ const ManageView: React.FC<Props> = (props) => {
     }
 
     return <div></div>;
-  }, [child, mode, isVerify, doneVerify]);
+  }, [childContainer, mode, isVerify, doneVerify]);
 
   // Verify token from cookie.
   // If verify is success, update the state of verify to true.
   useEffect(() => {
-    defaultApi
-      .apiVerifyTokenPost({
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      })
-      .then((res) => {
-        setVerify(res.data.verify === undefined ? false : res.data.verify);
-      })
-      .catch(() => {
-        setVerify(false);
-      });
+    const verify = async () => {
+      try {
+        const res = await defaultApi.apiVerifyTokenPost({
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        });
 
-    setDoneVerify(true);
+        if (res.status == 200) {
+          setVerify(true);
+        }
+      } catch (err) {
+        setVerify(false);
+      }
+
+      setDoneVerify(true);
+    };
+
+    verify();
   }, []);
 
   return <ManageContainerStyled>{manageContainerView}</ManageContainerStyled>;

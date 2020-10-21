@@ -32,7 +32,7 @@ type Props = {
 const Category = (props: Props) => {
   const { categories } = props;
 
-  const handleOnClick = useCallback((e: MouseEvent<HTMLLIElement>) => {
+  const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
     const len = e.currentTarget.classList.length;
     const cName = e.currentTarget.classList[len - 1];
     window.open("/home/category/" + cName, "_self");
@@ -50,7 +50,7 @@ const Category = (props: Props) => {
         <CategoryListItemStyled
           key={i}
           className={v.name}
-          onClick={handleOnClick}
+          onClick={onClickCategory}
         >
           {v.name}
         </CategoryListItemStyled>
@@ -58,7 +58,7 @@ const Category = (props: Props) => {
     });
 
     return list;
-  }, [categories, handleOnClick]);
+  }, [categories, onClickCategory]);
 
   return <CategoryListStyled>{categoryList()}</CategoryListStyled>;
 };

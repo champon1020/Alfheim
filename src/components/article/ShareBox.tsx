@@ -1,7 +1,7 @@
-import { Config } from "~/App";
 import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
 import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
+import { Config } from "~/config";
 import { ArticleIface } from "~/type";
 import React, { useCallback } from "react";
 import { Helmet } from "react-helmet";
@@ -45,13 +45,17 @@ const ShareBox = (props: Props) => {
 
   const hashtagArray = useCallback(() => {
     const hash: string[] = [];
+
     if (
       article.categories === null ||
       article.categories === undefined ||
       article.categories.length === 0
-    )
+    ) {
       return hash;
+    }
+
     article.categories.forEach((c) => hash.push(c.name));
+
     return hash;
   }, [article.categories]);
 
@@ -65,11 +69,11 @@ const ShareBox = (props: Props) => {
           { property: "og:type", content: "article" },
           {
             property: "og:url",
-            content: `${Config.host}/article/${article.sortedId}`,
+            content: `${Config.url}/article/${article.sortedId}`,
           },
           {
             property: "og:image ",
-            content: `${Config.srcHost}/images/${article.imageHash}`,
+            content: `${Config.fileUrl}/images/${article.imageHash}`,
           },
         ]}
       />
@@ -82,7 +86,7 @@ const ShareBox = (props: Props) => {
       <ShareListStyled>
         <ShareListItemStyled>
           <TwitterShareButton
-            url={`${Config.host}/article/${article.sortedId}`}
+            url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
             hashtags={hashtagArray()}
           >
@@ -91,7 +95,7 @@ const ShareBox = (props: Props) => {
         </ShareListItemStyled>
         <ShareListItemStyled>
           <FacebookShareButton
-            url={`${Config.host}/article/${article.sortedId}`}
+            url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
           >
             <IconImage src={FacebookIcon} alt={"facebook share"} />
@@ -99,7 +103,7 @@ const ShareBox = (props: Props) => {
         </ShareListItemStyled>
         <ShareListItemStyled>
           <LinkedinShareButton
-            url={`${Config.host}/article/${article.sortedId}`}
+            url={`${Config.url}/article/${article.sortedId}`}
             title={article.title}
           >
             <IconImage src={LinkedinIcon} alt={"linkedin share"} />

@@ -68,26 +68,26 @@ const TitleBoxStyled = styled.div`
   }
 `;
 
-type Props = {
+interface Props {
   article: ArticleIface;
-};
+}
 
 const ArticleBox = (props: Props) => {
   const { article } = props;
 
-  const handleOnClick = useCallback(() => {
+  const onClickArticle = useCallback(() => {
     window.location.href = pathJoin(
-      Config.host,
+      Config.url,
       "article",
       article.sortedId.toString()
     );
   }, [article]);
 
   return (
-    <ArticleBoxStyled onClick={handleOnClick}>
+    <ArticleBoxStyled onClick={onClickArticle}>
       <ImageBoxStyled>
         <ImageStyled
-          src={pathJoin(Config.srcHost, "images", article.imageHash)}
+          src={pathJoin(Config.fileUrl, "images", article.imageHash)}
           alt="article box"
         />
       </ImageBoxStyled>

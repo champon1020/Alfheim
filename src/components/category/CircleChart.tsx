@@ -31,6 +31,7 @@ const CircleChart = (props: Props) => {
 
     // Build chart data and return chart component.
     handler.build(categories);
+
     return (
       <Pie
         data={handler.getData()}

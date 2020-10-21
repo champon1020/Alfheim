@@ -61,7 +61,7 @@ const Preview = (props: Props) => {
     }
 
     const pName = tab === "articles" ? "articleId" : "draftId";
-    window.open(`${Config.host}/manage?${pName}=${focusedArticle.id}`, "_self");
+    window.open(`${Config.url}/manage?${pName}=${focusedArticle.id}`, "_self");
   }, [focusedArticle.id, tab]);
 
   // Update preview content by change of focusedArticle.content.

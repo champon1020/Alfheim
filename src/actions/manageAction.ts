@@ -1,8 +1,8 @@
-import { DraftType } from "~/type";
+import { DraftIface } from "~/type";
 
 import { ActionEnum } from "./actions";
 
-export const updateDraft = (draft: DraftType, contents: string) => {
+export const updateDraft = (draft: DraftIface, contents: string) => {
   return {
     type: ActionEnum.UPDATE_DRAFT,
     payload: {

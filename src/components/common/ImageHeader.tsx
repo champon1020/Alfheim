@@ -125,7 +125,6 @@ const ImageHeader = () => {
 
   useEffect(() => {
     updateImage(1);
-    // eslint-disable-next-line
   }, []);
 
   return (

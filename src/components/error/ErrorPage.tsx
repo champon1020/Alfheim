@@ -64,14 +64,14 @@ const Info = styled.div`
 const ErrorPage = () => {
   const [width, setWidth] = useState(window.innerWidth);
 
-  const handleOnResize = useCallback(() => {
+  const onResize = useCallback(() => {
     setWidth(window.innerWidth);
   }, []);
 
   return (
     <Container>
       <header>
-        <Header onResizeHandler={handleOnResize} />
+        <Header onResizeHandler={onResize} />
       </header>
       <Content>
         <Image src={ErrorImage} width={width} />

@@ -1,4 +1,4 @@
-import { ArticleType, CategoryType, DraftType } from "~/type";
+import { ArticleIface, CategoryIface, DraftIface } from "~/type";
 
 type Map = { [key: string]: string };
 
@@ -29,10 +29,10 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
-// Category (string: for draft object) => CategoryType[]
-const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
+// Category (string: for draft object) => CategoryIface[]
+const parseCategoryDraftToArticle = (category: string): CategoryIface[] => {
   const categories = category.split(",");
-  const categoryList = [] as CategoryType[];
+  const categoryList = [] as CategoryIface[];
   if (categories[0] === "") return categoryList;
   categories.forEach((v) => {
     categoryList.push({
@@ -44,8 +44,8 @@ const parseCategoryDraftToArticle = (category: string): CategoryType[] => {
   return categoryList;
 };
 
-// DraftType => ArticleType
-export const parseDraftToArticle = (draft: DraftType): ArticleType => {
+// DraftIface => ArticleIface
+export const parseDraftToArticle = (draft: DraftIface): ArticleIface => {
   const today = new Date();
   return {
     id: draft.id,

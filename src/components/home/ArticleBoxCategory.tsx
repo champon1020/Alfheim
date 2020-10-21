@@ -19,11 +19,9 @@ const CategoryBoxStyled = styled.ul`
   }
 `;
 
-type ParentProps = {
+interface Props {
   categories: CategoryIface[];
-};
-
-type Props = ParentProps;
+}
 
 const ArticleBoxCategory = (props: Props) => {
   const { categories } = props;

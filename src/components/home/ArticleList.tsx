@@ -31,11 +31,9 @@ const EmptyMessage = styled.h3`
   margin: 5% auto 15% auto;
 `;
 
-interface ParentProps {
+interface Props {
   articles: ArticleIface[];
 }
-
-type Props = ParentProps;
 
 const ArticleList = (props: Props) => {
   const { articles } = props;

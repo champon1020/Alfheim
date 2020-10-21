@@ -1,12 +1,14 @@
 import { defaultApi } from "~/api/entry";
 import MenuIcon from "~/assets/images/icons/menu.svg";
-import { parseDraftToArticle } from "~/components/services/parser";
+import { Config } from "~/config";
+import { countToMaxPage } from "~/func";
+import { parse } from "~/parser";
 import { ArticleIface, DraftIface } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-import ArticleList from "./article/ArticleList";
+import List from "./article/List";
 import Preview from "./article/Preview";
 import Tab from "./article/Tab";
 import Page from "./Page";
@@ -84,9 +86,9 @@ const MenuIconImage = styled.img`
   margin-top: 1.2rem;
 `;
 
-type Props = {
+interface Props {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 const Articles = (props: Props) => {
   const { setVerify } = props;
@@ -111,11 +113,15 @@ const Articles = (props: Props) => {
   // and handle got articles.
   const fetchArticles = useCallback(async () => {
     try {
-      const res = await defaultApi.apiPrivateFindArticleListAllGet(page, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      });
+      const res = await defaultApi.apiPrivateFindArticleListGet(
+        page,
+        Config.maxSettingArticleNum,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        }
+      );
 
       const fetchedArticles = res.data.articles;
 
@@ -126,8 +132,8 @@ const Articles = (props: Props) => {
         return;
       }
 
-      setMaxPage(res.data.maxPage);
-      setArticles(articleList);
+      setMaxPage(countToMaxPage(res.data.count, Config.maxSettingArticleNum));
+      setArticles(fetchedArticles);
     } catch (err) {
       // If calling api is failed, set verify false.
       setVerify(false);
@@ -138,11 +144,15 @@ const Articles = (props: Props) => {
   // and handle got articles.
   const fetchDrafts = useCallback(async () => {
     try {
-      const res = await defaultApi.apiPrivateFindDraftListGet(page, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      });
+      const res = await defaultApi.apiPrivateFindDraftListGet(
+        page,
+        Config.maxSettingArticleNum,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        }
+      );
 
       const fetchedDrafts = res.data.drafts;
 
@@ -153,8 +163,14 @@ const Articles = (props: Props) => {
         return;
       }
 
-      setMaxPage(res.data.maxPage);
-      setArticles(articleList);
+      const fetchedDraftsAsArticles = [] as ArticleIface[];
+      fetchedDrafts.forEach((v) => {
+        const a: ArticleIface = parse(v, "IArticle");
+        fetchedDraftsAsArticles.push(a);
+      });
+
+      setMaxPage(countToMaxPage(res.data.count, Config.maxSettingArticleNum));
+      setArticles(fetchedDraftsAsArticles);
     } catch (err) {
       // If calling api is failed, set verify false.
       setVerify(false);
@@ -218,9 +234,9 @@ const Articles = (props: Props) => {
     <ArticlesContainer>
       <ArticleListContainer hidden={menu && !openMenu} menu={menu}>
         <Tab tab={tab} setTab={setTab} setPage={setPage} />
-        <ArticleList
-          tab={tab}
+        <List
           articles={articles}
+          tab={tab}
           setFocusedArticle={setFocusedArticle}
           setVerify={setVerify}
         />
