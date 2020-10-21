@@ -1,6 +1,7 @@
 const path = require("path");
 const outputDir = path.resolve(__dirname, "public");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -30,6 +31,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/public/index.html",
+      filename: "index.html"
+    })
+  ],
   resolve: {
     modules: ["node_modules", path.resolve(__dirname, 'src')],
     extensions: [".tsx", ".ts", ".js"],

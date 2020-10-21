@@ -156,8 +156,8 @@ const ArticleButtons = (props: {
   const updateArticle = async (articleId: string, isPrivate: boolean) => {
     try {
       // TODO: fix api
-      await defaultApi.apiPrivateUpdateArticlePut(
-        { article: a },
+      await defaultApi.apiPrivateUpdateArticleIsPrivatePut(
+        { id: articleId, isPrivate: isPrivate },
         {
           headers: {
             Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,

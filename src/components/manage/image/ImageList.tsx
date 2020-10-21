@@ -80,11 +80,14 @@ const ImageList = (props: Props) => {
   // Call api of deleting image.
   const deleteImages = async (names: string[]) => {
     try {
-      await defaultApi.apiPrivateDeleteImageDelete(names, {
-        headers: {
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      });
+      await defaultApi.apiPrivateDeleteImageDelete(
+        { imageNames: names },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+          },
+        }
+      );
     } catch (err) {
       setVerify(false);
     }
