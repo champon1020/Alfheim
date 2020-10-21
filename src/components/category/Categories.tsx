@@ -6,7 +6,7 @@ import styled from "styled-components";
 import CategoryList from "./CategoryList";
 import CircleChart from "./CircleChart";
 
-const CategoryListTitle = styled.div`
+const StyledTitle = styled.div`
   color: var(--base-color);
   font-size: 3.6rem;
   margin: 1% 7% 8% 7%;
@@ -20,7 +20,7 @@ const CategoryListTitle = styled.div`
   }
 `;
 
-const CategoryListStyled = styled.div`
+const StyledCategories = styled.div`
   margin-bottom: 10%;
 `;
 
@@ -42,13 +42,13 @@ const Categories = () => {
   }, []);
 
   return (
-    <CategoryListStyled>
-      <CategoryListTitle>
+    <StyledCategories>
+      <StyledTitle>
         <h2>Category List</h2>
-      </CategoryListTitle>
+      </StyledTitle>
       <CircleChart categories={categories} />
       <CategoryList categories={categories} />
-    </CategoryListStyled>
+    </StyledCategories>
   );
 };
 

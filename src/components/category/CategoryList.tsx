@@ -2,7 +2,7 @@ import { ICategory } from "~/type";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
-const CategoryListContainer = styled.ul`
+const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -18,7 +18,7 @@ const CategoryListContainer = styled.ul`
   }
 `;
 
-const CategoryListItem = styled.li`
+const StyledCategory = styled.li`
   font-size: 2.5rem;
   margin: 2%;
   border: solid thin brown;
@@ -30,7 +30,7 @@ const CategoryListItem = styled.li`
   }
 `;
 
-const EmptyMessage = styled.h3`
+const StyledEmptyMsg = styled.h3`
   font-size: 2.4rem;
   color: gray;
   margin: 5% auto 5% auto;
@@ -55,23 +55,23 @@ const CategoryList = (props: Props) => {
       categories === null ||
       categories.length === 0
     ) {
-      return <EmptyMessage>{"No Categories"}</EmptyMessage>;
+      return <StyledEmptyMsg>{"No Categories"}</StyledEmptyMsg>;
     }
 
     const list = [] as JSX.Element[];
 
     categories.forEach((v, i) => {
       list.push(
-        <CategoryListItem key={i} className={v.name} onClick={onClickCategory}>
+        <StyledCategory key={i} className={v.name} onClick={onClickCategory}>
           {v.name + "(" + v.articleNum + ")"}
-        </CategoryListItem>
+        </StyledCategory>
       );
     });
 
     return list;
   }, [categories, onClickCategory]);
 
-  return <CategoryListContainer>{categoryList()}</CategoryListContainer>;
+  return <StyledList>{categoryList()}</StyledList>;
 };
 
 export default CategoryList;
