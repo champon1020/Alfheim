@@ -1,5 +1,5 @@
-import Recommend from "~/components//sidebar/Recommend";
-import Search from "~/components/sidebar/Search";
+import Recommend from "~/components//sidebar/recommend/Recommend";
+import Search from "~/components/sidebar/search/Search";
 import React from "react";
 import styled from "styled-components";
 

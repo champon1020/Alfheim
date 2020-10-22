@@ -1,3 +1,5 @@
+import { MutableRefObject, useEffect, useRef } from "react";
+
 const AddScript = (src: string, isAsync: boolean, id?: string) => {
   const script = document.createElement("script");
   script.src = src;
@@ -57,4 +59,17 @@ export const pathJoin = (...el: string[]): string => {
     res += v;
   });
   return res;
+};
+
+export const convertRefFromFunc = (ref: any): MutableRefObject<any> => {
+  const targetRef = useRef();
+
+  useEffect(() => {
+    if (!ref) return;
+    if (typeof ref === "function") {
+      ref(targetRef.current);
+    }
+  }, [ref]);
+
+  return targetRef;
 };

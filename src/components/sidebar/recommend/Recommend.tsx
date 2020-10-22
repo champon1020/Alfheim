@@ -3,9 +3,9 @@ import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import RecommendBox from "./RecommendBox";
+import Box from "./Box";
 
-const EmptyMessage = styled.h3`
+const StyledEmptyMsg = styled.h3`
   font-size: 2rem;
   color: gray;
   margin: 5% auto 5% auto;
@@ -22,12 +22,12 @@ const Recommend: React.FC = () => {
       newArticles === null ||
       newArticles.length === 0
     ) {
-      return <EmptyMessage>{"No Articles"}</EmptyMessage>;
+      return <StyledEmptyMsg>{"No Articles"}</StyledEmptyMsg>;
     }
 
     const list = [] as JSX.Element[];
     newArticles.forEach((v, i) => {
-      list.push(<RecommendBox article={v} key={i} />);
+      list.push(<Box article={v} key={i} />);
     });
 
     return list;
@@ -37,7 +37,7 @@ const Recommend: React.FC = () => {
   useEffect(() => {
     const fetchNewArticles = async () => {
       try {
-        const res = await defaultApi.apiFindArticleListGet(1, 5);
+        const res = await defaultApi.apiFindArticleListGet(1, newArticlesNum);
         setNewArticles(res.data.articles);
       } catch (err) {
         // handle error
