@@ -1,5 +1,5 @@
 import Categories from "~/components/category/Categories";
-import SideBar from "~/components/common/SideBar";
+import SideBar from "~/components/common/sidebar/SideBar";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 

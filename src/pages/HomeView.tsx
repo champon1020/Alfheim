@@ -1,5 +1,5 @@
 import { defaultApi } from "~/api/entry";
-import SideBar from "~/components/common/SideBar";
+import SideBar from "~/components/common/sidebar/SideBar";
 import ArticleList from "~/components/home/ArticleList";
 import { Config } from "~/config";
 import { countToMaxPage, parsePage } from "~/func";

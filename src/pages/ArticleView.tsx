@@ -1,6 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import Article from "~/components/article/Article";
-import SideBar from "~/components/common/SideBar";
+import SideBar from "~/components/common/sidebar/SideBar";
 import { Config } from "~/config";
 import { parse } from "~/parser";
 import { ManageState, RootState } from "~/stores/store";
