@@ -1,6 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import Login from "~/components/auth/Login";
-import Articles from "~/components/manage/Articles";
+import Articles from "~/components/manage/article/Articles";
 import CreateArticle from "~/components/manage/CreateArticle";
 import Images from "~/components/manage/Images";
 import Settings from "~/components/manage/Settings";

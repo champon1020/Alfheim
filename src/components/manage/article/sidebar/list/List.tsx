@@ -2,15 +2,15 @@ import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import ListBox from "./ListBox";
+import Box from "./Box";
 
-const ListStyled = styled.ul`
+const StyledList = styled.ul`
   overflow-y: scroll;
   white-space: nowrap;
   height: calc(var(--articles-container-height) - 9rem - 4.5rem);
 `;
 
-const EmptyMessage = styled.h3<{ hidden: boolean }>`
+const StyledEmptyMsg = styled.h3<{ hidden: boolean }>`
   display: ${({ hidden }) => (!hidden ? "none" : "block")};
   text-align: center;
   font-size: 2rem;
@@ -34,7 +34,7 @@ const ArticleList = (props: Props) => {
 
     articles.forEach((v, i) => {
       list.push(
-        <ListBox
+        <Box
           key={i}
           tab={tab}
           article={v}
@@ -48,10 +48,10 @@ const ArticleList = (props: Props) => {
   }, [tab, articles, setFocusedArticle, setVerify]);
 
   return (
-    <ListStyled>
-      <EmptyMessage hidden={articles.length === 0}>{"Empty"}</EmptyMessage>
+    <StyledList>
+      <StyledEmptyMsg hidden={articles.length === 0}>{"Empty"}</StyledEmptyMsg>
       {articleList()}
-    </ListStyled>
+    </StyledList>
   );
 };
 

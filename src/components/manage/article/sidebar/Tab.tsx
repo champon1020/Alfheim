@@ -1,13 +1,13 @@
 import React, { MouseEvent, useCallback, useRef } from "react";
 import styled from "styled-components";
 
-const TabContainer = styled.ul`
+const StyledTab = styled.ul`
   background-color: white;
   display: flex;
   justify-content: center;
 `;
 
-const TabElement = styled.li<{ selected: boolean }>`
+const StyledTabItem = styled.li<{ selected: boolean }>`
   background-color: ${({ selected }) =>
     `${selected ? "var(--manage-base-color);" : ""}`};
   color: ${({ selected }) => `${selected ? "white" : ""}`};
@@ -51,22 +51,22 @@ const Tab = (props: Props) => {
   );
 
   return (
-    <TabContainer>
-      <TabElement
+    <StyledTab>
+      <StyledTabItem
         onClick={handleOnClick}
         ref={articlesRef}
         selected={tab === "articles"}
       >
         {"articles"}
-      </TabElement>
-      <TabElement
+      </StyledTabItem>
+      <StyledTabItem
         onClick={handleOnClick}
         ref={draftsRef}
         selected={tab === "drafts"}
       >
         {"drafts"}
-      </TabElement>
-    </TabContainer>
+      </StyledTabItem>
+    </StyledTab>
   );
 };
 

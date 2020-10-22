@@ -1,5 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import MenuIcon from "~/assets/images/icons/menu.svg";
+import Page from "~/components/manage/Page";
 import { Config } from "~/config";
 import { countToMaxPage } from "~/func";
 import { parse } from "~/parser";
@@ -8,87 +9,22 @@ import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
-import List from "./article/List";
-import Preview from "./article/Preview";
-import Tab from "./article/Tab";
-import Page from "./Page";
+import Menu from "./Menu";
+import Preview from "./preview/Preview";
+import SideBar from "./sidebar/SideBar";
 
-const slideFromLeft = keyframes`
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-`;
-
-const ArticlesContainer = styled.div`
+const StyledArticles = styled.div`
   --articles-container-height: calc(100vh - 8rem);
   background-color: white;
   display: flex;
   height: var(--articles-container-height);
 `;
 
-const ArticleListContainer = styled.div<{ hidden: boolean; menu: boolean }>`
-  position: ${({ menu }) => (menu ? "absolute" : "")};
-  display: ${({ hidden }) => (hidden ? "none" : "")};
-  order: 1;
-  width: 30%;
-  height: calc(var(--articles-container-height));
-  @media (max-width: 800px) {
-    width: 40%;
-  }
-  @media (max-width: 600px) {
-    z-index: 1000;
-    animation: ${slideFromLeft} 0.2s ease-out 0s;
-    width: 50%;
-  }
-`;
+type Tab = "articles" | "drafts";
 
-const PreviewContainer = styled.div`
-  order: 2;
-  width: 70%;
-  background-color: white;
-  height: var(--articles-container-height);
-  @media (max-width: 800px) {
-    width: 60%;
-  }
-  @media (max-width: 600px) {
-    width: 100%;
-  }
-`;
-
-const PageContainerStyled = styled.div`
-  border: solid thin lightgray;
-  background-color: white;
-  padding: 1.9rem 0;
-`;
-
-const MenuIconStyled = styled.div<{ hidden: boolean }>`
-  display: ${({ hidden }) => (hidden ? "none" : "")};
-  position: absolute;
-  left: 2.5rem;
-  bottom: 2.5rem;
-  width: 6rem;
-  height: 6rem;
-  border-radius: 5rem;
-  cursor: pointer;
-  z-index: 999;
-  text-align: center;
-  background-color: var(--manage-base-color);
-  &:hover {
-    opacity: 0.6;
-  }
-`;
-
-const MenuIconImage = styled.img`
-  width: 60%;
-  margin-top: 1.2rem;
-`;
-
-interface Props {
+type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const Articles = (props: Props) => {
   const { setVerify } = props;
@@ -99,7 +35,7 @@ const Articles = (props: Props) => {
   // Menu is opened or not.
   const [openMenu, setOpenMenu] = useState(false);
 
-  const [tab, setTab] = useState("");
+  const [tab, setTab] = useState<Tab>();
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
@@ -126,7 +62,7 @@ const Articles = (props: Props) => {
       const fetchedArticles = res.data.articles;
 
       // null and undefined check.
-      if (fetchedArticles === null || fetchedArticles == undefined) {
+      if (fetchedArticles == null) {
         setMaxPage(1);
         setArticles([]);
         return;
@@ -157,7 +93,7 @@ const Articles = (props: Props) => {
       const fetchedDrafts = res.data.drafts;
 
       // null and undefined check.
-      if (fetchedDrafts === null || fetchedDrafts == undefined) {
+      if (fetchedDrafts == null) {
         setMaxPage(1);
         setArticles([]);
         return;
@@ -176,18 +112,6 @@ const Articles = (props: Props) => {
       setVerify(false);
     }
   }, [page, setVerify]);
-
-  // On click listener of going previous button.
-  // Set page-1.
-  const prevCallback = useCallback(() => {
-    setPage(page - 1);
-  }, [page]);
-
-  // On click listener of going next button.
-  // Set page+1.
-  const nextCallback = useCallback(() => {
-    setPage(page + 1);
-  }, [page]);
 
   // Fetch articles or drafts.
   // Selected by the state of tab.
@@ -231,33 +155,22 @@ const Articles = (props: Props) => {
   }, [openMenu]);
 
   return (
-    <ArticlesContainer>
-      <ArticleListContainer hidden={menu && !openMenu} menu={menu}>
-        <Tab tab={tab} setTab={setTab} setPage={setPage} />
-        <List
-          articles={articles}
-          tab={tab}
-          setFocusedArticle={setFocusedArticle}
-          setVerify={setVerify}
-        />
-        <PageContainerStyled>
-          <Page
-            current={page}
-            height="5"
-            next={page === maxPage}
-            prev={page === 1}
-            nextCallback={nextCallback}
-            prevCallback={prevCallback}
-          />
-        </PageContainerStyled>
-      </ArticleListContainer>
-      <PreviewContainer>
-        <Preview tab={tab} focusedArticle={focusedArticle} />
-      </PreviewContainer>
-      <MenuIconStyled hidden={!menu} onClick={toggleMenu}>
-        <MenuIconImage src={MenuIcon} alt="menu" />
-      </MenuIconStyled>
-    </ArticlesContainer>
+    <StyledArticles>
+      <SideBar
+        tab={tab}
+        menu={menu}
+        openMenu={openMenu}
+        page={page}
+        maxPage={maxPage}
+        articles={articles}
+        setTab={setTab}
+        setVerify={setVerify}
+        setPage={setPage}
+        setFocusedArticle={setFocusedArticle}
+      />
+      <Preview tab={tab} focusedArticle={focusedArticle} />
+      <Menu menu={menu} toggleMenu={toggleMenu} />
+    </StyledArticles>
   );
 };
 
