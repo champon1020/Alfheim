@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
-const itemSlideAnim = keyframes`
+const ItemSlideAnim = keyframes`
   from {
     transform: translateX(70vw);
   }
@@ -10,20 +10,20 @@ const itemSlideAnim = keyframes`
   }
 `;
 
-const SnsLinkListItemStyled = styled.li<{ num: number }>`
+const StyledSnsLink = styled.li<{ num: number }>`
   margin: 0 30px;
   background-color: var(--base-color);
   height: 50px;
   width: 50px;
   cursor: pointer;
-  animation: ${itemSlideAnim}
+  animation: ${ItemSlideAnim}
     ${({ num }) => `${Math.exp(num * 0.1)}s ease-in-out 0s`};
   @media (max-width: 800px) {
     margin: 0 2%;
   }
 `;
 
-const ImageStyled = styled.img<{ background?: string }>`
+const StyledImage = styled.img<{ background?: string }>`
   width: 100%;
   height: 100%;
   border-radius: 10px;
@@ -52,11 +52,9 @@ const BarItem = (props: Props) => {
   }, [href]);
 
   return (
-    <SnsLinkListItemStyled num={num}>
-      <div onClick={onClickIcon}>
-        <ImageStyled src={icon} background={background} />
-      </div>
-    </SnsLinkListItemStyled>
+    <StyledSnsLink num={num} onClick={onClickIcon}>
+      <StyledImage src={icon} background={background} />
+    </StyledSnsLink>
   );
 };
 

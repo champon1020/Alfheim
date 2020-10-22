@@ -1,7 +1,7 @@
 import Bar from "~/components/common/Bar";
 import Footer from "~/components/common/Footer";
-import Header from "~/components/common/Header";
-import ImageHeader from "~/components/common/ImageHeader";
+import Header from "~/components/common/header/Header";
+import ImageHeader from "~/components/common/iheader/ImageHeader";
 import ErrorBoundary from "~/components/error/ErrorBoundary";
 import React, { useCallback } from "react";
 import { RouteComponentProps } from "react-router-dom";

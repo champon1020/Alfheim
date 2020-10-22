@@ -1,6 +1,6 @@
 import ErrorImage from "~/assets/images/base_error.jpg";
 import Footer from "~/components/common/Footer";
-import Header from "~/components/common/Header";
+import Header from "~/components/common/header/Header";
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 

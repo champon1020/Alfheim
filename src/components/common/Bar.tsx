@@ -7,7 +7,11 @@ import styled from "styled-components";
 
 import BarItem from "./BarItem";
 
-const BarStyled = styled.div`
+const StyledBar = styled.ul`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
   background-color: var(--base-color);
   border-bottom: solid 1px rgb(197, 197, 197);
   text-align: center;
@@ -19,27 +23,18 @@ const BarStyled = styled.div`
   }
 `;
 
-const SnsLinkListStyled = styled.ul`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  list-style: none;
-`;
-
 const Bar = () => {
   return (
-    <BarStyled>
-      <SnsLinkListStyled>
-        <BarItem icon={TwitterIcon} href={Config.twitterUrl} num={1} />
-        <BarItem
-          icon={LinkedinIcon}
-          href={Config.linkedinUrl}
-          background="var(--base-color)"
-          num={2}
-        />
-        <BarItem icon={GithubIcon} href={Config.githubUrl} num={3} />
-      </SnsLinkListStyled>
-    </BarStyled>
+    <StyledBar>
+      <BarItem icon={TwitterIcon} href={Config.twitterUrl} num={1} />
+      <BarItem
+        icon={LinkedinIcon}
+        href={Config.linkedinUrl}
+        background="var(--base-color)"
+        num={2}
+      />
+      <BarItem icon={GithubIcon} href={Config.githubUrl} num={3} />
+    </StyledBar>
   );
 };
 
