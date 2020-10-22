@@ -1,3 +1,4 @@
+import { TTab } from "~/components/manage/article/Articles";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
 import { IArticle } from "~/type";
@@ -22,7 +23,7 @@ const StyledHeader = styled.div<{ selected: boolean }>`
 `;
 
 type Props = {
-  tab: string;
+  tab: TTab;
   focusedArticle: IArticle;
 };
 

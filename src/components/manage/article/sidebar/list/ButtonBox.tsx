@@ -1,3 +1,4 @@
+import { TTab } from "~/components/manage/article/Articles";
 import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -21,7 +22,7 @@ const StyledButton = styled.div`
 `;
 
 type Props = {
-  tab: string;
+  tab: TTab;
   article: IArticle;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };

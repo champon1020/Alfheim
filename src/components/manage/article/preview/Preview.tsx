@@ -1,3 +1,4 @@
+import { TTab } from "~/components/manage/article/Articles";
 import { Config } from "~/config";
 import { IArticle } from "~/type";
 import React, { useCallback, useEffect } from "react";
@@ -21,7 +22,7 @@ const StyledPreview = styled.div`
 `;
 
 type Props = {
-  tab: string;
+  tab: TTab;
   focusedArticle: IArticle;
 };
 

@@ -1,3 +1,4 @@
+import { TTab } from "~/components/manage/article/Articles";
 import { Config } from "~/config";
 import { pathJoin } from "~/func";
 import { IArticle } from "~/type";
@@ -33,7 +34,7 @@ const StyledBox = styled.li`
 
 interface Props {
   article: IArticle;
-  tab: string;
+  tab: TTab;
   setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }

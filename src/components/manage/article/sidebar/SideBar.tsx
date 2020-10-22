@@ -1,4 +1,4 @@
-import Page from "~/components/manage/Page";
+import { TTab } from "~/components/manage/article/Articles";
 import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
@@ -33,7 +33,7 @@ const StyledSideBar = styled.div<{ hidden: boolean; menu: boolean }>`
 `;
 
 type Props = {
-  tab: string;
+  tab: TTab;
   menu: boolean;
   openMenu: boolean;
   page: number;

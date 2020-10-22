@@ -1,6 +1,4 @@
 import { defaultApi } from "~/api/entry";
-import MenuIcon from "~/assets/images/icons/menu.svg";
-import Page from "~/components/manage/Page";
 import { Config } from "~/config";
 import { countToMaxPage } from "~/func";
 import { parse } from "~/parser";
@@ -20,7 +18,7 @@ const StyledArticles = styled.div`
   height: var(--articles-container-height);
 `;
 
-type Tab = "articles" | "drafts";
+export type TTab = "articles" | "drafts";
 
 type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,7 +33,7 @@ const Articles = (props: Props) => {
   // Menu is opened or not.
   const [openMenu, setOpenMenu] = useState(false);
 
-  const [tab, setTab] = useState<Tab>();
+  const [tab, setTab] = useState<TTab>();
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);

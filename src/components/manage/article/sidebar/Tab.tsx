@@ -1,3 +1,4 @@
+import { TTab } from "~/components/manage/article/Articles";
 import React, { MouseEvent, useCallback, useRef } from "react";
 import styled from "styled-components";
 
@@ -23,7 +24,7 @@ const StyledTabItem = styled.li<{ selected: boolean }>`
 `;
 
 type Props = {
-  tab: string;
+  tab: TTab;
   setTab: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 };
