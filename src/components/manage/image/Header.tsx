@@ -4,16 +4,16 @@ import Cookie from "js-cookie";
 import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
 
-const FormContainer = styled.div`
+const StyledHeader = styled.div`
   text-align: center;
   padding: 2% 0;
 `;
 
-const FileInput = styled.input`
+const StyledInput = styled.input`
   font-size: 1.4rem;
 `;
 
-const SubmitButton = styled.input`
+const StyledButton = styled.input`
   font-size: 1.4rem;
   margin-left: 2%;
   color: white;
@@ -30,7 +30,7 @@ type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const ImageForm = (props: Props) => {
+const Header = (props: Props) => {
   const { setVerify } = props;
   const imageRef = useRef({} as HTMLInputElement);
 
@@ -65,11 +65,11 @@ const ImageForm = (props: Props) => {
   };
 
   return (
-    <FormContainer>
-      <FileInput type="file" name="images" ref={imageRef} accept="image/*" />
-      <SubmitButton type="submit" value="Upload" onClick={onPostImage} />
-    </FormContainer>
+    <StyledHeader>
+      <StyledInput type="file" name="images" ref={imageRef} accept="image/*" />
+      <StyledButton type="submit" value="Upload" onClick={onPostImage} />
+    </StyledHeader>
   );
 };
 
-export default ImageForm;
+export default Header;

@@ -2,7 +2,7 @@ import { defaultApi } from "~/api/entry";
 import Login from "~/components/auth/Login";
 import Articles from "~/components/manage/article/Articles";
 import CreateArticle from "~/components/manage/CreateArticle";
-import Images from "~/components/manage/Images";
+import Images from "~/components/manage/image/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
 import { parseQueryParam } from "~/func";

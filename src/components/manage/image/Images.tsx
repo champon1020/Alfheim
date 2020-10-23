@@ -1,14 +1,14 @@
 import { defaultApi } from "~/api/entry";
+import Page from "~/components/manage/Page";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import ImageForm from "./image/ImageForm";
-import ImageList from "./image/ImageList";
-import Page from "./Page";
+import Header from "./Header";
+import List from "./List";
 
-const ImagesContainerStyled = styled.div`
+const StyledImages = styled.div`
   --images-container-height: calc(100vh - 7rem);
   margin: 0 8%;
   padding: 0 0.2%;
@@ -75,9 +75,9 @@ const Images = (props: Props) => {
   }, [page]);
 
   return (
-    <ImagesContainerStyled>
-      <ImageForm setVerify={setVerify} />
-      <ImageList images={images} setVerify={setVerify} />
+    <StyledImages>
+      <Header setVerify={setVerify} />
+      <List images={images} setVerify={setVerify} />
       <Page
         current={page}
         width={"70"}
@@ -87,7 +87,7 @@ const Images = (props: Props) => {
         nextCallback={nextCallback}
         prevCallback={prevCallback}
       />
-    </ImagesContainerStyled>
+    </StyledImages>
   );
 };
 
