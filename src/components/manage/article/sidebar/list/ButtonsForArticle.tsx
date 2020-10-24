@@ -25,7 +25,6 @@ const ButtonsForArticle = (props: {
   // Return promise.
   const updateArticle = async (articleId: string, isPrivate: boolean) => {
     try {
-      // TODO: fix api
       await defaultApi.apiPrivateUpdateArticleIsPrivatePut(
         { id: articleId, isPrivate: isPrivate },
         {

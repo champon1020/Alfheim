@@ -1,3 +1,4 @@
+import Cookie from "js-cookie";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 const AddScript = (src: string, isAsync: boolean, id?: string) => {
@@ -72,4 +73,8 @@ export const convertRefFromFunc = (ref: any): MutableRefObject<any> => {
   }, [ref]);
 
   return targetRef;
+};
+
+export const bearerAuthHeader = () => {
+  return { Authorization: `Bearer ${Cookie.get("alfheim_id_token")}` };
 };

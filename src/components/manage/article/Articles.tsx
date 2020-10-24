@@ -4,7 +4,7 @@ import { countToMaxPage } from "~/func";
 import { parse } from "~/parser";
 import { IArticle } from "~/type";
 import Cookie from "js-cookie";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 import Menu from "./Menu";
@@ -27,21 +27,19 @@ type Props = {
 const Articles = (props: Props) => {
   const { setVerify } = props;
 
-  // Menu is displayed or not.
-  const [menu, setMenu] = useState(false);
-
-  // Menu is opened or not.
-  const [openMenu, setOpenMenu] = useState(false);
-
+  const menuRef = useRef<HTMLDivElement>();
+  const [showMenu, setShowMenu] = useState(false);
+  const [isMenuOpened, setMenuOpened] = useState(false);
   const [tab, setTab] = useState<TTab>();
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
   const [focusedArticle, setFocusedArticle] = useState({} as IArticle);
 
-  const toggleMenu = useCallback(() => {
-    setOpenMenu(!openMenu);
-  }, [openMenu]);
+  // openMenu opens the menu.
+  const openMenu = () => {
+    setMenuOpened(true);
+  };
 
   // Call api of getting article list
   // and handle got articles.
@@ -134,30 +132,33 @@ const Articles = (props: Props) => {
     }
 
     if (window.innerWidth <= 600) {
-      setMenu(true);
+      setShowMenu(true);
     }
 
     window.onresize = () => {
-      window.innerWidth <= 600 ? setMenu(true) : setMenu(false);
+      window.innerWidth <= 600 ? setShowMenu(true) : setShowMenu(false);
     };
   }, []);
 
   // On click listener.
-  // If openMenu = true, set openMenu false.
-  useEffect(() => {
-    window.onclick = () => {
-      if (openMenu) {
-        setOpenMenu(false);
-      }
-    };
-  }, [openMenu]);
+  // If isMenuOpened = true, set isMenuOpened false.
+  window.onclick = (e: any) => {
+    if (
+      menuRef != null &&
+      e.target !== menuRef.current &&
+      e.target.parentNode !== menuRef.current &&
+      isMenuOpened
+    ) {
+      setMenuOpened(false);
+    }
+  };
 
   return (
     <StyledArticles>
       <SideBar
         tab={tab}
-        menu={menu}
-        openMenu={openMenu}
+        showMenu={showMenu}
+        isMenuOpened={isMenuOpened}
         page={page}
         maxPage={maxPage}
         articles={articles}
@@ -167,7 +168,7 @@ const Articles = (props: Props) => {
         setFocusedArticle={setFocusedArticle}
       />
       <Preview tab={tab} focusedArticle={focusedArticle} />
-      <Menu menu={menu} toggleMenu={toggleMenu} />
+      <Menu showMenu={showMenu} openMenu={openMenu} ref={menuRef} />
     </StyledArticles>
   );
 };

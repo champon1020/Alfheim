@@ -1,5 +1,5 @@
 import MenuIcon from "~/assets/images/icons/menu.svg";
-import React from "react";
+import React, { forwardRef } from "react";
 import styled from "styled-components";
 
 const StyledMenu = styled.div<{ hidden: boolean }>`
@@ -25,18 +25,18 @@ const StyledIcon = styled.img`
 `;
 
 type Props = {
-  menu: boolean;
-  toggleMenu: () => void;
+  showMenu: boolean;
+  openMenu: () => void;
 };
 
-const Menu = (props: Props) => {
-  const { menu, toggleMenu } = props;
+const Menu = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { showMenu, openMenu } = props;
 
   return (
-    <StyledMenu hidden={!menu} onClick={toggleMenu}>
+    <StyledMenu hidden={!showMenu} onClick={openMenu} ref={ref}>
       <StyledIcon src={MenuIcon} alt="menu" />
     </StyledMenu>
   );
-};
+});
 
 export default Menu;

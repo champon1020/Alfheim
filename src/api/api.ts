@@ -265,6 +265,12 @@ export interface InlineObject {
      * @memberof InlineObject
      */
     article: ArticleReq;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject
+     */
+    draftId?: string;
 }
 /**
  * 
@@ -277,7 +283,7 @@ export interface InlineObject1 {
      * @type {DraftReq}
      * @memberof InlineObject1
      */
-    article: DraftReq;
+    draft: DraftReq;
 }
 /**
  * 

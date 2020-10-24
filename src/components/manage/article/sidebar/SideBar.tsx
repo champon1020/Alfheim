@@ -16,8 +16,8 @@ const AnimSlideR2L = keyframes`
   }
 `;
 
-const StyledSideBar = styled.div<{ hidden: boolean; menu: boolean }>`
-  position: ${({ menu }) => (menu ? "absolute" : "")};
+const StyledSideBar = styled.div<{ hidden: boolean; showMenu: boolean }>`
+  position: ${({ showMenu }) => (showMenu ? "absolute" : "")};
   display: ${({ hidden }) => (hidden ? "none" : "")};
   order: 1;
   width: 30%;
@@ -34,8 +34,8 @@ const StyledSideBar = styled.div<{ hidden: boolean; menu: boolean }>`
 
 type Props = {
   tab: TTab;
-  menu: boolean;
-  openMenu: boolean;
+  showMenu: boolean;
+  isMenuOpened: boolean;
   page: number;
   maxPage: number;
   articles: IArticle[];
@@ -48,8 +48,8 @@ type Props = {
 const SideBar = (props: Props) => {
   const {
     tab,
-    menu,
-    openMenu,
+    showMenu,
+    isMenuOpened,
     page,
     maxPage,
     articles,
@@ -72,7 +72,7 @@ const SideBar = (props: Props) => {
   }, [page]);
 
   return (
-    <StyledSideBar hidden={menu && !openMenu} menu={menu}>
+    <StyledSideBar hidden={showMenu && !isMenuOpened} showMenu={showMenu}>
       <Tab tab={tab} setTab={setTab} setPage={setPage} />
       <List
         articles={articles}

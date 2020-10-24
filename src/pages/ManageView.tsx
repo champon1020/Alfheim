@@ -1,7 +1,7 @@
 import { defaultApi } from "~/api/entry";
 import Login from "~/components/auth/Login";
 import Articles from "~/components/manage/article/Articles";
-import CreateArticle from "~/components/manage/CreateArticle";
+import Editor from "~/components/manage/editor/Editor";
 import Images from "~/components/manage/image/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
@@ -48,14 +48,7 @@ const ManageView: React.FC<Props> = (props) => {
       return <Articles setVerify={setVerify} />;
     }
 
-    const qParams = parseQueryParam(window.location.href);
-    return (
-      <CreateArticle
-        setVerify={setVerify}
-        articleId={qParams["articleId"]}
-        draftId={qParams["draftId"]}
-      />
-    );
+    return <Editor setVerify={setVerify} />;
   }, [mode]);
 
   const manageContainerView = useMemo(() => {
