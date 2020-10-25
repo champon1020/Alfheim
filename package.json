@@ -51,6 +51,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/redux-persist": "^4.3.1",
     "@types/styled-components": "^5.1.4",
+    "@uiw/react-md-editor": "^1.14.5",
     "axios": "^0.20.0",
     "chart.js": "^2.9.3",
     "dotenv-webpack": "^4.0.0",

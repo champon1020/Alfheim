@@ -1,19 +1,10 @@
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import { Editor } from "@toast-ui/react-editor";
 import appActionCreator from "~/actions/actions";
 import { defaultApi } from "~/api/entry";
 import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
 import { bearerAuthHeader, parseQueryParam } from "~/func";
 import { parse } from "~/parser";
 import { IArticleReq, IDraft, IDraftReq, IEditorArticle } from "~/type";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -56,6 +47,8 @@ type Props = {
 const Form = (props: Props) => {
   const { setVerify } = props;
 
+  let firstMount = true;
+
   // Some message displayed on the bottom of editor.
   const [msg, setMsg] = useState("");
 
@@ -71,15 +64,8 @@ const Form = (props: Props) => {
   // Updating article or not.
   const [isUpdating, setUpdating] = useState(false);
 
-  const [firstMount, setFirstMount] = useState(true);
-
-  const [editorUpdateMode, setEditorUpdateMode] = useState(false);
-
   // Redux dispatch
   const dispatch = useDispatch();
-
-  // Reference of Editor component.
-  const editorRef = useRef<Editor>();
 
   // Error classification.
   // If status >= 300, return true.
@@ -109,9 +95,6 @@ const Form = (props: Props) => {
       );
 
       setEditorArticle(editorArticle);
-      if (editorRef.current != null) {
-        editorRef.current.getInstance().setMarkdown(editorArticle.content);
-      }
     } catch (err) {
       handleError(err.response.status);
     }
@@ -130,9 +113,6 @@ const Form = (props: Props) => {
       );
 
       setEditorArticle(editorArticle);
-      if (editorRef.current != null) {
-        editorRef.current.getInstance().setMarkdown(editorArticle.content);
-      }
     } catch (err) {
       handleError(err.response.status);
     }
@@ -235,30 +215,28 @@ const Form = (props: Props) => {
   };
 
   // Saving on real time.
-  const onlineSave = useCallback(() => {
-    // Set content.
-    if (editorRef.current != null) {
-      editorArticle.content = editorRef.current.getInstance().getMarkdown();
-    }
+  const onlineSave = useCallback(
+    (editorArticle: IEditorArticle) => {
+      // Update the state of editor draft.
+      const draft: IDraft = parse(editorArticle, "IDraft");
+      dispatch(appActionCreator.updateDraft(draft, editorArticle.content));
 
-    // Update the state of editor draft.
-    const draft: IDraft = parse(editorArticle, "IDraft");
-    dispatch(appActionCreator.updateDraft(draft, editorArticle.content));
+      // Call updating function after onlineSaveDuration.
+      rts.save(() => {
+        if (isUpdating) return;
 
-    // Call updating function after onlineSaveDuration.
-    rts.save(() => {
-      if (isUpdating) return;
+        const reqDraft: IDraftReq = parse(editorArticle, "IDraftReq");
 
-      const reqDraft: IDraftReq = parse(editorArticle, "IDraftReq");
+        if (draftId != null) {
+          updateDraft(reqDraft);
+          return;
+        }
 
-      if (draftId != null) {
-        updateDraft(reqDraft);
-        return;
-      }
-
-      registerDraft(reqDraft);
-    }, onlineSaveDuration);
-  }, [editorArticle, isUpdating, draftId, editorRef]);
+        registerDraft(reqDraft);
+      }, onlineSaveDuration);
+    },
+    [isUpdating, draftId]
+  );
 
   // On click listener of submit button.
   // - Validate title and categories.
@@ -270,10 +248,6 @@ const Form = (props: Props) => {
       return;
     }
 
-    if (editorRef.current != null) {
-      editorArticle.content = editorRef.current.getInstance().getMarkdown();
-    }
-
     const reqArticle: IArticleReq = parse(editorArticle, "IArticleReq");
 
     if (isUpdating) {
@@ -282,7 +256,7 @@ const Form = (props: Props) => {
     }
 
     registerArticle(reqArticle, draftId);
-  }, [editorArticle, isUpdating, editorRef, draftId]);
+  }, [editorArticle, isUpdating, draftId]);
 
   // On click listener of preview button.
   // - Validate title and categories.
@@ -291,7 +265,6 @@ const Form = (props: Props) => {
     if (validation(editorArticle.title, editorArticle.categories)) {
       return;
     }
-
     window.open("/article-draft/");
   }, [editorArticle]);
 
@@ -302,7 +275,7 @@ const Form = (props: Props) => {
       editorArticle.title = value;
       setMsg("");
       setErr(MyErrorStatus.NONE);
-      onlineSave();
+      onlineSave(editorArticle);
     },
     [editorArticle, onlineSave]
   );
@@ -314,7 +287,7 @@ const Form = (props: Props) => {
       editorArticle.categories = value;
       setMsg("");
       setErr(MyErrorStatus.NONE);
-      onlineSave();
+      onlineSave(editorArticle);
     },
     [editorArticle, onlineSave]
   );
@@ -326,31 +299,28 @@ const Form = (props: Props) => {
       editorArticle.imageHash = value;
       setMsg("");
       setErr(MyErrorStatus.NONE);
-      onlineSave();
+      onlineSave(editorArticle);
     },
     [editorArticle, onlineSave]
   );
 
   // On change listener of markdown editor.
-  const onChangeMarkdown = useCallback(() => {
-    if (editorRef.current != null) {
-      editorArticle.content = editorRef.current.getInstance().getMarkdown();
-    }
+  const onChangeMarkdown = useCallback(
+    (value: string) => {
+      // When the markdonw editor is mounted, this onchange listener is executed.
+      // So this if statement prevents from the pre-execution.
+      if (firstMount) {
+        firstMount = false;
+        return;
+      }
 
-    setErr(MyErrorStatus.NONE);
-    setMsg("");
-    onlineSave();
-  }, [editorArticle, onlineSave]);
-
-  /*
-  useEffect(() => {
-    console.log(firstMount, editorUpdateMode);
-    if (editorUpdateMode) {
-      firstMount ? setFirstMount(false) : onlineSave();
-      //      setEditorUpdateMode(false);
-    }
-  }, [editorUpdateMode]);
-*/
+      editorArticle.content = value;
+      setErr(MyErrorStatus.NONE);
+      setMsg("");
+      onlineSave(editorArticle);
+    },
+    [editorArticle, onlineSave]
+  );
 
   // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
@@ -367,15 +337,6 @@ const Form = (props: Props) => {
     }
   }, []);
 
-  /* debug */
-  const StyledMdEditor = styled.div`
-    font-size: 1.6rem;
-  `;
-
-  const EditorComponent = useMemo(() => {
-    return <MarkdownEditor onChange={onChangeMarkdown} editorRef={editorRef} />;
-  }, [onChangeMarkdown]);
-
   return (
     <StyledForm>
       <Input
@@ -388,21 +349,11 @@ const Form = (props: Props) => {
         initValue={editorArticle.categories}
         placeholder="category"
       />
-      <StyledMdEditor>
-        <Editor
-          previewStyle="vertical"
-          height="750px"
-          initialEditType="markdown"
-          events={{
-            change: () => {
-              // TODO
-            },
-          }}
-          plugins={[colorSyntax, codeSyntaxHighlight]}
-          useCommandShortcut={true}
-          ref={editorRef}
-        />
-      </StyledMdEditor>
+      <MarkdownEditor
+        value={editorArticle.content}
+        onChange={onChangeMarkdown}
+      />
+      ;
       <Footer
         imageHash={editorArticle.imageHash}
         onSubmit={onSubmit}

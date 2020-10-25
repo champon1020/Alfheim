@@ -1,12 +1,4 @@
-import "codemirror/lib/codemirror.css";
-import "tui-color-picker/dist/tui-color-picker.css";
-import "@toast-ui/editor/dist/toastui-editor.css";
-import "@toast-ui/editor/dist/i18n/ja-jp";
-import "highlight.js/styles/darcula.css";
-
-import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
-import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-import { Editor } from "@toast-ui/react-editor";
+import MDEditor from "@uiw/react-md-editor";
 import { ErrorStatus, MyErrorStatus } from "~/error";
 import { convertRefFromFunc } from "~/func";
 import hljs from "highlight.js";
@@ -21,12 +13,12 @@ const StyledMdEditor = styled.div`
 const onlineSaveDuration = 3000;
 
 type Props = {
-  editorRef: any;
-  onChange: () => void;
+  value: string;
+  onChange: (value: string) => void;
 };
 
 const MarkdownEditor = (props: Props) => {
-  const { editorRef, onChange } = props;
+  const { value, onChange } = props;
 
   // Initialize highlight.js
   useEffect(() => {
@@ -35,17 +27,7 @@ const MarkdownEditor = (props: Props) => {
 
   return (
     <StyledMdEditor>
-      <Editor
-        previewStyle="vertical"
-        height="750px"
-        initialEditType="markdown"
-        events={{
-          change: onChange,
-        }}
-        plugins={[colorSyntax, codeSyntaxHighlight]}
-        useCommandShortcut={true}
-        ref={editorRef}
-      />
+      <MDEditor value={value} onChange={onChange} height={748} />
     </StyledMdEditor>
   );
 };
