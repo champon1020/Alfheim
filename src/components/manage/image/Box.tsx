@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const StyledBox = styled.li`
@@ -32,7 +32,7 @@ type Props = {
   key?: number;
   name: string;
   src: string;
-  onClickImage: (e: MouseEvent<HTMLInputElement>) => void;
+  onClickImage: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const Box = (props: Props) => {

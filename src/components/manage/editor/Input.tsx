@@ -1,5 +1,5 @@
 import { ErrorStatus, MyErrorStatus } from "~/error";
-import React, { ChangeEvent, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const StyledContainer = styled.div`
@@ -17,33 +17,36 @@ const StyledInput = styled.input`
 `;
 
 type Props = {
-  value: string;
-  setter: (value: string) => void;
-  setMsg: React.Dispatch<React.SetStateAction<string>>;
-  setErr: React.Dispatch<React.SetStateAction<ErrorStatus>>;
+  onChangeHandler: (value: string) => void;
+  initValue?: string;
   placeholder?: string;
 };
 
-const InputForm = (props: Props) => {
-  const { value, setter, setMsg, setErr, placeholder } = props;
+const Input = (props: Props) => {
+  const { onChangeHandler, initValue, placeholder } = props;
 
-  // On change listner of input form.
-  // Execute callback and set error or not.
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setter(e.target.value);
-    setMsg("");
-    setErr(MyErrorStatus.NONE);
+  const [value, setValue] = useState("");
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+    onChangeHandler(e.target.value);
   };
+
+  useEffect(() => {
+    if (initValue != null) {
+      setValue(initValue);
+    }
+  }, [initValue]);
 
   return (
     <StyledContainer>
       <StyledInput
         value={value}
-        onChange={onChangeHandler}
+        onChange={onChange}
         placeholder={placeholder}
       />
     </StyledContainer>
   );
 };
 
-export default InputForm;
+export default Input;

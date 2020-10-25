@@ -3,7 +3,7 @@ import NextIcon from "~/assets/images/icons/next.svg";
 import React from "react";
 import styled from "styled-components";
 
-const PageContainer = styled.div<{ height: number; width: string | undefined }>`
+const StyledPage = styled.div<{ height: number; width: string | undefined }>`
   width: ${({ width }) => (width === undefined ? "" : width + "%")};
   height: ${({ height }) => height * 0.8 + "rem"};
   padding: ${({ height }) => height * 0.1 + "rem"} 2rem;
@@ -12,7 +12,7 @@ const PageContainer = styled.div<{ height: number; width: string | undefined }>`
   margin: auto;
 `;
 
-const IconBox = styled.div`
+const StyledIcon = styled.div`
   width: 40%;
   text-align: center;
   &:hover {
@@ -20,13 +20,13 @@ const IconBox = styled.div`
   }
 `;
 
-const IconStyled = styled.img<{ hidden: boolean }>`
+const StyledImage = styled.img<{ hidden: boolean }>`
   visibility: ${({ hidden }) => `${hidden ? "hidden" : ""}`};
   height: 98%;
   cursor: pointer;
 `;
 
-const CurrentStyled = styled.h3`
+const StyledCurrent = styled.h3`
   text-align: center;
   font-size: 2.4rem;
   width: 20%;
@@ -54,25 +54,25 @@ const Page = (props: Props) => {
   } = props;
 
   return (
-    <PageContainer height={Number.parseInt(height)} width={width}>
-      <IconBox>
-        <IconStyled
+    <StyledPage height={Number.parseInt(height)} width={width}>
+      <StyledIcon>
+        <StyledImage
           onClick={prevCallback}
           hidden={prev}
           src={BackIcon}
           alt="back"
         />
-      </IconBox>
-      <CurrentStyled>{current}</CurrentStyled>
-      <IconBox>
-        <IconStyled
+      </StyledIcon>
+      <StyledCurrent>{current}</StyledCurrent>
+      <StyledIcon>
+        <StyledImage
           onClick={nextCallback}
           hidden={next}
           src={NextIcon}
           alt="next"
         />
-      </IconBox>
-    </PageContainer>
+      </StyledIcon>
+    </StyledPage>
   );
 };
 

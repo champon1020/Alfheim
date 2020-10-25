@@ -10,7 +10,7 @@ import { Editor } from "@toast-ui/react-editor";
 import { ErrorStatus, MyErrorStatus } from "~/error";
 import { convertRefFromFunc } from "~/func";
 import hljs from "highlight.js";
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef, useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 const StyledMdEditor = styled.div`
@@ -21,16 +21,12 @@ const StyledMdEditor = styled.div`
 const onlineSaveDuration = 3000;
 
 type Props = {
-  onlineSave: () => void;
-  setErr: React.Dispatch<React.SetStateAction<ErrorStatus>>;
-  setMsg: React.Dispatch<React.SetStateAction<string>>;
+  editorRef: any;
+  onChange: () => void;
 };
 
-const MarkdownEditor = forwardRef<Editor, Props>((props, ref) => {
-  const { onlineSave, setErr, setMsg } = props;
-
-  // Reference for markdown editor.
-  const editorRef = convertRefFromFunc(ref);
+const MarkdownEditor = (props: Props) => {
+  const { editorRef, onChange } = props;
 
   // Initialize highlight.js
   useEffect(() => {
@@ -44,11 +40,7 @@ const MarkdownEditor = forwardRef<Editor, Props>((props, ref) => {
         height="750px"
         initialEditType="markdown"
         events={{
-          change: () => {
-            setErr(MyErrorStatus.NONE);
-            setMsg("");
-            onlineSave();
-          },
+          change: onChange,
         }}
         plugins={[colorSyntax, codeSyntaxHighlight]}
         useCommandShortcut={true}
@@ -56,6 +48,6 @@ const MarkdownEditor = forwardRef<Editor, Props>((props, ref) => {
       />
     </StyledMdEditor>
   );
-});
+};
 
 export default MarkdownEditor;

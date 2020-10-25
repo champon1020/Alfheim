@@ -1,7 +1,7 @@
 import { defaultApi } from "~/api/entry";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
-import React, { MouseEvent, useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -39,7 +39,7 @@ const ImageList = (props: Props) => {
   // On focus listener of selecting image.
   // If focused, push to selected array.
   const onClickImage = useCallback(
-    (e: MouseEvent<HTMLInputElement>) => {
+    (e: React.MouseEvent<HTMLInputElement>) => {
       if (e.currentTarget.checked) {
         selected.push(e.currentTarget.name);
       } else {

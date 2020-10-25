@@ -20,7 +20,7 @@ export const loadMathJax = () => {
 };
 
 export const countToMaxPage = (count: number, maxNum: number): number => {
-  return Math.ceil((count - 1) / maxNum);
+  return Math.ceil(count / maxNum);
 };
 
 type Map = { [key: string]: string };

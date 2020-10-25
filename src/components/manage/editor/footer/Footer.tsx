@@ -1,7 +1,8 @@
 import appErrorHandler, { ErrorStatus, MyErrorStatus } from "~/error";
-import React, { ChangeEvent, useCallback } from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
+import Input from "./Input";
 import Msg from "./Msg";
 
 const StyledFooter = styled.div`
@@ -17,15 +18,6 @@ const StyledForm = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-`;
-
-const StyledInput = styled.input`
-  margin: 0 0.2rem;
-  height: 3.8rem;
-  width: 60%;
-  font-size: 2.5rem;
-  border-radius: 5px;
-  border: solid thin gray;
 `;
 
 const StyledButton = styled.button`
@@ -50,28 +42,19 @@ type Props = {
   imageHash: string;
   onSubmit: () => void;
   onPreview: () => void;
-  setter: (i: string) => void;
+  onChangeHandler: (value: string) => void;
   msg: string;
   err?: ErrorStatus;
 };
 
 const Footer = (props: Props) => {
-  const { imageHash, onSubmit, onPreview, setter, msg, err } = props;
-
-  // On change listner of input form.
-  // Execute callback and set error or not.
-  const onChangeHandler = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setter(e.target.value);
-    },
-    [setter]
-  );
+  const { imageHash, onSubmit, onPreview, onChangeHandler, msg, err } = props;
 
   return (
     <StyledFooter>
       <Msg err={err} msg={msg} />
       <StyledForm>
-        <StyledInput value={imageHash} onChange={onChangeHandler} />
+        <Input initValue={imageHash} onChangeHandler={onChangeHandler} />
         <StyledButton onClick={onPreview}>{"Preview"}</StyledButton>
         <StyledButton onClick={onSubmit}>{"Submit"}</StyledButton>
       </StyledForm>

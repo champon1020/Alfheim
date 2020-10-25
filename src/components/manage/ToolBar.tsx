@@ -1,14 +1,14 @@
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
-const ToolBarContainerStyled = styled.div`
+const StyledToolBar = styled.div`
   height: 6rem;
   margin-bottom: 1rem;
   text-align: center;
   background-color: white;
 `;
 
-const ToolBarList = styled.ul`
+const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -19,7 +19,7 @@ const ToolBarList = styled.ul`
   }
 `;
 
-const ToolBarListItem = styled.li<{ focused: boolean }>`
+const StyledItem = styled.li<{ focused: boolean }>`
   background-color: ${({ focused }) =>
     focused ? "var(--manage-base-color)" : "white"};
   color: ${({ focused }) => (focused ? "white" : "var(--manage-base-color)")};
@@ -63,38 +63,38 @@ const ToolBar: React.FC<Props> = (props) => {
   };
 
   return (
-    <ToolBarContainerStyled>
-      <ToolBarList>
-        <ToolBarListItem
+    <StyledToolBar>
+      <StyledList>
+        <StyledItem
           id="create"
           focused={props.mode === undefined}
           onClick={handleOnClick}
         >
           {"create"}
-        </ToolBarListItem>
-        <ToolBarListItem
+        </StyledItem>
+        <StyledItem
           id="images"
           focused={props.mode === "images"}
           onClick={handleOnClick}
         >
           {"images"}
-        </ToolBarListItem>
-        <ToolBarListItem
+        </StyledItem>
+        <StyledItem
           id="articles"
           focused={props.mode === "articles"}
           onClick={handleOnClick}
         >
           {"articles"}
-        </ToolBarListItem>
-        <ToolBarListItem
+        </StyledItem>
+        <StyledItem
           id="settings"
           focused={props.mode === "settings"}
           onClick={handleOnClick}
         >
           {"settings"}
-        </ToolBarListItem>
-      </ToolBarList>
-    </ToolBarContainerStyled>
+        </StyledItem>
+      </StyledList>
+    </StyledToolBar>
   );
 };
 

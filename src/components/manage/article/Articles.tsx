@@ -59,8 +59,6 @@ const Articles = (props: Props) => {
 
       // null and undefined check.
       if (fetchedArticles == null) {
-        setMaxPage(1);
-        setArticles([]);
         return;
       }
 
@@ -90,8 +88,6 @@ const Articles = (props: Props) => {
 
       // null and undefined check.
       if (fetchedDrafts == null) {
-        setMaxPage(1);
-        setArticles([]);
         return;
       }
 

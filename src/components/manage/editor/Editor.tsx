@@ -1,3 +1,5 @@
+import codeSyntaxHighlight from "@toast-ui/editor-plugin-code-syntax-highlight";
+import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import { Editor } from "@toast-ui/react-editor";
 import appActionCreator from "~/actions/actions";
 import { defaultApi } from "~/api/entry";
@@ -5,7 +7,13 @@ import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
 import { bearerAuthHeader, parseQueryParam } from "~/func";
 import { parse } from "~/parser";
 import { IArticleReq, IDraft, IDraftReq, IEditorArticle } from "~/type";
-import React, { createRef, useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
@@ -63,11 +71,15 @@ const Form = (props: Props) => {
   // Updating article or not.
   const [isUpdating, setUpdating] = useState(false);
 
+  const [firstMount, setFirstMount] = useState(true);
+
+  const [editorUpdateMode, setEditorUpdateMode] = useState(false);
+
   // Redux dispatch
   const dispatch = useDispatch();
 
   // Reference of Editor component.
-  const editorRef = createRef<Editor>();
+  const editorRef = useRef<Editor>();
 
   // Error classification.
   // If status >= 300, return true.
@@ -151,7 +163,10 @@ const Form = (props: Props) => {
 
   // Call api to register draft.
   const registerDraft = async (d: IDraftReq) => {
-    if (apiOff) return;
+    if (apiOff) {
+      setMsg("Saved!");
+      return;
+    }
 
     const req = { draft: d };
 
@@ -175,7 +190,10 @@ const Form = (props: Props) => {
 
   // Call api to update article.
   const updateArticle = async (a: IArticleReq) => {
-    if (apiOff) return;
+    if (apiOff) {
+      setMsg("Updated!");
+      return;
+    }
 
     const req = { article: a };
 
@@ -196,6 +214,7 @@ const Form = (props: Props) => {
   // Call api to update draft.
   const updateDraft = async (d: IDraftReq) => {
     if (apiOff || validation(d.title, d.categories)) {
+      setMsg("Updated!");
       return;
     }
 
@@ -217,7 +236,7 @@ const Form = (props: Props) => {
 
   // Saving on real time.
   const onlineSave = useCallback(() => {
-    // Set content to editorArticle.
+    // Set content.
     if (editorRef.current != null) {
       editorArticle.content = editorRef.current.getInstance().getMarkdown();
     }
@@ -239,7 +258,7 @@ const Form = (props: Props) => {
 
       registerDraft(reqDraft);
     }, onlineSaveDuration);
-  }, [editorArticle, dispatch, isUpdating, editorRef, draftId]);
+  }, [editorArticle, isUpdating, draftId, editorRef]);
 
   // On click listener of submit button.
   // - Validate title and categories.
@@ -279,8 +298,10 @@ const Form = (props: Props) => {
   // On change listener of title form.
   // Update editor article|draft object and call function of saving on real time.
   const onChangeTitle = useCallback(
-    (t: string) => {
-      editorArticle.title = t;
+    (value: string) => {
+      editorArticle.title = value;
+      setMsg("");
+      setErr(MyErrorStatus.NONE);
       onlineSave();
     },
     [editorArticle, onlineSave]
@@ -289,8 +310,10 @@ const Form = (props: Props) => {
   // On change listener of categories form.
   // Update editor article|draft object and call function of saving on real time.
   const onChangeCategories = useCallback(
-    (c: string) => {
-      editorArticle.categories = c;
+    (value: string) => {
+      editorArticle.categories = value;
+      setMsg("");
+      setErr(MyErrorStatus.NONE);
       onlineSave();
     },
     [editorArticle, onlineSave]
@@ -299,12 +322,35 @@ const Form = (props: Props) => {
   // On change listener of image form.
   // Update editor article|draft object and call function of saving on real time.
   const onChangeImage = useCallback(
-    (i: string) => {
-      editorArticle.imageHash = i;
+    (value: string) => {
+      editorArticle.imageHash = value;
+      setMsg("");
+      setErr(MyErrorStatus.NONE);
       onlineSave();
     },
     [editorArticle, onlineSave]
   );
+
+  // On change listener of markdown editor.
+  const onChangeMarkdown = useCallback(() => {
+    if (editorRef.current != null) {
+      editorArticle.content = editorRef.current.getInstance().getMarkdown();
+    }
+
+    setErr(MyErrorStatus.NONE);
+    setMsg("");
+    onlineSave();
+  }, [editorArticle, onlineSave]);
+
+  /*
+  useEffect(() => {
+    console.log(firstMount, editorUpdateMode);
+    if (editorUpdateMode) {
+      firstMount ? setFirstMount(false) : onlineSave();
+      //      setEditorUpdateMode(false);
+    }
+  }, [editorUpdateMode]);
+*/
 
   // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
@@ -321,33 +367,47 @@ const Form = (props: Props) => {
     }
   }, []);
 
+  /* debug */
+  const StyledMdEditor = styled.div`
+    font-size: 1.6rem;
+  `;
+
+  const EditorComponent = useMemo(() => {
+    return <MarkdownEditor onChange={onChangeMarkdown} editorRef={editorRef} />;
+  }, [onChangeMarkdown]);
+
   return (
     <StyledForm>
       <Input
-        value={editorArticle.title}
-        setter={onChangeTitle}
-        setMsg={setMsg}
-        setErr={setErr}
+        onChangeHandler={onChangeTitle}
+        initValue={editorArticle.title}
         placeholder="title"
       />
       <Input
-        value={editorArticle.categories}
-        setter={onChangeCategories}
-        setMsg={setMsg}
-        setErr={setErr}
+        onChangeHandler={onChangeCategories}
+        initValue={editorArticle.categories}
         placeholder="category"
       />
-      <MarkdownEditor
-        setErr={setErr}
-        setMsg={setMsg}
-        ref={editorRef}
-        onlineSave={onlineSave}
-      />
+      <StyledMdEditor>
+        <Editor
+          previewStyle="vertical"
+          height="750px"
+          initialEditType="markdown"
+          events={{
+            change: () => {
+              // TODO
+            },
+          }}
+          plugins={[colorSyntax, codeSyntaxHighlight]}
+          useCommandShortcut={true}
+          ref={editorRef}
+        />
+      </StyledMdEditor>
       <Footer
         imageHash={editorArticle.imageHash}
         onSubmit={onSubmit}
         onPreview={onPreview}
-        setter={onChangeImage}
+        onChangeHandler={onChangeImage}
         msg={msg}
         err={err}
       />

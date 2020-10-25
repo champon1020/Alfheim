@@ -36,7 +36,7 @@ const Tab = (props: Props) => {
 
   // On click listener of tab.
   // Toggle tab 'articles' or 'drafts'.
-  const handleOnClick = useCallback(
+  const onClickTab = useCallback(
     (e: MouseEvent<HTMLLIElement>) => {
       if (e.currentTarget === articlesRef.current) {
         setTab("articles");
@@ -54,14 +54,14 @@ const Tab = (props: Props) => {
   return (
     <StyledTab>
       <StyledTabItem
-        onClick={handleOnClick}
+        onClick={onClickTab}
         ref={articlesRef}
         selected={tab === "articles"}
       >
         {"articles"}
       </StyledTabItem>
       <StyledTabItem
-        onClick={handleOnClick}
+        onClick={onClickTab}
         ref={draftsRef}
         selected={tab === "drafts"}
       >

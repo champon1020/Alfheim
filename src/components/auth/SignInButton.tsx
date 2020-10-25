@@ -43,9 +43,9 @@ const SignInButton = (props: Props) => {
     }
   };
 
-  const onFailure = useCallback(() => {
+  const onFailure = () => {
     jumpToHome();
-  }, []);
+  };
 
   useEffect(() => {
     gapi.load("auth2", function () {
@@ -64,7 +64,7 @@ const SignInButton = (props: Props) => {
       onsuccess: onSuccess,
       onfailure: onFailure,
     });
-  }, [onSuccess, onFailure]);
+  }, []);
 
   return (
     <>
