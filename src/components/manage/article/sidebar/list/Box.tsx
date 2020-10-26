@@ -46,9 +46,9 @@ const Box = (props: Props) => {
     return pathJoin(
       Config.fileUrl,
       "images",
-      article.imageHash === "" ? Config.defImg : article.imageHash
+      article.imageName === "" ? Config.defImg : article.imageName
     );
-  }, [article.imageHash]);
+  }, [article.imageName]);
 
   // On focuse listener of article box.
   // Set focues article.
@@ -61,7 +61,7 @@ const Box = (props: Props) => {
       <Image src={image} alt={article.title} />
       <TitleDate
         title={article.title}
-        date={tab === "drafts" ? article.updateDate : article.createDate}
+        date={tab === "drafts" ? article.updatedDate : article.createdDate}
       />
       <ButtonBox tab={tab} article={article} setVerify={setVerify} />
     </StyledBox>

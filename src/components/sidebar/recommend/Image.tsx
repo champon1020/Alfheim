@@ -11,13 +11,13 @@ const StyledImage = styled.img`
 `;
 
 type Props = {
-  imageHash: string;
+  imageName: string;
 };
 
 const Image = (props: Props) => {
-  const { imageHash } = props;
+  const { imageName } = props;
 
-  return <StyledImage src={pathJoin(Config.fileUrl, "images", imageHash)} />;
+  return <StyledImage src={pathJoin(Config.fileUrl, "images", imageName)} />;
 };
 
 export default Image;

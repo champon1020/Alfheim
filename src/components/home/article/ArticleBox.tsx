@@ -34,17 +34,13 @@ const ArticleBox = (props: Props) => {
   const { article } = props;
 
   const onClickArticle = useCallback(() => {
-    window.location.href = pathJoin(
-      Config.url,
-      "article",
-      article.sortedId.toString()
-    );
+    window.location.href = pathJoin(Config.url, "article", article.id);
   }, [article]);
 
   return (
     <StyledArticleBox onClick={onClickArticle}>
-      <Image src={article.imageHash} alt="article box" />
-      <Date date={article.createDate} />
+      <Image src={article.imageName} alt="article box" />
+      <Date date={article.createdDate} />
       <Title title={article.title} />
       <Categories categories={article.categories} />
     </StyledArticleBox>

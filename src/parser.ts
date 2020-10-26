@@ -71,14 +71,13 @@ const parseIDraftToIArticle = (d: IDraft): IArticle => {
 
   return {
     id: d.id,
-    sortedId: d.sortedId,
     title: d.title,
     categories: categories,
-    createDate: undefined,
-    updateDate: d.updateDate,
+    createdDate: undefined,
+    updatedDate: d.updatedDate,
     content: d.content,
-    imageHash: d.imageHash,
-    isPrivate: true,
+    imageName: d.imageName,
+    _private: true,
   };
 };
 
@@ -86,12 +85,11 @@ const parseIDraftToIArticle = (d: IDraft): IArticle => {
 export const parseIEditorArticleToIDraft = (e: IEditorArticle): IDraft => {
   return {
     id: e.id,
-    sortedId: -1,
     title: e.title,
     categories: e.categories,
-    updateDate: e.updateDate,
+    updatedDate: e.updatedDate,
     content: e.content,
-    imageHash: e.imageHash,
+    imageName: e.imageName,
   };
 };
 
@@ -103,10 +101,10 @@ const parseIArticleToIEditorArticle = (a: IArticle): IEditorArticle => {
     id: a.id,
     title: a.title,
     categories: categories,
-    updateDate: a.updateDate,
+    updatedDate: a.updatedDate,
     content: a.content,
-    imageHash: a.imageHash,
-    isPrivate: a.isPrivate,
+    imageName: a.imageName,
+    _private: a._private,
   };
 };
 
@@ -118,10 +116,10 @@ const parseIDraftToIEditorArticle = (d: IDraft): IEditorArticle => {
     id: d.id,
     title: d.title,
     categories: categories,
-    updateDate: d.updateDate,
+    updatedDate: d.updatedDate,
     content: d.content,
-    imageHash: d.imageHash,
-    isPrivate: false,
+    imageName: d.imageName,
+    _private: false,
   };
 };
 
@@ -134,8 +132,8 @@ const parseIEditorArticleToIArticleReq = (e: IEditorArticle): IArticleReq => {
     title: e.title,
     categories: categories,
     content: e.content,
-    imageHash: e.imageHash,
-    isPrivate: e.isPrivate,
+    imageName: e.imageName,
+    _private: e._private,
   };
 };
 
@@ -147,7 +145,7 @@ const parseIEditorArticleToIDraftReq = (e: IEditorArticle): IDraftReq => {
     title: e.title,
     categories: categories,
     content: e.content,
-    imageHash: e.imageHash,
+    imageName: e.imageName,
   };
 };
 

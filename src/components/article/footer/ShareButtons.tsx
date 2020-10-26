@@ -24,11 +24,11 @@ const StyledIcon = styled.img`
 `;
 
 export const Twitter = (props: {
-  sortedId: number;
+  id: string;
   title: string;
   categories: ICategory[];
 }) => {
-  const { sortedId, title, categories } = props;
+  const { id, title, categories } = props;
 
   const hashtagArray = useCallback((): string[] => {
     if (
@@ -48,7 +48,7 @@ export const Twitter = (props: {
   return (
     <StyledButton>
       <TwitterShareButton
-        url={`${Config.url}/article/${sortedId}`}
+        url={`${Config.url}/article/${id}`}
         title={title}
         hashtags={hashtagArray()}
       >
@@ -58,30 +58,24 @@ export const Twitter = (props: {
   );
 };
 
-export const Facebook = (props: { sortedId: number; title: string }) => {
-  const { sortedId, title } = props;
+export const Facebook = (props: { id: string; title: string }) => {
+  const { id, title } = props;
 
   return (
     <StyledButton>
-      <FacebookShareButton
-        url={`${Config.url}/article/${sortedId}`}
-        title={title}
-      >
+      <FacebookShareButton url={`${Config.url}/article/${id}`} title={title}>
         <StyledIcon src={FacebookIcon} alt={"facebook share"} />
       </FacebookShareButton>
     </StyledButton>
   );
 };
 
-export const Linkedin = (props: { sortedId: number; title: string }) => {
-  const { sortedId, title } = props;
+export const Linkedin = (props: { id: string; title: string }) => {
+  const { id, title } = props;
 
   return (
     <StyledButton>
-      <LinkedinShareButton
-        url={`${Config.url}/article/${sortedId}`}
-        title={title}
-      >
+      <LinkedinShareButton url={`${Config.url}/article/${id}`} title={title}>
         <StyledIcon src={LinkedinIcon} alt={"linkedin share"} />
       </LinkedinShareButton>
     </StyledButton>

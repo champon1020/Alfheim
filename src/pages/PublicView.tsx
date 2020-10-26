@@ -38,7 +38,7 @@ const Wrapper = styled.div`
 `;
 
 export type PathParams = {
-  sortedId?: string;
+  id?: string;
   title?: string;
   category?: string;
   year?: string;

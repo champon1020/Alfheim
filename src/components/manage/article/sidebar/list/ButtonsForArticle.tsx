@@ -7,28 +7,27 @@ import React, { useCallback, useMemo } from "react";
 
 const ButtonsForArticle = (props: {
   articleId: string;
-  sortedId: number;
-  isPrivate: boolean;
+  _private: boolean;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { articleId, sortedId, isPrivate, setVerify } = props;
+  const { articleId, _private, setVerify } = props;
 
   const privateButtonColor = useMemo(
-    () => (isPrivate ? "tomato" : "steelblue"),
-    [isPrivate]
+    () => (_private ? "tomato" : "steelblue"),
+    [_private]
   );
 
-  const privateButtonText = useMemo(() => (isPrivate ? "Private" : "Public"), [
-    isPrivate,
+  const privateButtonText = useMemo(() => (_private ? "Private" : "Public"), [
+    _private,
   ]);
 
   // Call api of updating article.
   // Return promise.
-  const apiToggleIsPrivate = async (articleId: string, isPrivate: boolean) => {
-    const req = { id: articleId, isPrivate: !isPrivate };
+  const apiTogglePrivate = async (articleId: string, _private: boolean) => {
+    const req = { id: articleId, _private: !_private };
 
     try {
-      await defaultApi.apiPrivateUpdateArticleIsPrivatePut(req, {
+      await defaultApi.apiPrivateUpdateArticlePrivatePut(req, {
         headers: bearerAuthHeader(),
       });
 
@@ -42,18 +41,18 @@ const ButtonsForArticle = (props: {
   // On click listner of 'Go to' button.
   // Jump to the article's page.
   const onClickJumpToArticle = useCallback(() => {
-    window.open(`${Config.url}/article/${sortedId}`);
-  }, [sortedId]);
+    window.open(`${Config.url}/article/${articleId}`);
+  }, [articleId]);
 
   // On click listener of 'Public' and 'Private' toggle button.
   // Call api and update state of article.
   // Refresh this page because if not, view would be not updated.
-  const togglePublicPrivate = () => {
-    apiToggleIsPrivate(articleId, isPrivate);
+  const togglePrivate = () => {
+    apiTogglePrivate(articleId, _private);
   };
 
   const gotoButton = useMemo(() => {
-    if (!isPrivate) {
+    if (!_private) {
       return (
         <Button
           backgroundColor="yellowgreen"
@@ -65,7 +64,7 @@ const ButtonsForArticle = (props: {
         />
       );
     }
-  }, [isPrivate]);
+  }, [_private]);
 
   return (
     <>
@@ -75,7 +74,7 @@ const ButtonsForArticle = (props: {
         text={privateButtonText}
         width="100"
         height="40"
-        handleOnClick={togglePublicPrivate}
+        handleOnClick={togglePrivate}
       />
       {gotoButton}
     </>

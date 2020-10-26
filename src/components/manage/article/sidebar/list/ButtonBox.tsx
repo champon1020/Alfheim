@@ -38,12 +38,11 @@ const ButtonBox = (props: Props) => {
     return (
       <ButtonsForArticle
         articleId={article.id}
-        sortedId={article.sortedId}
-        isPrivate={article.isPrivate}
+        _private={article._private}
         setVerify={setVerify}
       />
     );
-  }, [tab, article.id, article.sortedId, article.isPrivate]);
+  }, [tab, article.id, article._private]);
 
   return <StyledButton>{buttonBox()}</StyledButton>;
 };

@@ -26,10 +26,10 @@ const defaultEditorDraft: IEditorArticle = {
   id: "",
   title: "",
   categories: "",
-  updateDate: "",
+  updatedDate: "",
   content: "",
-  imageHash: "default.jpg",
-  isPrivate: false,
+  imageName: "default.jpg",
+  _private: false,
 };
 
 // If true, api will not be called.
@@ -285,7 +285,7 @@ const Form = (props: Props) => {
   // On change listener of image form.
   // Update editor article|draft object and call function of saving on real time.
   const onChangeImage = (value: string) => {
-    editorArticle.imageHash = value;
+    editorArticle.imageName = value;
     setMsg("");
     setErr(MyErrorStatus.NONE);
     onlineSave(editorArticle);
@@ -338,7 +338,7 @@ const Form = (props: Props) => {
         onChange={onChangeMarkdown}
       />
       <Footer
-        imageHash={editorArticle.imageHash}
+        imageName={editorArticle.imageName}
         onSubmit={onSubmit}
         onPreview={onPreview}
         onChangeHandler={onChangeImage}

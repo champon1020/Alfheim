@@ -22,7 +22,7 @@ const ArticleHeader = (props: Props) => {
 
   return (
     <StyledHeader>
-      <Date date={article.createDate} />
+      <Date date={article.createdDate} />
       <Title title={article.title} />
       <Category categories={article.categories} />
     </StyledHeader>

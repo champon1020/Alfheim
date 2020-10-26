@@ -26,15 +26,12 @@ const Box = (props: Props) => {
   const { article } = props;
 
   const onClickBox = useCallback(() => {
-    window.open(
-      pathJoin(Config.url, "article", article.sortedId.toString()),
-      "_self"
-    );
+    window.open(pathJoin(Config.url, "article", article.id), "_self");
   }, [article]);
 
   return (
     <StyledBox onClick={onClickBox}>
-      <Image imageHash={article.imageHash} />
+      <Image imageName={article.imageName} />
       <Title title={article.title} />
     </StyledBox>
   );

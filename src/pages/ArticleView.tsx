@@ -59,21 +59,15 @@ const ArticleView = (props: Props) => {
     (state: any) => state.manageReducer
   );
 
-  // Validate sorted id.
-  const validSortedId = useCallback(() => {
-    const id = match.params.sortedId;
-    return id === undefined ? -1 : Number.parseInt(id);
-  }, [match]);
-
   // Callback function called as moving to previous article.
   const prevCallback = useCallback(() => {
-    window.open(`${Config.url}/article/${prevArticle.sortedId}`, "_self");
-  }, [prevArticle.sortedId]);
+    window.open(`${Config.url}/article/${prevArticle.id}`, "_self");
+  }, [prevArticle.id]);
 
   // Callback function called as moving to next article.
   const nextCallback = useCallback(() => {
-    window.open(`${Config.url}/article/${nextArticle.sortedId}`, "_self");
-  }, [nextArticle.sortedId]);
+    window.open(`${Config.url}/article/${nextArticle.id}`, "_self");
+  }, [nextArticle.id]);
 
   // Fetch article.
   // If this is draft, get draft from redux store.
@@ -87,9 +81,8 @@ const ArticleView = (props: Props) => {
     }
 
     const fetchArticle = async () => {
-      const sortedId = id === undefined ? validSortedId() : id;
       try {
-        const res = await defaultApi.apiFindArticleSortedIdGet(sortedId);
+        const res = await defaultApi.apiFindArticleIdGet(match.params.id);
         setArticle(res.data.article);
         setPrevArticle(res.data.prevArticle);
         setNextArticle(res.data.nextArticle);

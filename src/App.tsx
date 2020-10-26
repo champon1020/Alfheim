@@ -28,7 +28,7 @@ const Router = () => {
               component={PublicView}
             />
 
-            <Route exact path={"/article/:sortedId"} component={PublicView} />
+            <Route exact path={"/article/:id"} component={PublicView} />
             <Route exact path={"/article-draft/"} component={PublicView} />
             <Route exact path={"/category/list"} component={PublicView} />
 

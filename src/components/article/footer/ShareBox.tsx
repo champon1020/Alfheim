@@ -32,11 +32,11 @@ const ShareBox = (props: Props) => {
           { property: "og:type", content: "article" },
           {
             property: "og:url",
-            content: `${Config.url}/article/${article.sortedId}`,
+            content: `${Config.url}/article/${article.id}`,
           },
           {
             property: "og:image ",
-            content: `${Config.fileUrl}/images/${article.imageHash}`,
+            content: `${Config.fileUrl}/images/${article.imageName}`,
           },
         ]}
       />
@@ -48,12 +48,12 @@ const ShareBox = (props: Props) => {
       {meta()}
       <StyledShareList>
         <Twitter
-          sortedId={article.sortedId}
+          id={article.id}
           title={article.title}
           categories={article.categories}
         />
-        <Facebook sortedId={article.sortedId} title={article.title} />
-        <Linkedin sortedId={article.sortedId} title={article.title} />
+        <Facebook id={article.id} title={article.title} />
+        <Linkedin id={article.id} title={article.title} />
       </StyledShareList>
     </>
   );

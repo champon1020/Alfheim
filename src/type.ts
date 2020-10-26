@@ -1,13 +1,12 @@
 export interface IArticle {
   id: string;
-  sortedId: number;
   title: string;
   categories: ICategory[];
-  createDate: string;
-  updateDate: string;
+  createdDate: string;
+  updatedDate: string;
   content: string;
-  imageHash: string;
-  isPrivate: boolean;
+  imageName: string;
+  _private: boolean;
 }
 
 export const implementsIArticle = (arg: any): arg is IArticle => {
@@ -15,25 +14,23 @@ export const implementsIArticle = (arg: any): arg is IArticle => {
     arg !== null &&
     typeof arg === "object" &&
     typeof arg.id === "string" &&
-    typeof arg.sortedId === "number" &&
     typeof arg.title === "string" &&
     typeof arg.categories === "object" &&
-    typeof arg.createDate === "string" &&
-    typeof arg.updateDate === "string" &&
+    typeof arg.createdDate === "string" &&
+    typeof arg.updatedDate === "string" &&
     typeof arg.content === "string" &&
-    typeof arg.imageHash === "string" &&
-    typeof arg.isPrivate === "boolean"
+    typeof arg.imageName === "string" &&
+    typeof arg._private === "boolean"
   );
 };
 
 export interface IDraft {
   id: string;
-  sortedId: number;
   title: string;
   categories: string;
-  updateDate: string;
+  updatedDate: string;
   content: string;
-  imageHash: string;
+  imageName: string;
 }
 
 export const implementsIDraft = (arg: any): arg is IDraft => {
@@ -41,12 +38,11 @@ export const implementsIDraft = (arg: any): arg is IDraft => {
     arg !== null &&
     typeof arg === "object" &&
     typeof arg.id === "string" &&
-    typeof arg.sortedId === "number" &&
     typeof arg.title === "string" &&
     typeof arg.categories === "string" &&
-    typeof arg.updateDate === "string" &&
+    typeof arg.updatedDate === "string" &&
     typeof arg.content === "string" &&
-    typeof arg.imageHash === "string"
+    typeof arg.imageName === "string"
   );
 };
 
@@ -61,10 +57,10 @@ export interface IEditorArticle {
   id: string;
   title: string;
   categories: string;
-  updateDate: string;
+  updatedDate: string;
   content: string;
-  imageHash: string;
-  isPrivate: boolean;
+  imageName: string;
+  _private: boolean;
 }
 
 export const implementsIEditorArticle = (arg: any): arg is IEditorArticle => {
@@ -74,10 +70,10 @@ export const implementsIEditorArticle = (arg: any): arg is IEditorArticle => {
     typeof arg.id === "string" &&
     typeof arg.title === "string" &&
     typeof arg.categories === "string" &&
-    typeof arg.updateDate === "string" &&
+    typeof arg.updatedDate === "string" &&
     typeof arg.content === "string" &&
-    typeof arg.imageHash === "string" &&
-    typeof arg.isPrivate === "boolean"
+    typeof arg.imageName === "string" &&
+    typeof arg._private === "boolean"
   );
 };
 
@@ -86,8 +82,8 @@ export interface IArticleReq {
   title: string;
   categories: ICategory[];
   content: string;
-  imageHash: string;
-  isPrivate: boolean;
+  imageName: string;
+  _private: boolean;
 }
 
 export interface IDraftReq {
@@ -95,5 +91,5 @@ export interface IDraftReq {
   title: string;
   categories: string;
   content: string;
-  imageHash: string;
+  imageName: string;
 }

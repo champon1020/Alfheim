@@ -39,7 +39,7 @@ const StyledButton = styled.button`
 `;
 
 type Props = {
-  imageHash: string;
+  imageName: string;
   onSubmit: () => void;
   onPreview: () => void;
   onChangeHandler: (value: string) => void;
@@ -48,13 +48,13 @@ type Props = {
 };
 
 const Footer = (props: Props) => {
-  const { imageHash, onSubmit, onPreview, onChangeHandler, msg, err } = props;
+  const { imageName, onSubmit, onPreview, onChangeHandler, msg, err } = props;
 
   return (
     <StyledFooter>
       <Msg err={err} msg={msg} />
       <StyledForm>
-        <Input initValue={imageHash} onChangeHandler={onChangeHandler} />
+        <Input initValue={imageName} onChangeHandler={onChangeHandler} />
         <StyledButton onClick={onPreview}>{"Preview"}</StyledButton>
         <StyledButton onClick={onSubmit}>{"Submit"}</StyledButton>
       </StyledForm>

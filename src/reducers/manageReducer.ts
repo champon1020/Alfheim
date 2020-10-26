@@ -6,12 +6,11 @@ import { ManageState } from "src/stores/store";
 const initManageState: ManageState = {
   article: {
     id: "",
-    sortedId: -1,
     title: "",
     categories: "",
-    updateDate: "",
+    updatedDate: "",
     content: "",
-    imageHash: "",
+    imageName: "",
   },
   draftContent: "",
 };

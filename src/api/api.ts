@@ -33,12 +33,6 @@ export interface Article {
     id: string;
     /**
      * 
-     * @type {number}
-     * @memberof Article
-     */
-    sortedId: number;
-    /**
-     * 
      * @type {string}
      * @memberof Article
      */
@@ -54,13 +48,13 @@ export interface Article {
      * @type {string}
      * @memberof Article
      */
-    createDate: string;
+    createdDate: string;
     /**
      * 
      * @type {string}
      * @memberof Article
      */
-    updateDate: string;
+    updatedDate: string;
     /**
      * 
      * @type {string}
@@ -72,13 +66,13 @@ export interface Article {
      * @type {string}
      * @memberof Article
      */
-    imageHash: string;
+    imageName: string;
     /**
      * 
      * @type {boolean}
      * @memberof Article
      */
-    isPrivate: boolean;
+    _private: boolean;
 }
 /**
  * 
@@ -115,13 +109,13 @@ export interface ArticleReq {
      * @type {string}
      * @memberof ArticleReq
      */
-    imageHash: string;
+    imageName: string;
     /**
      * 
      * @type {boolean}
      * @memberof ArticleReq
      */
-    isPrivate: boolean;
+    _private: boolean;
 }
 /**
  * 
@@ -181,12 +175,6 @@ export interface Draft {
     id: string;
     /**
      * 
-     * @type {number}
-     * @memberof Draft
-     */
-    sortedId: number;
-    /**
-     * 
      * @type {string}
      * @memberof Draft
      */
@@ -202,7 +190,7 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    updateDate: string;
+    updatedDate: string;
     /**
      * 
      * @type {string}
@@ -214,7 +202,7 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    imageHash: string;
+    imageName: string;
 }
 /**
  * 
@@ -251,7 +239,7 @@ export interface DraftReq {
      * @type {string}
      * @memberof DraftReq
      */
-    imageHash: string;
+    imageName: string;
 }
 /**
  * 
@@ -328,7 +316,7 @@ export interface InlineObject4 {
      * @type {boolean}
      * @memberof InlineObject4
      */
-    isPrivate: boolean;
+    _private: boolean;
 }
 /**
  * 
@@ -524,6 +512,45 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
+         * @summary Return an articles by id.
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleIdGet: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiFindArticleIdGet.');
+            }
+            const localVarPath = `/api/find/article/id`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Return articles list by category.
          * @param {Array<string>} category Category name.
          * @param {number} p Page number.
@@ -669,45 +696,6 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
 
             if (num !== undefined) {
                 localVarQueryParameter['num'] = num;
-            }
-
-
-    
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: globalImportUrl.format(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary Return an article whose sortedId is selected.
-         * @param {number} sortedID Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiFindArticleSortedIdGet: async (sortedID: number, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'sortedID' is not null or undefined
-            if (sortedID === null || sortedID === undefined) {
-                throw new RequiredError('sortedID','Required parameter sortedID was null or undefined when calling apiFindArticleSortedIdGet.');
-            }
-            const localVarPath = `/api/find/article/sortedId`;
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            if (sortedID !== undefined) {
-                localVarQueryParameter['sortedID'] = sortedID;
             }
 
 
@@ -1262,17 +1250,17 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Update article\'s isPrivate property.
+         * @summary Update article\'s private property.
          * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPrivateUpdateArticleIsPrivatePut: async (inlineObject4: InlineObject4, options: any = {}): Promise<RequestArgs> => {
+        apiPrivateUpdateArticlePrivatePut: async (inlineObject4: InlineObject4, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'inlineObject4' is not null or undefined
             if (inlineObject4 === null || inlineObject4 === undefined) {
-                throw new RequiredError('inlineObject4','Required parameter inlineObject4 was null or undefined when calling apiPrivateUpdateArticleIsPrivatePut.');
+                throw new RequiredError('inlineObject4','Required parameter inlineObject4 was null or undefined when calling apiPrivateUpdateArticlePrivatePut.');
             }
-            const localVarPath = `/api/private/update/article/isPrivate`;
+            const localVarPath = `/api/private/update/article/private`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
             if (configuration) {
@@ -1454,6 +1442,20 @@ export const DefaultApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary Return an articles by id.
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiFindArticleIdGet(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary Return articles list by category.
          * @param {Array<string>} category Category name.
          * @param {number} p Page number.
@@ -1494,20 +1496,6 @@ export const DefaultApiFp = function(configuration?: Configuration) {
          */
         async apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
             const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, p, num, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary Return an article whose sortedId is selected.
-         * @param {number} sortedID Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiFindArticleSortedIdGet(sortedID: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleSortedIdGet(sortedID, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1671,13 +1659,13 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Update article\'s isPrivate property.
+         * @summary Update article\'s private property.
          * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiPrivateUpdateArticleIsPrivatePut(inlineObject4: InlineObject4, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticleIsPrivatePut(inlineObject4, options);
+        async apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1735,6 +1723,16 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary Return an articles by id.
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleIdGet(id: string, options?: any): AxiosPromise<InlineResponse2001> {
+            return DefaultApiFp(configuration).apiFindArticleIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Return articles list by category.
          * @param {Array<string>} category Category name.
          * @param {number} p Page number.
@@ -1767,16 +1765,6 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
          */
         apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
             return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, p, num, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary Return an article whose sortedId is selected.
-         * @param {number} sortedID Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiFindArticleSortedIdGet(sortedID: number, options?: any): AxiosPromise<InlineResponse2001> {
-            return DefaultApiFp(configuration).apiFindArticleSortedIdGet(sortedID, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1892,13 +1880,13 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Update article\'s isPrivate property.
+         * @summary Update article\'s private property.
          * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiPrivateUpdateArticleIsPrivatePut(inlineObject4: InlineObject4, options?: any): AxiosPromise<void> {
-            return DefaultApiFp(configuration).apiPrivateUpdateArticleIsPrivatePut(inlineObject4, options).then((request) => request(axios, basePath));
+        apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1941,6 +1929,18 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
 export class DefaultApi extends BaseAPI {
     /**
      * 
+     * @summary Return an articles by id.
+     * @param {string} id Article id.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiFindArticleIdGet(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @summary Return articles list by category.
      * @param {Array<string>} category Category name.
      * @param {number} p Page number.
@@ -1978,18 +1978,6 @@ export class DefaultApi extends BaseAPI {
      */
     public apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any) {
         return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, p, num, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @summary Return an article whose sortedId is selected.
-     * @param {number} sortedID Article sorted id.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-    public apiFindArticleSortedIdGet(sortedID: number, options?: any) {
-        return DefaultApiFp(this.configuration).apiFindArticleSortedIdGet(sortedID, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -2128,14 +2116,14 @@ export class DefaultApi extends BaseAPI {
 
     /**
      * 
-     * @summary Update article\'s isPrivate property.
+     * @summary Update article\'s private property.
      * @param {InlineObject4} inlineObject4 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public apiPrivateUpdateArticleIsPrivatePut(inlineObject4: InlineObject4, options?: any) {
-        return DefaultApiFp(this.configuration).apiPrivateUpdateArticleIsPrivatePut(inlineObject4, options).then((request) => request(this.axios, this.basePath));
+    public apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
