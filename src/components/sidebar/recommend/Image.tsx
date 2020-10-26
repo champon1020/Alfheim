@@ -1,5 +1,4 @@
 import { Config } from "~/config";
-import { pathJoin } from "~/func";
 import React from "react";
 import styled from "styled-components";
 
@@ -17,7 +16,7 @@ type Props = {
 const Image = (props: Props) => {
   const { imageName } = props;
 
-  return <StyledImage src={pathJoin(Config.fileUrl, "images", imageName)} />;
+  return <StyledImage src={`${Config.fileUrl}/images/${imageName}`} />;
 };
 
 export default Image;

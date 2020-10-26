@@ -1,7 +1,7 @@
 import { defaultApi } from "~/api/entry";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
-import { bearerAuthHeader, pathJoin } from "~/func";
+import { bearerAuthHeader } from "~/func";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
 
@@ -32,7 +32,7 @@ const ButtonsForArticle = (props: {
       });
 
       // Jump to /manage/articles
-      window.location.href = pathJoin(Config.url, "manage", "articles");
+      window.location.href = `${Config.url}/manage/articles`;
     } catch (err) {
       setVerify(false);
     }

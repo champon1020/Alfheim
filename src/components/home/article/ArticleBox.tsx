@@ -1,5 +1,4 @@
 import { Config } from "~/config";
-import { pathJoin } from "~/func";
 import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -34,7 +33,7 @@ const ArticleBox = (props: Props) => {
   const { article } = props;
 
   const onClickArticle = useCallback(() => {
-    window.location.href = pathJoin(Config.url, "article", article.id);
+    window.location.href = `${Config.url}/article/${article.id}`;
   }, [article]);
 
   return (

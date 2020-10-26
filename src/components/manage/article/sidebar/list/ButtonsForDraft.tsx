@@ -1,7 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
-import { pathJoin } from "~/func";
 import Cookie from "js-cookie";
 import React, { useCallback } from "react";
 
@@ -25,7 +24,7 @@ const ButtonsForDraft = (props: {
       );
 
       // Jump to /manage/drafts
-      window.location.href = pathJoin(Config.url, "manage", "drafts");
+      window.location.href = `${Config.url}/manage/drafts`;
     } catch (err) {
       setVerify(false);
     }

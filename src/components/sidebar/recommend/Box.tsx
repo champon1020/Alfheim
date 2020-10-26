@@ -1,5 +1,4 @@
 import { Config } from "~/config";
-import { pathJoin } from "~/func";
 import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -26,7 +25,7 @@ const Box = (props: Props) => {
   const { article } = props;
 
   const onClickBox = useCallback(() => {
-    window.open(pathJoin(Config.url, "article", article.id), "_self");
+    window.open(`${Config.url}/article/${article.id}`, "_self");
   }, [article]);
 
   return (

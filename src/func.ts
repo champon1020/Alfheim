@@ -52,16 +52,6 @@ export const formatDateStr = (d?: string) => {
   return d.substr(0, 10);
 };
 
-// Join uri path.
-export const pathJoin = (...el: string[]): string => {
-  let res = "";
-  el?.forEach((v, i) => {
-    if (i !== 0) res += "/";
-    res += v;
-  });
-  return res;
-};
-
 export const convertRefFromFunc = (ref: any): MutableRefObject<any> => {
   const targetRef = useRef();
 

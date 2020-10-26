@@ -1,5 +1,4 @@
 import { Config } from "~/config";
-import { pathJoin } from "~/func";
 import React from "react";
 import styled from "styled-components";
 
@@ -19,7 +18,7 @@ const Image = (props: { alt: string; src: string }) => {
 
   return (
     <StyledImageBox>
-      <StyledImage src={pathJoin(Config.fileUrl, "images", src)} alt={alt} />
+      <StyledImage src={`${Config.fileUrl}/images/${src}`} alt={alt} />
     </StyledImageBox>
   );
 };
