@@ -33,7 +33,7 @@ const defaultEditorDraft: IEditorArticle = {
 };
 
 // If true, api will not be called.
-const apiOff = true;
+const apiOff = false;
 
 // Duration of saving article on real time.
 const onlineSaveDuration = 3000;

@@ -191,7 +191,7 @@ const parseCategoryStrToList = (category: string): ICategory[] => {
   const categoryList = [] as ICategory[];
   categories.forEach((v) => {
     categoryList.push({
-      id: "id",
+      id: "",
       name: v,
       articleNum: 0,
     });

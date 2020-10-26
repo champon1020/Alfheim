@@ -1,6 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import { Config } from "~/config";
-import { countToMaxPage } from "~/func";
+import { bearerAuthHeader, countToMaxPage } from "~/func";
 import { parse } from "~/parser";
 import { IArticle } from "~/type";
 import Cookie from "js-cookie";
@@ -49,9 +49,7 @@ const Articles = (props: Props) => {
         page,
         Config.maxSettingArticleNum,
         {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
+          headers: bearerAuthHeader(),
         }
       );
 
@@ -78,9 +76,7 @@ const Articles = (props: Props) => {
         page,
         Config.maxSettingArticleNum,
         {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
+          headers: bearerAuthHeader(),
         }
       );
 
