@@ -78,9 +78,12 @@ const Form = (props: Props) => {
   };
 
   // Validate title and categories.
-  const validation = (t: string, c: string) => {
-    return validateTitle(t, setErr) || validateCategory(c, setErr);
-  };
+  const validation = useCallback(() => {
+    return (
+      validateTitle(editorArticle.title, setErr) ||
+      validateCategory(editorArticle.categories, setErr)
+    );
+  }, [editorArticle.title, editorArticle.categories]);
 
   // Call api to get article by id.
   const fetchArticle = async (id: string) => {
@@ -193,7 +196,7 @@ const Form = (props: Props) => {
 
   // Call api to update draft.
   const updateDraft = async (d: IDraftReq) => {
-    if (apiOff || validation(d.title, d.categories)) {
+    if (apiOff || validation()) {
       setMsg("Updated!");
       return;
     }
@@ -215,39 +218,34 @@ const Form = (props: Props) => {
   };
 
   // Saving on real time.
-  const onlineSave = useCallback(
-    (editorArticle: IEditorArticle) => {
-      // Update the state of editor draft.
-      const draft: IDraft = parse(editorArticle, "IDraft");
-      dispatch(appActionCreator.updateDraft(draft, editorArticle.content));
+  const onlineSave = (editorArticle: IEditorArticle) => {
+    // Update the state of editor draft.
+    const draft: IDraft = parse(editorArticle, "IDraft");
+    dispatch(appActionCreator.updateDraft(draft, editorArticle.content));
 
-      // Call updating function after onlineSaveDuration.
-      rts.save(() => {
-        if (isUpdating) return;
+    if (isUpdating) return;
+    const reqDraft: IDraftReq = parse(editorArticle, "IDraftReq");
 
-        const reqDraft: IDraftReq = parse(editorArticle, "IDraftReq");
+    // Call updating function after onlineSaveDuration.
+    rts.save(() => {
+      if (draftId != null) {
+        console.log("update");
+        updateDraft(reqDraft);
+        return;
+      }
 
-        if (draftId != null) {
-          updateDraft(reqDraft);
-          return;
-        }
-
-        registerDraft(reqDraft);
-      }, onlineSaveDuration);
-    },
-    [isUpdating, draftId]
-  );
+      console.log("save");
+      registerDraft(reqDraft);
+    }, onlineSaveDuration);
+  };
 
   // On click listener of submit button.
   // - Validate title and categories.
   // - Get editor content.
   // - Parse editor article|draft object to request type.
   // - Call api.
-  const onSubmit = useCallback(() => {
-    if (validation(editorArticle.title, editorArticle.categories)) {
-      return;
-    }
-
+  const onSubmit = () => {
+    if (validation()) return;
     const reqArticle: IArticleReq = parse(editorArticle, "IArticleReq");
 
     if (isUpdating) {
@@ -256,71 +254,57 @@ const Form = (props: Props) => {
     }
 
     registerArticle(reqArticle, draftId);
-  }, [editorArticle, isUpdating, draftId]);
+  };
 
   // On click listener of preview button.
   // - Validate title and categories.
   // - Open the window of preview.
-  const onPreview = useCallback(() => {
-    if (validation(editorArticle.title, editorArticle.categories)) {
-      return;
-    }
+  const onPreview = () => {
+    if (validation()) return;
     window.open("/article-draft/");
-  }, [editorArticle]);
+  };
 
   // On change listener of title form.
   // Update editor article|draft object and call function of saving on real time.
-  const onChangeTitle = useCallback(
-    (value: string) => {
-      editorArticle.title = value;
-      setMsg("");
-      setErr(MyErrorStatus.NONE);
-      onlineSave(editorArticle);
-    },
-    [editorArticle, onlineSave]
-  );
+  const onChangeTitle = (value: string) => {
+    editorArticle.title = value;
+    setMsg("");
+    setErr(MyErrorStatus.NONE);
+    onlineSave(editorArticle);
+  };
 
   // On change listener of categories form.
   // Update editor article|draft object and call function of saving on real time.
-  const onChangeCategories = useCallback(
-    (value: string) => {
-      editorArticle.categories = value;
-      setMsg("");
-      setErr(MyErrorStatus.NONE);
-      onlineSave(editorArticle);
-    },
-    [editorArticle, onlineSave]
-  );
+  const onChangeCategories = (value: string) => {
+    editorArticle.categories = value;
+    setMsg("");
+    setErr(MyErrorStatus.NONE);
+    onlineSave(editorArticle);
+  };
 
   // On change listener of image form.
   // Update editor article|draft object and call function of saving on real time.
-  const onChangeImage = useCallback(
-    (value: string) => {
-      editorArticle.imageHash = value;
-      setMsg("");
-      setErr(MyErrorStatus.NONE);
-      onlineSave(editorArticle);
-    },
-    [editorArticle, onlineSave]
-  );
+  const onChangeImage = (value: string) => {
+    editorArticle.imageHash = value;
+    setMsg("");
+    setErr(MyErrorStatus.NONE);
+    onlineSave(editorArticle);
+  };
 
   // On change listener of markdown editor.
-  const onChangeMarkdown = useCallback(
-    (value: string) => {
-      // When the markdonw editor is mounted, this onchange listener is executed.
-      // So this if statement prevents from the pre-execution.
-      if (firstMount) {
-        firstMount = false;
-        return;
-      }
+  const onChangeMarkdown = (value: string) => {
+    // When the markdonw editor is mounted, this onchange listener is executed.
+    // So this if statement prevents from the pre-execution.
+    if (firstMount) {
+      firstMount = false;
+      return;
+    }
 
-      editorArticle.content = value;
-      setErr(MyErrorStatus.NONE);
-      setMsg("");
-      onlineSave(editorArticle);
-    },
-    [editorArticle, onlineSave]
-  );
+    editorArticle.content = value;
+    setErr(MyErrorStatus.NONE);
+    setMsg("");
+    onlineSave(editorArticle);
+  };
 
   // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
@@ -353,7 +337,6 @@ const Form = (props: Props) => {
         value={editorArticle.content}
         onChange={onChangeMarkdown}
       />
-      ;
       <Footer
         imageHash={editorArticle.imageHash}
         onSubmit={onSubmit}

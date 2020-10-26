@@ -17,7 +17,6 @@ type Props = {
 
 const Input = (props: Props) => {
   const { initValue, onChangeHandler } = props;
-
   const [value, setValue] = useState("");
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

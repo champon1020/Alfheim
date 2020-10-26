@@ -47,10 +47,10 @@ const Footer = (props: Props) => {
   // On click listener of deleting image.
   // Call api with the array of selected images.
   // Reload this window.
-  const onClickDelete = useCallback(() => {
+  const onClickDelete = () => {
     deleteImages(selected);
     window.location.reload();
-  }, [selected]);
+  };
 
   return (
     <StyledFooter>

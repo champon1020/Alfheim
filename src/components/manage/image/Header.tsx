@@ -1,5 +1,5 @@
+import { ax } from "~/api/entry";
 import { Config } from "~/config";
-import axios from "axios";
 import Cookie from "js-cookie";
 import React, { useCallback, useRef } from "react";
 import styled from "styled-components";
@@ -39,7 +39,7 @@ const Header = (props: Props) => {
   // Call api.
   const onPostImage = () => {
     // null check
-    if (imageRef.current.files === null) return;
+    if (imageRef.current.files == null) return;
 
     // Parse image from input form and add to formData.
     // This is the format of multipart/form-data.
@@ -47,19 +47,20 @@ const Header = (props: Props) => {
     formData.append("images", imageRef.current.files[0]);
 
     // Call api.
-    axios
-      .post(`${Config.apiUrl}/api/private/register/image`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-        },
-      })
+    ax.post(`${Config.apiUrl}/api/private/register/image`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+      },
+      validateStatus: (status: number) => {
+        return 200 <= status && status < 400;
+      },
+    })
       .then((res) => {
-        setVerify(res.status === 200);
-        if (res.status === 200)
-          window.location.href = `${Config.url}/manage/images`;
+        setVerify(true);
+        window.location.href = `${Config.url}/manage/images`;
       })
-      .catch(() => {
+      .catch((err) => {
         setVerify(false);
       });
   };

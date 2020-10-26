@@ -1,22 +1,23 @@
 import { defaultApi } from "~/api/entry";
 import Login from "~/components/auth/Login";
+import ErrorBoundary from "~/components/error/ErrorBoundary";
 import Articles from "~/components/manage/article/Articles";
 import Editor from "~/components/manage/editor/Editor";
 import Images from "~/components/manage/image/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
-import { parseQueryParam } from "~/func";
+import { bearerAuthHeader, parseQueryParam } from "~/func";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styled from "styled-components";
 
-const ManageContainerStyled = styled.div`
+const StyledContainer = styled.div`
   min-height: 100vh;
   background-color: var(--manage-base-color);
 `;
 
-const ManageWrapperStyled = styled.div`
+const StyledWrapper = styled.div`
   width: 80%;
   margin: auto;
   @media (max-width: 1100px) {
@@ -57,7 +58,7 @@ const ManageView: React.FC<Props> = (props) => {
       return (
         <>
           <ToolBar mode={mode} />
-          <ManageWrapperStyled>{childContainer()}</ManageWrapperStyled>
+          <StyledWrapper>{childContainer()}</StyledWrapper>
         </>
       );
     }
@@ -76,15 +77,14 @@ const ManageView: React.FC<Props> = (props) => {
   useEffect(() => {
     const verify = async () => {
       try {
-        const res = await defaultApi.apiVerifyTokenPost({
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
+        await defaultApi.apiVerifyTokenPost({
+          headers: bearerAuthHeader(),
+          validateStatus: (status: number) => {
+            return 200 <= status && status < 400;
           },
         });
 
-        if (res.status == 200) {
-          setVerify(true);
-        }
+        setVerify(true);
       } catch (err) {
         setVerify(false);
       }
@@ -95,7 +95,11 @@ const ManageView: React.FC<Props> = (props) => {
     verify();
   }, []);
 
-  return <ManageContainerStyled>{manageContainerView}</ManageContainerStyled>;
+  return (
+    <ErrorBoundary>
+      <StyledContainer>{manageContainerView}</StyledContainer>
+    </ErrorBoundary>
+  );
 };
 
 export default ManageView;
