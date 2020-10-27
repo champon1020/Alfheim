@@ -28,7 +28,7 @@ const Image = (props: Props) => {
   const imageRef = useRef<HTMLImageElement>();
 
   useEffect(() => {
-    if (imageRef === null || imageRef.current === null) {
+    if (imageRef == null || imageRef.current == null) {
       return;
     }
 

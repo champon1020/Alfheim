@@ -51,6 +51,7 @@ const checkIsDraft = () => {
 
 const ArticleView = (props: Props) => {
   const { match } = props;
+  const [err, setErr] = useState();
   const [prevArticle, setPrevArticle] = useState({} as IArticle);
   const [nextArticle, setNextArticle] = useState({} as IArticle);
   const [article, setArticle] = useState({} as IArticle);
@@ -82,17 +83,27 @@ const ArticleView = (props: Props) => {
 
     const fetchArticle = async () => {
       try {
-        const res = await defaultApi.apiFindArticleIdGet(match.params.id);
+        const res = await defaultApi.apiFindArticleIdGet(match.params.id, {
+          validateStatus: (status: number) => {
+            return 200 <= status && status < 400;
+          },
+        });
         setArticle(res.data.article);
         setPrevArticle(res.data.prevArticle);
         setNextArticle(res.data.nextArticle);
       } catch (err) {
-        // handle error
+        setErr(err);
       }
     };
 
     fetchArticle();
   }, []);
+
+  useEffect(() => {
+    if (err != null) {
+      throw err;
+    }
+  }, [err]);
 
   return (
     <>
