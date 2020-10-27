@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { defaultApi } from "~/api/entry";
+import { ICategory } from "~/type";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
-import CircleChart from "./CircleChart";
-import { CategoryType } from "src/type";
-import { defaultApi } from "../../App";
-import CategoryList from "./CategoryList";
 
-const CategoryListTitle = styled.div`
+import CategoryList from "./CategoryList";
+import CircleChart from "./CircleChart";
+
+const StyledTitle = styled.div`
   color: var(--base-color);
   font-size: 3.6rem;
   margin: 1% 7% 8% 7%;
@@ -19,39 +20,35 @@ const CategoryListTitle = styled.div`
   }
 `;
 
-const CategoryListStyled = styled.div`
+const StyledCategories = styled.div`
   margin-bottom: 10%;
 `;
 
 const Categories = () => {
-  const [categories, setCategories] = useState([] as CategoryType[]);
+  const [categories, setCategories] = useState([] as ICategory[]);
 
-  const fetchCategories = useCallback(
-    async () => {
-      const res = await defaultApi.apiFindCategoryListGet();
-      const resCat = res.data.categories;
-      setCategories(resCat);
-    },
-    [],
-  );
-
+  // Fetch categories.
   useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await defaultApi.apiFindCategoryListGet();
+        setCategories(res.data.categories);
+      } catch (err) {
+        // handle error
+      }
+    };
+
     fetchCategories();
-    // eslint-disable-next-line
   }, []);
 
-  return(
-    <CategoryListStyled>
-      <CategoryListTitle>
+  return (
+    <StyledCategories>
+      <StyledTitle>
         <h2>Category List</h2>
-      </CategoryListTitle>
-      <CircleChart 
-        categories={categories} 
-      />
-      <CategoryList
-        categories={categories}
-      />
-    </CategoryListStyled>
+      </StyledTitle>
+      <CircleChart categories={categories} />
+      <CategoryList categories={categories} />
+    </StyledCategories>
   );
 };
 

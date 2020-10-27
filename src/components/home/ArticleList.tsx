@@ -1,9 +1,9 @@
+import ArticleBox from "~/components/home/article/ArticleBox";
+import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
-import ArticleBox from "./ArticleBox";
-import { ArticleType } from "../../type";
 
-const ArticleListStyled = styled.ul`
+const StyledArticleList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -16,7 +16,7 @@ const ArticleListStyled = styled.ul`
   }
 `;
 
-const ArticleListElementStyled = styled.li`
+const StyledArticle = styled.li`
   margin: 0 15px 30px 15px;
   @media (max-width: 800px) {
     margin: 0;
@@ -24,50 +24,37 @@ const ArticleListElementStyled = styled.li`
   }
 `;
 
-const EmptyMessage = styled.h3`
+const StyledEmptyMsg = styled.h3`
   font-size: 2.4rem;
   color: gray;
   margin: 5% auto 15% auto;
 `;
 
-interface ParentProps {
-  articles: ArticleType[];
+interface Props {
+  articles: IArticle[];
 }
-
-type Props = ParentProps;
 
 const ArticleList = (props: Props) => {
   const { articles } = props;
-  
-  const articleList = useCallback(
-    () => {
-      const list = [] as JSX.Element[];
-      if(articles === undefined 
-        || articles === null
-        || articles.length === 0){
-        return (
-          <EmptyMessage>
-            {"No Articles"}
-          </EmptyMessage>
-        );
-      }
-      articles.forEach((v, i) => {
-        list.push(
-          <ArticleListElementStyled key={i}>
-            <ArticleBox article={v} />
-          </ArticleListElementStyled>
-        );
-      });
-      return list;
-    },
-    [articles],
-  );
 
-  return(
-    <ArticleListStyled>
-      {articleList()}
-    </ArticleListStyled>
-  );
+  const articleList = useCallback(() => {
+    const list = [] as JSX.Element[];
+    if (articles === undefined || articles === null || articles.length === 0) {
+      return <StyledEmptyMsg>{"No Articles"}</StyledEmptyMsg>;
+    }
+
+    articles.forEach((v, i) => {
+      list.push(
+        <StyledArticle key={i}>
+          <ArticleBox article={v} />
+        </StyledArticle>
+      );
+    });
+
+    return list;
+  }, [articles]);
+
+  return <StyledArticleList>{articleList()}</StyledArticleList>;
 };
 
 export default ArticleList;

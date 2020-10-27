@@ -12,12 +12,12 @@
  */
 
 
-import * as globalImportUrl from "url";
-import { Configuration } from "./configuration";
-import globalAxios, { AxiosPromise, AxiosInstance } from "axios";
+import * as globalImportUrl from 'url';
+import { Configuration } from './configuration';
+import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from "./base";
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
  * 
@@ -33,12 +33,6 @@ export interface Article {
     id: string;
     /**
      * 
-     * @type {number}
-     * @memberof Article
-     */
-    sortedId: number;
-    /**
-     * 
      * @type {string}
      * @memberof Article
      */
@@ -48,19 +42,19 @@ export interface Article {
      * @type {Array<Category>}
      * @memberof Article
      */
-    categories: Category[];
+    categories: Array<Category>;
     /**
      * 
      * @type {string}
      * @memberof Article
      */
-    createDate: string;
+    createdDate: string;
     /**
      * 
      * @type {string}
      * @memberof Article
      */
-    updateDate: string;
+    updatedDate: string;
     /**
      * 
      * @type {string}
@@ -72,13 +66,75 @@ export interface Article {
      * @type {string}
      * @memberof Article
      */
-    imageHash: string;
+    imageName: string;
     /**
      * 
      * @type {boolean}
      * @memberof Article
      */
-    isPrivate: boolean;
+    _private: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ArticleReq
+ */
+export interface ArticleReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReq
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReq
+     */
+    title: string;
+    /**
+     * 
+     * @type {Array<ArticleReqCategories>}
+     * @memberof ArticleReq
+     */
+    categories: Array<ArticleReqCategories>;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReq
+     */
+    content: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReq
+     */
+    imageName: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ArticleReq
+     */
+    _private: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface ArticleReqCategories
+ */
+export interface ArticleReqCategories {
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReqCategories
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ArticleReqCategories
+     */
+    name: string;
 }
 /**
  * 
@@ -119,12 +175,6 @@ export interface Draft {
     id: string;
     /**
      * 
-     * @type {number}
-     * @memberof Draft
-     */
-    sortedId: number;
-    /**
-     * 
      * @type {string}
      * @memberof Draft
      */
@@ -140,7 +190,7 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    updateDate: string;
+    updatedDate: string;
     /**
      * 
      * @type {string}
@@ -152,7 +202,44 @@ export interface Draft {
      * @type {string}
      * @memberof Draft
      */
-    imageHash: string;
+    imageName: string;
+}
+/**
+ * 
+ * @export
+ * @interface DraftReq
+ */
+export interface DraftReq {
+    /**
+     * 
+     * @type {string}
+     * @memberof DraftReq
+     */
+    id: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DraftReq
+     */
+    title: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DraftReq
+     */
+    categories: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DraftReq
+     */
+    content: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof DraftReq
+     */
+    imageName: string;
 }
 /**
  * 
@@ -162,10 +249,16 @@ export interface Draft {
 export interface InlineObject {
     /**
      * 
-     * @type {RequestArticle}
+     * @type {ArticleReq}
      * @memberof InlineObject
      */
-    article: RequestArticle;
+    article: ArticleReq;
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject
+     */
+    draftId?: string;
 }
 /**
  * 
@@ -175,10 +268,10 @@ export interface InlineObject {
 export interface InlineObject1 {
     /**
      * 
-     * @type {any}
+     * @type {DraftReq}
      * @memberof InlineObject1
      */
-    images?: any;
+    draft: DraftReq;
 }
 /**
  * 
@@ -188,10 +281,10 @@ export interface InlineObject1 {
 export interface InlineObject2 {
     /**
      * 
-     * @type {RequestArticle}
+     * @type {any}
      * @memberof InlineObject2
      */
-    article: RequestArticle;
+    images?: any;
 }
 /**
  * 
@@ -201,10 +294,68 @@ export interface InlineObject2 {
 export interface InlineObject3 {
     /**
      * 
-     * @type {RequestDraft}
+     * @type {ArticleReq}
      * @memberof InlineObject3
      */
-    article: RequestDraft;
+    article: ArticleReq;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject4
+ */
+export interface InlineObject4 {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject4
+     */
+    id: string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof InlineObject4
+     */
+    _private: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject5
+ */
+export interface InlineObject5 {
+    /**
+     * 
+     * @type {DraftReq}
+     * @memberof InlineObject5
+     */
+    draft: DraftReq;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject6
+ */
+export interface InlineObject6 {
+    /**
+     * 
+     * @type {string}
+     * @memberof InlineObject6
+     */
+    id?: string;
+}
+/**
+ * 
+ * @export
+ * @interface InlineObject7
+ */
+export interface InlineObject7 {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof InlineObject7
+     */
+    imageNames?: Array<string>;
 }
 /**
  * 
@@ -217,7 +368,13 @@ export interface InlineResponse200 {
      * @type {Array<Article>}
      * @memberof InlineResponse200
      */
-    articles: Article[];
+    articles: Array<Article>;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineResponse200
+     */
+    count: number;
 }
 /**
  * 
@@ -236,13 +393,13 @@ export interface InlineResponse2001 {
      * @type {Article}
      * @memberof InlineResponse2001
      */
-    next: Article;
+    nextArticle: Article;
     /**
      * 
      * @type {Article}
      * @memberof InlineResponse2001
      */
-    prev: Article;
+    prevArticle: Article;
 }
 /**
  * 
@@ -252,16 +409,10 @@ export interface InlineResponse2001 {
 export interface InlineResponse2002 {
     /**
      * 
-     * @type {Array<Article>}
+     * @type {Array<Category>}
      * @memberof InlineResponse2002
      */
-    articles: Article[];
-    /**
-     * 
-     * @type {number}
-     * @memberof InlineResponse2002
-     */
-    maxPage: number;
+    categories: Array<Category>;
 }
 /**
  * 
@@ -271,10 +422,10 @@ export interface InlineResponse2002 {
 export interface InlineResponse2003 {
     /**
      * 
-     * @type {Array<Category>}
+     * @type {Article}
      * @memberof InlineResponse2003
      */
-    categories: Category[];
+    article: Article;
 }
 /**
  * 
@@ -284,10 +435,10 @@ export interface InlineResponse2003 {
 export interface InlineResponse2004 {
     /**
      * 
-     * @type {boolean}
+     * @type {Draft}
      * @memberof InlineResponse2004
      */
-    verify?: boolean;
+    draft: Draft;
 }
 /**
  * 
@@ -297,10 +448,16 @@ export interface InlineResponse2004 {
 export interface InlineResponse2005 {
     /**
      * 
-     * @type {Article}
+     * @type {Array<Draft>}
      * @memberof InlineResponse2005
      */
-    article: Article;
+    drafts: Array<Draft>;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineResponse2005
+     */
+    count: number;
 }
 /**
  * 
@@ -310,16 +467,16 @@ export interface InlineResponse2005 {
 export interface InlineResponse2006 {
     /**
      * 
-     * @type {Array<Draft>}
+     * @type {Array<string>}
      * @memberof InlineResponse2006
      */
-    drafts: Draft[];
+    images: Array<string>;
     /**
      * 
-     * @type {number}
+     * @type {boolean}
      * @memberof InlineResponse2006
      */
-    maxPage: number;
+    next: boolean;
 }
 /**
  * 
@@ -329,151 +486,20 @@ export interface InlineResponse2006 {
 export interface InlineResponse2007 {
     /**
      * 
-     * @type {Draft}
+     * @type {string}
      * @memberof InlineResponse2007
      */
-    draft: Draft;
-}
-/**
- * 
- * @export
- * @interface InlineResponse2008
- */
-export interface InlineResponse2008 {
-    /**
-     * 
-     * @type {Array<string>}
-     * @memberof InlineResponse2008
-     */
-    images: string[];
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InlineResponse2008
-     */
-    next: boolean;
-}
-/**
- * 
- * @export
- * @interface InlineResponse2009
- */
-export interface InlineResponse2009 {
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineResponse2009
-     */
     id: string;
     /**
      * 
      * @type {string}
-     * @memberof InlineResponse2009
+     * @memberof InlineResponse2007
      */
     content: string;
     /**
      * 
      * @type {string}
-     * @memberof InlineResponse2009
-     */
-    imageHash: string;
-}
-/**
- * 
- * @export
- * @interface RequestArticle
- */
-export interface RequestArticle {
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticle
-     */
-    id: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticle
-     */
-    title: string;
-    /**
-     * 
-     * @type {Array<RequestArticleCategories>}
-     * @memberof RequestArticle
-     */
-    categories: RequestArticleCategories[];
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticle
-     */
-    content: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticle
-     */
-    imageHash: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RequestArticle
-     */
-    isPrivate: boolean;
-}
-/**
- * 
- * @export
- * @interface RequestArticleCategories
- */
-export interface RequestArticleCategories {
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticleCategories
-     */
-    id: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestArticleCategories
-     */
-    name: string;
-}
-/**
- * 
- * @export
- * @interface RequestDraft
- */
-export interface RequestDraft {
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestDraft
-     */
-    id: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestDraft
-     */
-    title: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestDraft
-     */
-    categories: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestDraft
-     */
-    content: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RequestDraft
+     * @memberof InlineResponse2007
      */
     imageHash: string;
 }
@@ -483,792 +509,929 @@ export interface RequestDraft {
  * @export
  */
 export const DefaultApiAxiosParamCreator = function (configuration?: Configuration) {
-  return {
-    /**
+    return {
+        /**
          * 
-         * @summary Return a list of articles by title.
-         * @param {Array<string>} category A category name which an articles has.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCategoryGet(category: string[], options: any = {}): RequestArgs {
-      // verify required parameter 'category' is not null or undefined
-      if (category === null || category === undefined) {
-        throw new RequiredError("category","Required parameter category was null or undefined when calling apiFindArticleListCategoryGet.");
-      }
-      const localVarPath = "/api/find/article/list/category";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (category) {
-        localVarQueryParameter["category"] = category;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} createDate A created date of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCreateDateGet(createDate: string, p?: number, options: any = {}): RequestArgs {
-      // verify required parameter 'createDate' is not null or undefined
-      if (createDate === null || createDate === undefined) {
-        throw new RequiredError("createDate","Required parameter createDate was null or undefined when calling apiFindArticleListCreateDateGet.");
-      }
-      const localVarPath = "/api/find/article/list/create-date";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (createDate !== undefined) {
-        localVarQueryParameter["createDate"] = createDate;
-      }
-
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListGet(p?: number, options: any = {}): RequestArgs {
-      const localVarPath = "/api/find/article/list";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} title A title of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListTitleGet(title: string, p?: number, options: any = {}): RequestArgs {
-      // verify required parameter 'title' is not null or undefined
-      if (title === null || title === undefined) {
-        throw new RequiredError("title","Required parameter title was null or undefined when calling apiFindArticleListTitleGet.");
-      }
-      const localVarPath = "/api/find/article/list/title";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (title !== undefined) {
-        localVarQueryParameter["title"] = title;
-      }
-
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return pick up articles.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticlePickupGet(options: any = {}): RequestArgs {
-      const localVarPath = "/api/find/article/pickup";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected sortedId and next, previous article.
-         * @param {number} sortedId Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleSortedIdGet(sortedId: number, options: any = {}): RequestArgs {
-      // verify required parameter 'sortedId' is not null or undefined
-      if (sortedId === null || sortedId === undefined) {
-        throw new RequiredError("sortedId","Required parameter sortedId was null or undefined when calling apiFindArticleSortedIdGet.");
-      }
-      const localVarPath = "/api/find/article/sortedId";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      if (sortedId !== undefined) {
-        localVarQueryParameter["sortedId"] = sortedId;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of categories.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindCategoryListGet(options: any = {}): RequestArgs {
-      const localVarPath = "/api/find/category/list";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Delete draft.
-         * @param {string} id Draft id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteDraftDelete(id: string, options: any = {}): RequestArgs {
-      // verify required parameter 'id' is not null or undefined
-      if (id === null || id === undefined) {
-        throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateDeleteDraftDelete.");
-      }
-      const localVarPath = "/api/private/delete/draft";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
-
-      if (id !== undefined) {
-        localVarQueryParameter["id"] = id;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Delete images.
-         * @param {Array<string>} imageNames Image names.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteImageDelete(imageNames: string[], options: any = {}): RequestArgs {
-      // verify required parameter 'imageNames' is not null or undefined
-      if (imageNames === null || imageNames === undefined) {
-        throw new RequiredError("imageNames","Required parameter imageNames was null or undefined when calling apiPrivateDeleteImageDelete.");
-      }
-      const localVarPath = "/api/private/delete/image";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "DELETE", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
-
-      if (imageNames) {
-        localVarQueryParameter["imageNames"] = imageNames;
-      }
-
-
-    
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Draft article.
-         * @param {InlineObject3} [inlineObject3] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options: any = {}): RequestArgs {
-      const localVarPath = "/api/private/draft/article";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "POST", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
-
-
-    
-      localVarHeaderParameter["Content-Type"] = "application/json";
-
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      const needsSerialization = (typeof inlineObject3 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject3 !== undefined ? inlineObject3 : {}) : (inlineObject3 || "");
-
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected id.
+         * @summary Return an articles by id.
          * @param {string} id Article id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleIdGet(id: string, options: any = {}): RequestArgs {
-      // verify required parameter 'id' is not null or undefined
-      if (id === null || id === undefined) {
-        throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateFindArticleIdGet.");
-      }
-      const localVarPath = "/api/private/find/article/id";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiFindArticleIdGet: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiFindArticleIdGet.');
+            }
+            const localVarPath = `/api/find/article/id`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      if (id !== undefined) {
-        localVarQueryParameter["id"] = id;
-      }
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
-         * @summary Return a list of articles (including private)
-         * @param {number} [p] Page of view.
+         * @summary Return articles list by category.
+         * @param {Array<string>} category Category name.
+         * @param {number} p Page number.
+         * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleListAllGet(p?: number, options: any = {}): RequestArgs {
-      const localVarPath = "/api/private/find/article/list/all";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiFindArticleListCategoryGet: async (category: Array<string>, p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'category' is not null or undefined
+            if (category === null || category === undefined) {
+                throw new RequiredError('category','Required parameter category was null or undefined when calling apiFindArticleListCategoryGet.');
+            }
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiFindArticleListCategoryGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiFindArticleListCategoryGet.');
+            }
+            const localVarPath = `/api/find/article/list/category`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            if (category) {
+                localVarQueryParameter['category'] = category;
+            }
 
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
+         * @summary Return articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleListGet: async (p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiFindArticleListGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiFindArticleListGet.');
+            }
+            const localVarPath = `/api/find/article/list`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Return articles list by title.
+         * @param {string} title Article title.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleListTitleGet: async (title: string, p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'title' is not null or undefined
+            if (title === null || title === undefined) {
+                throw new RequiredError('title','Required parameter title was null or undefined when calling apiFindArticleListTitleGet.');
+            }
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiFindArticleListTitleGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiFindArticleListTitleGet.');
+            }
+            const localVarPath = `/api/find/article/list/title`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (title !== undefined) {
+                localVarQueryParameter['title'] = title;
+            }
+
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Return categories list.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindCategoryListGet: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/find/category/list`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete draft.
+         * @param {InlineObject6} inlineObject6 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateDeleteDraftDelete: async (inlineObject6: InlineObject6, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject6' is not null or undefined
+            if (inlineObject6 === null || inlineObject6 === undefined) {
+                throw new RequiredError('inlineObject6','Required parameter inlineObject6 was null or undefined when calling apiPrivateDeleteDraftDelete.');
+            }
+            const localVarPath = `/api/private/delete/draft`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject6 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject6 !== undefined ? inlineObject6 : {}) : (inlineObject6 || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Delete images.
+         * @param {InlineObject7} inlineObject7 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateDeleteImageDelete: async (inlineObject7: InlineObject7, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject7' is not null or undefined
+            if (inlineObject7 === null || inlineObject7 === undefined) {
+                throw new RequiredError('inlineObject7','Required parameter inlineObject7 was null or undefined when calling apiPrivateDeleteImageDelete.');
+            }
+            const localVarPath = `/api/private/delete/image`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject7 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject7 !== undefined ? inlineObject7 : {}) : (inlineObject7 || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Return an article whose id is selected
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateFindArticleIdGet: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiPrivateFindArticleIdGet.');
+            }
+            const localVarPath = `/api/private/find/article/id`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Return all articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateFindArticleListGet: async (p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiPrivateFindArticleListGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiPrivateFindArticleListGet.');
+            }
+            const localVarPath = `/api/private/find/article/list`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
+
+
+    
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Return a draft whose id is selected.
          * @param {string} id Draft id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftIdGet(id: string, options: any = {}): RequestArgs {
-      // verify required parameter 'id' is not null or undefined
-      if (id === null || id === undefined) {
-        throw new RequiredError("id","Required parameter id was null or undefined when calling apiPrivateFindDraftIdGet.");
-      }
-      const localVarPath = "/api/private/find/draft/id";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiPrivateFindDraftIdGet: async (id: string, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiPrivateFindDraftIdGet.');
+            }
+            const localVarPath = `/api/private/find/draft/id`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
-      if (id !== undefined) {
-        localVarQueryParameter["id"] = id;
-      }
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
-         * @param {number} [p] Page of view.
+         * @summary Return all drafts list.
+         * @param {number} p Page number.
+         * @param {number} num Number of drafts.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftListGet(p?: number, options: any = {}): RequestArgs {
-      const localVarPath = "/api/private/find/draft/list";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiPrivateFindDraftListGet: async (p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiPrivateFindDraftListGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiPrivateFindDraftListGet.');
+            }
+            const localVarPath = `/api/private/find/draft/list`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
-         * @summary Return a list of image names.
-         * @param {number} [p] Page of view.
+         * @summary Return images list.
+         * @param {number} p Page number.
+         * @param {number} num Number of images.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindImageListGet(p?: number, options: any = {}): RequestArgs {
-      const localVarPath = "/api/private/find/image/list";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "GET", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiPrivateFindImageListGet: async (p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'p' is not null or undefined
+            if (p === null || p === undefined) {
+                throw new RequiredError('p','Required parameter p was null or undefined when calling apiPrivateFindImageListGet.');
+            }
+            // verify required parameter 'num' is not null or undefined
+            if (num === null || num === undefined) {
+                throw new RequiredError('num','Required parameter num was null or undefined when calling apiPrivateFindImageListGet.');
+            }
+            const localVarPath = `/api/private/find/image/list`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
-      if (p !== undefined) {
-        localVarQueryParameter["p"] = p;
-      }
+            if (p !== undefined) {
+                localVarQueryParameter['p'] = p;
+            }
+
+            if (num !== undefined) {
+                localVarQueryParameter['num'] = num;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Register new article.
          * @param {InlineObject} inlineObject 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterArticlePost(inlineObject: InlineObject, options: any = {}): RequestArgs {
-      // verify required parameter 'inlineObject' is not null or undefined
-      if (inlineObject === null || inlineObject === undefined) {
-        throw new RequiredError("inlineObject","Required parameter inlineObject was null or undefined when calling apiPrivateRegisterArticlePost.");
-      }
-      const localVarPath = "/api/private/register/article";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "POST", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiPrivateRegisterArticlePost: async (inlineObject: InlineObject, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject' is not null or undefined
+            if (inlineObject === null || inlineObject === undefined) {
+                throw new RequiredError('inlineObject','Required parameter inlineObject was null or undefined when calling apiPrivateRegisterArticlePost.');
+            }
+            const localVarPath = `/api/private/register/article`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
-      localVarHeaderParameter["Content-Type"] = "application/json";
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      const needsSerialization = (typeof inlineObject !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject !== undefined ? inlineObject : {}) : (inlineObject || "");
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject !== undefined ? inlineObject : {}) : (inlineObject || "");
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Register new draft.
+         * @param {InlineObject1} inlineObject1 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateRegisterDraftPost: async (inlineObject1: InlineObject1, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject1' is not null or undefined
+            if (inlineObject1 === null || inlineObject1 === undefined) {
+                throw new RequiredError('inlineObject1','Required parameter inlineObject1 was null or undefined when calling apiPrivateRegisterDraftPost.');
+            }
+            const localVarPath = `/api/private/register/draft`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject1 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject1 !== undefined ? inlineObject1 : {}) : (inlineObject1 || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Register new image.
          * @param {any} [images] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterImagePost(images?: any, options: any = {}): RequestArgs {
-      const localVarPath = "/api/private/register/image";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "POST", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
-      const localVarFormParams = new FormData();
+        apiPrivateRegisterImagePost: async (images?: any, options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/private/register/image`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new FormData();
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
-      if (images !== undefined) { 
-        localVarFormParams.append("images", images);
-      }
+            if (images !== undefined) { 
+                localVarFormParams.append('images', images as any);
+            }
     
     
-      localVarHeaderParameter["Content-Type"] = "multipart/form-data";
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      localVarRequestOptions.data = localVarFormParams;
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
-         * @summary Update article.
-         * @param {InlineObject2} inlineObject2 
+         * @summary Update article\'s private property.
+         * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options: any = {}): RequestArgs {
-      // verify required parameter 'inlineObject2' is not null or undefined
-      if (inlineObject2 === null || inlineObject2 === undefined) {
-        throw new RequiredError("inlineObject2","Required parameter inlineObject2 was null or undefined when calling apiPrivateUpdateArticlePut.");
-      }
-      const localVarPath = "/api/private/update/article";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "PUT", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiPrivateUpdateArticlePrivatePut: async (inlineObject4: InlineObject4, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject4' is not null or undefined
+            if (inlineObject4 === null || inlineObject4 === undefined) {
+                throw new RequiredError('inlineObject4','Required parameter inlineObject4 was null or undefined when calling apiPrivateUpdateArticlePrivatePut.');
+            }
+            const localVarPath = `/api/private/update/article/private`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
-      localVarHeaderParameter["Content-Type"] = "application/json";
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
-      const needsSerialization = (typeof inlineObject2 !== "string") || localVarRequestOptions.headers["Content-Type"] === "application/json";
-      localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject2 !== undefined ? inlineObject2 : {}) : (inlineObject2 || "");
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject4 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject4 !== undefined ? inlineObject4 : {}) : (inlineObject4 || "");
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-    /**
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update article.
+         * @param {InlineObject3} inlineObject3 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateUpdateArticlePut: async (inlineObject3: InlineObject3, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject3' is not null or undefined
+            if (inlineObject3 === null || inlineObject3 === undefined) {
+                throw new RequiredError('inlineObject3','Required parameter inlineObject3 was null or undefined when calling apiPrivateUpdateArticlePut.');
+            }
+            const localVarPath = `/api/private/update/article`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject3 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject3 !== undefined ? inlineObject3 : {}) : (inlineObject3 || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary Update draft.
+         * @param {InlineObject5} inlineObject5 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateUpdateDraftPut: async (inlineObject5: InlineObject5, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'inlineObject5' is not null or undefined
+            if (inlineObject5 === null || inlineObject5 === undefined) {
+                throw new RequiredError('inlineObject5','Required parameter inlineObject5 was null or undefined when calling apiPrivateUpdateDraftPut.');
+            }
+            const localVarPath = `/api/private/update/draft`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof inlineObject5 !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject5 !== undefined ? inlineObject5 : {}) : (inlineObject5 || "");
+
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @summary Verify token.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiVerifyTokenPost(options: any = {}): RequestArgs {
-      const localVarPath = "/api/verify/token";
-      const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
-      let baseOptions;
-      if (configuration) {
-        baseOptions = configuration.baseOptions;
-      }
-      const localVarRequestOptions = { method: "POST", ...baseOptions, ...options};
-      const localVarHeaderParameter = {} as any;
-      const localVarQueryParameter = {} as any;
+        apiVerifyTokenPost: async (options: any = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/verify/token`;
+            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      // authentication BearerAuth required
-      // http bearer authentication required
-      if (configuration && configuration.accessToken) {
-        const accessToken = typeof configuration.accessToken === "function"
-          ? configuration.accessToken()
-          : configuration.accessToken;
-        localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-      }
+            // authentication BearerAuth required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? configuration.accessToken()
+                    : configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
     
-      localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-      // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-      delete localVarUrlObj.search;
-      localVarRequestOptions.headers = {...localVarHeaderParameter, ...options.headers};
+            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
+            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
+            delete localVarUrlObj.search;
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: globalImportUrl.format(localVarUrlObj),
-        options: localVarRequestOptions,
-      };
-    },
-  };
+            return {
+                url: globalImportUrl.format(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
 };
 
 /**
@@ -1276,273 +1439,280 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
  * @export
  */
 export const DefaultApiFp = function(configuration?: Configuration) {
-  return {
-    /**
+    return {
+        /**
          * 
-         * @summary Return a list of articles by title.
-         * @param {Array<string>} category A category name which an articles has.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCategoryGet(category: string[], options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListCategoryGet(category, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} createDate A created date of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListCreateDateGet(createDate, p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListGet(p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} title A title of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListTitleGet(title: string, p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return pick up articles.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticlePickupGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticlePickupGet(options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected sortedId and next, previous article.
-         * @param {number} sortedId Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleSortedIdGet(sortedId: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindArticleSortedIdGet(sortedId, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return a list of categories.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindCategoryListGet(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiFindCategoryListGet(options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Delete draft.
-         * @param {string} id Draft id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteDraftDelete(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteDraftDelete(id, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Delete images.
-         * @param {Array<string>} imageNames Image names.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteImageDelete(imageNames: string[], options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(imageNames, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Draft article.
-         * @param {InlineObject3} [inlineObject3] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2009> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateDraftArticlePost(inlineObject3, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected id.
+         * @summary Return an articles by id.
          * @param {string} id Article id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleIdGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2005> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindArticleIdGet(id, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiFindArticleIdGet(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2001>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
-         * @summary Return a list of articles (including private)
-         * @param {number} [p] Page of view.
+         * @summary Return articles list by category.
+         * @param {Array<string>} category Category name.
+         * @param {number} p Page number.
+         * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleListAllGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindArticleListAllGet(p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListCategoryGet(category, p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
+         * @summary Return articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiFindArticleListGet(p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListGet(p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Return articles list by title.
+         * @param {string} title Article title.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListTitleGet(title, p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Return categories list.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiFindCategoryListGet(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2002>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindCategoryListGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Delete draft.
+         * @param {InlineObject6} inlineObject6 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateDeleteDraftDelete(inlineObject6: InlineObject6, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteDraftDelete(inlineObject6, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Delete images.
+         * @param {InlineObject7} inlineObject7 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateDeleteImageDelete(inlineObject7: InlineObject7, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateDeleteImageDelete(inlineObject7, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Return an article whose id is selected
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateFindArticleIdGet(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2003>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateFindArticleIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Return all articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateFindArticleListGet(p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateFindArticleListGet(p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Return a draft whose id is selected.
          * @param {string} id Draft id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftIdGet(id: string, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2007> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftIdGet(id, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateFindDraftIdGet(id: string, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2004>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftIdGet(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
-         * @param {number} [p] Page of view.
+         * @summary Return all drafts list.
+         * @param {number} p Page number.
+         * @param {number} num Number of drafts.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftListGet(p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateFindDraftListGet(p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2005>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateFindDraftListGet(p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
-         * @summary Return a list of image names.
-         * @param {number} [p] Page of view.
+         * @summary Return images list.
+         * @param {number} p Page number.
+         * @param {number} num Number of images.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindImageListGet(p?: number, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2008> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateFindImageListGet(p, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateFindImageListGet(p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2006>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateFindImageListGet(p, num, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
          * @summary Register new article.
          * @param {InlineObject} inlineObject 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterArticlePost(inlineObject, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterArticlePost(inlineObject, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Register new draft.
+         * @param {InlineObject1} inlineObject1 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateRegisterDraftPost(inlineObject1: InlineObject1, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2007>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterDraftPost(inlineObject1, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
          * @summary Register new image.
          * @param {any} [images] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterImagePost(images?: any, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterImagePost(images, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateRegisterImagePost(images?: any, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateRegisterImagePost(images, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
-         * @summary Update article.
-         * @param {InlineObject2} inlineObject2 
+         * @summary Update article\'s private property.
+         * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticlePut(inlineObject2, options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-    /**
+        async apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Update article.
+         * @param {InlineObject3} inlineObject3 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateUpdateArticlePut(inlineObject3: InlineObject3, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateArticlePut(inlineObject3, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary Update draft.
+         * @param {InlineObject5} inlineObject5 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiPrivateUpdateDraftPut(inlineObject5: InlineObject5, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiPrivateUpdateDraftPut(inlineObject5, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
          * 
          * @summary Verify token.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiVerifyTokenPost(options?: any): (axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse2004> {
-      const localVarAxiosArgs = DefaultApiAxiosParamCreator(configuration).apiVerifyTokenPost(options);
-      return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-        const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-        return axios.request(axiosRequestArgs);
-      };
-    },
-  };
+        async apiVerifyTokenPost(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiVerifyTokenPost(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+    }
 };
 
 /**
@@ -1550,197 +1720,204 @@ export const DefaultApiFp = function(configuration?: Configuration) {
  * @export
  */
 export const DefaultApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-  return {
-    /**
+    return {
+        /**
          * 
-         * @summary Return a list of articles by title.
-         * @param {Array<string>} category A category name which an articles has.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCategoryGet(category: string[], options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleListCategoryGet(category, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} createDate A created date of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleListCreateDateGet(createDate, p, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return a list of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListGet(p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleListGet(p, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return a list of articles by title.
-         * @param {string} title A title of articles.
-         * @param {number} [p] Page of view.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleListTitleGet(title: string, p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, p, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return pick up articles.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticlePickupGet(options?: any) {
-      return DefaultApiFp(configuration).apiFindArticlePickupGet(options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected sortedId and next, previous article.
-         * @param {number} sortedId Article sorted id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindArticleSortedIdGet(sortedId: number, options?: any) {
-      return DefaultApiFp(configuration).apiFindArticleSortedIdGet(sortedId, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return a list of categories.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiFindCategoryListGet(options?: any) {
-      return DefaultApiFp(configuration).apiFindCategoryListGet(options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Delete draft.
-         * @param {string} id Draft id.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteDraftDelete(id: string, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDeleteDraftDelete(id, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Delete images.
-         * @param {Array<string>} imageNames Image names.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDeleteImageDelete(imageNames: string[], options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(imageNames, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Draft article.
-         * @param {InlineObject3} [inlineObject3] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-    apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateDraftArticlePost(inlineObject3, options)(axios, basePath);
-    },
-    /**
-         * 
-         * @summary Return an aritlce by selected id.
+         * @summary Return an articles by id.
          * @param {string} id Article id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleIdGet(id: string, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateFindArticleIdGet(id, options)(axios, basePath);
-    },
-    /**
+        apiFindArticleIdGet(id: string, options?: any): AxiosPromise<InlineResponse2001> {
+            return DefaultApiFp(configuration).apiFindArticleIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
-         * @summary Return a list of articles (including private)
-         * @param {number} [p] Page of view.
+         * @summary Return articles list by category.
+         * @param {Array<string>} category Category name.
+         * @param {number} p Page number.
+         * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindArticleListAllGet(p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateFindArticleListAllGet(p, options)(axios, basePath);
-    },
-    /**
+        apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
+            return DefaultApiFp(configuration).apiFindArticleListCategoryGet(category, p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
+         * @summary Return articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleListGet(p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
+            return DefaultApiFp(configuration).apiFindArticleListGet(p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Return articles list by title.
+         * @param {string} title Article title.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
+            return DefaultApiFp(configuration).apiFindArticleListTitleGet(title, p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Return categories list.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiFindCategoryListGet(options?: any): AxiosPromise<InlineResponse2002> {
+            return DefaultApiFp(configuration).apiFindCategoryListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete draft.
+         * @param {InlineObject6} inlineObject6 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateDeleteDraftDelete(inlineObject6: InlineObject6, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateDeleteDraftDelete(inlineObject6, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Delete images.
+         * @param {InlineObject7} inlineObject7 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateDeleteImageDelete(inlineObject7: InlineObject7, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateDeleteImageDelete(inlineObject7, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Return an article whose id is selected
+         * @param {string} id Article id.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateFindArticleIdGet(id: string, options?: any): AxiosPromise<InlineResponse2003> {
+            return DefaultApiFp(configuration).apiPrivateFindArticleIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Return all articles list.
+         * @param {number} p Page number.
+         * @param {number} num Number of articles.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateFindArticleListGet(p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
+            return DefaultApiFp(configuration).apiPrivateFindArticleListGet(p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Return a draft whose id is selected.
          * @param {string} id Draft id.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftIdGet(id: string, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateFindDraftIdGet(id, options)(axios, basePath);
-    },
-    /**
+        apiPrivateFindDraftIdGet(id: string, options?: any): AxiosPromise<InlineResponse2004> {
+            return DefaultApiFp(configuration).apiPrivateFindDraftIdGet(id, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
-         * @summary Return a list of drafts.
-         * @param {number} [p] Page of view.
+         * @summary Return all drafts list.
+         * @param {number} p Page number.
+         * @param {number} num Number of drafts.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindDraftListGet(p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateFindDraftListGet(p, options)(axios, basePath);
-    },
-    /**
+        apiPrivateFindDraftListGet(p: number, num: number, options?: any): AxiosPromise<InlineResponse2005> {
+            return DefaultApiFp(configuration).apiPrivateFindDraftListGet(p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
-         * @summary Return a list of image names.
-         * @param {number} [p] Page of view.
+         * @summary Return images list.
+         * @param {number} p Page number.
+         * @param {number} num Number of images.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateFindImageListGet(p?: number, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateFindImageListGet(p, options)(axios, basePath);
-    },
-    /**
+        apiPrivateFindImageListGet(p: number, num: number, options?: any): AxiosPromise<InlineResponse2006> {
+            return DefaultApiFp(configuration).apiPrivateFindImageListGet(p, num, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Register new article.
          * @param {InlineObject} inlineObject 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateRegisterArticlePost(inlineObject, options)(axios, basePath);
-    },
-    /**
+        apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateRegisterArticlePost(inlineObject, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Register new draft.
+         * @param {InlineObject1} inlineObject1 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateRegisterDraftPost(inlineObject1: InlineObject1, options?: any): AxiosPromise<InlineResponse2007> {
+            return DefaultApiFp(configuration).apiPrivateRegisterDraftPost(inlineObject1, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Register new image.
          * @param {any} [images] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateRegisterImagePost(images?: any, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateRegisterImagePost(images, options)(axios, basePath);
-    },
-    /**
+        apiPrivateRegisterImagePost(images?: any, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateRegisterImagePost(images, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
-         * @summary Update article.
-         * @param {InlineObject2} inlineObject2 
+         * @summary Update article\'s private property.
+         * @param {InlineObject4} inlineObject4 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any) {
-      return DefaultApiFp(configuration).apiPrivateUpdateArticlePut(inlineObject2, options)(axios, basePath);
-    },
-    /**
+        apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update article.
+         * @param {InlineObject3} inlineObject3 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateUpdateArticlePut(inlineObject3: InlineObject3, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateUpdateArticlePut(inlineObject3, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary Update draft.
+         * @param {InlineObject5} inlineObject5 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiPrivateUpdateDraftPut(inlineObject5: InlineObject5, options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiPrivateUpdateDraftPut(inlineObject5, options).then((request) => request(axios, basePath));
+        },
+        /**
          * 
          * @summary Verify token.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-    apiVerifyTokenPost(options?: any) {
-      return DefaultApiFp(configuration).apiVerifyTokenPost(options)(axios, basePath);
-    },
-  };
+        apiVerifyTokenPost(options?: any): AxiosPromise<void> {
+            return DefaultApiFp(configuration).apiVerifyTokenPost(options).then((request) => request(axios, basePath));
+        },
+    };
 };
 
 /**
@@ -1750,187 +1927,158 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class DefaultApi extends BaseAPI {
-  /**
+    /**
      * 
-     * @summary Return a list of articles by title.
-     * @param {Array<string>} category A category name which an articles has.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticleListCategoryGet(category: string[], options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleListCategoryGet(category, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return a list of articles by title.
-     * @param {string} createDate A created date of articles.
-     * @param {number} [p] Page of view.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticleListCreateDateGet(createDate: string, p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleListCreateDateGet(createDate, p, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return a list of articles.
-     * @param {number} [p] Page of view.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticleListGet(p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleListGet(p, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return a list of articles by title.
-     * @param {string} title A title of articles.
-     * @param {number} [p] Page of view.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticleListTitleGet(title: string, p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, p, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return pick up articles.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticlePickupGet(options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticlePickupGet(options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return an aritlce by selected sortedId and next, previous article.
-     * @param {number} sortedId Article sorted id.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindArticleSortedIdGet(sortedId: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiFindArticleSortedIdGet(sortedId, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return a list of categories.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiFindCategoryListGet(options?: any) {
-    return DefaultApiFp(this.configuration).apiFindCategoryListGet(options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Delete draft.
-     * @param {string} id Draft id.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiPrivateDeleteDraftDelete(id: string, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDeleteDraftDelete(id, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Delete images.
-     * @param {Array<string>} imageNames Image names.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiPrivateDeleteImageDelete(imageNames: string[], options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(imageNames, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Draft article.
-     * @param {InlineObject3} [inlineObject3] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof DefaultApi
-     */
-  public apiPrivateDraftArticlePost(inlineObject3?: InlineObject3, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateDraftArticlePost(inlineObject3, options)(this.axios, this.basePath);
-  }
-
-  /**
-     * 
-     * @summary Return an aritlce by selected id.
+     * @summary Return an articles by id.
      * @param {string} id Article id.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateFindArticleIdGet(id: string, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateFindArticleIdGet(id, options)(this.axios, this.basePath);
-  }
+    public apiFindArticleIdGet(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
-     * @summary Return a list of articles (including private)
-     * @param {number} [p] Page of view.
+     * @summary Return articles list by category.
+     * @param {Array<string>} category Category name.
+     * @param {number} p Page number.
+     * @param {number} num number of articles.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateFindArticleListAllGet(p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateFindArticleListAllGet(p, options)(this.axios, this.basePath);
-  }
+    public apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleListCategoryGet(category, p, num, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
-     * @summary Return a list of drafts.
+     * @summary Return articles list.
+     * @param {number} p Page number.
+     * @param {number} num Number of articles.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiFindArticleListGet(p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleListGet(p, num, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Return articles list by title.
+     * @param {string} title Article title.
+     * @param {number} p Page number.
+     * @param {number} num Number of articles.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiFindArticleListTitleGet(title: string, p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleListTitleGet(title, p, num, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Return categories list.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiFindCategoryListGet(options?: any) {
+        return DefaultApiFp(this.configuration).apiFindCategoryListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete draft.
+     * @param {InlineObject6} inlineObject6 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateDeleteDraftDelete(inlineObject6: InlineObject6, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateDeleteDraftDelete(inlineObject6, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Delete images.
+     * @param {InlineObject7} inlineObject7 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateDeleteImageDelete(inlineObject7: InlineObject7, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateDeleteImageDelete(inlineObject7, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Return an article whose id is selected
+     * @param {string} id Article id.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateFindArticleIdGet(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateFindArticleIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Return all articles list.
+     * @param {number} p Page number.
+     * @param {number} num Number of articles.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateFindArticleListGet(p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateFindArticleListGet(p, num, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Return a draft whose id is selected.
      * @param {string} id Draft id.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateFindDraftIdGet(id: string, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateFindDraftIdGet(id, options)(this.axios, this.basePath);
-  }
+    public apiPrivateFindDraftIdGet(id: string, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateFindDraftIdGet(id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
-     * @summary Return a list of drafts.
-     * @param {number} [p] Page of view.
+     * @summary Return all drafts list.
+     * @param {number} p Page number.
+     * @param {number} num Number of drafts.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateFindDraftListGet(p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateFindDraftListGet(p, options)(this.axios, this.basePath);
-  }
+    public apiPrivateFindDraftListGet(p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateFindDraftListGet(p, num, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
-     * @summary Return a list of image names.
-     * @param {number} [p] Page of view.
+     * @summary Return images list.
+     * @param {number} p Page number.
+     * @param {number} num Number of images.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateFindImageListGet(p?: number, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateFindImageListGet(p, options)(this.axios, this.basePath);
-  }
+    public apiPrivateFindImageListGet(p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateFindImageListGet(p, num, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
      * @summary Register new article.
      * @param {InlineObject} inlineObject 
@@ -1938,11 +2086,23 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateRegisterArticlePost(inlineObject, options)(this.axios, this.basePath);
-  }
+    public apiPrivateRegisterArticlePost(inlineObject: InlineObject, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateRegisterArticlePost(inlineObject, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
+     * 
+     * @summary Register new draft.
+     * @param {InlineObject1} inlineObject1 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateRegisterDraftPost(inlineObject1: InlineObject1, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateRegisterDraftPost(inlineObject1, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @summary Register new image.
      * @param {any} [images] 
@@ -1950,32 +2110,56 @@ export class DefaultApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateRegisterImagePost(images?: any, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateRegisterImagePost(images, options)(this.axios, this.basePath);
-  }
+    public apiPrivateRegisterImagePost(images?: any, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateRegisterImagePost(images, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
      * 
-     * @summary Update article.
-     * @param {InlineObject2} inlineObject2 
+     * @summary Update article\'s private property.
+     * @param {InlineObject4} inlineObject4 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiPrivateUpdateArticlePut(inlineObject2: InlineObject2, options?: any) {
-    return DefaultApiFp(this.configuration).apiPrivateUpdateArticlePut(inlineObject2, options)(this.axios, this.basePath);
-  }
+    public apiPrivateUpdateArticlePrivatePut(inlineObject4: InlineObject4, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateUpdateArticlePrivatePut(inlineObject4, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
+    /**
+     * 
+     * @summary Update article.
+     * @param {InlineObject3} inlineObject3 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateUpdateArticlePut(inlineObject3: InlineObject3, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateUpdateArticlePut(inlineObject3, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Update draft.
+     * @param {InlineObject5} inlineObject5 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof DefaultApi
+     */
+    public apiPrivateUpdateDraftPut(inlineObject5: InlineObject5, options?: any) {
+        return DefaultApiFp(this.configuration).apiPrivateUpdateDraftPut(inlineObject5, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
      * 
      * @summary Verify token.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-  public apiVerifyTokenPost(options?: any) {
-    return DefaultApiFp(this.configuration).apiVerifyTokenPost(options)(this.axios, this.basePath);
-  }
+    public apiVerifyTokenPost(options?: any) {
+        return DefaultApiFp(this.configuration).apiVerifyTokenPost(options).then((request) => request(this.axios, this.basePath));
+    }
 
 }
 

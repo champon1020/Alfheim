@@ -1,8 +1,9 @@
-import manageReducer from "./manageReducer";
 import { combineReducers } from "redux";
 
+import manageReducer from "./manageReducer";
+
 const rootReducer = combineReducers({
-  manageReducer
+  manageReducer,
 });
 
 export default rootReducer;

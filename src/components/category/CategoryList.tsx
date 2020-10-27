@@ -1,8 +1,8 @@
-import React, { useCallback, MouseEvent } from "react";
+import { ICategory } from "~/type";
+import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
-import { CategoryType } from "src/type";
 
-const CategoryListContainer = styled.ul`
+const StyledList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -18,7 +18,7 @@ const CategoryListContainer = styled.ul`
   }
 `;
 
-const CategoryListItem = styled.li`
+const StyledCategory = styled.li`
   font-size: 2.5rem;
   margin: 2%;
   border: solid thin brown;
@@ -30,60 +30,48 @@ const CategoryListItem = styled.li`
   }
 `;
 
-const EmptyMessage = styled.h3`
+const StyledEmptyMsg = styled.h3`
   font-size: 2.4rem;
   color: gray;
   margin: 5% auto 5% auto;
 `;
 
 type Props = {
-  categories: CategoryType[];
-}
+  categories: ICategory[];
+};
 
 const CategoryList = (props: Props) => {
   const { categories } = props;
 
-  const handleOnClick = useCallback(
-    (e: MouseEvent<HTMLLIElement>) => {
-      const len = e.currentTarget.classList.length;
-      const cName = e.currentTarget.classList[len-1];
-      window.open("/home/category/" + cName, "_self");
-    },
-    [],
-  );
+  const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
+    const len = e.currentTarget.classList.length;
+    const cName = e.currentTarget.classList[len - 1];
+    window.open("/home/category/" + cName, "_self");
+  }, []);
 
-  const categoryList = useCallback(
-    () => {
-      if(categories === undefined 
-        || categories === null
-        || categories.length === 0){
-        return (
-          <EmptyMessage>
-            {"No Categories"}
-          </EmptyMessage>
-        );
-      }
-      const list = [] as JSX.Element[];
-      categories.forEach((v, i) => {
-        list.push(
-          <CategoryListItem
-            key={i}
-            className={v.name}
-            onClick={handleOnClick}>
-            {v.name + "(" + v.articleNum + ")"}
-          </CategoryListItem>
-        );
-      });
-      return list;
-    },
-    [categories, handleOnClick],
-  );
+  const categoryList = useCallback(() => {
+    if (
+      categories === undefined ||
+      categories === null ||
+      categories.length === 0
+    ) {
+      return <StyledEmptyMsg>{"No Categories"}</StyledEmptyMsg>;
+    }
 
-  return (
-    <CategoryListContainer>
-      {categoryList()}
-    </CategoryListContainer>
-  );
+    const list = [] as JSX.Element[];
+
+    categories.forEach((v, i) => {
+      list.push(
+        <StyledCategory key={i} className={v.name} onClick={onClickCategory}>
+          {v.name + "(" + v.articleNum + ")"}
+        </StyledCategory>
+      );
+    });
+
+    return list;
+  }, [categories, onClickCategory]);
+
+  return <StyledList>{categoryList()}</StyledList>;
 };
 
 export default CategoryList;

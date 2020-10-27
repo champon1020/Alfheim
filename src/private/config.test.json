@@ -1,0 +1,13 @@
+{
+  "clientId": "CLIENT_ID",
+  "url": "URL",
+  "apiUrl": "API_URL",
+  "fileUrl": "FILE_URL",
+  "twitterUrl": "TWITTER_URL",
+  "linkedinUrl": "LINKEDIN_URL",
+  "githubUrl": "GITHUB_URL",
+  "defImg": "DEFAULT_IMG",
+  "maxArticleNum": 6,
+  "maxSettingImageNum": 12,
+  "maxSettingArticleNum": 10
+}

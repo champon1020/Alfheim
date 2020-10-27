@@ -1,13 +1,13 @@
-import { createStore, AnyAction, Store } from "redux";
-import { DraftType } from "../type";
+import rootReducer from "~/reducers/rootReducer";
+import { IDraft } from "~/type";
+import { AnyAction, Store, createStore } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import rootReducer from "../reducers/rootReducer";
 
 export type ManageState = {
-  article: DraftType;
+  article: IDraft;
   draftContent: string;
-}
+};
 
 const persistConfig = {
   key: "root",
@@ -17,11 +17,11 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = createStore(
-  persistedReducer,
+  persistedReducer
   // (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
 ) as Store<any, AnyAction>;
 
-export type RootState = ReturnType<typeof store.getState>
+export type RootState = ReturnType<typeof store.getState>;
 
 export const persistor = persistStore(store);
 

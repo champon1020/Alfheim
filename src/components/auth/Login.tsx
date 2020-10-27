@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 import SignInButton from "./SignInButton";
 
 const LoginContainer = styled.div`
@@ -8,7 +9,7 @@ const LoginContainer = styled.div`
 
 type Props = {
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 const Login = (props: Props) => {
   const { setVerify } = props;
