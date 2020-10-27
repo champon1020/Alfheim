@@ -1,12 +1,6 @@
-import "~/assets/styles/toast-ui-wrapper.css";
-import "@toast-ui/editor/dist/i18n/ja-jp";
-import "highlight.js/styles/darcula.css";
-
-import codeSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight";
-import { Viewer } from "@toast-ui/react-editor";
-import { loadMathJax } from "~/func";
-import hljs from "highlight.js";
-import React, { useCallback, useEffect, useRef } from "react";
+import MDEditor from "@uiw/react-md-editor";
+import { renderers } from "~/misc/editor";
+import React from "react";
 import styled from "styled-components";
 
 const StyledContainer = styled.article`
@@ -25,30 +19,12 @@ type Props = {
 
 const ArticleContent = (props: Props) => {
   const { content } = props;
-  const contentRef = useRef({} as HTMLDivElement);
 
-  const viewer = useCallback(() => {
-    if (content === undefined) {
-      return <div></div>;
-    }
-
-    return (
-      <Viewer initialValue={content} plugins={[codeSyntaxHighlightPlugin]} />
-    );
-  }, [content]);
-
-  useEffect(() => {
-    if (contentRef !== null && contentRef.current.innerHTML !== "<div></div>") {
-      loadMathJax();
-    }
-  }, [viewer]);
-
-  // Initialize highlight.js
-  useEffect(() => {
-    hljs.initHighlightingOnLoad();
-  }, []);
-
-  return <StyledContainer ref={contentRef}>{viewer()}</StyledContainer>;
+  return (
+    <StyledContainer>
+      <MDEditor.Markdown source={content} renderers={renderers} />
+    </StyledContainer>
+  );
 };
 
 export default ArticleContent;

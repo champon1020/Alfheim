@@ -1,8 +1,7 @@
 import MDEditor from "@uiw/react-md-editor";
 import { ErrorStatus, MyErrorStatus } from "~/error";
-import { convertRefFromFunc } from "~/func";
-import hljs from "highlight.js";
-import React, { forwardRef, useEffect, useMemo } from "react";
+import { renderers } from "~/misc/editor";
+import React from "react";
 import styled from "styled-components";
 
 const StyledMdEditor = styled.div`
@@ -20,14 +19,14 @@ type Props = {
 const MarkdownEditor = (props: Props) => {
   const { value, onChange } = props;
 
-  // Initialize highlight.js
-  useEffect(() => {
-    hljs.initHighlightingOnLoad();
-  }, []);
-
   return (
     <StyledMdEditor>
-      <MDEditor value={value} onChange={onChange} height={748} />
+      <MDEditor
+        value={value}
+        onChange={onChange}
+        height={748}
+        previewOptions={{ renderers: renderers }}
+      />
     </StyledMdEditor>
   );
 };

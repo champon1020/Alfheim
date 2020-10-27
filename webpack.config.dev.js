@@ -17,18 +17,20 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [{loader: "ts-loader"}],
-        exclude: /node_modules/,
+        use: [
+          {loader: "ts-loader"}
+        ],
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader",
-          "css-loader"
+          {loader: "style-loader"},
+          {loader: "css-loader"}
         ]
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(jpe?g|png|gif|svg|woff|woff2|ttf)$/i,
         loader: "file-loader"
       },
     ],

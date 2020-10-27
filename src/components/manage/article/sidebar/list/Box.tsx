@@ -53,7 +53,10 @@ const Box = (props: Props) => {
 
   return (
     <StyledBox onClick={onClickArticle}>
-      <Image src={`${Config.url}/images/${imageName}`} alt={article.title} />
+      <Image
+        src={`${Config.fileUrl}/images/${imageName}`}
+        alt={article.title}
+      />
       <TitleDate
         title={article.title}
         date={tab === "drafts" ? article.updatedDate : article.createdDate}
