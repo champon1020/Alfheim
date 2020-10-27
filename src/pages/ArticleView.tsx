@@ -2,7 +2,7 @@ import { defaultApi } from "~/api/entry";
 import Article from "~/components/article/Article";
 import SideBar from "~/components/common/sidebar/SideBar";
 import { Config } from "~/config";
-import { parse } from "~/parser";
+import { parse } from "~/misc/parser";
 import { ManageState, RootState } from "~/stores/store";
 import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";

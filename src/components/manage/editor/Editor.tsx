@@ -1,8 +1,9 @@
 import appActionCreator from "~/actions/actions";
 import { defaultApi } from "~/api/entry";
 import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
-import { bearerAuthHeader, parseQueryParam } from "~/func";
-import { parse } from "~/parser";
+import { bearerAuthHeader } from "~/misc/auth";
+import { parseQueryParam } from "~/misc/param";
+import { parse } from "~/misc/parser";
 import { IArticleReq, IDraft, IDraftReq, IEditorArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

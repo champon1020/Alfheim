@@ -1,7 +1,7 @@
 import { defaultApi } from "~/api/entry";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
-import { bearerAuthHeader } from "~/func";
+import { bearerAuthHeader } from "~/misc/auth";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
 

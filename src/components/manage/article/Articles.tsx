@@ -1,7 +1,8 @@
 import { defaultApi } from "~/api/entry";
 import { Config } from "~/config";
-import { bearerAuthHeader, countToMaxPage } from "~/func";
-import { parse } from "~/parser";
+import { bearerAuthHeader } from "~/misc/auth";
+import { countToMaxPage } from "~/misc/misc";
+import { parse } from "~/misc/parser";
 import { IArticle } from "~/type";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useRef, useState } from "react";

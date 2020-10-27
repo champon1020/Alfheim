@@ -8,7 +8,7 @@ import {
   implementsIArticle,
   implementsIDraft,
   implementsIEditorArticle,
-} from "./type";
+} from "~/type";
 
 type ParseDist =
   | "IArticle"

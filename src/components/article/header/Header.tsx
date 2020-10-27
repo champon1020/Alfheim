@@ -1,4 +1,4 @@
-import { formatDateStr } from "~/func";
+import { formatDateStr } from "~/misc/misc";
 import { IArticle } from "~/type";
 import React from "react";
 import styled from "styled-components";

@@ -1,4 +1,4 @@
-import { convertRefFromFunc } from "~/func";
+import { convertRefFromFunc } from "~/misc/misc";
 import React, { FocusEvent, KeyboardEvent, forwardRef } from "react";
 import styled from "styled-components";
 
