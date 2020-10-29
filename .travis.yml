@@ -13,15 +13,14 @@ matrix:
   fast_finish: true
 
 dist: trusty
-cache: yarn
 
 install:
-  - yarn install
+  - npm install
 
 branches:
   only:
     - master
 
 script:
-  - yarn lint
+  - npm run lint
   - CI=false npm run build

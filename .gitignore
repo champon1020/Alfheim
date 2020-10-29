@@ -11,6 +11,10 @@
 .env
 .envrc
 
+# firebase
+.firebase/
+
 openapitools.json
 **/private/config.prod.json
 **/private/config.dev.json
+

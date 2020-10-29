@@ -1,7 +1,5 @@
-import { Config } from "~/config";
 import { IArticle } from "~/type";
-import React, { useCallback } from "react";
-import { Helmet } from "react-helmet";
+import React from "react";
 import styled from "styled-components";
 
 import { Facebook, Linkedin, Twitter } from "./ShareButtons";
@@ -22,30 +20,8 @@ type Props = {
 const ShareBox = (props: Props) => {
   const { article } = props;
 
-  const meta = useCallback(() => {
-    return (
-      <Helmet
-        title={article.title}
-        meta={[
-          { property: "og:title", content: `${article.title}` },
-          { property: "og:description", content: `${article.content}` },
-          { property: "og:type", content: "article" },
-          {
-            property: "og:url",
-            content: `${Config.url}/article/${article.id}`,
-          },
-          {
-            property: "og:image ",
-            content: `${Config.fileUrl}/images/${article.imageName}`,
-          },
-        ]}
-      />
-    );
-  }, [article]);
-
   return (
     <>
-      {meta()}
       <StyledShareList>
         <Twitter
           id={article.id}
