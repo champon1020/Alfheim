@@ -1,36 +1,50 @@
 const path = require("path");
-const outputDir = path.resolve(__dirname, "build");
+const webpack = require("webpack");
+const outputDir = path.resolve(__dirname, "dist");
+const dotenv = require("dotenv-webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
+
 
 module.exports = {
-  mode: "production",
   entry: "./src/index.tsx",
   output: {
     path: outputDir,
-    filename: "bundle.js",
     publicPath: "/",
+    filename: "bundle.js",
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [{loader: "ts-loader"}],
-        exclude: /node_modules/,
+        use: [
+          {loader: "ts-loader"}
+        ],
+        exclude: /node_modules/
       },
       {
         test: /\.css$/,
         use: [
-          "style-loader",
-          "css-loader"
-        ],
-        exclude: /node_modules/,
+          {loader: "style-loader"},
+          {loader: "css-loader"}
+        ]
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
+        test: /\.(jpe?g|png|gif|svg|woff|woff2|ttf)$/i,
         loader: "file-loader"
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/public/index.html",
+      filename: "index.html",
+      favicon: "./src/assets/images/favicon.ico"
+    }),
+    new dotenv(),
+    new ManifestPlugin(),
+  ],
   resolve: {
     modules: ["node_modules", path.resolve(__dirname, 'src')],
     extensions: [".tsx", ".ts", ".js"],
