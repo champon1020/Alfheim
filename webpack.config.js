@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const outputDir = path.resolve(__dirname, "dist");
-const dotenv = require("dotenv-webpack");
+const Dotenv = require("dotenv-webpack");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
@@ -42,7 +42,7 @@ module.exports = {
       filename: "index.html",
       favicon: "./src/assets/images/favicon.ico"
     }),
-    new dotenv(),
+    new Dotenv(),
     new ManifestPlugin(),
   ],
   resolve: {

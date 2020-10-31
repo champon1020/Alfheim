@@ -15,7 +15,7 @@ const StyledImage = styled.img`
   width: 100%;
   object-fit: cover;
   &.active {
-    animation: ${AnimFadeIn} 2s ease 0s;
+    animation: ${AnimFadeIn} 2s ease-in-out 0s;
   }
 `;
 
