@@ -13,15 +13,16 @@ matrix:
   fast_finish: true
 
 dist: trusty
-cache: yarn
 
 install:
-  - yarn install
+  - npm install
 
 branches:
   only:
     - master
 
 script:
-  - yarn lint
-  - CI=false npm run build
+  - npm run lint
+  - cp src/private/config.test.json src/private/config.dev.json
+  - cp src/private/config.test.json src/private/config.prod.json
+  - REACT_APP_TRAVIS="true" npm run build

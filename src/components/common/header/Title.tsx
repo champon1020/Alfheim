@@ -15,15 +15,15 @@ const StyledTitle = styled.h1`
   cursor: pointer;
   color: white;
   display: inline-block;
-  left: 2%;
-  line-height: 6rem;
+  left: 9rem;
+  line-height: 5.5rem;
   font-size: 2.4rem;
   animation: ${AnimSlideDown} 1.7s ease 0s;
   &:hover {
     opacity: 0.7;
   }
   @media (max-width: 800px) {
-    left: 5%;
+    font-size: 2rem;
   }
 `;
 

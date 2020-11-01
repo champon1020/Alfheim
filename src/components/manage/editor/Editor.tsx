@@ -98,7 +98,9 @@ const Form = (props: Props) => {
         "IEditorArticle"
       );
 
-      setEditorArticle(editorArticle);
+      if (editorArticle != null) {
+        setEditorArticle(editorArticle);
+      }
     } catch (err) {
       handleError(err.response.status);
     }
@@ -116,7 +118,9 @@ const Form = (props: Props) => {
         "IEditorArticle"
       );
 
-      setEditorArticle(editorArticle);
+      if (editorArticle != null) {
+        setEditorArticle(editorArticle);
+      }
     } catch (err) {
       handleError(err.response.status);
     }
@@ -164,8 +168,9 @@ const Form = (props: Props) => {
 
       setMsg("Saved!");
 
-      // Update editor draft id and reload.
+      // Update editor draft id and add query parameter to href.
       editorArticle.id = res.data.id;
+      setDraftId(res.data.id);
       window.history.pushState(null, "", "?draftId=" + res.data.id);
     } catch (err) {
       handleError(err.response.status);
@@ -230,12 +235,10 @@ const Form = (props: Props) => {
     // Call updating function after onlineSaveDuration.
     rts.save(() => {
       if (draftId != null) {
-        console.log("update");
         updateDraft(reqDraft);
         return;
       }
 
-      console.log("save");
       registerDraft(reqDraft);
     }, onlineSaveDuration);
   };

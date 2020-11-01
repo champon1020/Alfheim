@@ -9,9 +9,10 @@ export interface IArticle {
   _private: boolean;
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any */
 export const implementsIArticle = (arg: any): arg is IArticle => {
   return (
-    arg !== null &&
+    arg != null &&
     typeof arg === "object" &&
     typeof arg.id === "string" &&
     typeof arg.title === "string" &&
@@ -23,6 +24,7 @@ export const implementsIArticle = (arg: any): arg is IArticle => {
     typeof arg._private === "boolean"
   );
 };
+/* eslint-enable */
 
 export interface IDraft {
   id: string;
@@ -33,6 +35,7 @@ export interface IDraft {
   imageName: string;
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any */
 export const implementsIDraft = (arg: any): arg is IDraft => {
   return (
     arg !== null &&
@@ -45,6 +48,7 @@ export const implementsIDraft = (arg: any): arg is IDraft => {
     typeof arg.imageName === "string"
   );
 };
+/* eslint-enable */
 
 export interface ICategory {
   id: string;
@@ -52,7 +56,6 @@ export interface ICategory {
   articleNum: number;
 }
 
-// Type of editor article|draft object.
 export interface IEditorArticle {
   id: string;
   title: string;
@@ -63,6 +66,7 @@ export interface IEditorArticle {
   _private: boolean;
 }
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any */
 export const implementsIEditorArticle = (arg: any): arg is IEditorArticle => {
   return (
     arg !== null &&
@@ -76,6 +80,7 @@ export const implementsIEditorArticle = (arg: any): arg is IEditorArticle => {
     typeof arg._private === "boolean"
   );
 };
+/* eslint-enable */
 
 export interface IArticleReq {
   id: string;

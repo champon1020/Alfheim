@@ -552,16 +552,16 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary Return articles list by category.
-         * @param {Array<string>} category Category name.
+         * @param {Array<string>} categoryId Category name.
          * @param {number} p Page number.
          * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiFindArticleListCategoryGet: async (category: Array<string>, p: number, num: number, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'category' is not null or undefined
-            if (category === null || category === undefined) {
-                throw new RequiredError('category','Required parameter category was null or undefined when calling apiFindArticleListCategoryGet.');
+        apiFindArticleListCategoryGet: async (categoryId: Array<string>, p: number, num: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'categoryId' is not null or undefined
+            if (categoryId === null || categoryId === undefined) {
+                throw new RequiredError('categoryId','Required parameter categoryId was null or undefined when calling apiFindArticleListCategoryGet.');
             }
             // verify required parameter 'p' is not null or undefined
             if (p === null || p === undefined) {
@@ -581,8 +581,8 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-            if (category) {
-                localVarQueryParameter['category'] = category;
+            if (categoryId) {
+                localVarQueryParameter['categoryId'] = categoryId;
             }
 
             if (p !== undefined) {
@@ -1457,14 +1457,14 @@ export const DefaultApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Return articles list by category.
-         * @param {Array<string>} category Category name.
+         * @param {Array<string>} categoryId Category name.
          * @param {number} p Page number.
          * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
-            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListCategoryGet(category, p, num, options);
+        async apiFindArticleListCategoryGet(categoryId: Array<string>, p: number, num: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InlineResponse200>> {
+            const localVarAxiosArgs = await DefaultApiAxiosParamCreator(configuration).apiFindArticleListCategoryGet(categoryId, p, num, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1734,14 +1734,14 @@ export const DefaultApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary Return articles list by category.
-         * @param {Array<string>} category Category name.
+         * @param {Array<string>} categoryId Category name.
          * @param {number} p Page number.
          * @param {number} num number of articles.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
-            return DefaultApiFp(configuration).apiFindArticleListCategoryGet(category, p, num, options).then((request) => request(axios, basePath));
+        apiFindArticleListCategoryGet(categoryId: Array<string>, p: number, num: number, options?: any): AxiosPromise<InlineResponse200> {
+            return DefaultApiFp(configuration).apiFindArticleListCategoryGet(categoryId, p, num, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1942,15 +1942,15 @@ export class DefaultApi extends BaseAPI {
     /**
      * 
      * @summary Return articles list by category.
-     * @param {Array<string>} category Category name.
+     * @param {Array<string>} categoryId Category name.
      * @param {number} p Page number.
      * @param {number} num number of articles.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof DefaultApi
      */
-    public apiFindArticleListCategoryGet(category: Array<string>, p: number, num: number, options?: any) {
-        return DefaultApiFp(this.configuration).apiFindArticleListCategoryGet(category, p, num, options).then((request) => request(this.axios, this.basePath));
+    public apiFindArticleListCategoryGet(categoryId: Array<string>, p: number, num: number, options?: any) {
+        return DefaultApiFp(this.configuration).apiFindArticleListCategoryGet(categoryId, p, num, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

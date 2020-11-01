@@ -1,6 +1,6 @@
 import { TTab } from "~/components/manage/article/Articles";
 import { IArticle } from "~/type";
-import React, { useCallback } from "react";
+import React, { forwardRef, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
 import List from "./list/List";
@@ -45,7 +45,7 @@ type Props = {
   setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
 };
 
-const SideBar = (props: Props) => {
+const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
   const {
     tab,
     showMenu,
@@ -72,7 +72,11 @@ const SideBar = (props: Props) => {
   }, [page]);
 
   return (
-    <StyledSideBar hidden={showMenu && !isMenuOpened} showMenu={showMenu}>
+    <StyledSideBar
+      hidden={showMenu && !isMenuOpened}
+      showMenu={showMenu}
+      ref={ref}
+    >
       <Tab tab={tab} setTab={setTab} setPage={setPage} />
       <List
         articles={articles}
@@ -83,6 +87,6 @@ const SideBar = (props: Props) => {
       <PageBox page={page} maxPage={maxPage} setPage={setPage} />
     </StyledSideBar>
   );
-};
+});
 
 export default SideBar;

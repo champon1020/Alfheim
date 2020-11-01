@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
+import Icon from "./Icon";
 import Menu from "./Menu";
 import Nav from "./Nav";
 import Title from "./Title";
@@ -41,6 +42,7 @@ const Header = (props: Props) => {
 
   return (
     <StyledHeader>
+      <Icon />
       <Title />
       <Nav showMenu={showMenu} toggleMenu={toggleMenu} />
       <Menu isMenuOpened={isMenuOpened} />

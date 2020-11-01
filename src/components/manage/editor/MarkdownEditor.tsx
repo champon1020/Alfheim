@@ -24,7 +24,7 @@ const MarkdownEditor = (props: Props) => {
       <MDEditor
         value={value}
         onChange={onChange}
-        height={748}
+        height={800}
         previewOptions={{ renderers: renderers }}
       />
     </StyledMdEditor>

@@ -34,7 +34,7 @@ const StyledButton = styled.button`
     opacity: 0.6;
   }
   @media (max-width: 800px) {
-    font-size: 1.2rem;
+    font-size: 0.8rem;
   }
 `;
 

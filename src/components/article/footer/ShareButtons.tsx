@@ -48,7 +48,7 @@ export const Twitter = (props: {
   return (
     <StyledButton>
       <TwitterShareButton
-        url={`${Config.url}/article/${id}`}
+        url={`${Config.ogpUrl}/${id}`}
         title={title}
         hashtags={hashtagArray()}
       >
@@ -63,7 +63,7 @@ export const Facebook = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <FacebookShareButton url={`${Config.url}/article/${id}`} title={title}>
+      <FacebookShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
         <StyledIcon src={FacebookIcon} alt={"facebook share"} />
       </FacebookShareButton>
     </StyledButton>
@@ -75,7 +75,7 @@ export const Linkedin = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <LinkedinShareButton url={`${Config.url}/article/${id}`} title={title}>
+      <LinkedinShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
         <StyledIcon src={LinkedinIcon} alt={"linkedin share"} />
       </LinkedinShareButton>
     </StyledButton>

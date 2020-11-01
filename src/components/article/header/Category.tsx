@@ -8,7 +8,7 @@ const StyledCategories = styled.ul`
   justify-content: center;
   flex-wrap: wrap;
   width: 80%;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   font-size: 1.6rem;
   padding: 0;
   @media (max-width: 500px) {
@@ -17,7 +17,7 @@ const StyledCategories = styled.ul`
 `;
 
 const StyledCategory = styled.li`
-  margin: 0 10px;
+  margin: 0.5rem 1rem;
   color: brown;
   border: solid 1px brown;
   padding: 1px 5px;
@@ -36,8 +36,8 @@ const Category = (props: Props) => {
 
   const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
     const len = e.currentTarget.classList.length;
-    const cName = e.currentTarget.classList[len - 1];
-    window.open("/home/category/" + cName, "_self");
+    const cid = e.currentTarget.classList[len - 1];
+    window.open("/home/category/" + cid, "_self");
   }, []);
 
   const categoryList = useCallback(() => {
@@ -47,10 +47,10 @@ const Category = (props: Props) => {
       return list;
     }
 
-    categories.forEach((v, i) => {
+    categories.forEach((c, i) => {
       list.push(
-        <StyledCategory key={i} className={v.name} onClick={onClickCategory}>
-          {v.name}
+        <StyledCategory key={i} className={c.id} onClick={onClickCategory}>
+          {c.name}
         </StyledCategory>
       );
     });

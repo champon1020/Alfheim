@@ -23,6 +23,12 @@ export const renderers = {
       return <code dangerouslySetInnerHTML={{ __html: html }} />;
     }
 
+    if (/^\$(.*)\$/.test(children)) {
+      children = children.replace(/^\$(.*)\$/, "$1");
+      const html = `<span className={"inlineCode"}>${children}</span>`;
+      return <code dangerouslySetInnerHTML={{ __html: html }} />;
+    }
+
     if (children == null) {
       return <code />;
     }
@@ -30,7 +36,7 @@ export const renderers = {
     return children;
   },
   code: ({ children, language, value }: any) => {
-    if (language.toLocaleLowerCase() === "katex") {
+    if (language != null && language.toLocaleLowerCase() === "katex") {
       const html = katex.renderToString(value, {
         throwOnError: false,
       });
@@ -41,9 +47,11 @@ export const renderers = {
       );
     }
 
-    if (language.toLocaleLowerCase() != "") {
+    if (
+      hljs.getLanguage(language) != null &&
+      language.toLocaleLowerCase() != ""
+    ) {
       const html = hljs.highlight(language, value).value;
-      console.log(html);
       return (
         <pre>
           <StyledCode
