@@ -217,7 +217,7 @@ const parseCategoryListToStr = (categories: ICategory[]): string => {
 
 // Category (string: for draft request) => Category (string: for draft object)
 const parseCategoryReqStrToStr = (category: string): string => {
-  if (category === null) {
+  if (category == null) {
     return "";
   }
 
@@ -226,7 +226,7 @@ const parseCategoryReqStrToStr = (category: string): string => {
 
 // Category (string: for draft object) => Category (string: for draft request)
 const parseCategoryStrToReqStr = (category: string): string => {
-  if (category === null) {
+  if (category == null) {
     return "";
   }
 

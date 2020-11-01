@@ -13,7 +13,7 @@ const StyledCode = styled.code`
 
 export const renderers = {
   inlineCode: ({ children }: any) => {
-    if (/^\$\$(.*)\$\$/.test(children)) {
+    if (children != null && /^\$\$(.*)\$\$/.test(children)) {
       const html = katex.renderToString(
         children.replace(/^\$\$(.*)\$\$/, "$1"),
         {
@@ -23,7 +23,7 @@ export const renderers = {
       return <code dangerouslySetInnerHTML={{ __html: html }} />;
     }
 
-    if (/^\$(.*)\$/.test(children)) {
+    if (children != null && /^\$(.*)\$/.test(children)) {
       children = children.replace(/^\$(.*)\$/, "$1");
       const html = `<span className={"inlineCode"}>${children}</span>`;
       return <code dangerouslySetInnerHTML={{ __html: html }} />;
@@ -48,6 +48,7 @@ export const renderers = {
     }
 
     if (
+      value != null &&
       hljs.getLanguage(language) != null &&
       language.toLocaleLowerCase() != ""
     ) {

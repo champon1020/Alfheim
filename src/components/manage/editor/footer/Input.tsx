@@ -28,7 +28,7 @@ const Input = (props: Props) => {
     if (initValue != null) {
       setValue(initValue);
     }
-  }, []);
+  }, [initValue]);
 
   return <StyledInput value={value} onChange={onChange} />;
 };
