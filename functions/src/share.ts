@@ -7,29 +7,30 @@ const shareFunc = async (
   req: functions.https.Request,
   res: functions.Response
 ) => {
-  try {
-    const [, , id] = req.path.split("/");
-    const html = generateHtml(id);
-    res.status(200).end(html);
-  } catch (err: any) {
-    res.status(500).end("Internal Server Error: ${err.message}");
-  }
+  const path = req.path as string;
+  const id = path.split("/").reverse()[0];
+
+  const _url = joinPaths(HOST, "api/find/article/id");
+  const url = joinParams(_url, { key: "id", value: id });
+  axios
+    .get(url)
+    .then((r) => {
+      const article = r.data.article;
+      const html = generateHtml(id, article);
+      res.set("Cache-Control", "public, max-age=600, s-maxage=600");
+      res.status(200).end(html);
+    })
+    .catch((err) => {
+      res.status(500).end("Internal Server Error: ${err.message}, URL: ${url}");
+    });
 };
 
-interface IArticle {
-  id: string;
-  title: string;
-  categories?: any;
-  content: string;
-  imageName: string;
-  _private: boolean;
-}
+export default shareFunc;
 
-const generateHtml = async (id: string) => {
-  const article = fetchArticle(id);
+const generateHtml = (id: string, article: any) => {
   const TITLE = article.title;
-  const IMAGE_URL = `${HOST}/resrc/${article.imageName}`;
-  const URL = `${HOST}/article/${id}`;
+  const IMAGE_URL = joinPaths(HOST, "resrc/images", article.imageName);
+  const URL = joinPaths(HOST, "article", id);
   const DESCRIPTION = article.content;
 
   return `<!DOCTYPE html>
@@ -37,7 +38,7 @@ const generateHtml = async (id: string) => {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#000000">
+    <title>champon's notebook</title>
     <meta property="og:title" content="${TITLE}">
     <meta property="og:image" content="${IMAGE_URL}">
     <meta property="og:description" content="${DESCRIPTION}">
@@ -47,30 +48,32 @@ const generateHtml = async (id: string) => {
     <meta name="twitter:title" content="${TITLE}">
     <meta name="twitter:image" content="${IMAGE_URL}">
     <meta name="twitter:description" content="${DESCRIPTION}">
-    <meta name="twitter:site" content="${URL}>
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="${URL}">
+    <meta name="twitter:card" content="summary_large_image">
   </head>
   <body>
-    <script type="text/javascript">window.location="/article/${id}";</script>
+    <script type="text/javascript">window.location="${URL}";</script>
   </body>
-</html>
-  `;
+</html>`;
 };
 
-const fetchArticle = (id: string) => {
-  const url = `https://blog.champonian.com/api/find/article/${id}`;
-  let article: any = {};
-
-  axios
-    .get(url)
-    .then((res) => {
-      article = res.data.article;
-    })
-    .catch((err) => {
-      throw new Error("Cannot fetch article: ${err.message}");
-    });
-
-  return article;
+const joinPaths = (...args: string[]): string => {
+  let path = "";
+  args.forEach((a, i) => {
+    if (i) path += "/";
+    path += a;
+  });
+  return path;
 };
 
-export default shareFunc;
+const joinParams = (
+  path: string,
+  ...args: { key: string; value: string }[]
+): string => {
+  path += "?";
+  args.forEach((a, i) => {
+    if (i) path += "&";
+    path += a.key + "=" + a.value;
+  });
+  return path;
+};
