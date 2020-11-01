@@ -33,7 +33,7 @@ const Header = (props: Props) => {
   // On click listener of 'Edit' button.
   // Jump to edit page with article|draft id.
   const onClickEdit = useCallback(() => {
-    if (focusedArticle.id === undefined) {
+    if (focusedArticle.id == null) {
       return;
     }
 
@@ -42,11 +42,9 @@ const Header = (props: Props) => {
   }, [focusedArticle.id, tab]);
 
   return (
-    <StyledHeader selected={focusedArticle.title !== undefined}>
+    <StyledHeader selected={focusedArticle.title != null}>
       <h2>
-        {focusedArticle.title === undefined
-          ? "Select Article"
-          : focusedArticle.title}
+        {focusedArticle.title == null ? "Select Article" : focusedArticle.title}
       </h2>
       <Button
         backgroundColor="yellowgreen"

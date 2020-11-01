@@ -54,8 +54,12 @@ const HomeView = (props: Props) => {
     window.open(`${Config.url}?p=${page + 1}`, "_self");
   }, [page]);
 
+  // Parse page number from query parameter.
   // Fetch articles.
   useEffect(() => {
+    const page = parsePage(window.location.href);
+    setPage(page);
+
     const fetchArticles = async () => {
       const path = window.location.pathname;
       const { title, year, month, category } = params;
@@ -100,12 +104,6 @@ const HomeView = (props: Props) => {
     };
 
     fetchArticles();
-  }, [params, page]);
-
-  // Parse page number from query parameter.
-  useEffect(() => {
-    const page = parsePage(window.location.href);
-    setPage(page);
   }, []);
 
   return (
