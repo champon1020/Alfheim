@@ -12,7 +12,9 @@ import PublicView from "./pages/PublicView";
 const Router = () => {
   return (
     <BrowserRouter basename="/">
+      {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
       <Provider store={store}>
+        {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment */}
         <PersistGate loading={null} persistor={persistor}>
           <Switch>
             <Route exact path={"/"} component={PublicView} />
