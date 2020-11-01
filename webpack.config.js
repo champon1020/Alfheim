@@ -40,7 +40,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/public/index.html",
       filename: "index.html",
-      favicon: "./src/assets/images/favicon.ico"
+      favicon: "./src/assets/images/favicon.svg"
     }),
     new Dotenv(),
     new ManifestPlugin(),
