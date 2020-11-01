@@ -23,6 +23,6 @@ branches:
 
 script:
   - npm run lint
-  - touch src/private/config.dev.json
-  - touch src/private/config.prod.json
+  - cp src/private/config.test.json src/private/config.dev.json
+  - cp src/private/config.test.json src/private/config.prod.json
   - REACT_APP_TRAVIS="true" npm run build
