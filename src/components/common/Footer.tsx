@@ -19,11 +19,16 @@ const StyledPoweredBy = styled.h3`
   font-size: 1.4rem;
 `;
 
+const StyledMessage = StyledPoweredBy;
+
 const Footer = () => {
   return (
     <StyledFooter>
       <StyledCopyRight>{"Copyright champon"}</StyledCopyRight>
       <StyledPoweredBy>{"Powered by Golang & React"}</StyledPoweredBy>
+      <StyledMessage>
+        {"This website uses Google Analytics and Google AdSense."}
+      </StyledMessage>
     </StyledFooter>
   );
 };

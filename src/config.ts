@@ -4,6 +4,7 @@ type ConfigType = {
   url: string;
   apiUrl: string;
   fileUrl: string;
+  ogpUrl: string;
   twitterUrl: string;
   linkedinUrl: string;
   githubUrl: string;

@@ -45,8 +45,8 @@ const CategoryList = (props: Props) => {
 
   const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
     const len = e.currentTarget.classList.length;
-    const cName = e.currentTarget.classList[len - 1];
-    window.open("/home/category/" + cName, "_self");
+    const cid = e.currentTarget.classList[len - 1];
+    window.open("/home/category/" + cid, "_self");
   }, []);
 
   const categoryList = useCallback(() => {
@@ -60,10 +60,10 @@ const CategoryList = (props: Props) => {
 
     const list = [] as JSX.Element[];
 
-    categories.forEach((v, i) => {
+    categories.forEach((c, i) => {
       list.push(
-        <StyledCategory key={i} className={v.name} onClick={onClickCategory}>
-          {v.name + "(" + v.articleNum + ")"}
+        <StyledCategory key={i} className={c.id} onClick={onClickCategory}>
+          {c.name + "(" + c.articleNum + ")"}
         </StyledCategory>
       );
     });

@@ -2,7 +2,7 @@ import { TTab } from "~/components/manage/article/Articles";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
 import { IArticle } from "~/type";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 
 const StyledHeader = styled.div<{ selected: boolean }>`

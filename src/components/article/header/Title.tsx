@@ -5,11 +5,11 @@ const StyledTitle = styled.div`
   text-align: center;
   font-size: 2.4rem;
   width: 80%;
-  margin: 0 auto 4% auto;
+  margin: 2rem auto 0 auto;
   & h2 {
-    margin-bottom: 0;
     border-bottom: solid thin gray;
     display: inline-block;
+    word-break: break-word;
   }
   @media (max-width: 500px) {
     font-size: 2rem;

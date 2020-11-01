@@ -29,6 +29,7 @@ const Articles = (props: Props) => {
   const { setVerify } = props;
 
   const menuRef = useRef<HTMLDivElement>();
+  const sidebarRef = useRef<HTMLDivElement>();
   const [showMenu, setShowMenu] = useState(false);
   const [isMenuOpened, setMenuOpened] = useState(false);
   const [tab, setTab] = useState<TTab>();
@@ -140,6 +141,10 @@ const Articles = (props: Props) => {
       menuRef != null &&
       e.target !== menuRef.current &&
       e.target.parentNode !== menuRef.current &&
+      sidebarRef != null &&
+      e.target !== sidebarRef.current &&
+      e.target.parentNode !== sidebarRef.current &&
+      e.target.parentNode.parentNode !== sidebarRef.current &&
       isMenuOpened
     ) {
       setMenuOpened(false);
@@ -149,6 +154,7 @@ const Articles = (props: Props) => {
   return (
     <StyledArticles>
       <SideBar
+        ref={sidebarRef}
         tab={tab}
         showMenu={showMenu}
         isMenuOpened={isMenuOpened}

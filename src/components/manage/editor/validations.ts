@@ -1,7 +1,7 @@
 import { ErrorStatus, ValidationErrorStatus } from "~/error";
 
 // Max length of title.
-const TITLE_MAX_LENGTH = 50;
+const TITLE_MAX_LENGTH = 100;
 
 // Regex of title and some strings.
 // Allow alphabet including uppercase, lowercase and numbers.

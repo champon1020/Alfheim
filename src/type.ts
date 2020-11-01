@@ -11,7 +11,7 @@ export interface IArticle {
 
 export const implementsIArticle = (arg: any): arg is IArticle => {
   return (
-    arg !== null &&
+    arg != null &&
     typeof arg === "object" &&
     typeof arg.id === "string" &&
     typeof arg.title === "string" &&

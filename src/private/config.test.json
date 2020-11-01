@@ -3,6 +3,7 @@
   "url": "URL",
   "apiUrl": "API_URL",
   "fileUrl": "FILE_URL",
+  "ogpUrl": "OGP_URL",
   "twitterUrl": "TWITTER_URL",
   "linkedinUrl": "LINKEDIN_URL",
   "githubUrl": "GITHUB_URL",

@@ -11,6 +11,8 @@ const TitleDateStyled = styled.div`
   & h2 {
     font-size: 1.5rem;
     padding-left: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   & h3 {
     margin-top: 4%;
