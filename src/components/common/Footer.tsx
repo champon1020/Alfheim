@@ -26,9 +26,7 @@ const Footer = () => {
     <StyledFooter>
       <StyledCopyRight>{"Copyright champon"}</StyledCopyRight>
       <StyledPoweredBy>{"Powered by Golang & React"}</StyledPoweredBy>
-      <StyledMessage>
-        {"This website uses Google Analytics and Google AdSense."}
-      </StyledMessage>
+      <StyledMessage>{"This website uses Google Analytics."}</StyledMessage>
     </StyledFooter>
   );
 };
