@@ -38,11 +38,10 @@ const StyledSub = styled.div`
 
 type Props = IRouteProps;
 
-const HomeView = (props: Props) => {
+const HomePage = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
-  const [maxPage, setMaxPage] = useState(0);
 
   // Callback function called as jumping to previous page.
   const prevCallback = useCallback(() => {
@@ -60,50 +59,37 @@ const HomeView = (props: Props) => {
     const page = parsePage(window.location.href);
     setPage(page);
 
-    const fetchArticles = async () => {
-      const path = window.location.pathname;
-      const { title, year, month, category } = params;
-      let res = {} as any;
+    const { title, year, month, tag } = params;
+    const path = window.location.pathname;
 
-      try {
-        if (path.startsWith("/home/title") && title !== undefined) {
-          // Search for articles by title.
-          res = await defaultApi.apiFindArticleListTitleGet(
-            title,
-            page,
-            Config.maxArticleNum
-          );
-        } else if (
-          path.startsWith("/home/category") &&
-          category !== undefined &&
-          category !== ""
-        ) {
-          // Search for articles by category.
-          res = await defaultApi.apiFindArticleListCategoryGet(
-            category.split("-"),
-            page,
-            Config.maxArticleNum
-          );
-        } else {
-          // Search for all public articles.
-          res = await await defaultApi.apiFindArticleListGet(
-            page,
-            Config.maxArticleNum
-          );
-        }
-
-        if (res.data.articles === null) {
-          return;
-        }
-
-        setMaxPage(countToMaxPage(res.data.count, Config.maxArticleNum));
-        setArticles(res.data.articles);
-      } catch (err) {
-        // handle error
-      }
-    };
-
-    fetchArticles();
+    if (path.startsWith("/home/title") && title !== undefined) {
+      defaultApi
+        .apiV3GetArticlesTitleTitleGet({ p: page, title: title })
+        .then((res) => {
+          setArticles(res.data.articles);
+        })
+        .catch((err) => {
+          setErr(err);
+        });
+    } else if (path.startsWith("/home/tag") && tag !== undefined && tag != "") {
+      defaultApi
+        .apiV3GetArticlesTagTagGet({ p: page, tag: tag })
+        .then((res) => {
+          setArticles(res.data.articles);
+        })
+        .catch((err) => {
+          setErr(err);
+        });
+    } else {
+      defaultApi
+        .apiV3GetArticlesGet({ p: page })
+        .then((res) => {
+          setArticles(res.data.articles);
+        })
+        .catch((err) => {
+          setErr(err);
+        });
+    }
   }, []);
 
   return (
@@ -127,4 +113,4 @@ const HomeView = (props: Props) => {
   );
 };
 
-export default HomeView;
+export default HomePage;

@@ -28,7 +28,7 @@ const StyledSub = styled.div`
   }
 `;
 
-const CategoryListView = () => {
+const TagsPage = () => {
   return (
     <>
       <StyledMain>
@@ -41,4 +41,4 @@ const CategoryListView = () => {
   );
 };
 
-export default CategoryListView;
+export default TagsPage;

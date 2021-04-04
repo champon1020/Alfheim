@@ -4,10 +4,14 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "stores/store";
 
+import { DefaultApi } from "./api/apis/DefaultApi.ts";
 import Login from "./components/auth/Login";
 import ErrorPage from "./components/error/page/ErrorPage";
 import ManageView from "./pages/ManageView";
 import PublicView from "./pages/PublicView";
+
+const apiConf = new Configuration({ basePath: "http://localhost:8000" });
+export const apiHandler = new DefaultApi(apiConf);
 
 const Router = () => {
   return (
