@@ -1,4 +1,4 @@
-import { ICategory } from "~/type";
+import { ITag } from "~/type";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
@@ -18,7 +18,7 @@ const StyledList = styled.ul`
   }
 `;
 
-const StyledCategory = styled.li`
+const StyledTag = styled.li`
   font-size: 2.5rem;
   margin: 2%;
   border: solid thin brown;
@@ -37,41 +37,37 @@ const StyledEmptyMsg = styled.h3`
 `;
 
 type Props = {
-  categories: ICategory[];
+  tags: ITag[];
 };
 
-const CategoryList = (props: Props) => {
-  const { categories } = props;
+const TagList = (props: Props) => {
+  const { tags } = props;
 
-  const onClickCategory = useCallback((e: MouseEvent<HTMLLIElement>) => {
+  const onClickTag = useCallback((e: MouseEvent<HTMLLIElement>) => {
     const len = e.currentTarget.classList.length;
     const cid = e.currentTarget.classList[len - 1];
-    window.open("/home/category/" + cid, "_self");
+    window.open("/home/tag/" + cid, "_self");
   }, []);
 
-  const categoryList = useCallback(() => {
-    if (
-      categories === undefined ||
-      categories === null ||
-      categories.length === 0
-    ) {
-      return <StyledEmptyMsg>{"No Categories"}</StyledEmptyMsg>;
+  const tagList = useCallback(() => {
+    if (tags === undefined || tags === null || tags.length === 0) {
+      return <StyledEmptyMsg>{"No Tags"}</StyledEmptyMsg>;
     }
 
     const list = [] as JSX.Element[];
 
-    categories.forEach((c, i) => {
+    tags.forEach((c, i) => {
       list.push(
-        <StyledCategory key={i} className={c.id} onClick={onClickCategory}>
+        <StyledTag key={i} className={c.id} onClick={onClickTag}>
           {c.name + "(" + c.articleNum + ")"}
-        </StyledCategory>
+        </StyledTag>
       );
     });
 
     return list;
-  }, [categories, onClickCategory]);
+  }, [tags, onClickTag]);
 
-  return <StyledList>{categoryList()}</StyledList>;
+  return <StyledList>{tagList()}</StyledList>;
 };
 
-export default CategoryList;
+export default TagList;

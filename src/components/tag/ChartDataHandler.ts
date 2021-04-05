@@ -1,4 +1,4 @@
-import { ICategory } from "~/type";
+import { ITag } from "~/type";
 
 // example
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,12 +15,12 @@ const data = {
 
 class ChartDataHandler {
   private MAX_VIEW = 9;
-  private categories = [] as ICategory[];
+  private categories = [] as ITag[];
   private labels = [] as string[];
   private data = [] as number[];
   private total = 0;
 
-  constructor(categories?: ICategory[]) {
+  constructor(categories?: ITag[]) {
     if (categories === undefined) return;
     this.categories = categories;
     this.handleData();
@@ -58,7 +58,7 @@ class ChartDataHandler {
     this.total = 0;
   }
 
-  build(categories: ICategory[]) {
+  build(categories: ITag[]) {
     this.categories = categories;
     this.reset();
     this.handleData();

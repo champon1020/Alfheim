@@ -36,10 +36,8 @@ const StyledText = styled.div<{ hidden: boolean }>`
 
 type Props = {
   current: number;
-  hiddenPrev: boolean;
-  hiddenNext: boolean;
-  prevText: string;
-  nextText: string;
+  isPrev: boolean;
+  isNext: boolean;
   prevCallback: () => void;
   nextCallback: () => void;
 };
@@ -47,10 +45,8 @@ type Props = {
 const Page = (props: Props) => {
   const {
     current,
-    hiddenPrev,
-    hiddenNext,
-    prevText,
-    nextText,
+    isPrev,
+    isNext,
     prevCallback,
     nextCallback,
   } = props;
@@ -58,15 +54,11 @@ const Page = (props: Props) => {
   return (
     <StyledPageBox>
       <StyledPage>
-        <StyledText hidden={hiddenPrev} onClick={prevCallback}>
-          {prevText}
-        </StyledText>
+        <StyledText hidden={!isPrev} onClick={prevCallback}>{"Prev"}</StyledText>
       </StyledPage>
       <StyledCurrentPage current={current}>{current}</StyledCurrentPage>
       <StyledPage>
-        <StyledText hidden={hiddenNext} onClick={nextCallback}>
-          {nextText}
-        </StyledText>
+        <StyledText hidden={!isNext} onClick={nextCallback}>{"Next"}</StyledText>
       </StyledPage>
     </StyledPageBox>
   );

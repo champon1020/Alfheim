@@ -1,6 +1,6 @@
 import ArticleBox from "~/components/home/article/ArticleBox";
 import { IArticle } from "~/type";
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 
 const StyledArticleList = styled.ul`
@@ -37,9 +37,9 @@ interface Props {
 const ArticleList = (props: Props) => {
   const { articles } = props;
 
-  const articleList = useCallback(() => {
+  const articleList = useMemo(() => {
     const list = [] as JSX.Element[];
-    if (articles === undefined || articles === null || articles.length === 0) {
+    if (articles == undefined || articles.length === 0) {
       return <StyledEmptyMsg>{"No Articles"}</StyledEmptyMsg>;
     }
 
@@ -54,7 +54,7 @@ const ArticleList = (props: Props) => {
     return list;
   }, [articles]);
 
-  return <StyledArticleList>{articleList()}</StyledArticleList>;
+  return <StyledArticleList>{articleList}</StyledArticleList>;
 };
 
 export default ArticleList;

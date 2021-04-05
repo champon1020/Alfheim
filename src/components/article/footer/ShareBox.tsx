@@ -23,11 +23,7 @@ const ShareBox = (props: Props) => {
   return (
     <>
       <StyledShareList>
-        <Twitter
-          id={article.id}
-          title={article.title}
-          categories={article.categories}
-        />
+        <Twitter id={article.id} title={article.title} tags={article.tags} />
         <Facebook id={article.id} title={article.title} />
         <Linkedin id={article.id} title={article.title} />
       </StyledShareList>

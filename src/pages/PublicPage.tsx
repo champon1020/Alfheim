@@ -3,13 +3,13 @@ import Footer from "~/components/common/Footer";
 import Header from "~/components/common/header/Header";
 import ImageHeader from "~/components/common/iheader/ImageHeader";
 import ErrorBoundary from "~/components/error/ErrorBoundary";
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 
-import ArticleView from "./ArticleView";
-import CategoryListView from "./CategoryListView";
-import HomeView from "./HomeView";
+import ArticlePage from "./ArticlePage";
+import HomePage from "./HomePage";
+import TagPage from "./TagPage";
 
 const fadeIn = keyframes`
   from {
@@ -40,7 +40,7 @@ const Wrapper = styled.div`
 export type PathParams = {
   id?: string;
   title?: string;
-  category?: string;
+  tag?: string;
   year?: string;
   month?: string;
 };
@@ -49,18 +49,16 @@ export type IRouteProps = RouteComponentProps<PathParams>;
 
 type Props = IRouteProps;
 
-const PublicView = (props: Props) => {
-  const selectView = useCallback(() => {
+const PublicPage = (props: Props) => {
+  const view = useMemo(() => {
     const path = window.location.pathname;
     if (path.startsWith("/article")) {
-      return <ArticleView {...props} />;
+      return <ArticlePage {...props} />;
     }
-
-    if (path.startsWith("/category")) {
-      return <CategoryListView />;
+    if (path.startsWith("/tag")) {
+      return <TagPage />;
     }
-
-    return <HomeView {...props} />;
+    return <HomePage {...props} />;
   }, [props]);
 
   return (
@@ -72,7 +70,7 @@ const PublicView = (props: Props) => {
         </header>
         <main>
           <Bar />
-          <Wrapper>{selectView()}</Wrapper>
+          <Wrapper>{view}</Wrapper>
         </main>
         <footer>
           <Footer />
@@ -82,4 +80,4 @@ const PublicView = (props: Props) => {
   );
 };
 
-export default PublicView;
+export default PublicPage;

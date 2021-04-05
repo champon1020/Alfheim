@@ -1,4 +1,4 @@
-import { ICategory } from "~/type";
+import { ITag } from "~/type";
 import React, { useCallback } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
@@ -10,7 +10,7 @@ const ChartBoxStyled = styled.div`
 `;
 
 type Props = {
-  categories: ICategory[];
+  categories: ITag[];
 };
 
 const handler = new ChartDataHandler();

@@ -1,8 +1,8 @@
-import { ICategory } from "~/type";
-import React, { useCallback } from "react";
+import { ITag } from "~/type";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 
-const StyledCategories = styled.ul`
+const StyledTags = styled.ul`
   margin-top: 3%;
   display: flex;
   flex-direction: row;
@@ -21,26 +21,26 @@ const StyledCategories = styled.ul`
 `;
 
 interface Props {
-  categories: ICategory[];
+  tags: ITag[];
 }
 
-const Categories = (props: Props) => {
-  const { categories } = props;
+const Tags = (props: Props) => {
+  const { tags } = props;
 
-  const categoryList = useCallback(() => {
+  const tagList = useMemo(() => {
     const list = [] as JSX.Element[];
-    if (categories === null || categories === undefined) {
+    if (tags == undefined) {
       return list;
     }
 
-    categories.forEach((v, i) => {
+    tags.forEach((v, i) => {
       list.push(<li key={i}>{v.name}</li>);
     });
 
     return list;
-  }, [categories]);
+  }, [tags]);
 
-  return <StyledCategories>{categoryList()}</StyledCategories>;
+  return <StyledTags>{tagList}</StyledTags>;
 };
 
-export default Categories;
+export default Tags;

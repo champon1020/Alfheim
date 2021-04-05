@@ -13,6 +13,7 @@ const StyledContent = styled.div`
 const StyledViewer = styled.div`
   margin: 1% 2%;
 `;
+
 type Props = {
   content: string;
 };

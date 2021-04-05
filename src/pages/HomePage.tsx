@@ -2,7 +2,6 @@ import { defaultApi } from "~/api/entry";
 import SideBar from "~/components/common/sidebar/SideBar";
 import ArticleList from "~/components/home/ArticleList";
 import { Config } from "~/config";
-import { countToMaxPage } from "~/misc/misc";
 import { parsePage } from "~/misc/param";
 import { IArticle } from "~/type";
 import React, { useCallback, useEffect, useState } from "react";
@@ -42,18 +41,19 @@ const HomePage = (props: Props) => {
   const { params } = props.match;
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
+  const [isNext, setNext] = useState(false);
+  const [isPrev, setPrev] = useState(false);
 
-  // Callback function called as jumping to previous page.
+  // Callback function jumping to previous page.
   const prevCallback = useCallback(() => {
     window.open(`${Config.url}?p=${page - 1}`, "_self");
   }, [page]);
 
-  // Callback function called as jumping to next page.
+  // Callback function jumping to next page.
   const nextCallback = useCallback(() => {
     window.open(`${Config.url}?p=${page + 1}`, "_self");
   }, [page]);
 
-  // Parse page number from query parameter.
   // Fetch articles.
   useEffect(() => {
     const page = parsePage(window.location.href);
@@ -67,6 +67,8 @@ const HomePage = (props: Props) => {
         .apiV3GetArticlesTitleTitleGet({ p: page, title: title })
         .then((res) => {
           setArticles(res.data.articles);
+          setNext(res.data.pagenation.next);
+          setPrev(res.data.pagenation.prev);
         })
         .catch((err) => {
           setErr(err);
@@ -98,10 +100,8 @@ const HomePage = (props: Props) => {
         <ArticleList articles={articles} />
         <Page
           current={page}
-          hiddenPrev={page === 1}
-          hiddenNext={page === maxPage || maxPage === 0}
-          prevText="Back"
-          nextText="Next"
+          isPrev={isPrev}
+          isNext={isNext}
           prevCallback={prevCallback}
           nextCallback={nextCallback}
         />

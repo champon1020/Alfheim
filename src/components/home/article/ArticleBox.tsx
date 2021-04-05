@@ -3,9 +3,9 @@ import { IArticle } from "~/type";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import Categories from "./Categories";
 import Date from "./Date";
 import Image from "./Image";
+import Tags from "./Tags";
 import Title from "./Title";
 
 const StyledArticleBox = styled.div`
@@ -38,10 +38,10 @@ const ArticleBox = (props: Props) => {
 
   return (
     <StyledArticleBox onClick={onClickArticle}>
-      <Image src={article.imageName} alt="article box" />
-      <Date date={article.createdDate} />
+      <Image src={article.imageUrl} alt="article box" />
+      <Date date={article.createdAt} />
       <Title title={article.title} />
-      <Categories categories={article.categories} />
+      <Tags tags={article.tags} />
     </StyledArticleBox>
   );
 };

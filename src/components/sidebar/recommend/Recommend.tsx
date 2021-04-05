@@ -1,6 +1,6 @@
 import { defaultApi } from "~/api/entry";
 import { IArticle } from "~/type";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -16,12 +16,8 @@ const newArticlesNum = 5;
 const Recommend: React.FC = () => {
   const [newArticles, setNewArticles] = useState([] as IArticle[]);
 
-  const newArticleList = useCallback(() => {
-    if (
-      newArticles === undefined ||
-      newArticles === null ||
-      newArticles.length === 0
-    ) {
+  const newArticleList = useMemo(() => {
+    if (newArticles == undefined || newArticles.length === 0) {
       return <StyledEmptyMsg>{"No Articles"}</StyledEmptyMsg>;
     }
 
@@ -47,7 +43,7 @@ const Recommend: React.FC = () => {
     fetchNewArticles();
   }, []);
 
-  return <ul>{newArticleList()}</ul>;
+  return <ul>{newArticleList}</ul>;
 };
 
 export default Recommend;
