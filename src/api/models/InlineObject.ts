@@ -21,10 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface InlineObject {
     /**
      * 
-     * @type {string}
+     * @type {Blob}
      * @memberof InlineObject
      */
-    id: string;
+    image: Blob;
 }
 
 export function InlineObjectFromJSON(json: any): InlineObject {
@@ -37,7 +37,7 @@ export function InlineObjectFromJSONTyped(json: any, ignoreDiscriminator: boolea
     }
     return {
         
-        'id': json['id'],
+        'image': json['image'],
     };
 }
 
@@ -50,7 +50,7 @@ export function InlineObjectToJSON(value?: InlineObject | null): any {
     }
     return {
         
-        'id': value.id,
+        'image': value.image,
     };
 }
 

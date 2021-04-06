@@ -1,5 +1,5 @@
 import { apiHandler } from "~/App.tsx";
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -32,7 +32,7 @@ const Tags = () => {
     apiHandler
       .apiV3GetTagsGet()
       .then((res) => {
-        setTags(res.data.tags);
+        setTags(res.tags);
       })
       .catch((err) => {});
   }, []);

@@ -1,14 +1,14 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import SideBar from "~/components/common/sidebar/SideBar";
 import ArticleList from "~/components/home/ArticleList";
 import { Config } from "~/config";
-import { parsePage } from "~/misc/param";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
+import { parsePage } from "~/util/util";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
-import Page from "./Page";
-import { IRouteProps, PathParams } from "./PublicView";
+import Pagenation from "./Pagenation";
+import { IRouteProps, PathParams } from "./PublicPage";
 
 const StyledMain = styled.div`
   order: 1;
@@ -39,6 +39,7 @@ type Props = IRouteProps;
 
 const HomePage = (props: Props) => {
   const { params } = props.match;
+  const [err, setErr] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
   const [isNext, setNext] = useState(false);
@@ -63,32 +64,32 @@ const HomePage = (props: Props) => {
     const path = window.location.pathname;
 
     if (path.startsWith("/home/title") && title !== undefined) {
-      defaultApi
+      apiHandler
         .apiV3GetArticlesTitleTitleGet({ p: page, title: title })
-        .then((res) => {
+        .then((res: any) => {
           setArticles(res.data.articles);
           setNext(res.data.pagenation.next);
           setPrev(res.data.pagenation.prev);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           setErr(err);
         });
     } else if (path.startsWith("/home/tag") && tag !== undefined && tag != "") {
-      defaultApi
+      apiHandler
         .apiV3GetArticlesTagTagGet({ p: page, tag: tag })
-        .then((res) => {
+        .then((res: any) => {
           setArticles(res.data.articles);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           setErr(err);
         });
     } else {
-      defaultApi
+      apiHandler
         .apiV3GetArticlesGet({ p: page })
-        .then((res) => {
+        .then((res: any) => {
           setArticles(res.data.articles);
         })
-        .catch((err) => {
+        .catch((err: any) => {
           setErr(err);
         });
     }
@@ -98,7 +99,7 @@ const HomePage = (props: Props) => {
     <>
       <StyledMain>
         <ArticleList articles={articles} />
-        <Page
+        <Pagenation
           current={page}
           isPrev={isPrev}
           isNext={isNext}

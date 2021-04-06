@@ -1,4 +1,4 @@
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 
@@ -32,11 +32,9 @@ const Tags = (props: Props) => {
     if (tags == undefined) {
       return list;
     }
-
-    tags.forEach((v, i) => {
-      list.push(<li key={i}>{v.name}</li>);
+    tags.forEach((t, i) => {
+      list.push(<li key={i}>{t.name}</li>);
     });
-
     return list;
   }, [tags]);
 

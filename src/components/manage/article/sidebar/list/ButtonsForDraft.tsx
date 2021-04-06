@@ -1,4 +1,4 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
@@ -10,31 +10,21 @@ const ButtonsForDraft = (props: {
 }) => {
   const { draftId, setVerify } = props;
 
-  // Call api of deleting draft.
-  // Return promise.
-  const deleteDraft = async (draftId: string) => {
-    try {
-      await defaultApi.apiPrivateDeleteDraftDelete(
-        { id: draftId },
-        {
-          headers: {
-            Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-          },
-        }
-      );
-
-      // Jump to /manage/drafts
-      window.location.href = `${Config.url}/manage/drafts`;
-    } catch (err) {
-      setVerify(false);
-    }
-  };
-
   // On click listener of 'Delete' button.
   // Call api.
   // Refresh this page because if not, view would be not updated.
   const onClickDeleteDraft = useCallback(() => {
-    deleteDraft(draftId);
+    const deleteArticleRequestBody = { id: draftId };
+    apiHandler
+      .apiV3PrivateDeleteArticleDelete({ deleteArticleRequestBody })
+      .then((res: any) => {
+        window.location.href = `${Config.url}/manage/drafts`;
+      })
+      .catch((err: any) => {
+        if (err.code.status == 400) {
+          setVerify(false);
+        }
+      });
   }, [draftId]);
 
   return (

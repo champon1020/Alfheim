@@ -35,7 +35,7 @@ export const renderers = {
 
     return children;
   },
-  code: ({ children, language, value }: any) => {
+  code: ({ language, value, children }: any) => {
     if (language != null && language.toLocaleLowerCase() === "katex") {
       const html = katex.renderToString(value, {
         throwOnError: false,

@@ -1,4 +1,4 @@
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { MouseEvent, useCallback, useMemo } from "react";
 import styled from "styled-components";
 
@@ -49,7 +49,7 @@ const Tag = (props: Props) => {
 
     tags.forEach((c, i) => {
       list.push(
-        <StyledTag key={i} className={c.id} onClick={onClickTag}>
+        <StyledTag key={i} className={c.name} onClick={onClickTag}>
           {c.name}
         </StyledTag>
       );

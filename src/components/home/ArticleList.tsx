@@ -1,5 +1,5 @@
 import ArticleBox from "~/components/home/article/ArticleBox";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useMemo } from "react";
 import styled from "styled-components";
 

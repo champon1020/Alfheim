@@ -1,19 +1,17 @@
-import appActionCreator from "~/actions/actions";
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
-import { bearerAuthHeader } from "~/misc/auth";
-import { parseQueryParam } from "~/misc/param";
-import { parse } from "~/misc/parser";
-import { IArticleReq, IDraft, IDraftReq, IEditorArticle } from "~/type";
+import { IArticle } from "~/interfaces";
+import { bearerAuthHeader } from "~/util/auth";
+import { ConvertITagsToStr, ConvertStrToITags } from "~/util/converters.ts";
+import { parseQueryParam } from "~/util/util";
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import styled from "styled-components";
 
 import Footer from "./footer/Footer";
 import Input from "./Input";
 import MarkdownEditor from "./MarkdownEditor";
 import RealTimeSave from "./realTimeSave";
-import { validateCategory, validateTitle } from "./validations";
+import { validateTag, validateTitle } from "./validations";
 
 const StyledForm = styled.div`
   background-color: whitesmoke;
@@ -23,18 +21,19 @@ const StyledForm = styled.div`
 `;
 
 // Default editor article|draft object.
-const defaultEditorDraft: IEditorArticle = {
+const defaultEditorArticle: IArticle = {
   id: "",
   title: "",
-  categories: "",
-  updatedDate: "",
+  tags: [],
+  createdAt: "",
+  updatedAt: "",
   content: "",
-  imageName: "default.jpg",
-  _private: false,
+  imageUrl: "default.jpg",
+  status: 2,
 };
 
 // If true, api will not be called.
-const apiOff = false;
+const offApi = false;
 
 // Duration of saving article on real time.
 const onlineSaveDuration = 3000;
@@ -57,16 +56,13 @@ const Form = (props: Props) => {
   const [err, setErr] = useState<ErrorStatus>(MyErrorStatus.NONE);
 
   // Article or draft information.
-  const [editorArticle, setEditorArticle] = useState(defaultEditorDraft);
+  const [editorArticle, setEditorArticle] = useState(defaultEditorArticle);
 
   // Draft id which is appended to query parameter.
   const [draftId, setDraftId] = useState<string>();
 
   // Updating article or not.
   const [isUpdating, setUpdating] = useState(false);
-
-  // Redux dispatch
-  const dispatch = useDispatch();
 
   // Error classification.
   // If status >= 300, return true.
@@ -78,198 +74,100 @@ const Form = (props: Props) => {
     return status >= 300;
   };
 
-  // Validate title and categories.
+  // Validate title and tags.
   const validation = useCallback(() => {
     return (
       validateTitle(editorArticle.title, setErr) ||
-      validateCategory(editorArticle.categories, setErr)
+      validateTag(editorArticle.tags, setErr)
     );
-  }, [editorArticle.title, editorArticle.categories]);
+  }, [editorArticle.title, editorArticle.tags]);
 
   // Call api to get article by id.
   const fetchArticle = async (id: string) => {
-    try {
-      const res = await defaultApi.apiPrivateFindArticleIdGet(id, {
-        headers: bearerAuthHeader(),
+    apiHandler
+      .apiV3PrivateGetArticleIdIdGet({ id: id })
+      .then((res: any) => {
+        setEditorArticle(res.article);
+      })
+      .catch((err: any) => {
+        handleError(err.response.status);
       });
-
-      const editorArticle: IEditorArticle = parse(
-        res.data.article,
-        "IEditorArticle"
-      );
-
-      if (editorArticle != null) {
-        setEditorArticle(editorArticle);
-      }
-    } catch (err) {
-      handleError(err.response.status);
-    }
-  };
-
-  // Call api to get draft by id.
-  const fetchDraft = async (id: string) => {
-    try {
-      const res = await defaultApi.apiPrivateFindDraftIdGet(id, {
-        headers: bearerAuthHeader(),
-      });
-
-      const editorArticle: IEditorArticle = parse(
-        res.data.draft,
-        "IEditorArticle"
-      );
-
-      if (editorArticle != null) {
-        setEditorArticle(editorArticle);
-      }
-    } catch (err) {
-      handleError(err.response.status);
-    }
   };
 
   // Call api to register article.
-  const registerArticle = async (a: IArticleReq, draftId?: string) => {
-    if (apiOff) return;
+  const postArticle = async (article: IArticle) => {
+    if (offApi) return;
 
-    const req = {
-      article: a,
-      draftId: draftId,
+    const postArticleRequestBody = {
+      title: editorArticle.title,
+      tags: editorArticle.tags,
+      content: editorArticle.content,
+      imageUrl: editorArticle.imageUrl,
+      status: editorArticle.status,
     };
-
-    try {
-      const res = await defaultApi.apiPrivateRegisterArticlePost(req, {
-        headers: bearerAuthHeader(),
-        validateStatus: (status: number) => {
-          return 200 <= status && status < 400;
-        },
+    apiHandler
+      .apiV3PrivatePostArticlePost({ postArticleRequestBody })
+      .then((res: any) => {
+        window.open("manage/articles", "_self");
+      })
+      .catch((err: any) => {
+        handleError(err.response.status);
       });
-
-      window.open("/manage/articles", "_self");
-    } catch (err) {
-      handleError(err.response.status);
-    }
-  };
-
-  // Call api to register draft.
-  const registerDraft = async (d: IDraftReq) => {
-    if (apiOff) {
-      setMsg("Saved!");
-      return;
-    }
-
-    const req = { draft: d };
-
-    try {
-      const res = await defaultApi.apiPrivateRegisterDraftPost(req, {
-        headers: bearerAuthHeader(),
-        validateStatus: (status: number) => {
-          return 200 <= status && status < 400;
-        },
-      });
-
-      setMsg("Saved!");
-
-      // Update editor draft id and add query parameter to href.
-      editorArticle.id = res.data.id;
-      setDraftId(res.data.id);
-      window.history.pushState(null, "", "?draftId=" + res.data.id);
-    } catch (err) {
-      handleError(err.response.status);
-    }
   };
 
   // Call api to update article.
-  const updateArticle = async (a: IArticleReq) => {
-    if (apiOff) {
+  const updateArticle = async (article: IArticle) => {
+    if (offApi) {
       setMsg("Updated!");
       return;
     }
 
-    const req = { article: a };
-
-    try {
-      const res = await defaultApi.apiPrivateUpdateArticlePut(req, {
-        headers: bearerAuthHeader(),
-        validateStatus: (status: number) => {
-          return 200 <= status && status < 400;
-        },
+    const updateArticleRequestBody = {
+      id: editorArticle.id,
+      title: editorArticle.title,
+      tags: editorArticle.tags,
+      content: editorArticle.content,
+      imageUrl: editorArticle.imageUrl,
+      status: editorArticle.status,
+    };
+    apiHandler
+      .apiV3PrivateUpdateArticlePut({ updateArticleRequestBody })
+      .then((res: any) => {
+        setMsg("Updated!");
+      })
+      .catch((err: any) => {
+        handleError(err.response.status);
       });
-
-      setMsg("Updated!");
-    } catch (err) {
-      handleError(err.response.status);
-    }
-  };
-
-  // Call api to update draft.
-  const updateDraft = async (d: IDraftReq) => {
-    if (apiOff || validation()) {
-      setMsg("Updated!");
-      return;
-    }
-
-    const req = { draft: d };
-
-    try {
-      const res = await defaultApi.apiPrivateUpdateDraftPut(req, {
-        headers: bearerAuthHeader(),
-        validateStatus: (status: number) => {
-          return 200 <= status && status < 400;
-        },
-      });
-
-      setMsg("Updated!");
-    } catch (err) {
-      handleError(err.response.status);
-    }
   };
 
   // Saving on real time.
-  const onlineSave = (editorArticle: IEditorArticle) => {
-    // Update the state of editor draft.
-    const draft: IDraft = parse(editorArticle, "IDraft");
-    dispatch(appActionCreator.updateDraft(draft, editorArticle.content));
-
-    if (isUpdating) return;
-    const reqDraft: IDraftReq = parse(editorArticle, "IDraftReq");
-
-    // Call updating function after onlineSaveDuration.
+  const onlineSave = (editorArticle: IArticle) => {
+    if (editorArticle.status == 1) return;
     rts.save(() => {
       if (draftId != null) {
-        updateDraft(reqDraft);
+        updateArticle(editorArticle);
         return;
       }
-
-      registerDraft(reqDraft);
+      postArticle(editorArticle);
     }, onlineSaveDuration);
   };
 
-  // On click listener of submit button.
-  // - Validate title and categories.
-  // - Get editor content.
-  // - Parse editor article|draft object to request type.
-  // - Call api.
   const onSubmit = () => {
-    if (validation()) return;
-    const reqArticle: IArticleReq = parse(editorArticle, "IArticleReq");
-
+    if (editorArticle.status == 2) {
+      editorArticle.status = 1;
+    }
     if (isUpdating) {
-      updateArticle(reqArticle);
+      updateArticle(editorArticle);
       return;
     }
-
-    registerArticle(reqArticle, draftId);
+    postArticle(editorArticle);
   };
 
-  // On click listener of preview button.
-  // - Validate title and categories.
-  // - Open the window of preview.
   const onPreview = () => {
     if (validation()) return;
     window.open("/article-draft/");
   };
 
-  // On change listener of title form.
-  // Update editor article|draft object and call function of saving on real time.
   const onChangeTitle = (value: string) => {
     editorArticle.title = value;
     setMsg("");
@@ -277,51 +175,37 @@ const Form = (props: Props) => {
     onlineSave(editorArticle);
   };
 
-  // On change listener of categories form.
-  // Update editor article|draft object and call function of saving on real time.
-  const onChangeCategories = (value: string) => {
-    editorArticle.categories = value;
+  const onChangeTags = (value: string) => {
+    editorArticle.tags = ConvertStrToITags(value);
     setMsg("");
     setErr(MyErrorStatus.NONE);
     onlineSave(editorArticle);
   };
 
-  // On change listener of image form.
-  // Update editor article|draft object and call function of saving on real time.
   const onChangeImage = (value: string) => {
-    editorArticle.imageName = value;
+    editorArticle.imageUrl = value;
     setMsg("");
     setErr(MyErrorStatus.NONE);
     onlineSave(editorArticle);
   };
 
-  // On change listener of markdown editor.
   const onChangeMarkdown = (value: string) => {
     // When the markdonw editor is mounted, this onchange listener is executed.
-    // So this if statement prevents from the pre-execution.
+    // This statement prevents from the pre-execution.
     if (firstMount) {
       firstMount = false;
       return;
     }
-
     editorArticle.content = value;
-    setErr(MyErrorStatus.NONE);
     setMsg("");
+    setErr(MyErrorStatus.NONE);
     onlineSave(editorArticle);
   };
 
-  // Fetch article or draft by whether articleId or draftId is undefined or not.
   useEffect(() => {
     const qParams = parseQueryParam(window.location.href);
-
-    if (qParams["articleId"] != null) {
-      fetchArticle(qParams["articleId"]);
-      setUpdating(true);
-    }
-
-    if (qParams["draftId"] != null) {
-      fetchDraft(qParams["draftId"]);
-      setDraftId(qParams["draftId"]);
+    if (qParams["idd"] != null) {
+      fetchArticle(qParams["id"]);
     }
   }, []);
 
@@ -333,8 +217,8 @@ const Form = (props: Props) => {
         placeholder="title"
       />
       <Input
-        onChangeHandler={onChangeCategories}
-        initValue={editorArticle.categories}
+        onChangeHandler={onChangeTags}
+        initValue={ConvertITagsToStr(editorArticle.tags)}
         placeholder="category"
       />
       <MarkdownEditor
@@ -342,7 +226,7 @@ const Form = (props: Props) => {
         onChange={onChangeMarkdown}
       />
       <Footer
-        imageName={editorArticle.imageName}
+        imageUrl={editorArticle.imageUrl}
         onSubmit={onSubmit}
         onPreview={onPreview}
         onChangeHandler={onChangeImage}

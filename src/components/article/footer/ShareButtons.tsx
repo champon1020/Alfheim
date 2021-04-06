@@ -2,7 +2,7 @@ import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
 import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
 import { Config } from "~/config";
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { useMemo } from "react";
 import {
   FacebookShareButton,

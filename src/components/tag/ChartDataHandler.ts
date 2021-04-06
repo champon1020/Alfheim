@@ -1,4 +1,4 @@
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 
 // example
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,39 +15,39 @@ const data = {
 
 class ChartDataHandler {
   private MAX_VIEW = 9;
-  private categories = [] as ITag[];
+  private tags = [] as ITag[];
   private labels = [] as string[];
   private data = [] as number[];
   private total = 0;
 
-  constructor(categories?: ITag[]) {
-    if (categories === undefined) return;
-    this.categories = categories;
+  constructor(tags?: ITag[]) {
+    if (tags == null) return;
+    this.tags = tags;
     this.handleData();
   }
 
-  private sortCategories() {
-    this.categories.sort(function (a, b) {
-      return b.articleNum - a.articleNum;
+  private sortTags() {
+    this.tags.sort(function (a, b) {
+      return b.nArticles - a.nArticles;
     });
   }
 
   private handleData() {
-    this.sortCategories();
+    this.sortTags();
 
-    let dataArticleNum = 0;
-    this.categories.forEach((v, i) => {
+    let numArticles = 0;
+    this.tags.forEach((t, i) => {
       if (i < this.MAX_VIEW) {
-        this.data.push(v.articleNum);
-        this.labels.push(v.name);
-        dataArticleNum += v.articleNum;
+        this.data.push(t.nArticles);
+        this.labels.push(t.name);
+        numArticles += t.nArticles;
       }
 
-      this.total += v.articleNum;
+      this.total += t.nArticles;
     });
 
-    if (this.categories.length >= this.MAX_VIEW - 1) {
-      this.data.push(this.total - dataArticleNum);
+    if (this.tags.length >= this.MAX_VIEW - 1) {
+      this.data.push(this.total - numArticles);
       this.labels.push("Others");
     }
   }
@@ -58,8 +58,8 @@ class ChartDataHandler {
     this.total = 0;
   }
 
-  build(categories: ITag[]) {
-    this.categories = categories;
+  build(tags: ITag[]) {
+    this.tags = tags;
     this.reset();
     this.handleData();
   }

@@ -1,4 +1,4 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import Page from "~/components/manage/Page";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
@@ -28,14 +28,10 @@ type Props = {
 const Images = (props: Props) => {
   const { setVerify } = props;
 
-  // Image list.
   const [images, setImages] = useState([] as string[]);
-
-  // Current page.
   const [page, setPage] = useState(1);
-
-  // Next page is exist or not.
   const [next, setNext] = useState(true);
+  const [prev, setPrev] = useState(true);
 
   // On click listener of going next page.
   // Update page to page+1.
@@ -52,26 +48,16 @@ const Images = (props: Props) => {
   // Fetch images.
   // This called as page is updated.
   useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const res = await defaultApi.apiPrivateFindImageListGet(
-          page,
-          Config.maxSettingImageNum,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-            },
-          }
-        );
-
-        setImages(res.data.images);
-        setNext(res.data.next);
-      } catch (err) {
+    apiHandler
+      .apiV3PrivateGetImagesGet({ p: page })
+      .then((res) => {
+        setImages(res.imageUrls);
+        setNext(res.pagenation.next);
+        setPrev(res.pagenation.prev);
+      })
+      .catch((err) => {
         setVerify(false);
-      }
-    };
-
-    fetchImages();
+      });
   }, [page]);
 
   return (

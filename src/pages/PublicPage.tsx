@@ -9,7 +9,7 @@ import styled, { keyframes } from "styled-components";
 
 import ArticlePage from "./ArticlePage";
 import HomePage from "./HomePage";
-import TagPage from "./TagPage";
+import TagsPage from "./TagsPage";
 
 const fadeIn = keyframes`
   from {
@@ -56,7 +56,7 @@ const PublicPage = (props: Props) => {
       return <ArticlePage {...props} />;
     }
     if (path.startsWith("/tag")) {
-      return <TagPage />;
+      return <TagsPage />;
     }
     return <HomePage {...props} />;
   }, [props]);

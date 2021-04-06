@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineObject4
+ * @interface InlineResponse2004
  */
-export interface InlineObject4 {
+export interface InlineResponse2004 {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof InlineObject4
+     * @type {string}
+     * @memberof InlineResponse2004
      */
-    imageUrls: Array<string>;
+    id: string;
 }
 
-export function InlineObject4FromJSON(json: any): InlineObject4 {
-    return InlineObject4FromJSONTyped(json, false);
+export function InlineResponse2004FromJSON(json: any): InlineResponse2004 {
+    return InlineResponse2004FromJSONTyped(json, false);
 }
 
-export function InlineObject4FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject4 {
+export function InlineResponse2004FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse2004 {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'imageUrls': json['image_urls'],
+        'id': json['id'],
     };
 }
 
-export function InlineObject4ToJSON(value?: InlineObject4 | null): any {
+export function InlineResponse2004ToJSON(value?: InlineResponse2004 | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function InlineObject4ToJSON(value?: InlineObject4 | null): any {
     }
     return {
         
-        'image_urls': value.imageUrls,
+        'id': value.id,
     };
 }
 

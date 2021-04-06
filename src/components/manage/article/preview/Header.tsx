@@ -1,7 +1,7 @@
 import { TTab } from "~/components/manage/article/Articles";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 

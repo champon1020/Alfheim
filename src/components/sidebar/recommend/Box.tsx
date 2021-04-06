@@ -1,5 +1,5 @@
 import { Config } from "~/config";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -30,7 +30,7 @@ const Box = (props: Props) => {
 
   return (
     <StyledBox onClick={onClickBox}>
-      <Image imageName={article.imageName} />
+      <Image imageName={article.imageUrl} />
       <Title title={article.title} />
     </StyledBox>
   );

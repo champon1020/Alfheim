@@ -1,9 +1,7 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import { Config } from "~/config";
-import { bearerAuthHeader } from "~/misc/auth";
-import { countToMaxPage } from "~/misc/misc";
-import { parse } from "~/misc/parser";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
+import { bearerAuthHeader } from "~/util/auth";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
@@ -34,7 +32,8 @@ const Articles = (props: Props) => {
   const [isMenuOpened, setMenuOpened] = useState(false);
   const [tab, setTab] = useState<TTab>();
   const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(1);
+  const [next, setNext] = useState(false);
+  const [prev, setPrev] = useState(false);
   const [articles, setArticles] = useState([] as IArticle[]);
   const [focusedArticle, setFocusedArticle] = useState({} as IArticle);
 
@@ -46,61 +45,35 @@ const Articles = (props: Props) => {
   // Call api of getting article list
   // and handle got articles.
   const fetchArticles = useCallback(async () => {
-    try {
-      const res = await defaultApi.apiPrivateFindArticleListGet(
-        page,
-        Config.maxSettingArticleNum,
-        {
-          headers: bearerAuthHeader(),
+    apiHandler
+      .apiV3PrivateGetArticlesGet({ p: page })
+      .then((res: any) => {
+        setArticles(res.articles);
+        setNext(res.pagenation.next);
+        setPrev(res.pagenation.prev);
+      })
+      .catch((err: any) => {
+        if (err.code.status == 400) {
+          setVerify(false);
         }
-      );
-
-      const fetchedArticles = res.data.articles;
-
-      // null and undefined check.
-      if (fetchedArticles == null) {
-        return;
-      }
-
-      setMaxPage(countToMaxPage(res.data.count, Config.maxSettingArticleNum));
-      setArticles(fetchedArticles);
-    } catch (err) {
-      // If calling api is failed, set verify false.
-      setVerify(false);
-    }
+      });
   }, [page, setVerify]);
 
   // Call api of getting draft list
   // and handle got articles.
   const fetchDrafts = useCallback(async () => {
-    try {
-      const res = await defaultApi.apiPrivateFindDraftListGet(
-        page,
-        Config.maxSettingArticleNum,
-        {
-          headers: bearerAuthHeader(),
+    apiHandler
+      .apiV3PrivateGetDraftsGet({ p: page })
+      .then((res: any) => {
+        setArticles(res.articles);
+        setNext(res.pagenation.next);
+        setPrev(res.pagenation.prev);
+      })
+      .catch((err: any) => {
+        if (err.code.status == 400) {
+          setVerify(false);
         }
-      );
-
-      const fetchedDrafts = res.data.drafts;
-
-      // null and undefined check.
-      if (fetchedDrafts == null) {
-        return;
-      }
-
-      const fetchedDraftsAsArticles = [] as IArticle[];
-      fetchedDrafts.forEach((v) => {
-        const a: IArticle = parse(v, "IArticle");
-        fetchedDraftsAsArticles.push(a);
       });
-
-      setMaxPage(countToMaxPage(res.data.count, Config.maxSettingArticleNum));
-      setArticles(fetchedDraftsAsArticles);
-    } catch (err) {
-      // If calling api is failed, set verify false.
-      setVerify(false);
-    }
   }, [page, setVerify]);
 
   // Fetch articles or drafts.
@@ -120,15 +93,12 @@ const Articles = (props: Props) => {
     if (window.location.pathname.endsWith("articles")) {
       setTab("articles");
     }
-
     if (window.location.pathname.endsWith("drafts")) {
       setTab("drafts");
     }
-
     if (window.innerWidth <= 600) {
       setShowMenu(true);
     }
-
     window.onresize = () => {
       window.innerWidth <= 600 ? setShowMenu(true) : setShowMenu(false);
     };
@@ -159,7 +129,8 @@ const Articles = (props: Props) => {
         showMenu={showMenu}
         isMenuOpened={isMenuOpened}
         page={page}
-        maxPage={maxPage}
+        next={next}
+        prev={prev}
         articles={articles}
         setTab={setTab}
         setVerify={setVerify}

@@ -1,11 +1,11 @@
 import { apiHandler } from "~/App.tsx";
 import Article from "~/components/article/Article";
 import SideBar from "~/components/common/sidebar/SideBar";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { IRouteProps } from "./PublicView";
+import { IRouteProps } from "./PublicPage";
 
 const StyledMain = styled.div`
   order: 1;
@@ -49,11 +49,11 @@ const ArticlePage = (props: Props) => {
   // If this is article, call api to get article.
   useEffect((id?: number) => {
     apiHandler
-      .apiV3GetArticleIdIdGetRaw({
+      .apiV3GetArticleIdIdGet({
         id: match.params.id,
       })
       .then((res) => {
-        setArticle(res.data.article);
+        setArticle(res.article);
       })
       .catch((err) => {
         setErr(err);

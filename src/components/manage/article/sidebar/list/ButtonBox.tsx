@@ -1,5 +1,5 @@
 import { TTab } from "~/components/manage/article/Articles";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -38,11 +38,11 @@ const ButtonBox = (props: Props) => {
     return (
       <ButtonsForArticle
         articleId={article.id}
-        _private={article._private}
+        status={article.status}
         setVerify={setVerify}
       />
     );
-  }, [tab, article.id, article._private]);
+  }, [tab, article.id, article.status]);
 
   return <StyledButton>{buttonBox()}</StyledButton>;
 };

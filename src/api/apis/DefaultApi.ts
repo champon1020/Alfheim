@@ -15,21 +15,12 @@
 
 import * as runtime from '../runtime';
 import {
-    InlineObject,
-    InlineObjectFromJSON,
-    InlineObjectToJSON,
-    InlineObject2,
-    InlineObject2FromJSON,
-    InlineObject2ToJSON,
-    InlineObject3,
-    InlineObject3FromJSON,
-    InlineObject3ToJSON,
-    InlineObject4,
-    InlineObject4FromJSON,
-    InlineObject4ToJSON,
-    InlineObject5,
-    InlineObject5FromJSON,
-    InlineObject5ToJSON,
+    DeleteArticleRequestBody,
+    DeleteArticleRequestBodyFromJSON,
+    DeleteArticleRequestBodyToJSON,
+    DeleteImagesRequestBody,
+    DeleteImagesRequestBodyFromJSON,
+    DeleteImagesRequestBodyToJSON,
     InlineResponse200,
     InlineResponse200FromJSON,
     InlineResponse200ToJSON,
@@ -42,6 +33,18 @@ import {
     InlineResponse2003,
     InlineResponse2003FromJSON,
     InlineResponse2003ToJSON,
+    InlineResponse2004,
+    InlineResponse2004FromJSON,
+    InlineResponse2004ToJSON,
+    PostArticleRequestBody,
+    PostArticleRequestBodyFromJSON,
+    PostArticleRequestBodyToJSON,
+    UpdateArticleRequestBody,
+    UpdateArticleRequestBodyFromJSON,
+    UpdateArticleRequestBodyToJSON,
+    UpdateArticleStatusRequestBody,
+    UpdateArticleStatusRequestBodyFromJSON,
+    UpdateArticleStatusRequestBodyToJSON,
 } from '../models';
 
 export interface ApiV3GetArticleIdIdGetRequest {
@@ -63,11 +66,11 @@ export interface ApiV3GetArticlesTitleTitleGetRequest {
 }
 
 export interface ApiV3PrivateDeleteArticleDeleteRequest {
-    inlineObject4: InlineObject4;
+    deleteArticleRequestBody: DeleteArticleRequestBody;
 }
 
 export interface ApiV3PrivateDeleteImagesDeleteRequest {
-    inlineObject5: InlineObject5;
+    deleteImagesRequestBody: DeleteImagesRequestBody;
 }
 
 export interface ApiV3PrivateGetArticleIdIdGetRequest {
@@ -87,19 +90,19 @@ export interface ApiV3PrivateGetImagesGetRequest {
 }
 
 export interface ApiV3PrivatePostArticlePostRequest {
-    inlineObject: InlineObject;
+    postArticleRequestBody: PostArticleRequestBody;
 }
 
 export interface ApiV3PrivatePostImagePostRequest {
-    images?: Blob;
+    image: Blob;
 }
 
 export interface ApiV3PrivateUpdateArticlePutRequest {
-    inlineObject2: InlineObject2;
+    updateArticleRequestBody: UpdateArticleRequestBody;
 }
 
 export interface ApiV3PrivateUpdateArticleStatusPutRequest {
-    inlineObject3: InlineObject3;
+    updateArticleStatusRequestBody: UpdateArticleStatusRequestBody;
 }
 
 /**
@@ -277,8 +280,8 @@ export class DefaultApi extends runtime.BaseAPI {
      * Delete an article with id.
      */
     async apiV3PrivateDeleteArticleDeleteRaw(requestParameters: ApiV3PrivateDeleteArticleDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inlineObject4 === null || requestParameters.inlineObject4 === undefined) {
-            throw new runtime.RequiredError('inlineObject4','Required parameter requestParameters.inlineObject4 was null or undefined when calling apiV3PrivateDeleteArticleDelete.');
+        if (requestParameters.deleteArticleRequestBody === null || requestParameters.deleteArticleRequestBody === undefined) {
+            throw new runtime.RequiredError('deleteArticleRequestBody','Required parameter requestParameters.deleteArticleRequestBody was null or undefined when calling apiV3PrivateDeleteArticleDelete.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -300,7 +303,7 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObject4ToJSON(requestParameters.inlineObject4),
+            body: DeleteArticleRequestBodyToJSON(requestParameters.deleteArticleRequestBody),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -317,8 +320,8 @@ export class DefaultApi extends runtime.BaseAPI {
      * Delete images.
      */
     async apiV3PrivateDeleteImagesDeleteRaw(requestParameters: ApiV3PrivateDeleteImagesDeleteRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inlineObject5 === null || requestParameters.inlineObject5 === undefined) {
-            throw new runtime.RequiredError('inlineObject5','Required parameter requestParameters.inlineObject5 was null or undefined when calling apiV3PrivateDeleteImagesDelete.');
+        if (requestParameters.deleteImagesRequestBody === null || requestParameters.deleteImagesRequestBody === undefined) {
+            throw new runtime.RequiredError('deleteImagesRequestBody','Required parameter requestParameters.deleteImagesRequestBody was null or undefined when calling apiV3PrivateDeleteImagesDelete.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -340,7 +343,7 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'DELETE',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObject5ToJSON(requestParameters.inlineObject5),
+            body: DeleteImagesRequestBodyToJSON(requestParameters.deleteImagesRequestBody),
         });
 
         return new runtime.VoidApiResponse(response);
@@ -520,9 +523,9 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Post an article.
      */
-    async apiV3PrivatePostArticlePostRaw(requestParameters: ApiV3PrivatePostArticlePostRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inlineObject === null || requestParameters.inlineObject === undefined) {
-            throw new runtime.RequiredError('inlineObject','Required parameter requestParameters.inlineObject was null or undefined when calling apiV3PrivatePostArticlePost.');
+    async apiV3PrivatePostArticlePostRaw(requestParameters: ApiV3PrivatePostArticlePostRequest): Promise<runtime.ApiResponse<InlineResponse2004>> {
+        if (requestParameters.postArticleRequestBody === null || requestParameters.postArticleRequestBody === undefined) {
+            throw new runtime.RequiredError('postArticleRequestBody','Required parameter requestParameters.postArticleRequestBody was null or undefined when calling apiV3PrivatePostArticlePost.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -544,23 +547,28 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObjectToJSON(requestParameters.inlineObject),
+            body: PostArticleRequestBodyToJSON(requestParameters.postArticleRequestBody),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2004FromJSON(jsonValue));
     }
 
     /**
      * Post an article.
      */
-    async apiV3PrivatePostArticlePost(requestParameters: ApiV3PrivatePostArticlePostRequest): Promise<void> {
-        await this.apiV3PrivatePostArticlePostRaw(requestParameters);
+    async apiV3PrivatePostArticlePost(requestParameters: ApiV3PrivatePostArticlePostRequest): Promise<InlineResponse2004> {
+        const response = await this.apiV3PrivatePostArticlePostRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Register a image.
      */
     async apiV3PrivatePostImagePostRaw(requestParameters: ApiV3PrivatePostImagePostRequest): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.image === null || requestParameters.image === undefined) {
+            throw new runtime.RequiredError('image','Required parameter requestParameters.image was null or undefined when calling apiV3PrivatePostImagePost.');
+        }
+
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -589,8 +597,8 @@ export class DefaultApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (requestParameters.images !== undefined) {
-            formParams.append('images', requestParameters.images as any);
+        if (requestParameters.image !== undefined) {
+            formParams.append('image', requestParameters.image as any);
         }
 
         const response = await this.request({
@@ -614,9 +622,9 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Update an article.
      */
-    async apiV3PrivateUpdateArticlePutRaw(requestParameters: ApiV3PrivateUpdateArticlePutRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inlineObject2 === null || requestParameters.inlineObject2 === undefined) {
-            throw new runtime.RequiredError('inlineObject2','Required parameter requestParameters.inlineObject2 was null or undefined when calling apiV3PrivateUpdateArticlePut.');
+    async apiV3PrivateUpdateArticlePutRaw(requestParameters: ApiV3PrivateUpdateArticlePutRequest): Promise<runtime.ApiResponse<InlineResponse2004>> {
+        if (requestParameters.updateArticleRequestBody === null || requestParameters.updateArticleRequestBody === undefined) {
+            throw new runtime.RequiredError('updateArticleRequestBody','Required parameter requestParameters.updateArticleRequestBody was null or undefined when calling apiV3PrivateUpdateArticlePut.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -638,25 +646,26 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObject2ToJSON(requestParameters.inlineObject2),
+            body: UpdateArticleRequestBodyToJSON(requestParameters.updateArticleRequestBody),
         });
 
-        return new runtime.VoidApiResponse(response);
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2004FromJSON(jsonValue));
     }
 
     /**
      * Update an article.
      */
-    async apiV3PrivateUpdateArticlePut(requestParameters: ApiV3PrivateUpdateArticlePutRequest): Promise<void> {
-        await this.apiV3PrivateUpdateArticlePutRaw(requestParameters);
+    async apiV3PrivateUpdateArticlePut(requestParameters: ApiV3PrivateUpdateArticlePutRequest): Promise<InlineResponse2004> {
+        const response = await this.apiV3PrivateUpdateArticlePutRaw(requestParameters);
+        return await response.value();
     }
 
     /**
      * Update the article status.
      */
     async apiV3PrivateUpdateArticleStatusPutRaw(requestParameters: ApiV3PrivateUpdateArticleStatusPutRequest): Promise<runtime.ApiResponse<void>> {
-        if (requestParameters.inlineObject3 === null || requestParameters.inlineObject3 === undefined) {
-            throw new runtime.RequiredError('inlineObject3','Required parameter requestParameters.inlineObject3 was null or undefined when calling apiV3PrivateUpdateArticleStatusPut.');
+        if (requestParameters.updateArticleStatusRequestBody === null || requestParameters.updateArticleStatusRequestBody === undefined) {
+            throw new runtime.RequiredError('updateArticleStatusRequestBody','Required parameter requestParameters.updateArticleStatusRequestBody was null or undefined when calling apiV3PrivateUpdateArticleStatusPut.');
         }
 
         const queryParameters: runtime.HTTPQuery = {};
@@ -678,7 +687,7 @@ export class DefaultApi extends runtime.BaseAPI {
             method: 'PUT',
             headers: headerParameters,
             query: queryParameters,
-            body: InlineObject3ToJSON(requestParameters.inlineObject3),
+            body: UpdateArticleStatusRequestBodyToJSON(requestParameters.updateArticleStatusRequestBody),
         });
 
         return new runtime.VoidApiResponse(response);

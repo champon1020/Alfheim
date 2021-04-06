@@ -1,5 +1,5 @@
 import { Config } from "~/config";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 

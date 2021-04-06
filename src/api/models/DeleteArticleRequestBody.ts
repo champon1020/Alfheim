@@ -16,32 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineObject4
+ * @interface DeleteArticleRequestBody
  */
-export interface InlineObject4 {
+export interface DeleteArticleRequestBody {
     /**
      * 
-     * @type {Array<string>}
-     * @memberof InlineObject4
+     * @type {string}
+     * @memberof DeleteArticleRequestBody
      */
-    imageUrls: Array<string>;
+    id: string;
 }
 
-export function InlineObject4FromJSON(json: any): InlineObject4 {
-    return InlineObject4FromJSONTyped(json, false);
+export function DeleteArticleRequestBodyFromJSON(json: any): DeleteArticleRequestBody {
+    return DeleteArticleRequestBodyFromJSONTyped(json, false);
 }
 
-export function InlineObject4FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject4 {
+export function DeleteArticleRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeleteArticleRequestBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'imageUrls': json['image_urls'],
+        'id': json['id'],
     };
 }
 
-export function InlineObject4ToJSON(value?: InlineObject4 | null): any {
+export function DeleteArticleRequestBodyToJSON(value?: DeleteArticleRequestBody | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function InlineObject4ToJSON(value?: InlineObject4 | null): any {
     }
     return {
         
-        'image_urls': value.imageUrls,
+        'id': value.id,
     };
 }
 

@@ -1,42 +1,26 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import Button from "~/components/manage/article/Button";
 import { Config } from "~/config";
-import { bearerAuthHeader } from "~/misc/auth";
+import { bearerAuthHeader } from "~/util/auth";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
 
 const ButtonsForArticle = (props: {
   articleId: string;
-  _private: boolean;
+  status: number;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const { articleId, _private, setVerify } = props;
+  const { articleId, status, setVerify } = props;
 
   const privateButtonColor = useMemo(
-    () => (_private ? "tomato" : "steelblue"),
-    [_private]
+    () => (status == 0 ? "tomato" : "steelblue"),
+    [status]
   );
 
-  const privateButtonText = useMemo(() => (_private ? "Private" : "Public"), [
-    _private,
-  ]);
-
-  // Call api of updating article.
-  // Return promise.
-  const apiTogglePrivate = async (articleId: string, _private: boolean) => {
-    const req = { id: articleId, _private: !_private };
-
-    try {
-      await defaultApi.apiPrivateUpdateArticlePrivatePut(req, {
-        headers: bearerAuthHeader(),
-      });
-
-      // Jump to /manage/articles
-      window.location.href = `${Config.url}/manage/articles`;
-    } catch (err) {
-      setVerify(false);
-    }
-  };
+  const privateButtonText = useMemo(
+    () => (status == 0 ? "Private" : "Public"),
+    [status]
+  );
 
   // On click listner of 'Go to' button.
   // Jump to the article's page.
@@ -48,11 +32,21 @@ const ButtonsForArticle = (props: {
   // Call api and update state of article.
   // Refresh this page because if not, view would be not updated.
   const togglePrivate = () => {
-    apiTogglePrivate(articleId, _private);
+    const updateArticleStatusRequestBody = { id: articleId, status: status };
+    apiHandler
+      .apiV3PrivateUpdateArticleStatusPut({ updateArticleStatusRequestBody })
+      .then((res: any) => {
+        window.location.href = `${Config.url}/manage/articles`;
+      })
+      .catch((err: any) => {
+        if (err.code.status == 400) {
+          setVerify(false);
+        }
+      });
   };
 
   const gotoButton = useMemo(() => {
-    if (!_private) {
+    if (status == 1) {
       return (
         <Button
           backgroundColor="yellowgreen"
@@ -64,7 +58,7 @@ const ButtonsForArticle = (props: {
         />
       );
     }
-  }, [_private]);
+  }, [status]);
 
   return (
     <>

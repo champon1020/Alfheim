@@ -1,5 +1,5 @@
-import Categories from "~/components/category/Categories";
 import SideBar from "~/components/common/sidebar/SideBar";
+import Tags from "~/components/tag/Tags";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
@@ -32,7 +32,7 @@ const TagsPage = () => {
   return (
     <>
       <StyledMain>
-        <Categories />
+        <Tags />
       </StyledMain>
       <StyledSub>
         <SideBar />

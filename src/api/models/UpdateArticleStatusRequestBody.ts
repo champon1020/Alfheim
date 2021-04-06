@@ -16,28 +16,28 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineObject1
+ * @interface UpdateArticleStatusRequestBody
  */
-export interface InlineObject1 {
+export interface UpdateArticleStatusRequestBody {
     /**
      * 
      * @type {string}
-     * @memberof InlineObject1
+     * @memberof UpdateArticleStatusRequestBody
      */
     id: string;
     /**
      * 
      * @type {number}
-     * @memberof InlineObject1
+     * @memberof UpdateArticleStatusRequestBody
      */
     status: number;
 }
 
-export function InlineObject1FromJSON(json: any): InlineObject1 {
-    return InlineObject1FromJSONTyped(json, false);
+export function UpdateArticleStatusRequestBodyFromJSON(json: any): UpdateArticleStatusRequestBody {
+    return UpdateArticleStatusRequestBodyFromJSONTyped(json, false);
 }
 
-export function InlineObject1FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject1 {
+export function UpdateArticleStatusRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): UpdateArticleStatusRequestBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -48,7 +48,7 @@ export function InlineObject1FromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function InlineObject1ToJSON(value?: InlineObject1 | null): any {
+export function UpdateArticleStatusRequestBodyToJSON(value?: UpdateArticleStatusRequestBody | null): any {
     if (value === undefined) {
         return undefined;
     }

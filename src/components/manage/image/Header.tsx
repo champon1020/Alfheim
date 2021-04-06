@@ -1,4 +1,4 @@
-import { ax } from "~/api/entry";
+import { apiHandler } from "~/App";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useRef } from "react";
@@ -39,29 +39,14 @@ const Header = (props: Props) => {
   // Call api.
   const onPostImage = () => {
     // null check
-    if (imageRef.current.files == null) return;
+    if (imageRef.current.files == null || imageRef.current.files.length == 0) {
+      return;
+    }
 
-    // Parse image from input form and add to formData.
-    // This is the format of multipart/form-data.
-    const formData = new FormData();
-    formData.append("images", imageRef.current.files[0]);
-
-    // Call api.
-    ax.post(`${Config.apiUrl}/api/private/register/image`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${Cookie.get("alfheim_id_token")}`,
-      },
-      validateStatus: (status: number) => {
-        return 200 <= status && status < 400;
-      },
-    })
-      .then((res) => {
-        setVerify(true);
-        window.location.href = `${Config.url}/manage/images`;
-      })
-      .catch((err) => {
-        setVerify(false);
+    apiHandler
+      .apiV3PrivatePostImagePost({ image: imageRef.current.files.item(0) })
+      .catch((err: any) => {
+        // handle error
       });
   };
 

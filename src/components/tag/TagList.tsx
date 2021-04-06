@@ -1,4 +1,4 @@
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { MouseEvent, useCallback } from "react";
 import styled from "styled-components";
 
@@ -50,16 +50,16 @@ const TagList = (props: Props) => {
   }, []);
 
   const tagList = useCallback(() => {
-    if (tags === undefined || tags === null || tags.length === 0) {
+    if (tags == null || tags.length === 0) {
       return <StyledEmptyMsg>{"No Tags"}</StyledEmptyMsg>;
     }
 
     const list = [] as JSX.Element[];
 
-    tags.forEach((c, i) => {
+    tags.forEach((t, i) => {
       list.push(
-        <StyledTag key={i} className={c.id} onClick={onClickTag}>
-          {c.name + "(" + c.articleNum + ")"}
+        <StyledTag key={i} className={t.name} onClick={onClickTag}>
+          {t.name + "(" + t.nArticles + ")"}
         </StyledTag>
       );
     });

@@ -31,7 +31,7 @@ export interface InlineResponse2003 {
      * @type {Array<string>}
      * @memberof InlineResponse2003
      */
-    imagesUrls?: Array<string>;
+    imageUrls: Array<string>;
     /**
      * 
      * @type {Pagenation}
@@ -50,7 +50,7 @@ export function InlineResponse2003FromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'imagesUrls': !exists(json, 'images_urls') ? undefined : json['images_urls'],
+        'imageUrls': json['image_urls'],
         'pagenation': PagenationFromJSON(json['pagenation']),
     };
 }
@@ -64,7 +64,7 @@ export function InlineResponse2003ToJSON(value?: InlineResponse2003 | null): any
     }
     return {
         
-        'images_urls': value.imagesUrls,
+        'image_urls': value.imageUrls,
         'pagenation': PagenationToJSON(value.pagenation),
     };
 }

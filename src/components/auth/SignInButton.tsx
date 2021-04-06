@@ -1,4 +1,4 @@
-import { defaultApi } from "~/api/entry";
+import { apiHandler } from "~/App";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
@@ -21,26 +21,19 @@ const SignInButton = (props: Props) => {
   const [auth2, setAuth2] = useState({} as gapi.auth2.GoogleAuth);
 
   const onSuccess = async (user: gapi.auth2.GoogleUser) => {
-    try {
-      const res = await defaultApi.apiVerifyTokenPost({
-        headers: {
-          Authorization: `Bearer ${user.getAuthResponse().id_token}`,
-        },
+    apiHandler
+      .apiV3VerifyPost()
+      .then((res: any) => {
+        if (res.status == 200) {
+          Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
+          setVerify(true);
+          return;
+        }
+        jumpToHome();
+      })
+      .catch((err: any) => {
+        jumpToHome();
       });
-
-      // If verify was success, set token.
-      if (res.status == 200) {
-        Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
-        setVerify(true);
-        return;
-      }
-
-      // If verify was failed, jump to home.
-      jumpToHome();
-    } catch (err) {
-      // If error was occurred, jump to home.
-      jumpToHome();
-    }
   };
 
   const onFailure = () => {

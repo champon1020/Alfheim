@@ -21,16 +21,10 @@ import { exists, mapValues } from '../runtime';
 export interface InlineObject3 {
     /**
      * 
-     * @type {string}
+     * @type {Array<string>}
      * @memberof InlineObject3
      */
-    id: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof InlineObject3
-     */
-    status: number;
+    imageUrls: Array<string>;
 }
 
 export function InlineObject3FromJSON(json: any): InlineObject3 {
@@ -43,8 +37,7 @@ export function InlineObject3FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
     return {
         
-        'id': json['id'],
-        'status': json['status'],
+        'imageUrls': json['image_urls'],
     };
 }
 
@@ -57,8 +50,7 @@ export function InlineObject3ToJSON(value?: InlineObject3 | null): any {
     }
     return {
         
-        'id': value.id,
-        'status': value.status,
+        'image_urls': value.imageUrls,
     };
 }
 

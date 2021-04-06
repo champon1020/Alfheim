@@ -16,22 +16,22 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineObject4
+ * @interface DeleteImagesRequestBody
  */
-export interface InlineObject4 {
+export interface DeleteImagesRequestBody {
     /**
      * 
      * @type {Array<string>}
-     * @memberof InlineObject4
+     * @memberof DeleteImagesRequestBody
      */
     imageUrls: Array<string>;
 }
 
-export function InlineObject4FromJSON(json: any): InlineObject4 {
-    return InlineObject4FromJSONTyped(json, false);
+export function DeleteImagesRequestBodyFromJSON(json: any): DeleteImagesRequestBody {
+    return DeleteImagesRequestBodyFromJSONTyped(json, false);
 }
 
-export function InlineObject4FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineObject4 {
+export function DeleteImagesRequestBodyFromJSONTyped(json: any, ignoreDiscriminator: boolean): DeleteImagesRequestBody {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -41,7 +41,7 @@ export function InlineObject4FromJSONTyped(json: any, ignoreDiscriminator: boole
     };
 }
 
-export function InlineObject4ToJSON(value?: InlineObject4 | null): any {
+export function DeleteImagesRequestBodyToJSON(value?: DeleteImagesRequestBody | null): any {
     if (value === undefined) {
         return undefined;
     }

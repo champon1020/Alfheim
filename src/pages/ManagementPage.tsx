@@ -6,8 +6,8 @@ import Editor from "~/components/manage/editor/Editor";
 import Images from "~/components/manage/image/Images";
 import Settings from "~/components/manage/Settings";
 import ToolBar from "~/components/manage/ToolBar";
-import { bearerAuthHeader } from "~/misc/auth";
-import { parseQueryParam } from "~/misc/param";
+import { bearerAuthHeader } from "~/util/auth";
+import { parseQueryParam } from "~/util/util";
 import Cookie from "js-cookie";
 import React, { useEffect, useMemo, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
@@ -75,12 +75,12 @@ const ManagementPage: React.FC<Props> = (props) => {
   useEffect(() => {
     apiHandler
       .apiV3VerifyPost()
-      .then((res) => {
-        if (res.status == 200) {
+      .then((res: any) => {
+        if (res.code.status == 200) {
           setVerify(true);
         }
       })
-      .catch((err) => {
+      .catch((err: any) => {
         setVerify(false);
       });
   }, []);

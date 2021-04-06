@@ -1,5 +1,5 @@
-import { defaultApi } from "~/api/entry";
-import { IArticle } from "~/type";
+import { apiHandler } from "~/App";
+import { IArticle } from "~/interfaces";
 import React, { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
@@ -31,16 +31,14 @@ const Recommend: React.FC = () => {
 
   // Fetch new articles.
   useEffect(() => {
-    const fetchNewArticles = async () => {
-      try {
-        const res = await defaultApi.apiFindArticleListGet(1, newArticlesNum);
-        setNewArticles(res.data.articles);
-      } catch (err) {
+    apiHandler
+      .apiV3GetArticlesGet({ p: 1 })
+      .then((res) => {
+        setNewArticles(res.articles);
+      })
+      .catch((err) => {
         // handle error
-      }
-    };
-
-    fetchNewArticles();
+      });
   }, []);
 
   return <ul>{newArticleList}</ul>;

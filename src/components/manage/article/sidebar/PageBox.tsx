@@ -10,12 +10,13 @@ const StyledPage = styled.div`
 
 type Props = {
   page: number;
-  maxPage: number;
+  next: boolean;
+  prev: boolean;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const PageBox = (props: Props) => {
-  const { page, maxPage, setPage } = props;
+  const { page, next, prev, setPage } = props;
 
   // On click listener of going previous button.
   // Set page-1.
@@ -34,8 +35,8 @@ const PageBox = (props: Props) => {
       <Page
         current={page}
         height="5"
-        next={page === maxPage}
-        prev={page === 1}
+        next={next}
+        prev={prev}
         nextCallback={nextCallback}
         prevCallback={prevCallback}
       />

@@ -1,4 +1,5 @@
 import { ErrorStatus, ValidationErrorStatus } from "~/error";
+import { ITag } from "~/interfaces";
 
 // Max length of title.
 const TITLE_MAX_LENGTH = 100;
@@ -14,7 +15,7 @@ const re = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g;
 // Also camma is ok.
 //
 // eslint-disable-next-line no-useless-escape
-const categoryRe = /[!"#$%&'()\*\+\-\.\/:;<=>?@\[\\\]^_`{|}~]/g;
+const tagRe = /[!"#$%&'()\*\+\-\.\/:;<=>?@\[\\\]^_`{|}~]/g;
 
 // Validation of title form.
 export const validateTitle = (
@@ -42,14 +43,22 @@ export const validateTitle = (
 };
 
 // Validation of categories form.
-export const validateCategory = (
-  category: string,
+export const validateTag = (
+  tags: ITag[],
   errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>
 ) => {
-  // Check regex.
-  if (categoryRe.test(category)) {
+  let t = "";
+  tags.forEach((v, i) => {
+    if (i > 0) {
+      t += ",";
+    }
+    t += v.name;
+  });
+
+  if (tagRe.test(t)) {
     errSetter(ValidationErrorStatus.COMFORTABLE);
     return true;
   }
+
   return false;
 };

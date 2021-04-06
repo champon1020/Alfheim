@@ -1,5 +1,5 @@
 import { TTab } from "~/components/manage/article/Articles";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React, { forwardRef, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -37,7 +37,8 @@ type Props = {
   showMenu: boolean;
   isMenuOpened: boolean;
   page: number;
-  maxPage: number;
+  next: boolean;
+  prev: boolean;
   articles: IArticle[];
   setTab: React.Dispatch<React.SetStateAction<string>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;
@@ -51,7 +52,8 @@ const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
     showMenu,
     isMenuOpened,
     page,
-    maxPage,
+    next,
+    prev,
     articles,
     setTab,
     setVerify,
@@ -84,7 +86,7 @@ const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
         setFocusedArticle={setFocusedArticle}
         setVerify={setVerify}
       />
-      <PageBox page={page} maxPage={maxPage} setPage={setPage} />
+      <PageBox page={page} next={next} prev={prev} setPage={setPage} />
     </StyledSideBar>
   );
 });

@@ -1,7 +1,6 @@
-import { defaultApi } from "~/api/entry";
 import { Config } from "~/config";
 import Cookie from "js-cookie";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -53,7 +52,7 @@ const ImageList = (props: Props) => {
   // If images is null or undefined or empty,
   // return message which tells about empty.
   // Or return image list component.
-  const imageList = useCallback(() => {
+  const imageList = useMemo(() => {
     const list = [] as JSX.Element[];
     if (images == null || images.length === 0) {
       return <StyledEmptyMsg>{"No Images"}</StyledEmptyMsg>;
@@ -69,7 +68,7 @@ const ImageList = (props: Props) => {
 
   return (
     <StyledList>
-      <StyledImageList>{imageList()}</StyledImageList>
+      <StyledImageList>{imageList}</StyledImageList>
       <Footer selected={selected} setVerify={setVerify} />
     </StyledList>
   );

@@ -1,8 +1,9 @@
 import MDEditor from "@uiw/react-md-editor";
 import { ErrorStatus, MyErrorStatus } from "~/error";
-import { renderers } from "~/misc/editor";
 import React from "react";
 import styled from "styled-components";
+
+import { renderers } from "./renderer";
 
 const StyledMdEditor = styled.div`
   font-size: 1.6rem;

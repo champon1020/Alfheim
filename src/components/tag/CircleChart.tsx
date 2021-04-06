@@ -1,4 +1,4 @@
-import { ITag } from "~/type";
+import { ITag } from "~/interfaces";
 import React, { useCallback } from "react";
 import { Pie } from "react-chartjs-2";
 import styled from "styled-components";
@@ -10,27 +10,23 @@ const ChartBoxStyled = styled.div`
 `;
 
 type Props = {
-  categories: ITag[];
+  tags: ITag[];
 };
 
 const handler = new ChartDataHandler();
 
 const CircleChart = (props: Props) => {
-  const { categories } = props;
+  const { tags } = props;
 
   // Get chart component.
   const chart = useCallback(() => {
     // undefined, null, empty check.
-    if (
-      categories === undefined ||
-      categories === null ||
-      categories.length === 0
-    ) {
+    if (tags == null || tags.length === 0) {
       return <div></div>;
     }
 
     // Build chart data and return chart component.
-    handler.build(categories);
+    handler.build(tags);
 
     return (
       <Pie
@@ -43,7 +39,7 @@ const CircleChart = (props: Props) => {
         }}
       />
     );
-  }, [categories]);
+  }, [tags]);
 
   return <ChartBoxStyled>{chart()}</ChartBoxStyled>;
 };
