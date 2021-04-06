@@ -12,6 +12,7 @@ const StyledBox = styled.li`
   cursor: pointer;
   margin-bottom: 20px;
   &:hover > img {
+    transition: 1s;
     opacity: 0.8;
     transform: scale(1.1);
   }

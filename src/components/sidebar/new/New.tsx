@@ -13,7 +13,7 @@ const StyledEmptyMsg = styled.h3`
 
 const newArticlesNum = 5;
 
-const Recommend: React.FC = () => {
+const New: React.FC = () => {
   const [newArticles, setNewArticles] = useState([] as IArticle[]);
 
   const newArticleList = useMemo(() => {
@@ -44,4 +44,4 @@ const Recommend: React.FC = () => {
   return <ul>{newArticleList}</ul>;
 };
 
-export default Recommend;
+export default New;

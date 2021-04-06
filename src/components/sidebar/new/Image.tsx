@@ -4,8 +4,7 @@ import styled from "styled-components";
 const StyledImage = styled.img`
   object-fit: cover;
   width: 100%;
-  height: 100%;
-  transition: transform 1s ease-out;
+  height: 20rem;
 `;
 
 type Props = {

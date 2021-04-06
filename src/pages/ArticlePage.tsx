@@ -16,7 +16,7 @@ const StyledMain = styled.div`
     width: 780px;
     margin: 0 auto;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 750px) {
     width: 80%;
     margin: 0 auto;
   }
@@ -33,7 +33,7 @@ const StyledSub = styled.div`
     width: calc(var(--container-width) / 2.5);
     margin: 10% auto 0 auto;
   }
-  @media (max-width: 800px) {
+  @media (max-width: 750px) {
     width: 78%;
   }
 `;
