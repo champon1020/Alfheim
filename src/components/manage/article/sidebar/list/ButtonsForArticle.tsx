@@ -1,6 +1,6 @@
 import { apiHandler } from "~/App";
 import Button from "~/components/manage/article/Button";
-import { Config } from "~/config";
+import Config from "~/config";
 import { bearerAuthHeader } from "~/util/auth";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo } from "react";
@@ -25,7 +25,7 @@ const ButtonsForArticle = (props: {
   // On click listner of 'Go to' button.
   // Jump to the article's page.
   const onClickJumpToArticle = useCallback(() => {
-    window.open(`${Config.url}/article/${articleId}`);
+    window.open(`${Config.origin}/article/${articleId}`);
   }, [articleId]);
 
   // On click listener of 'Public' and 'Private' toggle button.
@@ -36,7 +36,7 @@ const ButtonsForArticle = (props: {
     apiHandler
       .apiV3PrivateUpdateArticleStatusPut({ updateArticleStatusRequestBody })
       .then((res: any) => {
-        window.location.href = `${Config.url}/manage/articles`;
+        window.location.href = `${Config.origin}/manage/articles`;
       })
       .catch((err: any) => {
         if (err.code.status == 400) {

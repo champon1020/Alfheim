@@ -1,7 +1,7 @@
 import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
 import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
-import { Config } from "~/config";
+import Config from "~/config";
 import { ITag } from "~/interfaces";
 import React, { useMemo } from "react";
 import {
@@ -40,7 +40,7 @@ export const Twitter = (props: { id: string; title: string; tags: ITag[] }) => {
   return (
     <StyledButton>
       <TwitterShareButton
-        url={`${Config.ogpUrl}/${id}`}
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
         title={title}
         hashtags={hashtagArray}
       >
@@ -55,7 +55,10 @@ export const Facebook = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <FacebookShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
+      <FacebookShareButton
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
+        title={title}
+      >
         <StyledIcon src={FacebookIcon} alt={"facebook share"} />
       </FacebookShareButton>
     </StyledButton>
@@ -67,7 +70,10 @@ export const Linkedin = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <LinkedinShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
+      <LinkedinShareButton
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
+        title={title}
+      >
         <StyledIcon src={LinkedinIcon} alt={"linkedin share"} />
       </LinkedinShareButton>
     </StyledButton>

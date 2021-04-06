@@ -1,5 +1,5 @@
 import appErrorHandler, { ErrorStatus, MyErrorStatus } from "~/error";
-import React, { useCallback } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import Input from "./Input";

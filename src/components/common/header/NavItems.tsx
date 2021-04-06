@@ -40,13 +40,13 @@ const NavItem = (props: Props) => {
 };
 
 const onClickCategory = () => {
-  window.open("/category/list", "_self");
+  window.open("/tags", "_self");
 };
 
 const NavItems = () => {
   return (
     <>
-      <NavItem text="Category" onClick={onClickCategory} icon={TagIcon} />
+      <NavItem text="Tags" onClick={onClickCategory} icon={TagIcon} />
     </>
   );
 };

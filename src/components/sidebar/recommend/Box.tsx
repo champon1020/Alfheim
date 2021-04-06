@@ -1,4 +1,4 @@
-import { Config } from "~/config";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -25,12 +25,12 @@ const Box = (props: Props) => {
   const { article } = props;
 
   const onClickBox = useCallback(() => {
-    window.open(`${Config.url}/article/${article.id}`, "_self");
+    window.open(`${Config.origin}/article/${article.id}`, "_self");
   }, [article]);
 
   return (
     <StyledBox onClick={onClickBox}>
-      <Image imageName={article.imageUrl} />
+      <Image src={article.imageUrl} />
       <Title title={article.title} />
     </StyledBox>
   );

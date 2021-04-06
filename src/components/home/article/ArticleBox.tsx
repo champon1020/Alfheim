@@ -1,4 +1,4 @@
-import { Config } from "~/config";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -33,7 +33,7 @@ const ArticleBox = (props: Props) => {
   const { article } = props;
 
   const onClickArticle = useCallback(() => {
-    window.location.href = `${Config.url}/article/${article.id}`;
+    window.location.href = `${Config.origin}/article/${article.id}`;
   }, [article]);
 
   return (

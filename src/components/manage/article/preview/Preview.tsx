@@ -1,5 +1,4 @@
 import { TTab } from "~/components/manage/article/Articles";
-import { Config } from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";

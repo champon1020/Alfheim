@@ -1,5 +1,4 @@
 import { apiHandler } from "~/App";
-import { Config } from "~/config";
 import { IArticle } from "~/interfaces";
 import { bearerAuthHeader } from "~/util/auth";
 import Cookie from "js-cookie";

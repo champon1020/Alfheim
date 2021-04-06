@@ -1,7 +1,6 @@
 import { apiHandler } from "~/App";
-import { Config } from "~/config";
 import Cookie from "js-cookie";
-import React, { useCallback, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 
 const StyledHeader = styled.div`

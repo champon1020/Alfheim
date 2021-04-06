@@ -28,7 +28,6 @@ const Msg = (props: Props) => {
     if (err !== MyErrorStatus.NONE) {
       return <StyledMsg color="red">{appErrorHandler.message(err)}</StyledMsg>;
     }
-
     return <StyledMsg color="blue">{msg}</StyledMsg>;
   }, [msg, err]);
 

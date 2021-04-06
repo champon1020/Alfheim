@@ -1,6 +1,5 @@
 import { apiHandler } from "~/App";
 import Page from "~/components/manage/Page";
-import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";

@@ -1,4 +1,3 @@
-import { Config } from "~/config";
 import React from "react";
 import styled from "styled-components";
 
@@ -10,13 +9,12 @@ const StyledImage = styled.img`
 `;
 
 type Props = {
-  imageName: string;
+  src: string;
 };
 
 const Image = (props: Props) => {
-  const { imageName } = props;
-
-  return <StyledImage src={`${Config.fileUrl}/images/${imageName}`} />;
+  const { src } = props;
+  return <StyledImage src={src} />;
 };
 
 export default Image;

@@ -1,6 +1,6 @@
 import { apiHandler } from "~/App";
 import Button from "~/components/manage/article/Button";
-import { Config } from "~/config";
+import Config from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback } from "react";
 
@@ -18,7 +18,7 @@ const ButtonsForDraft = (props: {
     apiHandler
       .apiV3PrivateDeleteArticleDelete({ deleteArticleRequestBody })
       .then((res: any) => {
-        window.location.href = `${Config.url}/manage/drafts`;
+        window.location.href = `${Config.origin}/manage/drafts`;
       })
       .catch((err: any) => {
         if (err.code.status == 400) {

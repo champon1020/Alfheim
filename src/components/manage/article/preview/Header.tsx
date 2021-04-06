@@ -1,6 +1,6 @@
 import { TTab } from "~/components/manage/article/Articles";
 import Button from "~/components/manage/article/Button";
-import { Config } from "~/config";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
@@ -38,7 +38,10 @@ const Header = (props: Props) => {
     }
 
     const pName = tab === "articles" ? "articleId" : "draftId";
-    window.open(`${Config.url}/manage?${pName}=${focusedArticle.id}`, "_self");
+    window.open(
+      `${Config.origin}/manage?${pName}=${focusedArticle.id}`,
+      "_self"
+    );
   }, [focusedArticle.id, tab]);
 
   return (

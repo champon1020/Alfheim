@@ -41,11 +41,9 @@ const Tab = (props: Props) => {
       if (e.currentTarget === articlesRef.current) {
         setTab("articles");
       }
-
       if (e.currentTarget === draftsRef.current) {
         setTab("drafts");
       }
-
       setPage(1);
     },
     [setTab, setPage]

@@ -1,4 +1,3 @@
-import { Config } from "~/config";
 import React from "react";
 import styled from "styled-components";
 
@@ -18,7 +17,7 @@ const Image = (props: { alt: string; src: string }) => {
 
   return (
     <StyledImageBox>
-      <StyledImage src={`${Config.fileUrl}/images/${src}`} alt={alt} />
+      <StyledImage src={src} alt={alt} />
     </StyledImageBox>
   );
 };

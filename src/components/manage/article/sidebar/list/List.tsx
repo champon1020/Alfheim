@@ -1,6 +1,6 @@
 import { TTab } from "~/components/manage/article/Articles";
 import { IArticle } from "~/interfaces";
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
@@ -30,9 +30,8 @@ const ArticleList = (props: Props) => {
   const { tab, articles, setFocusedArticle, setVerify } = props;
 
   // Create article list component.
-  const articleList = useCallback(() => {
+  const articleList = useMemo(() => {
     const list = [] as JSX.Element[];
-
     articles.forEach((v, i) => {
       list.push(
         <Box
@@ -44,14 +43,13 @@ const ArticleList = (props: Props) => {
         />
       );
     });
-
     return list;
   }, [tab, articles, setFocusedArticle, setVerify]);
 
   return (
     <StyledList>
       <StyledEmptyMsg hidden={articles.length === 0}>{"Empty"}</StyledEmptyMsg>
-      {articleList()}
+      {articleList}
     </StyledList>
   );
 };

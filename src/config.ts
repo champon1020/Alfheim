@@ -1,17 +1,14 @@
 // Configuration type.
 type ConfigType = {
   clientId: string;
-  url: string;
-  apiUrl: string;
-  fileUrl: string;
-  ogpUrl: string;
-  twitterUrl: string;
-  linkedinUrl: string;
-  githubUrl: string;
-  defImg: string;
-  maxArticleNum: number;
-  maxSettingArticleNum: number;
-  maxSettingImageNum: number;
+  origin: string;
+  apiOrigin: string;
+  cloudFunctionsOrigin: string;
+  gcsOrigin: string;
+  twitterAccountLink: string;
+  linkedinAccountLink: string;
+  githubAccountLink: string;
+  defaultImageName: string;
 };
 
 // getConfig returns the configuration object.
@@ -29,4 +26,6 @@ const getConfig = (): ConfigType => {
   return require("./private/config.prod.json"); // eslint-disable-line @typescript-eslint/no-unsafe-return
 };
 
-export const Config = getConfig();
+const Config = getConfig();
+
+export default Config;

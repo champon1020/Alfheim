@@ -1,4 +1,3 @@
-import { Config } from "~/config";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -58,9 +57,11 @@ const ImageList = (props: Props) => {
       return <StyledEmptyMsg>{"No Images"}</StyledEmptyMsg>;
     }
 
-    images.forEach((v, i) => {
-      const src = `${Config.fileUrl}/images/${v}`;
-      list.push(<Box key={i} name={v} src={src} onClickImage={onClickImage} />);
+    images.forEach((src, i) => {
+      const name = src.split("/")[-1];
+      list.push(
+        <Box key={i} name={name} src={src} onClickImage={onClickImage} />
+      );
     });
 
     return list;

@@ -1,7 +1,7 @@
 import { apiHandler } from "~/App";
 import SideBar from "~/components/common/sidebar/SideBar";
 import ArticleList from "~/components/home/ArticleList";
-import { Config } from "~/config";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import { parsePage } from "~/util/util";
 import React, { useCallback, useEffect, useState } from "react";
@@ -42,17 +42,17 @@ const HomePage = (props: Props) => {
   const [err, setErr] = useState<any>(null);
   const [page, setPage] = useState(1);
   const [articles, setArticles] = useState([] as IArticle[]);
-  const [isNext, setNext] = useState(false);
-  const [isPrev, setPrev] = useState(false);
+  const [next, setNext] = useState(false);
+  const [prev, setPrev] = useState(false);
 
   // Callback function jumping to previous page.
   const prevCallback = useCallback(() => {
-    window.open(`${Config.url}?p=${page - 1}`, "_self");
+    window.open(`${Config.origin}?p=${page - 1}`, "_self");
   }, [page]);
 
   // Callback function jumping to next page.
   const nextCallback = useCallback(() => {
-    window.open(`${Config.url}?p=${page + 1}`, "_self");
+    window.open(`${Config.origin}?p=${page + 1}`, "_self");
   }, [page]);
 
   // Fetch articles.
@@ -63,22 +63,22 @@ const HomePage = (props: Props) => {
     const { title, year, month, tag } = params;
     const path = window.location.pathname;
 
-    if (path.startsWith("/home/title") && title !== undefined) {
+    if (path.startsWith("/home/title") && title != null) {
       apiHandler
         .apiV3GetArticlesTitleTitleGet({ p: page, title: title })
         .then((res: any) => {
-          setArticles(res.data.articles);
-          setNext(res.data.pagenation.next);
-          setPrev(res.data.pagenation.prev);
+          setArticles(res.articles);
+          setNext(res.pagenation.next);
+          setPrev(res.pagenation.prev);
         })
         .catch((err: any) => {
           setErr(err);
         });
-    } else if (path.startsWith("/home/tag") && tag !== undefined && tag != "") {
+    } else if (path.startsWith("/home/tag") && tag != null && tag != "") {
       apiHandler
         .apiV3GetArticlesTagTagGet({ p: page, tag: tag })
         .then((res: any) => {
-          setArticles(res.data.articles);
+          setArticles(res.articles);
         })
         .catch((err: any) => {
           setErr(err);
@@ -87,7 +87,7 @@ const HomePage = (props: Props) => {
       apiHandler
         .apiV3GetArticlesGet({ p: page })
         .then((res: any) => {
-          setArticles(res.data.articles);
+          setArticles(res.articles);
         })
         .catch((err: any) => {
           setErr(err);
@@ -101,8 +101,8 @@ const HomePage = (props: Props) => {
         <ArticleList articles={articles} />
         <Pagenation
           current={page}
-          isPrev={isPrev}
-          isNext={isNext}
+          isPrev={prev}
+          isNext={next}
           prevCallback={prevCallback}
           nextCallback={nextCallback}
         />

@@ -1,14 +1,11 @@
 {
   "clientId": "CLIENT_ID",
-  "url": "URL",
-  "apiUrl": "API_URL",
-  "fileUrl": "FILE_URL",
-  "ogpUrl": "OGP_URL",
-  "twitterUrl": "TWITTER_URL",
-  "linkedinUrl": "LINKEDIN_URL",
-  "githubUrl": "GITHUB_URL",
-  "defImg": "DEFAULT_IMG",
-  "maxArticleNum": 6,
-  "maxSettingImageNum": 12,
-  "maxSettingArticleNum": 10
+  "origin": "ORIGIN",
+  "apiOrigin": "API_ORIGIN",
+  "cloudFunctionsOrigin": "CLOUD_FUNCTIONS_ORIGIN",
+  "gcsOrigin": "GCS_ORIGIN",
+  "twitterAccountLink": "TWITTER_ACCOUNT_LINK",
+  "linkedinAccountLink": "LINKEDIN_ACCOUNT_LINK",
+  "githubAccountLink": "GITHUB_ACCOUNT_LINK",
+  "defaultImageName": "DEFAULT_IMAGE_NAME"
 }

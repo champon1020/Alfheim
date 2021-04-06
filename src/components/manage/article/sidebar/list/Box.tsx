@@ -1,5 +1,5 @@
 import { TTab } from "~/components/manage/article/Articles";
-import { Config } from "~/config";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
@@ -42,7 +42,7 @@ const Box = (props: Props) => {
   const { article, tab, setFocusedArticle, setVerify } = props;
 
   const imageUrl = useMemo(() => {
-    return article.imageUrl === "" ? Config.defImg : article.imageUrl;
+    return article.imageUrl === "" ? Config.defaultImageName : article.imageUrl;
   }, [article.imageUrl]);
 
   // On focuse listener of article box.
@@ -53,7 +53,7 @@ const Box = (props: Props) => {
 
   return (
     <StyledBox onClick={onClickArticle}>
-      <Image src={`${Config.fileUrl}/images/${imageUrl}`} alt={article.title} />
+      <Image src={imageUrl} alt={article.title} />
       <TitleDate
         title={article.title}
         date={tab === "drafts" ? article.updatedAt : article.createdAt}
