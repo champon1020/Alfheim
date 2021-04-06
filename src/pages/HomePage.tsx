@@ -79,6 +79,8 @@ const HomePage = (props: Props) => {
         .apiV3GetArticlesTagTagGet({ p: page, tag: tag })
         .then((res: any) => {
           setArticles(res.articles);
+          setNext(res.pagenation.next);
+          setPrev(res.pagenation.prev);
         })
         .catch((err: any) => {
           setErr(err);
@@ -88,6 +90,8 @@ const HomePage = (props: Props) => {
         .apiV3GetArticlesGet({ p: page })
         .then((res: any) => {
           setArticles(res.articles);
+          setNext(res.pagenation.next);
+          setPrev(res.pagenation.prev);
         })
         .catch((err: any) => {
           setErr(err);

@@ -1,6 +1,7 @@
 import { apiHandler } from "~/App.tsx";
 import Article from "~/components/article/Article";
 import SideBar from "~/components/common/sidebar/SideBar";
+import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
@@ -37,6 +38,18 @@ const StyledSub = styled.div`
   }
 `;
 
+const StyledBackHomeButton = styled.div`
+  text-align: center;
+  font-size: 2.4rem;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.6;
+  }
+  a {
+    color: var(--base-color);
+  }
+`;
+
 type Props = IRouteProps;
 
 const ArticlePage = (props: Props) => {
@@ -70,7 +83,9 @@ const ArticlePage = (props: Props) => {
     <>
       <StyledMain>
         <Article article={article} />
-        <p>Back Home</p>
+        <StyledBackHomeButton>
+          <a href={`${Config.origin}`}>Back Home</a>
+        </StyledBackHomeButton>
       </StyledMain>
       <StyledSub>
         <SideBar />

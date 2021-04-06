@@ -4,12 +4,15 @@ import styled from "styled-components";
 
 const StyledDate = styled.div`
   display: inline-block;
-  margin-top: 2%;
+  margin-bottom: 2%;
   color: white;
   background-color: var(--base-color);
   font-size: 2rem;
   & p {
     padding: 0 10px;
+  }
+  @media (max-width: 750px) {
+    margin-top: 3%;
   }
   @media (max-width: 500px) {
     font-size: 1.6rem;

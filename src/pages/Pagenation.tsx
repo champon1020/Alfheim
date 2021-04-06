@@ -43,22 +43,20 @@ type Props = {
 };
 
 const Page = (props: Props) => {
-  const {
-    current,
-    isPrev,
-    isNext,
-    prevCallback,
-    nextCallback,
-  } = props;
+  const { current, isPrev, isNext, prevCallback, nextCallback } = props;
 
   return (
     <StyledPageBox>
       <StyledPage>
-        <StyledText hidden={!isPrev} onClick={prevCallback}>{"Prev"}</StyledText>
+        <StyledText hidden={!isPrev} onClick={prevCallback}>
+          {"Prev"}
+        </StyledText>
       </StyledPage>
       <StyledCurrentPage current={current}>{current}</StyledCurrentPage>
       <StyledPage>
-        <StyledText hidden={!isNext} onClick={nextCallback}>{"Next"}</StyledText>
+        <StyledText hidden={!isNext} onClick={nextCallback}>
+          {"Next"}
+        </StyledText>
       </StyledPage>
     </StyledPageBox>
   );
