@@ -1,7 +1,6 @@
-import { apiHandler } from "~/App";
 import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
 import { IArticle } from "~/interfaces";
-import { bearerAuthHeader } from "~/util/auth";
+import { apiHandlerWithToken } from "~/util/api";
 import { ConvertITagsToStr, ConvertStrToITags } from "~/util/converters.ts";
 import { parseQueryParam } from "~/util/util";
 import React, { useCallback, useEffect, useState } from "react";
@@ -58,12 +57,6 @@ const Form = (props: Props) => {
   // Article or draft information.
   const [editorArticle, setEditorArticle] = useState(defaultEditorArticle);
 
-  // Draft id which is appended to query parameter.
-  const [draftId, setDraftId] = useState<string>();
-
-  // Updating article or not.
-  const [isUpdating, setUpdating] = useState(false);
-
   // Error classification.
   // If status >= 300, return true.
   const handleError = (status: number): boolean => {
@@ -84,7 +77,7 @@ const Form = (props: Props) => {
 
   // Call api to get article by id.
   const fetchArticle = async (id: string) => {
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateGetArticleIdIdGet({ id: id })
       .then((res: any) => {
         setEditorArticle(res.article);
@@ -105,10 +98,11 @@ const Form = (props: Props) => {
       imageUrl: editorArticle.imageUrl,
       status: editorArticle.status,
     };
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivatePostArticlePost({ postArticleRequestBody })
       .then((res: any) => {
-        window.open("manage/articles", "_self");
+        editorArticle.id = res.id;
+        setEditorArticle(editorArticle);
       })
       .catch((err: any) => {
         handleError(err.response.status);
@@ -130,7 +124,7 @@ const Form = (props: Props) => {
       imageUrl: editorArticle.imageUrl,
       status: editorArticle.status,
     };
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateUpdateArticlePut({ updateArticleRequestBody })
       .then((res: any) => {
         setMsg("Updated!");
@@ -144,7 +138,7 @@ const Form = (props: Props) => {
   const onlineSave = (editorArticle: IArticle) => {
     if (editorArticle.status == 1) return;
     rts.save(() => {
-      if (draftId != null) {
+      if (editorArticle != null) {
         updateArticle(editorArticle);
         return;
       }
@@ -156,16 +150,21 @@ const Form = (props: Props) => {
     if (editorArticle.status == 2) {
       editorArticle.status = 1;
     }
-    if (isUpdating) {
+    if (editorArticle.id != null) {
       updateArticle(editorArticle);
       return;
     }
     postArticle(editorArticle);
+    window.open("management/articles", "_self");
   };
 
   const onPreview = () => {
     if (validation()) return;
-    window.open("/article-draft/");
+    if (editorArticle.id == "") {
+      setMsg("article is not saved");
+      return;
+    }
+    window.open(`/article/preview/${editorArticle.id}`);
   };
 
   const onChangeTitle = (value: string) => {

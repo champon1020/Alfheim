@@ -1,4 +1,4 @@
-import { TTab } from "~/components/manage/article/Articles";
+import { TTab } from "~/components/management/article/Articles";
 import { IArticle } from "~/interfaces";
 import React, { useMemo } from "react";
 import styled from "styled-components";

@@ -1,5 +1,4 @@
-import { apiHandler } from "~/App";
-import Cookie from "js-cookie";
+import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -31,10 +30,13 @@ const Footer = (props: Props) => {
   // Call api of deleting image.
   const deleteImages = async (names: string[]) => {
     const deleteImagesRequestBody = { imageUrls: names };
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateDeleteImagesDelete({ deleteImagesRequestBody })
       .catch((err: any) => {
         // handle error
+        if (err.response.status == 403) {
+          setVerify(false);
+        }
       });
   };
 

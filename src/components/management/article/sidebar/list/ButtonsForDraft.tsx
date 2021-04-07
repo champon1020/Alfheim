@@ -1,7 +1,6 @@
-import { apiHandler } from "~/App";
-import Button from "~/components/manage/article/Button";
+import Button from "~/components/management/article/Button";
 import Config from "~/config";
-import Cookie from "js-cookie";
+import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback } from "react";
 
 const ButtonsForDraft = (props: {
@@ -15,10 +14,10 @@ const ButtonsForDraft = (props: {
   // Refresh this page because if not, view would be not updated.
   const onClickDeleteDraft = useCallback(() => {
     const deleteArticleRequestBody = { id: draftId };
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateDeleteArticleDelete({ deleteArticleRequestBody })
       .then((res: any) => {
-        window.location.href = `${Config.origin}/manage/drafts`;
+        window.location.href = `${Config.origin}/management/drafts`;
       })
       .catch((err: any) => {
         if (err.code.status == 400) {

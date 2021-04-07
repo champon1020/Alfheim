@@ -16,7 +16,7 @@ const StyledButton = styled.input`
   font-size: 1.4rem;
   margin-left: 2%;
   color: white;
-  background-color: var(--manage-base-color);
+  background-color: var(--management-base-color);
   cursor: pointer;
   border: none;
   padding: 1rem 2rem;

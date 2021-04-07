@@ -1,8 +1,8 @@
-import Page from "~/components/manage/Page";
+import Pagenation from "~/components/management/Pagenation";
 import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
-const StyledPage = styled.div`
+const StyledPagenation = styled.div`
   border: solid thin lightgray;
   background-color: white;
   padding: 1.9rem 0;
@@ -10,13 +10,13 @@ const StyledPage = styled.div`
 
 type Props = {
   page: number;
-  next: boolean;
-  prev: boolean;
+  isNext: boolean;
+  isPrev: boolean;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const PageBox = (props: Props) => {
-  const { page, next, prev, setPage } = props;
+const PagenationBox = (props: Props) => {
+  const { page, isNext, isPrev, setPage } = props;
 
   // On click listener of going previous button.
   // Set page-1.
@@ -31,17 +31,17 @@ const PageBox = (props: Props) => {
   }, [page]);
 
   return (
-    <StyledPage>
-      <Page
+    <StyledPagenation>
+      <Pagenation
         current={page}
         height="5"
-        next={next}
-        prev={prev}
+        isNext={isNext}
+        isPrev={isPrev}
         nextCallback={nextCallback}
         prevCallback={prevCallback}
       />
-    </StyledPage>
+    </StyledPagenation>
   );
 };
 
-export default PageBox;
+export default PagenationBox;

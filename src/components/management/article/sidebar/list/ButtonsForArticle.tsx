@@ -1,8 +1,6 @@
-import { apiHandler } from "~/App";
-import Button from "~/components/manage/article/Button";
+import Button from "~/components/management/article/Button";
 import Config from "~/config";
-import { bearerAuthHeader } from "~/util/auth";
-import Cookie from "js-cookie";
+import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback, useMemo } from "react";
 
 const ButtonsForArticle = (props: {
@@ -33,10 +31,10 @@ const ButtonsForArticle = (props: {
   // Refresh this page because if not, view would be not updated.
   const togglePrivate = () => {
     const updateArticleStatusRequestBody = { id: articleId, status: status };
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateUpdateArticleStatusPut({ updateArticleStatusRequestBody })
       .then((res: any) => {
-        window.location.href = `${Config.origin}/manage/articles`;
+        window.location.href = `${Config.origin}/management/articles`;
       })
       .catch((err: any) => {
         if (err.code.status == 400) {

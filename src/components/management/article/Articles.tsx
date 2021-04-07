@@ -1,7 +1,6 @@
-import { apiHandler } from "~/App";
 import { IArticle } from "~/interfaces";
+import { apiHandlerWithToken } from "~/util/api";
 import { bearerAuthHeader } from "~/util/auth";
-import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -44,7 +43,7 @@ const Articles = (props: Props) => {
   // Call api of getting article list
   // and handle got articles.
   const fetchArticles = useCallback(async () => {
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateGetArticlesGet({ p: page })
       .then((res: any) => {
         setArticles(res.articles);
@@ -52,7 +51,7 @@ const Articles = (props: Props) => {
         setPrev(res.pagenation.prev);
       })
       .catch((err: any) => {
-        if (err.code.status == 400) {
+        if (err.response.status == 403) {
           setVerify(false);
         }
       });
@@ -61,7 +60,7 @@ const Articles = (props: Props) => {
   // Call api of getting draft list
   // and handle got articles.
   const fetchDrafts = useCallback(async () => {
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivateGetDraftsGet({ p: page })
       .then((res: any) => {
         setArticles(res.articles);
@@ -69,7 +68,7 @@ const Articles = (props: Props) => {
         setPrev(res.pagenation.prev);
       })
       .catch((err: any) => {
-        if (err.code.status == 400) {
+        if (err.response.status == 403) {
           setVerify(false);
         }
       });

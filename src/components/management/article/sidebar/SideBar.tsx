@@ -1,10 +1,10 @@
-import { TTab } from "~/components/manage/article/Articles";
+import { TTab } from "~/components/management/article/Articles";
 import { IArticle } from "~/interfaces";
 import React, { forwardRef, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
 import List from "./list/List";
-import PageBox from "./PageBox";
+import PagenationBox from "./PagenationBox";
 import Tab from "./Tab";
 
 const AnimSlideR2L = keyframes`
@@ -86,7 +86,12 @@ const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
         setFocusedArticle={setFocusedArticle}
         setVerify={setVerify}
       />
-      <PageBox page={page} next={next} prev={prev} setPage={setPage} />
+      <PagenationBox
+        page={page}
+        isNext={next}
+        isPrev={prev}
+        setPage={setPage}
+      />
     </StyledSideBar>
   );
 });

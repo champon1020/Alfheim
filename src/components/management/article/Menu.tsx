@@ -13,7 +13,7 @@ const StyledMenu = styled.div<{ hidden: boolean }>`
   cursor: pointer;
   z-index: 999;
   text-align: center;
-  background-color: var(--manage-base-color);
+  background-color: var(--management-base-color);
   &:hover {
     opacity: 0.6;
   }

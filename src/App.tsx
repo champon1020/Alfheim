@@ -1,3 +1,4 @@
+import Cookie from "js-cookie";
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
@@ -11,7 +12,10 @@ import PublicPage from "./pages/PublicPage";
 const apiConf = new Configuration({ basePath: Config.apiOrigin });
 export const apiHandler = new DefaultApi(apiConf);
 
-const apiConfPrivate = new Configuration({ basePath: Config.apiOrigin });
+const apiConfPrivate = new Configuration({
+  basePath: Config.apiOrigin,
+  accessToken: Cookie.get("alfheim_id_token"),
+});
 export const apiHandlerPrivate = new DefaultApi(apiConfPrivate);
 
 const Router = () => {
@@ -21,15 +25,10 @@ const Router = () => {
       <Route exact path={"/home/title/:title"} component={PublicPage} />
       <Route exact path={"/home/tag/:tag"} component={PublicPage} />
       <Route exact path={"/home/date/:year/:month"} component={PublicPage} />
-
       <Route exact path={"/article/:id"} component={PublicPage} />
       <Route exact path={"/tags"} component={PublicPage} />
-
       <Route exact path={"/login"} component={Login} />
-
-      <Route exact path={"/manage"} component={ManagementPage} />
-      <Route exact path={"/manage/:mode"} component={ManagementPage} />
-
+      <Route exact path={"/management/:mode"} component={ManagementPage} />
       <Route component={ErrorPage} />
     </Switch>
   );

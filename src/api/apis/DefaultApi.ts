@@ -703,7 +703,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Verify token.
      */
-    async apiV3VerifyPostRaw(): Promise<runtime.ApiResponse<void>> {
+    async apiV3PrivateVerifyPostRaw(): Promise<runtime.ApiResponse<void>> {
         const queryParameters: runtime.HTTPQuery = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -717,7 +717,7 @@ export class DefaultApi extends runtime.BaseAPI {
             }
         }
         const response = await this.request({
-            path: `/api/v3/verify`,
+            path: `/api/v3/private/verify`,
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
@@ -729,8 +729,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * Verify token.
      */
-    async apiV3VerifyPost(): Promise<void> {
-        await this.apiV3VerifyPostRaw();
+    async apiV3PrivateVerifyPost(): Promise<void> {
+        await this.apiV3PrivateVerifyPostRaw();
     }
 
 }

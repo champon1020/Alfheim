@@ -1,4 +1,4 @@
-import { TTab } from "~/components/manage/article/Articles";
+import { TTab } from "~/components/management/article/Articles";
 import Config from "~/config";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useMemo } from "react";

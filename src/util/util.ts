@@ -2,20 +2,18 @@ import { MutableRefObject, useEffect, useRef } from "react";
 
 // Format date string which is RFC3339 to HHHH/MM/DD.
 export const formatDateStr = (d?: string) => {
-  if (d === undefined) return "";
+  if (d == null) return "";
   return d.substr(0, 10);
 };
 
 export const convertRefFromFunc = (ref: any): MutableRefObject<any> => {
   const targetRef = useRef();
-
   useEffect(() => {
     if (!ref) return;
     if (typeof ref === "function") {
       ref(targetRef.current);
     }
   }, [ref]);
-
   return targetRef;
 };
 
@@ -39,5 +37,5 @@ export const parseQueryParam = (url: string): Map => {
 // Get only page parameter from query parameters.
 export const parsePage = (href: string): number => {
   const page = parseQueryParam(href)["p"];
-  return page === undefined ? 1 : Number.parseInt(page);
+  return page == null ? 1 : Number.parseInt(page);
 };

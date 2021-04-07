@@ -1,11 +1,17 @@
-import { apiHandler } from "~/App";
 import Config from "~/config";
+import { apiHandlerWithToken } from "~/util/api";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 const ButtonElement = styled.div`
   display: inline-block;
+`;
+
+const StyledErrMsg = styled.p`
+  margin: 5% auto 0 auto;
+  font-size: 2.4rem;
+  color: red;
 `;
 
 type Props = {
@@ -19,20 +25,20 @@ const jumpToHome = () => {
 const SignInButton = (props: Props) => {
   const { setVerify } = props;
   const [auth2, setAuth2] = useState({} as gapi.auth2.GoogleAuth);
+  const [errMsg, setErrMsg] = useState("");
 
   const onSuccess = async (user: gapi.auth2.GoogleUser) => {
-    apiHandler
-      .apiV3VerifyPost()
+    apiHandlerWithToken(user.getAuthResponse().id_token)
+      .apiV3PrivateVerifyPost()
       .then((res: any) => {
-        if (res.status == 200) {
-          Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
-          setVerify(true);
-          return;
-        }
-        jumpToHome();
+        Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
+        setVerify(true);
       })
-      .catch((err: any) => {
-        jumpToHome();
+      .catch((err: Response) => {
+        setErrMsg(`Status: ${err.status}: Jump to home after 3 sec.`);
+        setTimeout(() => {
+          jumpToHome();
+        }, 3000);
       });
   };
 
@@ -62,6 +68,7 @@ const SignInButton = (props: Props) => {
   return (
     <>
       <ButtonElement id="my-signin" />
+      <StyledErrMsg>{errMsg}</StyledErrMsg>
     </>
   );
 };

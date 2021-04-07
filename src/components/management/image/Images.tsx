@@ -1,5 +1,5 @@
-import { apiHandler } from "~/App";
-import Page from "~/components/manage/Page";
+import { apiHandlerPrivate } from "~/App";
+import Pagenation from "~/components/management/Pagenation";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -47,15 +47,17 @@ const Images = (props: Props) => {
   // Fetch images.
   // This called as page is updated.
   useEffect(() => {
-    apiHandler
+    apiHandlerPrivate
       .apiV3PrivateGetImagesGet({ p: page })
       .then((res) => {
         setImages(res.imageUrls);
         setNext(res.pagenation.next);
         setPrev(res.pagenation.prev);
       })
-      .catch((err) => {
-        setVerify(false);
+      .catch((err: any) => {
+        if (err.response.status == 403) {
+          setVerify(false);
+        }
       });
   }, [page]);
 
@@ -63,12 +65,12 @@ const Images = (props: Props) => {
     <StyledImages>
       <Header setVerify={setVerify} />
       <List images={images} setVerify={setVerify} />
-      <Page
+      <Pagenation
         current={page}
         width={"70"}
         height={"5"}
-        next={!next}
-        prev={page === 1}
+        isNext={next}
+        isPrev={prev}
         nextCallback={nextCallback}
         prevCallback={prevCallback}
       />

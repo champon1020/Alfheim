@@ -1,4 +1,4 @@
-import { TTab } from "~/components/manage/article/Articles";
+import { TTab } from "~/components/management/article/Articles";
 import React, { MouseEvent, useCallback, useRef } from "react";
 import styled from "styled-components";
 
@@ -10,7 +10,7 @@ const StyledTab = styled.ul`
 
 const StyledTabItem = styled.li<{ selected: boolean }>`
   background-color: ${({ selected }) =>
-    `${selected ? "var(--manage-base-color);" : ""}`};
+    `${selected ? "var(--management-base-color);" : ""}`};
   color: ${({ selected }) => `${selected ? "white" : ""}`};
   border: solid thin lightgray;
   padding: 1rem;

@@ -1,5 +1,5 @@
 import MDEditor from "@uiw/react-md-editor";
-import { renderers } from "~/components/manage/editor/renderer";
+import { renderers } from "~/components/management/editor/renderer";
 import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 

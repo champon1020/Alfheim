@@ -56,6 +56,12 @@ export interface UpdateArticleRequestBody {
      * @memberof UpdateArticleRequestBody
      */
     imageUrl: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateArticleRequestBody
+     */
+    status: number;
 }
 
 export function UpdateArticleRequestBodyFromJSON(json: any): UpdateArticleRequestBody {
@@ -73,6 +79,7 @@ export function UpdateArticleRequestBodyFromJSONTyped(json: any, ignoreDiscrimin
         'tags': ((json['tags'] as Array<any>).map(TagFromJSON)),
         'content': json['content'],
         'imageUrl': json['image_url'],
+        'status': json['status'],
     };
 }
 
@@ -90,6 +97,7 @@ export function UpdateArticleRequestBodyToJSON(value?: UpdateArticleRequestBody 
         'tags': ((value.tags as Array<any>).map(TagToJSON)),
         'content': value.content,
         'image_url': value.imageUrl,
+        'status': value.status,
     };
 }
 
