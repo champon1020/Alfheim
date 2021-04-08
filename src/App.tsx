@@ -8,6 +8,7 @@ import ErrorPage from "./components/error/page/ErrorPage";
 import Config from "./config";
 import ArticlePreviewPage from "./pages/ArticlePreviewPage";
 import ManagementPage from "./pages/ManagementPage";
+import PortfolioPage from "./pages/PortfolioPage";
 import PublicPage from "./pages/PublicPage";
 
 const apiConf = new Configuration({ basePath: Config.apiOrigin });
@@ -33,6 +34,7 @@ const Router = () => {
         component={ArticlePreviewPage}
       />
       <Route exact path={"/tags"} component={PublicPage} />
+      <Route exact path={"/portfolio"} component={PortfolioPage} />
       <Route exact path={"/login"} component={Login} />
       <Route exact path={"/management/:mode"} component={ManagementPage} />
       <Route component={ErrorPage} />
