@@ -1,3 +1,4 @@
+import { Error, HttpError } from "~/error";
 import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback } from "react";
 import styled from "styled-components";
@@ -20,37 +21,33 @@ const StyledButton = styled.button`
 `;
 
 type Props = {
-  selected: string[];
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedImages: string[];
+  setVerified: (value: boolean) => void;
+  setErr: (err: Error) => void;
 };
 
 const Footer = (props: Props) => {
-  const { selected, setVerify } = props;
+  const { selectedImages, setVerified, setErr } = props;
 
-  // Call api of deleting image.
-  const deleteImages = async (names: string[]) => {
-    const deleteImagesRequestBody = { imageUrls: names };
+  const deleteImages = useCallback(() => {
+    const deleteImagesRequestBody = { imageUrls: selectedImages };
     apiHandlerWithToken()
       .apiV3PrivateDeleteImagesDelete({ deleteImagesRequestBody })
-      .catch((err: any) => {
-        // handle error
-        if (err.response.status == 403) {
-          setVerify(false);
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to delete images"));
         }
       });
-  };
-
-  // On click listener of deleting image.
-  // Call api with the array of selected images.
-  // Reload this window.
-  const onClickDelete = () => {
-    deleteImages(selected);
-    window.location.reload();
-  };
+  }, [selectedImages]);
 
   return (
     <StyledFooter>
-      <StyledButton onClick={onClickDelete}>{"Delete"}</StyledButton>
+      <StyledButton onClick={deleteImages}>{"Delete"}</StyledButton>
     </StyledFooter>
   );
 };

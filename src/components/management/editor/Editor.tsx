@@ -1,5 +1,5 @@
 import Config from "~/config";
-import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
+import { Error, HttpError } from "~/error";
 import { IArticle } from "~/interfaces";
 import { apiHandlerWithToken } from "~/util/api";
 import { ConvertITagsToStr, ConvertStrToITags } from "~/util/converters.ts";
@@ -47,37 +47,24 @@ const onlineSaveDuration = 3000;
 const rts = new RealTimeSave();
 
 type Props = {
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Form = (props: Props) => {
-  const { setVerify } = props;
+  const { setErr, setVerified } = props;
 
   let firstMount = true;
 
-  // Some message displayed on the bottom of editor.
   const [msg, setMsg] = useState("");
-
-  // There are some errors or not.
-  const [err, setErr] = useState<ErrorStatus>(MyErrorStatus.NONE);
 
   // Article or draft information.
   const [editorArticle, setEditorArticle] = useState(defaultEditorArticle);
 
-  // Error classification.
-  // If status >= 300, return true.
-  const handleError = (status: number): boolean => {
-    if (status === 400) setErr(HttpErrorStatus.ERROR_400);
-    if (status === 403) setVerify(false);
-    if (status === 404) setErr(HttpErrorStatus.ERROR_404);
-    if (status === 500) setErr(HttpErrorStatus.ERROR_500);
-    return status >= 300;
-  };
-
   // Validate title and tags.
   const validation = useCallback(() => {
     return (
-      validateTitle(editorArticle.title, setErr) ||
+      validateTitle(editorArticle.title, setErr) &&
       validateTag(editorArticle.tags, setErr)
     );
   }, [editorArticle.title, editorArticle.tags]);
@@ -89,8 +76,12 @@ const Form = (props: Props) => {
       .then((res: any) => {
         setEditorArticle(res.article);
       })
-      .catch((err: any) => {
-        handleError(err.response.status);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to fetch article"));
+        }
       });
   };
 
@@ -111,8 +102,12 @@ const Form = (props: Props) => {
         editorArticle.id = res.id;
         setEditorArticle(editorArticle);
       })
-      .catch((err: any) => {
-        handleError(err.response.status);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to post article"));
+        }
       });
   };
 
@@ -136,8 +131,12 @@ const Form = (props: Props) => {
       .then((res: any) => {
         setMsg("Updated!");
       })
-      .catch((err: any) => {
-        handleError(err.response.status);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to update article"));
+        }
       });
   };
 
@@ -154,6 +153,7 @@ const Form = (props: Props) => {
   };
 
   const onSubmit = () => {
+    if (!validation()) return;
     if (editorArticle.status == 2) {
       editorArticle.status = 1;
     }
@@ -166,7 +166,7 @@ const Form = (props: Props) => {
   };
 
   const onPreview = () => {
-    if (validation()) return;
+    if (!validation()) return;
     if (editorArticle.id == "") {
       setMsg("article is not saved");
       return;
@@ -177,21 +177,21 @@ const Form = (props: Props) => {
   const onChangeTitle = (value: string) => {
     editorArticle.title = value;
     setMsg("");
-    setErr(MyErrorStatus.NONE);
+    setErr(null);
     onlineSave(editorArticle);
   };
 
   const onChangeTags = (value: string) => {
     editorArticle.tags = ConvertStrToITags(value);
     setMsg("");
-    setErr(MyErrorStatus.NONE);
+    setErr(null);
     onlineSave(editorArticle);
   };
 
   const onChangeImage = (value: string) => {
     editorArticle.imageUrl = value;
     setMsg("");
-    setErr(MyErrorStatus.NONE);
+    setErr(null);
     onlineSave(editorArticle);
   };
 
@@ -204,7 +204,7 @@ const Form = (props: Props) => {
     }
     editorArticle.content = value;
     setMsg("");
-    setErr(MyErrorStatus.NONE);
+    setErr(null);
     onlineSave(editorArticle);
   };
 
@@ -237,8 +237,8 @@ const Form = (props: Props) => {
         onPreview={onPreview}
         onChangeHandler={onChangeImage}
         msg={msg}
-        err={err}
-        setVerify={setVerify}
+        setVerified={setVerified}
+        setErr={setErr}
       />
     </StyledForm>
   );

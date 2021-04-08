@@ -14,7 +14,7 @@ type Props = {
   page: number;
   isNext: boolean;
   isPrev: boolean;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setPage: (page: number) => void;
 };
 
 const PagenationBox = (props: Props) => {

@@ -2,6 +2,7 @@ import {
   ManagementArticlesMode,
   ManagementDraftsMode,
 } from "~/components/management/mode";
+import { Error, HttpError } from "~/error";
 import { IArticle } from "~/interfaces";
 import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -21,11 +22,12 @@ const StyledArticles = styled.div`
 `;
 
 type Props = {
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Articles = (props: Props) => {
-  const { setVerify } = props;
+  const { setVerified, setErr } = props;
 
   const menuRef = useRef<HTMLDivElement>();
   const sidebarRef = useRef<HTMLDivElement>();
@@ -53,12 +55,14 @@ const Articles = (props: Props) => {
         setNext(res.pagenation.next);
         setPrev(res.pagenation.prev);
       })
-      .catch((err: any) => {
-        if (err.response.status == 403) {
-          setVerify(false);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to fetch articles"));
         }
       });
-  }, [page, setVerify]);
+  }, [page]);
 
   // Call api of getting draft list
   // and handle got articles.
@@ -70,12 +74,14 @@ const Articles = (props: Props) => {
         setNext(res.pagenation.next);
         setPrev(res.pagenation.prev);
       })
-      .catch((err: any) => {
-        if (err.response.status == 403) {
-          setVerify(false);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to fetch drafts"));
         }
       });
-  }, [page, setVerify]);
+  }, [page]);
 
   // Fetch articles or drafts.
   // Selected by the state of tab.
@@ -134,11 +140,14 @@ const Articles = (props: Props) => {
         prev={prev}
         articles={articles}
         setTab={setTab}
-        setVerify={setVerify}
         setPage={setPage}
         setFocusedArticle={setFocusedArticle}
       />
-      <Preview focusedArticle={focusedArticle} />
+      <Preview
+        focusedArticle={focusedArticle}
+        setErr={setErr}
+        setVerified={setVerified}
+      />
       <Menu showMenu={showMenu} openMenu={openMenu} ref={menuRef} />
     </StyledArticles>
   );

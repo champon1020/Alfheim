@@ -1,5 +1,4 @@
 import MDEditor, { commands } from "@uiw/react-md-editor";
-import { ErrorStatus, MyErrorStatus } from "~/error";
 import React from "react";
 import styled from "styled-components";
 

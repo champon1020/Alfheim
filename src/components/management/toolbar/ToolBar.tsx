@@ -49,12 +49,12 @@ const StyledHidenButton = styled.div`
 
 type Props = {
   mode: ManagementMode;
-  isMenu: boolean;
-  setMenu: React.Dispatch<React.SetStateAction<boolean>>;
+  isToolBar: boolean;
+  setToolBar: (value: boolean) => void;
 };
 
 const ToolBar: React.FC<Props> = (props) => {
-  const { mode, isMenu, setMenu } = props;
+  const { mode, isToolBar, setToolBar } = props;
 
   const handleOnClick = (e: MouseEvent<HTMLLIElement>) => {
     if (e.currentTarget.id === ManagementWriteMode) {
@@ -69,11 +69,11 @@ const ToolBar: React.FC<Props> = (props) => {
   };
 
   const handleOnClickMenu = () => {
-    setMenu(!isMenu);
+    setToolBar(!isToolBar);
   };
 
   return (
-    <StyledToolBar hidden={!isMenu}>
+    <StyledToolBar hidden={!isToolBar}>
       <StyledHidenButton onClick={handleOnClickMenu}>
         <img src={LeftIcon} alt="hide" />
       </StyledHidenButton>

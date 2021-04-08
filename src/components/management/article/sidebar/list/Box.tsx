@@ -31,12 +31,11 @@ const StyledBox = styled.li`
 interface Props {
   article: IArticle;
   tab: TabType;
-  setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setFocusedArticle: (article: IArticle) => void;
 }
 
 const Box = (props: Props) => {
-  const { article, tab, setFocusedArticle, setVerify } = props;
+  const { article, tab, setFocusedArticle } = props;
 
   const imageUrl = useMemo(() => {
     return article.imageUrl === "" ? Config.defaultImageName : article.imageUrl;

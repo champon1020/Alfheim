@@ -30,17 +30,16 @@ const StyledCheckBox = styled.input`
 
 type Props = {
   key?: number;
-  name: string;
   src: string;
   onClickImage: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const Box = (props: Props) => {
-  const { name, src, onClickImage } = props;
+  const { src, onClickImage } = props;
 
   return (
     <StyledBox>
-      <StyledCheckBox type="checkbox" name={name} onClick={onClickImage} />
+      <StyledCheckBox type="checkbox" onClick={onClickImage} />
       <a href={src} target="_blank">
         <StyledImage src={src} />
       </a>

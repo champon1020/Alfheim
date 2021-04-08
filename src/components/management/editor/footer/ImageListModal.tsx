@@ -1,5 +1,6 @@
 import Header from "~/components/management/image/Header";
 import Pagenation from "~/components/management/Pagenation";
+import { Error, HttpError } from "~/error";
 import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -36,12 +37,13 @@ const StyledImage = styled.img`
 type Props = {
   hidden: boolean;
   setValue: (value: string) => void;
-  setVerify: (value: boolean) => void;
   setModal: (value: boolean) => void;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const ImageListModal = (props: Props) => {
-  const { hidden, setValue, setVerify, setModal } = props;
+  const { hidden, setValue, setModal, setErr, setVerified } = props;
 
   const [images, setImages] = useState([] as string[]);
   const [page, setPage] = useState(1);
@@ -86,16 +88,18 @@ const ImageListModal = (props: Props) => {
         setNext(res.pagenation.next);
         setPrev(res.pagenation.prev);
       })
-      .catch((err: any) => {
-        if (err.response.status == 403) {
-          setVerify(false);
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to fetch images"));
         }
       });
   }, [page]);
 
   return (
     <StyledModal hidden={hidden}>
-      <Header setVerify={setVerify} />
+      <Header setErr={setErr} setVerified={setVerified} />
       <StyledImageList>{imageList}</StyledImageList>
       <Pagenation
         current={page}

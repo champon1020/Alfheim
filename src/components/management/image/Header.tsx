@@ -1,4 +1,5 @@
-import { apiHandler } from "~/App";
+import { AppError, Error, HttpError } from "~/error";
+import { apiHandlerWithToken } from "~/util/api";
 import Cookie from "js-cookie";
 import React, { useRef } from "react";
 import styled from "styled-components";
@@ -16,7 +17,7 @@ const StyledButton = styled.input`
   font-size: 1.4rem;
   margin-left: 2%;
   color: white;
-  background-color: var(--management-base-color);
+  background-color: var(--base-color);
   cursor: pointer;
   border: none;
   padding: 1rem 2rem;
@@ -26,26 +27,31 @@ const StyledButton = styled.input`
 `;
 
 type Props = {
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Header = (props: Props) => {
-  const { setVerify } = props;
+  const { setVerified, setErr } = props;
   const imageRef = useRef({} as HTMLInputElement);
 
-  // On click listener of sending image.
-  // Parse to multipart/form-data.
-  // Call api.
   const onPostImage = () => {
-    // null check
     if (imageRef.current.files == null || imageRef.current.files.length == 0) {
+      setErr(new AppError("no image is choosed"));
       return;
     }
 
-    apiHandler
+    apiHandlerWithToken()
       .apiV3PrivatePostImagePost({ image: imageRef.current.files.item(0) })
-      .catch((err: any) => {
-        // handle error
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err: Response) => {
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to post image"));
+        }
       });
   };
 

@@ -25,8 +25,8 @@ const StyledTabItem = styled.li<{ selected: boolean }>`
 
 type Props = {
   tab: TabType;
-  setTab: React.Dispatch<React.SetStateAction<string>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setTab: (tab: TabType) => void;
+  setPage: (page: number) => void;
 };
 
 const Tab = (props: Props) => {

@@ -1,4 +1,4 @@
-import appErrorHandler, { ErrorStatus, MyErrorStatus } from "~/error";
+import { Error } from "~/error";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -46,8 +46,8 @@ type Props = {
   onPreview: () => void;
   onChangeHandler: (value: string) => void;
   msg: string;
-  err?: ErrorStatus;
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setVerified: (value: boolean) => void;
+  setErr: (err: Error) => void;
 };
 
 const Footer = (props: Props) => {
@@ -57,18 +57,19 @@ const Footer = (props: Props) => {
     onPreview,
     onChangeHandler,
     msg,
-    err,
-    setVerify,
+    setVerified,
+    setErr,
   } = props;
 
   return (
     <StyledFooter>
-      <Msg err={err} msg={msg} />
+      <Msg msg={msg} />
       <StyledForm>
         <Input
           initValue={imageUrl}
           onChangeHandler={onChangeHandler}
-          setVerify={setVerify}
+          setVerified={setVerified}
+          setErr={setErr}
         />
         <StyledButton onClick={onPreview}>{"Preview"}</StyledButton>
         <StyledButton onClick={onSubmit}>{"Submit"}</StyledButton>

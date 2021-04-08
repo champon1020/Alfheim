@@ -1,3 +1,4 @@
+import { Error } from "~/error";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -14,11 +15,12 @@ const StyledInput = styled.input`
 type Props = {
   initValue?: string;
   onChangeHandler: (value: string) => void;
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setVerified: (value: boolean) => void;
+  setErr: (err: Error) => void;
 };
 
 const Input = (props: Props) => {
-  const { initValue, onChangeHandler, setVerify } = props;
+  const { initValue, onChangeHandler, setVerified, setErr } = props;
 
   const [value, setValue] = useState("");
   const [imageListModal, setImageListModal] = useState(false);
@@ -50,8 +52,9 @@ const Input = (props: Props) => {
       <ImageListModal
         hidden={!imageListModal}
         setValue={setValue}
-        setVerify={setVerify}
+        setVerified={setVerified}
         setModal={setImageListModal}
+        setErr={setErr}
       />
     </>
   );

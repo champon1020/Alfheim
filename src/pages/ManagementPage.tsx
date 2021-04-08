@@ -4,6 +4,7 @@ import Header from "~/components/common/header/Header";
 import ErrorBoundary from "~/components/error/ErrorBoundary";
 import Articles from "~/components/management/article/Articles";
 import Editor from "~/components/management/editor/Editor";
+import ErrorModal from "~/components/management/error/ErrorModal";
 import Images from "~/components/management/image/Images";
 import ManagementMode, {
   ManagementArticlesMode,
@@ -12,6 +13,7 @@ import ManagementMode, {
   ManagementWriteMode,
 } from "~/components/management/mode";
 import ToolBar from "~/components/management/toolbar/ToolBar";
+import { Error } from "~/error";
 import { apiHandlerWithToken } from "~/util/api";
 import { parseQueryParam } from "~/util/util";
 import Cookie from "js-cookie";
@@ -54,52 +56,51 @@ type Props = RouteComponentProps<{ mode: ManagementMode }>;
 const ManagementPage: React.FC<Props> = (props) => {
   const { mode } = props.match.params;
 
-  // If the verification is done or not.
+  const [err, setErr] = useState<Error>(null);
   const [doneVerify, setDoneVerify] = useState(false);
 
-  // If the verification is success or not.
-  const [isVerified, setVerify] = useState(false);
+  const [isVerified, setVerified] = useState(false);
 
-  const [isMenu, setMenu] = useState(false);
+  const [isToolBar, setToolBar] = useState(false);
 
   const childContainer = useMemo(() => {
     if (mode === ManagementWriteMode) {
-      return <Editor setVerify={setVerify} />;
+      return <Editor setErr={setErr} setVerified={setVerified} />;
     }
     if (mode === ManagementImagesMode) {
-      return <Images setVerify={setVerify} />;
+      return <Images setErr={setErr} setVerified={setVerified} />;
     }
     if (mode === ManagementArticlesMode || mode === ManagementDraftsMode) {
-      return <Articles setVerify={setVerify} />;
+      return <Articles setErr={setErr} setVerified={setVerified} />;
     }
     return <div></div>;
   }, [mode]);
 
   const handleOnClickMenu = () => {
-    setMenu(!isMenu);
+    setToolBar(!isToolBar);
   };
 
   const managementContainerView = useMemo(() => {
     if (isVerified) {
       return (
         <>
-          <ToolBar mode={mode} isMenu={isMenu} setMenu={setMenu} />
+          <ToolBar mode={mode} isToolBar={isToolBar} setToolBar={setToolBar} />
           <StyledWrapper>{childContainer}</StyledWrapper>
         </>
       );
     }
     if (doneVerify) {
       Cookie.remove("alfheim_id_token");
-      return <Login setVerify={setVerify} />;
+      return <Login err={err} setErr={setErr} setVerified={setVerified} />;
     }
     return <div></div>;
-  }, [childContainer, mode, isVerified, doneVerify, isMenu]);
+  }, [childContainer, mode, err, isVerified, doneVerify, isToolBar]);
 
   useEffect(() => {
     apiHandlerWithToken()
       .apiV3PrivateVerifyPost()
       .then((res: any) => {
-        setVerify(true);
+        setVerified(true);
       })
       .catch((err: Response) => {
         setDoneVerify(true);
@@ -115,6 +116,7 @@ const ManagementPage: React.FC<Props> = (props) => {
       <StyledMenu onClick={handleOnClickMenu}>
         <img src={RightIcon} alt="menu" />
       </StyledMenu>
+      <ErrorModal hidden={err == null} err={err} setErr={setErr} />
     </ErrorBoundary>
   );
 };

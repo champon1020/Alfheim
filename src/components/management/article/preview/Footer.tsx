@@ -1,4 +1,5 @@
 import Button from "~/components/management/article/Button";
+import { Error, HttpError } from "~/error";
 import { IArticle } from "~/interfaces";
 import { apiHandlerWithToken } from "~/util/api";
 import React, { useCallback } from "react";
@@ -14,10 +15,12 @@ const StyledFooter = styled.div`
 
 type Props = {
   focusedArticle: IArticle;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Footer = (props: Props) => {
-  const { focusedArticle } = props;
+  const { setErr, setVerified, focusedArticle } = props;
 
   if (focusedArticle == null) {
     return <StyledFooter />;
@@ -34,8 +37,15 @@ const Footer = (props: Props) => {
     };
     apiHandlerWithToken()
       .apiV3PrivateUpdateArticleStatusPut({ updateArticleStatusRequestBody })
+      .then(() => {
+        window.location.reload();
+      })
       .catch((err: Response) => {
-        //handle error
+        if (err.status == 403) {
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to update article status"));
+        }
       });
   }, [focusedArticle]);
 
@@ -43,9 +53,14 @@ const Footer = (props: Props) => {
     const deleteArticleRequestBody = { id: focusedArticle.id };
     apiHandlerWithToken()
       .apiV3PrivateDeleteArticleDelete({ deleteArticleRequestBody })
+      .then(() => {
+        window.location.reload();
+      })
       .catch((err: Response) => {
         if (err.status == 403) {
-          // handle error
+          setVerified(false);
+        } else {
+          setErr(new HttpError(err.status, "failed to update article status"));
         }
       });
   }, [focusedArticle]);

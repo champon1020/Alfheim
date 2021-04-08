@@ -1,9 +1,9 @@
+import { Error } from "~/error";
 import Cookie from "js-cookie";
 import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
 import Box from "./Box";
-import Footer from "./Footer";
 
 const StyledList = styled.div`
   margin: 2rem 0;
@@ -24,24 +24,13 @@ const StyledEmptyMsg = styled.h3`
 
 type Props = {
   images: string[];
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  onClickImage: (e: React.MouseEvent<HTMLInputElement>) => void;
 };
 
 const ImageList = (props: Props) => {
-  const { images, setVerify } = props;
+  const { images, onClickImage } = props;
 
   const [selected] = useState([] as string[]);
-
-  const onClickImage = useCallback(
-    (e: React.MouseEvent<HTMLInputElement>) => {
-      if (e.currentTarget.checked) {
-        selected.push(e.currentTarget.name);
-      } else {
-        selected.filter((v) => v !== e.currentTarget.name);
-      }
-    },
-    [selected]
-  );
 
   const imageList = useMemo(() => {
     if (images == null || images.length === 0) {
@@ -50,10 +39,7 @@ const ImageList = (props: Props) => {
 
     const list = [] as JSX.Element[];
     images.forEach((src, i) => {
-      const name = src.split("/")[-1];
-      list.push(
-        <Box key={i} name={name} src={src} onClickImage={onClickImage} />
-      );
+      list.push(<Box key={i} src={src} onClickImage={onClickImage} />);
     });
 
     return list;
@@ -62,7 +48,6 @@ const ImageList = (props: Props) => {
   return (
     <StyledList>
       <StyledImageList>{imageList}</StyledImageList>
-      <Footer selected={selected} setVerify={setVerify} />
     </StyledList>
   );
 };

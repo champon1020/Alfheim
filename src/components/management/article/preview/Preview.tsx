@@ -1,3 +1,4 @@
+import { Error } from "~/error";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
@@ -25,16 +26,22 @@ const StyledPreview = styled.div`
 
 type Props = {
   focusedArticle?: IArticle;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Preview = (props: Props) => {
-  const { focusedArticle } = props;
+  const { focusedArticle, setErr, setVerified } = props;
 
   return (
     <StyledPreview>
       <Header focusedArticle={focusedArticle} />
       <Content focusedArticle={focusedArticle} />
-      <Footer focusedArticle={focusedArticle} />
+      <Footer
+        setErr={setErr}
+        setVerified={setVerified}
+        focusedArticle={focusedArticle}
+      />
     </StyledPreview>
   );
 };

@@ -1,4 +1,4 @@
-import { ErrorStatus, ValidationErrorStatus } from "~/error";
+import { AppError, Error } from "~/error";
 import { ITag } from "~/interfaces";
 
 // Max length of title.
@@ -18,35 +18,34 @@ const re = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g;
 const tagRe = /[!"#$%&'()\*\+\-\.\/:;<=>?@\[\\\]^_`{|}~]/g;
 
 // Validation of title form.
-export const validateTitle = (
-  title: string,
-  errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>
-) => {
-  // Check empty.
+export const validateTitle = (title: string, setErr: (err: Error) => void) => {
+  if (title == null) {
+    setErr(new AppError("title must no be null or undefined"));
+    return false;
+  }
+
   if (title.length === 0 || title === undefined) {
-    errSetter(ValidationErrorStatus.EMPTY);
-    return true;
+    setErr(new AppError("length of title must be larger than 0"));
+    return false;
   }
 
-  // Check length.
   if (title.length >= TITLE_MAX_LENGTH) {
-    errSetter(ValidationErrorStatus.LENGTH);
-    return true;
+    setErr(
+      new AppError(`length of title must be less than ${TITLE_MAX_LENGTH}`)
+    );
+    return false;
   }
 
-  // Check regex.
   if (re.test(title)) {
-    errSetter(ValidationErrorStatus.COMFORTABLE);
-    return true;
+    setErr(new AppError("invalid format of title"));
+    return false;
   }
-  return false;
+
+  return true;
 };
 
 // Validation of categories form.
-export const validateTag = (
-  tags: ITag[],
-  errSetter: React.Dispatch<React.SetStateAction<ErrorStatus>>
-) => {
+export const validateTag = (tags: ITag[], setError: (err: Error) => void) => {
   let t = "";
   tags.forEach((v, i) => {
     if (i > 0) {
@@ -56,9 +55,9 @@ export const validateTag = (
   });
 
   if (tagRe.test(t)) {
-    errSetter(ValidationErrorStatus.COMFORTABLE);
-    return true;
+    setError(new AppError("invalid format of tags"));
+    return false;
   }
 
-  return false;
+  return true;
 };

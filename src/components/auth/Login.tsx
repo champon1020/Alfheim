@@ -1,3 +1,4 @@
+import { Error } from "~/error";
 import React from "react";
 import styled from "styled-components";
 
@@ -8,15 +9,17 @@ const LoginContainer = styled.div`
 `;
 
 type Props = {
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  err: Error;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const Login = (props: Props) => {
-  const { setVerify } = props;
+  const { err, setErr, setVerified } = props;
 
   return (
     <LoginContainer>
-      <SignInButton setVerify={setVerify} />
+      <SignInButton err={err} setErr={setErr} setVerified={setVerified} />
     </LoginContainer>
   );
 };

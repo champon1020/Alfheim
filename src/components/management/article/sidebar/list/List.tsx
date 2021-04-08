@@ -26,12 +26,11 @@ const StyledEmptyMsg = styled.h3<{ hidden: boolean }>`
 interface Props {
   tab: TabType;
   articles: IArticle[];
-  setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  setFocusedArticle: (article: IArticle) => void;
 }
 
 const ArticleList = (props: Props) => {
-  const { tab, articles, setFocusedArticle, setVerify } = props;
+  const { tab, articles, setFocusedArticle } = props;
 
   // Create article list component.
   const articleList = useMemo(() => {
@@ -43,12 +42,11 @@ const ArticleList = (props: Props) => {
           tab={tab}
           article={v}
           setFocusedArticle={setFocusedArticle}
-          setVerify={setVerify}
         />
       );
     });
     return list;
-  }, [tab, articles, setFocusedArticle, setVerify]);
+  }, [tab, articles]);
 
   return (
     <StyledList>

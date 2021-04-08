@@ -49,10 +49,9 @@ type Props = {
   next: boolean;
   prev: boolean;
   articles: IArticle[];
-  setTab: React.Dispatch<React.SetStateAction<string>>;
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
+  setTab: (tab: TabType) => void;
+  setPage: (page: number) => void;
+  setFocusedArticle: (article: IArticle) => void;
 };
 
 const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
@@ -65,7 +64,6 @@ const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
     prev,
     articles,
     setTab,
-    setVerify,
     setPage,
     setFocusedArticle,
   } = props;
@@ -93,7 +91,6 @@ const SideBar = forwardRef<HTMLDivElement, Props>((props, ref) => {
         articles={articles}
         tab={tab}
         setFocusedArticle={setFocusedArticle}
-        setVerify={setVerify}
       />
       <PagenationBox
         page={page}
