@@ -1,4 +1,4 @@
-import { TTab } from "~/components/management/article/Articles";
+import TabType from "~/components/management/article/tab";
 import { IArticle } from "~/interfaces";
 import React, { useMemo } from "react";
 import styled from "styled-components";
@@ -6,9 +6,13 @@ import styled from "styled-components";
 import Box from "./Box";
 
 const StyledList = styled.ul`
+  --management-articles-sidebar-box-height: calc(
+    var(--management-articles-sidebar-list-height) / 10
+  );
+
   overflow-y: scroll;
   white-space: nowrap;
-  height: calc(var(--articles-container-height) - 9rem - 4.5rem);
+  height: var(--management-articles-sidebar-list-height);
 `;
 
 const StyledEmptyMsg = styled.h3<{ hidden: boolean }>`
@@ -20,7 +24,7 @@ const StyledEmptyMsg = styled.h3<{ hidden: boolean }>`
 `;
 
 interface Props {
-  tab: TTab;
+  tab: TabType;
   articles: IArticle[];
   setFocusedArticle: React.Dispatch<React.SetStateAction<IArticle>>;
   setVerify: React.Dispatch<React.SetStateAction<boolean>>;

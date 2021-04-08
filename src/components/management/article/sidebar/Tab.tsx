@@ -1,18 +1,18 @@
-import { TTab } from "~/components/management/article/Articles";
+import TabType from "~/components/management/article/tab";
 import React, { MouseEvent, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 const StyledTab = styled.ul`
+  height: var(--management-articles-sidebar-tab-height);
   background-color: white;
   display: flex;
   justify-content: center;
 `;
 
 const StyledTabItem = styled.li<{ selected: boolean }>`
-  background-color: ${({ selected }) =>
-    `${selected ? "var(--management-base-color);" : ""}`};
-  color: ${({ selected }) => `${selected ? "white" : ""}`};
-  border: solid thin lightgray;
+  color: ${({ selected }) => (selected ? "var(--hoverred-color)" : "white")};
+  background-color: var(--base-color);
+  border-right: solid thin var(--border-color);
   padding: 1rem;
   font-size: 2rem;
   text-align: center;
@@ -24,7 +24,7 @@ const StyledTabItem = styled.li<{ selected: boolean }>`
 `;
 
 type Props = {
-  tab: TTab;
+  tab: TabType;
   setTab: React.Dispatch<React.SetStateAction<string>>;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 };

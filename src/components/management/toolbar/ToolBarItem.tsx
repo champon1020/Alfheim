@@ -37,15 +37,13 @@ const ToolBarItem = (props: Props) => {
   const { mode, icon, focused, focusedIcon, onClick } = props;
 
   return (
-    <StyledToolBarItem>
+    <StyledToolBarItem id={mode} onClick={onClick}>
       {focused ? (
         <StyledIcon src={focusedIcon} alt="icon" />
       ) : (
         <StyledIcon src={icon} alt="icon" />
       )}
-      <StyledItem id={mode} onClick={onClick} focused={focused}>
-        {mode}
-      </StyledItem>
+      <StyledItem focused={focused}>{mode}</StyledItem>
     </StyledToolBarItem>
   );
 };

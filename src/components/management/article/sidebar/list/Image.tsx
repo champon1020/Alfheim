@@ -6,13 +6,13 @@ const ImageBoxStyled = styled.div`
   width: 35%;
   text-align: left;
   & img {
-    height: var(--box-height);
+    height: var(--management-articles-sidebar-box-height);
     width: 100%;
   }
   @media (max-width: 600px) {
     width: 100%;
     & img {
-      height: calc(var(--box-height) * 1.6);
+      height: calc(var(--management-articles-sidebar-box-height) * 1.6);
     }
   }
 `;

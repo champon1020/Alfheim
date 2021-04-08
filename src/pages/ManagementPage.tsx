@@ -1,4 +1,4 @@
-import MenuIcon from "~/assets/images/icons/menu.svg";
+import RightIcon from "~/assets/images/icons/right.svg";
 import Login from "~/components/auth/Login";
 import Header from "~/components/common/header/Header";
 import ErrorBoundary from "~/components/error/ErrorBoundary";
@@ -21,18 +21,18 @@ import styled from "styled-components";
 
 const StyledContainer = styled.div`
   max-height: 100vh;
-  background-color: var(--management-base-color);
+  background-color: white;
 `;
 
 const StyledMenu = styled.div`
   position: absolute;
   z-index: 2;
   left: 1rem;
-  bottom: 1rem;
-  width: 6rem;
-  height: 6rem;
+  top: 7rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 5rem;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
   background-color: var(--base-color);
   cursor: pointer;
@@ -43,7 +43,7 @@ const StyledMenu = styled.div`
 
 const StyledWrapper = styled.div`
   width: 80%;
-  margin: 5rem auto 0 auto;
+  margin: 7rem auto 0 auto;
   @media (max-width: 1100px) {
     width: 98%;
   }
@@ -113,7 +113,7 @@ const ManagementPage: React.FC<Props> = (props) => {
       </header>
       <StyledContainer>{managementContainerView}</StyledContainer>
       <StyledMenu onClick={handleOnClickMenu}>
-        <img src={MenuIcon} alt="menu" />
+        <img src={RightIcon} alt="menu" />
       </StyledMenu>
     </ErrorBoundary>
   );

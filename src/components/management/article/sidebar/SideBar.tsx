@@ -1,4 +1,4 @@
-import { TTab } from "~/components/management/article/Articles";
+import TabType from "~/components/management/article/tab";
 import { IArticle } from "~/interfaces";
 import React, { forwardRef, useCallback } from "react";
 import styled, { keyframes } from "styled-components";
@@ -17,12 +17,21 @@ const AnimSlideR2L = keyframes`
 `;
 
 const StyledSideBar = styled.div<{ hidden: boolean; showMenu: boolean }>`
+  --management-articles-sidebar-tab-height: 4rem;
+  --management-articles-sidebar-pagenation-height: 7rem;
+  --management-articles-sidebar-list-height: calc(
+    var(--management-articles-container-height) -
+      var(--management-articles-sidebar-tab-height) -
+      var(--management-articles-sidebar-pagenation-height)
+  );
+
   position: ${({ showMenu }) => (showMenu ? "absolute" : "")};
   display: ${({ hidden }) => (hidden ? "none" : "")};
   order: 1;
   width: 30%;
-  height: calc(var(--articles-container-height));
-  @media (max-width: 800px) {
+  height: var(--management-articles-container-height);
+  border: solid thin var(--border-color);
+  @media (max-width: 750px) {
     width: 40%;
   }
   @media (max-width: 600px) {
@@ -33,7 +42,7 @@ const StyledSideBar = styled.div<{ hidden: boolean; showMenu: boolean }>`
 `;
 
 type Props = {
-  tab: TTab;
+  tab: TabType;
   showMenu: boolean;
   isMenuOpened: boolean;
   page: number;

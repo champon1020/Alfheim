@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const TitleDateStyled = styled.div`
   order: 2;
-  width: 45%;
+  width: 65%;
   text-align: left;
   display: flex;
   flex-direction: column;

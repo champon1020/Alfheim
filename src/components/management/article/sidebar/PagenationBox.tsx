@@ -3,7 +3,9 @@ import React, { useCallback } from "react";
 import styled, { keyframes } from "styled-components";
 
 const StyledPagenation = styled.div`
-  border: solid thin lightgray;
+  height: calc(
+    var(--management-articles-sidebar-pagenation-height) - 1.9rem * 2
+  );
   background-color: white;
   padding: 1.9rem 0;
 `;

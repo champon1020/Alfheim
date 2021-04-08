@@ -203,7 +203,7 @@ const Form = (props: Props) => {
 
   useEffect(() => {
     const qParams = parseQueryParam(window.location.href);
-    if (qParams["idd"] != null) {
+    if (qParams["id"] != null) {
       fetchArticle(qParams["id"]);
     }
   }, []);

@@ -1,18 +1,21 @@
-import { TTab } from "~/components/management/article/Articles";
 import { IArticle } from "~/interfaces";
 import React, { useCallback, useEffect } from "react";
 import styled from "styled-components";
 
 import Content from "./Content";
+import Footer from "./Footer";
 import Header from "./Header";
 
 const StyledPreview = styled.div`
-  --header-height: 7rem;
+  --management-articles-preview-header-height: 10rem;
+  --management-articles-preview-footer-height: 7rem;
+
   order: 2;
   width: 70%;
   background-color: white;
-  height: var(--articles-container-height);
-  @media (max-width: 800px) {
+  height: var(--management-articles-container-height);
+  border: solid thin var(--border-color);
+  @media (max-width: 750px) {
     width: 60%;
   }
   @media (max-width: 600px) {
@@ -21,17 +24,17 @@ const StyledPreview = styled.div`
 `;
 
 type Props = {
-  tab: TTab;
-  focusedArticle: IArticle;
+  focusedArticle?: IArticle;
 };
 
 const Preview = (props: Props) => {
-  const { tab, focusedArticle } = props;
+  const { focusedArticle } = props;
 
   return (
     <StyledPreview>
-      <Header tab={tab} focusedArticle={focusedArticle} />
-      <Content content={focusedArticle.content} />
+      <Header focusedArticle={focusedArticle} />
+      <Content focusedArticle={focusedArticle} />
+      <Footer focusedArticle={focusedArticle} />
     </StyledPreview>
   );
 };

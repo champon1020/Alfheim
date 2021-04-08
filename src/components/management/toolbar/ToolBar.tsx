@@ -1,8 +1,8 @@
 import ArticleFocusedIcon from "~/assets/images/icons/article_yellow.svg";
 import ArticleIcon from "~/assets/images/icons/article.svg";
-import BackIcon from "~/assets/images/icons/back2.svg";
 import ImageFocusedIcon from "~/assets/images/icons/image_yellow.svg";
 import ImageIcon from "~/assets/images/icons/image.svg";
+import LeftIcon from "~/assets/images/icons/left.svg";
 import WriteFocusedIcon from "~/assets/images/icons/write_yellow.svg";
 import WriteIcon from "~/assets/images/icons/write.svg";
 import ManagementMode, {
@@ -75,7 +75,7 @@ const ToolBar: React.FC<Props> = (props) => {
   return (
     <StyledToolBar hidden={!isMenu}>
       <StyledHidenButton onClick={handleOnClickMenu}>
-        <img src={BackIcon} alt="hide" />
+        <img src={LeftIcon} alt="hide" />
       </StyledHidenButton>
       <StyledList>
         <ToolBarItem

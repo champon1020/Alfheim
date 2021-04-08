@@ -1,4 +1,3 @@
-import { TTab } from "~/components/management/article/Articles";
 import Button from "~/components/management/article/Button";
 import Config from "~/config";
 import { IArticle } from "~/interfaces";
@@ -7,10 +6,10 @@ import styled from "styled-components";
 
 const StyledHeader = styled.div<{ selected: boolean }>`
   display: flex;
-  height: var(--header-height);
-  border-bottom: solid 3px lightgray;
+  height: calc(var(--management-articles-preview-header-height) - 2rem);
   margin-top: 2rem;
   padding: 0 2%;
+  border-bottom: solid thin var(--border-color);
   & h2 {
     width: 80%;
     font-size: 2rem;
@@ -23,32 +22,33 @@ const StyledHeader = styled.div<{ selected: boolean }>`
 `;
 
 type Props = {
-  tab: TTab;
   focusedArticle: IArticle;
 };
 
 const Header = (props: Props) => {
-  const { tab, focusedArticle } = props;
+  const { focusedArticle } = props;
 
-  // On click listener of 'Edit' button.
-  // Jump to edit page with article|draft id.
+  if (focusedArticle == null) {
+    return (
+      <StyledHeader selected={false}>
+        <h2>{"SelectArticle"}</h2>
+      </StyledHeader>
+    );
+  }
+
   const onClickEdit = useCallback(() => {
     if (focusedArticle.id == null) {
       return;
     }
-
-    const pName = tab === "articles" ? "articleId" : "draftId";
     window.open(
-      `${Config.origin}/management?${pName}=${focusedArticle.id}`,
+      `${Config.origin}/management/write?id=${focusedArticle.id}`,
       "_self"
     );
-  }, [focusedArticle.id, tab]);
+  }, [focusedArticle.id]);
 
   return (
-    <StyledHeader selected={focusedArticle.title != null}>
-      <h2>
-        {focusedArticle.title == null ? "Select Article" : focusedArticle.title}
-      </h2>
+    <StyledHeader selected={true}>
+      <h2>{focusedArticle.title}</h2>
       <Button
         backgroundColor="yellowgreen"
         color="white"

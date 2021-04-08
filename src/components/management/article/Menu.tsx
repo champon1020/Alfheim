@@ -5,17 +5,17 @@ import styled from "styled-components";
 const StyledMenu = styled.div<{ hidden: boolean }>`
   display: ${({ hidden }) => (hidden ? "none" : "")};
   position: absolute;
-  left: 2.5rem;
-  bottom: 2.5rem;
-  width: 6rem;
-  height: 6rem;
+  left: 7rem;
+  top: 7rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 5rem;
   cursor: pointer;
-  z-index: 999;
+  z-index: 1;
   text-align: center;
-  background-color: var(--management-base-color);
+  background-color: var(--base-color);
   &:hover {
-    opacity: 0.6;
+    opacity: var(--hoverred-opacity);
   }
 `;
 

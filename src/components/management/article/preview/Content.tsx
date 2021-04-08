@@ -1,12 +1,15 @@
 import MDEditor from "@uiw/react-md-editor";
 import { renderers } from "~/components/management/editor/renderer";
+import { IArticle } from "~/interfaces";
 import React, { useEffect, useMemo } from "react";
 import styled from "styled-components";
 
 const StyledContent = styled.div`
   overflow-y: scroll;
   height: calc(
-    var(--articles-container-height) - var(--header-height) - 2.3rem
+    var(--management-articles-container-height) -
+      var(--management-articles-preview-header-height) -
+      var(--management-articles-preview-footer-height)
   );
 `;
 
@@ -15,16 +18,23 @@ const StyledViewer = styled.div`
 `;
 
 type Props = {
-  content: string;
+  focusedArticle?: IArticle;
 };
 
 const Content = (props: Props) => {
-  const { content } = props;
+  const { focusedArticle } = props;
+
+  if (focusedArticle == null) {
+    return <StyledContent />;
+  }
 
   return (
     <StyledContent>
       <StyledViewer>
-        <MDEditor.Markdown source={content} renderers={renderers} />
+        <MDEditor.Markdown
+          source={focusedArticle.content}
+          renderers={renderers}
+        />
       </StyledViewer>
     </StyledContent>
   );
