@@ -1,66 +1,40 @@
 export enum HttpErrorStatus {
-  ERROR_400 = "ERROR_400",
-  ERROR_403 = "ERROR_403",
-  ERROR_404 = "ERROR_404",
-  ERROR_500 = "ERROR_500",
+  BadRequest = 400,
+  Forbidden = 403,
+  NotFound = 400,
+  InternalServerError = 500,
 }
 
-export enum MyErrorStatus {
-  NONE = "NONE",
-  UNDEFINED = "UNDEFINED",
-  NULL = "NULL",
+export interface Error {
+  error: () => string;
 }
 
-export enum ValidationErrorStatus {
-  EMPTY = "EMPTY",
-  LENGTH = "LENGTH",
-  COMFORTABLE = "COMFORTABLE",
-}
+export class HttpError implements Error {
+  private status: number;
+  private msg: string;
 
-export type ErrorStatus =
-  | HttpErrorStatus
-  | MyErrorStatus
-  | ValidationErrorStatus;
+  constructor(status: number, msg: string) {
+    this.status = status;
+    this.msg = msg;
+  }
 
-interface ErrorHandler {
-  print: (err: ErrorStatus) => void;
-}
-
-export class AppErrorHandler implements ErrorHandler {
-  public message = (err?: ErrorStatus): string => {
-    switch (err) {
-      // HttpErrorStatus
-      case HttpErrorStatus.ERROR_400:
-        return "HttpError: Status 400: No Authorization";
-      case HttpErrorStatus.ERROR_403:
-        return "HttpError: Status 403: Forbidden";
-      case HttpErrorStatus.ERROR_404:
-        return "HttpError: Status 404: Not Found";
-      case HttpErrorStatus.ERROR_500:
-        return "HttpError: Status500: Internal Server Error";
-
-      // MyErrorStatus
-      case MyErrorStatus.UNDEFINED:
-        return "Error: This may be undefined";
-      case MyErrorStatus.NULL:
-        return "Error: This may be null";
-
-      // ValidationErrorStatus
-      case ValidationErrorStatus.EMPTY:
-        return "ValidationError: Value must not be empty";
-      case ValidationErrorStatus.LENGTH:
-        return "ValidationError: Value length is too long";
-      case ValidationErrorStatus.COMFORTABLE:
-        return "ValidationError: Value is not comfortable";
-    }
-    return "";
+  public getStatus = (): number => {
+    return this.status;
   };
 
-  public print = (err?: ErrorStatus) => {
-    console.error(this.message(err));
+  public error = (): string => {
+    return `Status ${this.status}: ${this.msg}`;
   };
 }
 
-const appErrorHandler = new AppErrorHandler();
+export class AppError implements Error {
+  private msg: string;
 
-export default appErrorHandler;
+  constructor(msg: string) {
+    this.msg = msg;
+  }
+
+  public error = (): string => {
+    return this.msg;
+  };
+}

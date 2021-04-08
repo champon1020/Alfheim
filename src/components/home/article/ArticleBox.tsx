@@ -1,28 +1,42 @@
-import { Config } from "~/config";
-import { IArticle } from "~/type";
+import Config from "~/config";
+import { IArticle } from "~/interfaces";
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-import Categories from "./Categories";
 import Date from "./Date";
+import Description from "./Description";
 import Image from "./Image";
+import Tags from "./Tags";
 import Title from "./Title";
 
 const StyledArticleBox = styled.div`
-  position: relative;
-  z-index: 1;
-  width: calc(var(--container-width) / 8 * 2.7);
+  --article-box-image-height: 28vh;
+
   cursor: pointer;
+  transition: 0.5s;
   &:hover {
-    opacity: 0.8;
+    background-color: var(--hoverred-background-color);
   }
   &:hover img {
     transform: scale(1.1);
   }
-  @media (max-width: 800px) {
+  @media (max-width: 750px) {
     width: 100%;
     height: 100%;
   }
+`;
+
+const StyledMainArea = styled.div`
+  display: flex;
+`;
+
+const StyledImageArea = styled.div`
+  width: 60%;
+`;
+
+const StyledDescriptionArea = styled.div`
+  padding: 0 2rem;
+  width: 40%;
 `;
 
 interface Props {
@@ -33,15 +47,33 @@ const ArticleBox = (props: Props) => {
   const { article } = props;
 
   const onClickArticle = useCallback(() => {
-    window.location.href = `${Config.url}/article/${article.id}`;
+    window.location.href = `${Config.origin}/article/${article.id}`;
   }, [article]);
+
+  if (window.innerWidth <= 750) {
+    return (
+      <StyledArticleBox onClick={onClickArticle}>
+        <Image src={article.imageUrl} alt="article box" />
+        <Date date={article.createdAt} />
+        <Title title={article.title} />
+        <Tags tags={article.tags} />
+      </StyledArticleBox>
+    );
+  }
 
   return (
     <StyledArticleBox onClick={onClickArticle}>
-      <Image src={article.imageName} alt="article box" />
-      <Date date={article.createdDate} />
-      <Title title={article.title} />
-      <Categories categories={article.categories} />
+      <Date date={article.createdAt} />
+      <StyledMainArea>
+        <StyledImageArea>
+          <Image src={article.imageUrl} alt="article box" />
+        </StyledImageArea>
+        <StyledDescriptionArea>
+          <Title title={article.title} />
+          <Tags tags={article.tags} />
+          <Description description={article.content} />
+        </StyledDescriptionArea>
+      </StyledMainArea>
     </StyledArticleBox>
   );
 };

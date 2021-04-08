@@ -1,5 +1,5 @@
 import MDEditor from "@uiw/react-md-editor";
-import { renderers } from "~/misc/editor";
+import { renderers } from "~/components/management/editor/renderer";
 import React from "react";
 import styled from "styled-components";
 

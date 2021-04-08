@@ -1,4 +1,4 @@
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
 import React from "react";
 import styled from "styled-components";
 

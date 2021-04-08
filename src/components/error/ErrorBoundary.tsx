@@ -1,4 +1,3 @@
-import { AxiosError } from "axios";
 import React from "react";
 
 import ErrorPage from "./page/ErrorPage";
@@ -20,13 +19,10 @@ class ErrorBoundary extends React.Component<{}, State> {
   }
 
   static getDerivedStateFromError(err: Error) {
-    const error = err as AxiosError<any>;
-    console.log(error.toJSON());
-
     return {
       hasError: true,
-      msg: error.message,
-      status: error.response.status,
+      msg: err.message,
+      status: err.message,
     };
   }
 

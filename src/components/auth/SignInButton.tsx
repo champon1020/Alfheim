@@ -1,5 +1,6 @@
-import { defaultApi } from "~/api/entry";
-import { Config } from "~/config";
+import Config from "~/config";
+import { Error, HttpError } from "~/error";
+import { apiHandlerWithToken } from "~/util/api";
 import Cookie from "js-cookie";
 import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
@@ -9,38 +10,38 @@ const ButtonElement = styled.div`
 `;
 
 type Props = {
-  setVerify: React.Dispatch<React.SetStateAction<boolean>>;
+  err: Error;
+  setErr: (err: Error) => void;
+  setVerified: (value: boolean) => void;
 };
 
 const jumpToHome = () => {
-  window.location.href = Config.url;
+  window.location.href = Config.origin;
 };
 
 const SignInButton = (props: Props) => {
-  const { setVerify } = props;
+  const { err, setErr, setVerified } = props;
+
   const [auth2, setAuth2] = useState({} as gapi.auth2.GoogleAuth);
 
   const onSuccess = async (user: gapi.auth2.GoogleUser) => {
-    try {
-      const res = await defaultApi.apiVerifyTokenPost({
-        headers: {
-          Authorization: `Bearer ${user.getAuthResponse().id_token}`,
-        },
-      });
-
-      // If verify was success, set token.
-      if (res.status == 200) {
+    apiHandlerWithToken(user.getAuthResponse().id_token)
+      .apiV3PrivateVerifyPost()
+      .then((res: any) => {
         Cookie.set("alfheim_id_token", user.getAuthResponse().id_token);
-        setVerify(true);
-        return;
-      }
-
-      // If verify was failed, jump to home.
-      jumpToHome();
-    } catch (err) {
-      // If error was occurred, jump to home.
-      jumpToHome();
-    }
+        setVerified(true);
+      })
+      .catch((err: Response) => {
+        setErr(
+          new HttpError(
+            err.status,
+            "Error was occurred. Jump to home after 3 sec automatically"
+          )
+        );
+        setTimeout(() => {
+          jumpToHome();
+        }, 3000);
+      });
   };
 
   const onFailure = () => {

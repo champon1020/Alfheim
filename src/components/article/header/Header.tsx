@@ -1,10 +1,10 @@
-import { formatDateStr } from "~/misc/misc";
-import { IArticle } from "~/type";
+import { IArticle } from "~/interfaces";
+import { formatDateStr } from "~/util/util";
 import React from "react";
 import styled from "styled-components";
 
-import Category from "./Category";
 import Date from "./Date";
+import Tag from "./Tag";
 import Title from "./Title";
 
 const StyledHeader = styled.div`
@@ -22,9 +22,9 @@ const ArticleHeader = (props: Props) => {
 
   return (
     <StyledHeader>
-      <Date date={article.createdDate} />
+      <Date date={article.createdAt} />
       <Title title={article.title} />
-      <Category categories={article.categories} />
+      <Tag tags={article.tags} />
     </StyledHeader>
   );
 };

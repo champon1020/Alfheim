@@ -1,9 +1,9 @@
 import FacebookIcon from "~/assets/images/shareIcon/facebook.png";
 import LinkedinIcon from "~/assets/images/shareIcon/linkedin.png";
 import TwitterIcon from "~/assets/images/shareIcon/twitter.svg";
-import { Config } from "~/config";
-import { ICategory } from "~/type";
-import React, { useCallback } from "react";
+import Config from "~/config";
+import { ITag } from "~/interfaces";
+import React, { useMemo } from "react";
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -23,34 +23,26 @@ const StyledIcon = styled.img`
   width: 4rem;
 `;
 
-export const Twitter = (props: {
-  id: string;
-  title: string;
-  categories: ICategory[];
-}) => {
-  const { id, title, categories } = props;
+export const Twitter = (props: { id: string; title: string; tags: ITag[] }) => {
+  const { id, title, tags } = props;
 
-  const hashtagArray = useCallback((): string[] => {
-    if (
-      categories === null ||
-      categories === undefined ||
-      categories.length === 0
-    ) {
+  const hashtagArray = useMemo((): string[] => {
+    if (tags == undefined || tags.length === 0) {
       return [];
     }
 
     const hash: string[] = [];
-    categories.forEach((c) => hash.push(c.name));
+    tags.forEach((c) => hash.push(c.name));
 
     return hash;
-  }, [categories]);
+  }, [tags]);
 
   return (
     <StyledButton>
       <TwitterShareButton
-        url={`${Config.ogpUrl}/${id}`}
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
         title={title}
-        hashtags={hashtagArray()}
+        hashtags={hashtagArray}
       >
         <StyledIcon src={TwitterIcon} alt={"twitter share"} />
       </TwitterShareButton>
@@ -63,7 +55,10 @@ export const Facebook = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <FacebookShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
+      <FacebookShareButton
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
+        title={title}
+      >
         <StyledIcon src={FacebookIcon} alt={"facebook share"} />
       </FacebookShareButton>
     </StyledButton>
@@ -75,7 +70,10 @@ export const Linkedin = (props: { id: string; title: string }) => {
 
   return (
     <StyledButton>
-      <LinkedinShareButton url={`${Config.ogpUrl}/${id}`} title={title}>
+      <LinkedinShareButton
+        url={`${Config.cloudFunctionsOrigin}/${id}`}
+        title={title}
+      >
         <StyledIcon src={LinkedinIcon} alt={"linkedin share"} />
       </LinkedinShareButton>
     </StyledButton>

@@ -1,4 +1,4 @@
-import Recommend from "~/components//sidebar/recommend/Recommend";
+import New from "~/components/sidebar/new/New";
 import Search from "~/components/sidebar/search/Search";
 import React from "react";
 import styled from "styled-components";
@@ -16,7 +16,7 @@ const SideBar = () => {
   return (
     <StyledSideBar>
       <Box title="Search" ContentComponent={Search} />
-      <Box title="New" ContentComponent={Recommend} />
+      <Box title="New" ContentComponent={New} />
     </StyledSideBar>
   );
 };

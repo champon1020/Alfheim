@@ -1,7 +1,7 @@
 import GithubIcon from "~/assets/images/accounts/github.png";
 import LinkedinIcon from "~/assets/images/accounts/linkedin.png";
 import TwitterIcon from "~/assets/images/accounts/twitter.svg";
-import { Config } from "~/config";
+import Config from "~/config";
 import React from "react";
 import styled from "styled-components";
 
@@ -26,14 +26,14 @@ const StyledBar = styled.ul`
 const Bar = () => {
   return (
     <StyledBar>
-      <BarItem icon={TwitterIcon} href={Config.twitterUrl} num={1} />
+      <BarItem icon={TwitterIcon} href={Config.twitterAccountLink} num={1} />
       <BarItem
         icon={LinkedinIcon}
-        href={Config.linkedinUrl}
+        href={Config.linkedinAccountLink}
         background="var(--base-color)"
         num={2}
       />
-      <BarItem icon={GithubIcon} href={Config.githubUrl} num={3} />
+      <BarItem icon={GithubIcon} href={Config.githubAccountLink} num={3} />
     </StyledBar>
   );
 };
