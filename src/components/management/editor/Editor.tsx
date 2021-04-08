@@ -1,3 +1,4 @@
+import Config from "~/config";
 import { ErrorStatus, HttpErrorStatus, MyErrorStatus } from "~/error";
 import { IArticle } from "~/interfaces";
 import { apiHandlerWithToken } from "~/util/api";
@@ -13,10 +14,16 @@ import RealTimeSave from "./realTimeSave";
 import { validateTag, validateTitle } from "./validations";
 
 const StyledForm = styled.div`
-  background-color: whitesmoke;
-  .CodeMirror {
-    height: 71vh;
-  }
+  --management-write-container-height: calc(100vh - 13.5rem);
+  --management-write-input-height: 3.5rem;
+  --management-write-footer-height: 7rem;
+  --management-write-editor-height: calc(
+    var(--management-write-container-height) -
+      var(--management-write-input-height) * 2 -
+      var(--management-write-footer-height)
+  );
+
+  height: var(--management-write-container-height);
 `;
 
 // Default editor article|draft object.
@@ -27,7 +34,7 @@ const defaultEditorArticle: IArticle = {
   createdAt: "",
   updatedAt: "",
   content: "",
-  imageUrl: "default.jpg",
+  imageUrl: `${Config.gcsOrigin}/default.jpg`,
   status: 2,
 };
 
@@ -231,6 +238,7 @@ const Form = (props: Props) => {
         onChangeHandler={onChangeImage}
         msg={msg}
         err={err}
+        setVerify={setVerify}
       />
     </StyledForm>
   );

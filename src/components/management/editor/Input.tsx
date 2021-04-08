@@ -4,16 +4,16 @@ import styled from "styled-components";
 
 const StyledContainer = styled.div`
   text-align: center;
-  margin: 2px 0;
 `;
 
 const StyledInput = styled.input`
-  height: 34px;
+  height: calc(var(--management-write-input-height) - 0.2rem * 2);
+  margin-bottom: 0.2rem;
+  padding-left: 0.3rem;
   width: 99%;
   border: solid thin gray;
-  border-radius: 5px;
-  font-size: 24px;
-  padding-left: 0.3rem;
+  border-radius: 0.5rem;
+  font-size: 2.4rem;
 `;
 
 type Props = {

@@ -6,6 +6,7 @@ const ImageBoxStyled = styled.div`
   width: 35%;
   text-align: left;
   & img {
+    object-fit: cover;
     height: var(--management-articles-sidebar-box-height);
     width: 100%;
   }

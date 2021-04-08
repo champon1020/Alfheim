@@ -3,17 +3,12 @@ import React, { useMemo } from "react";
 import styled from "styled-components";
 
 const StyledBox = styled.div`
-  width: 40%;
+  min-height: var(--management-write-footer-msg-height);
 `;
 
 const StyledMsg = styled.h3<{ color: string }>`
   color: ${({ color }) => color};
-  padding-left: 2rem;
   font-size: 1.6rem;
-  margin-top: 0.8em;
-  @media (max-width: 1000px) {
-    font-size: 1.2rem;
-  }
 `;
 
 type Props = {

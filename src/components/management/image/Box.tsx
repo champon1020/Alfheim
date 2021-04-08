@@ -5,7 +5,7 @@ const StyledBox = styled.li`
   width: 23%;
   margin: 0 1%;
   &:hover {
-    opacity: 0.6;
+    opacity: var(--hoverred-opacity);
   }
   @media (max-width: 1100px) {
     width: 31%;
@@ -41,7 +41,7 @@ const Box = (props: Props) => {
   return (
     <StyledBox>
       <StyledCheckBox type="checkbox" name={name} onClick={onClickImage} />
-      <a href={src}>
+      <a href={src} target="_blank">
         <StyledImage src={src} />
       </a>
     </StyledBox>

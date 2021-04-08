@@ -30,12 +30,8 @@ type Props = {
 const ImageList = (props: Props) => {
   const { images, setVerify } = props;
 
-  // Selected images.
-  // Checked images will be deleted as the delete button is clicked.
   const [selected] = useState([] as string[]);
 
-  // On focus listener of selecting image.
-  // If focused, push to selected array.
   const onClickImage = useCallback(
     (e: React.MouseEvent<HTMLInputElement>) => {
       if (e.currentTarget.checked) {
@@ -47,16 +43,12 @@ const ImageList = (props: Props) => {
     [selected]
   );
 
-  // Create image list.
-  // If images is null or undefined or empty,
-  // return message which tells about empty.
-  // Or return image list component.
   const imageList = useMemo(() => {
-    const list = [] as JSX.Element[];
     if (images == null || images.length === 0) {
       return <StyledEmptyMsg>{"No Images"}</StyledEmptyMsg>;
     }
 
+    const list = [] as JSX.Element[];
     images.forEach((src, i) => {
       const name = src.split("/")[-1];
       list.push(

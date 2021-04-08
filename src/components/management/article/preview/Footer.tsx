@@ -34,7 +34,6 @@ const Footer = (props: Props) => {
     };
     apiHandlerWithToken()
       .apiV3PrivateUpdateArticleStatusPut({ updateArticleStatusRequestBody })
-      .then((res: any) => {})
       .catch((err: Response) => {
         //handle error
       });
@@ -44,7 +43,6 @@ const Footer = (props: Props) => {
     const deleteArticleRequestBody = { id: focusedArticle.id };
     apiHandlerWithToken()
       .apiV3PrivateDeleteArticleDelete({ deleteArticleRequestBody })
-      .then((res: any) => {})
       .catch((err: Response) => {
         if (err.status == 403) {
           // handle error
@@ -56,7 +54,7 @@ const Footer = (props: Props) => {
     return (
       <StyledFooter>
         <Button
-          backgroundColor={"red"}
+          backgroundColor={"#FF5733"}
           color="white"
           text={"Delete"}
           width="30"
@@ -77,16 +75,27 @@ const Footer = (props: Props) => {
         height="100"
         handleOnClick={jumpToArticle}
       />
+      {focusedArticle.status === 1 ? (
+        <Button
+          backgroundColor={"#14A2F3"}
+          color="white"
+          text={"Public"}
+          width="30"
+          height="100"
+          handleOnClick={updateArticleStatus}
+        />
+      ) : (
+        <Button
+          backgroundColor={"#FF5733"}
+          color="white"
+          text={"Private"}
+          width="30"
+          height="100"
+          handleOnClick={updateArticleStatus}
+        />
+      )}
       <Button
-        backgroundColor={"blue"}
-        color="white"
-        text={"Public"}
-        width="30"
-        height="100"
-        handleOnClick={updateArticleStatus}
-      />
-      <Button
-        backgroundColor={"red"}
+        backgroundColor={"#FF5733"}
         color="white"
         text={"Delete"}
         width="30"
