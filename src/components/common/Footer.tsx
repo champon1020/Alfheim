@@ -25,7 +25,7 @@ const Footer = () => {
   return (
     <StyledFooter>
       <StyledCopyRight>{"Copyright champon"}</StyledCopyRight>
-      <StyledPoweredBy>{"Powered by Golang & React"}</StyledPoweredBy>
+      <StyledPoweredBy>{"Made by Go & React"}</StyledPoweredBy>
       <StyledMessage>{"This website uses Google Analytics."}</StyledMessage>
     </StyledFooter>
   );

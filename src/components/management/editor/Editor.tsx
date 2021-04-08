@@ -38,9 +38,6 @@ const defaultEditorArticle: IArticle = {
   status: 2,
 };
 
-// If true, api will not be called.
-const offApi = false;
-
 // Duration of saving article on real time.
 const onlineSaveDuration = 3000;
 
@@ -87,8 +84,6 @@ const Form = (props: Props) => {
 
   // Call api to register article.
   const postArticle = async (article: IArticle) => {
-    if (offApi) return;
-
     const postArticleRequestBody = {
       title: editorArticle.title,
       tags: editorArticle.tags,
@@ -101,6 +96,12 @@ const Form = (props: Props) => {
       .then((res: any) => {
         editorArticle.id = res.id;
         setEditorArticle(editorArticle);
+        window.history.pushState(
+          "",
+          "",
+          `${Config.origin}/management/write?id=${res.id}`
+        );
+        setMsg("Saved!");
       })
       .catch((err: Response) => {
         if (err.status == 403) {
@@ -113,11 +114,6 @@ const Form = (props: Props) => {
 
   // Call api to update article.
   const updateArticle = async (article: IArticle) => {
-    if (offApi) {
-      setMsg("Updated!");
-      return;
-    }
-
     const updateArticleRequestBody = {
       id: editorArticle.id,
       title: editorArticle.title,
@@ -143,8 +139,9 @@ const Form = (props: Props) => {
   // Saving on real time.
   const onlineSave = (editorArticle: IArticle) => {
     if (editorArticle.status == 1) return;
+    if (!validation()) return;
     rts.save(() => {
-      if (editorArticle != null) {
+      if (editorArticle.id != "") {
         updateArticle(editorArticle);
         return;
       }
@@ -157,12 +154,13 @@ const Form = (props: Props) => {
     if (editorArticle.status == 2) {
       editorArticle.status = 1;
     }
-    if (editorArticle.id != null) {
+    if (editorArticle.id != "") {
       updateArticle(editorArticle);
+      window.open("/articles", "_self");
       return;
     }
     postArticle(editorArticle);
-    window.open("management/articles", "_self");
+    window.open("/articles", "_self");
   };
 
   const onPreview = () => {

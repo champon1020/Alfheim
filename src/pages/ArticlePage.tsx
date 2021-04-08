@@ -3,6 +3,7 @@ import Article from "~/components/article/Article";
 import SideBar from "~/components/common/sidebar/SideBar";
 import Config from "~/config";
 import { IArticle } from "~/interfaces";
+import { apiHandlerWithToken } from "~/util/api";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -57,10 +58,22 @@ const ArticlePage = (props: Props) => {
   const [err, setErr] = useState();
   const [article, setArticle] = useState({} as IArticle);
 
-  // Fetch article.
-  // If this is draft, get draft from redux store.
-  // If this is article, call api to get article.
-  useEffect((id?: number) => {
+  useEffect(() => {
+    // Preview article.
+    if (window.location.pathname.startsWith("/article/preview")) {
+      apiHandlerWithToken()
+        .apiV3PrivateGetArticleIdIdGet({
+          id: match.params.id,
+        })
+        .then((res) => {
+          setArticle(res.article);
+        })
+        .catch((err) => {
+          setErr(err);
+        });
+      return;
+    }
+
     apiHandler
       .apiV3GetArticleIdIdGet({
         id: match.params.id,

@@ -1,3 +1,4 @@
+import PortfolioIcon from "~/assets/images/icons/portfolio.svg";
 import TagIcon from "~/assets/images/icons/tag.svg";
 import React from "react";
 import styled from "styled-components";
@@ -43,10 +44,19 @@ const onClickCategory = () => {
   window.open("/tags", "_self");
 };
 
+const onClickPortfolio = () => {
+  window.open("/portfolio", "_self");
+};
+
 const NavItems = () => {
   return (
     <>
       <NavItem text="Tags" onClick={onClickCategory} icon={TagIcon} />
+      <NavItem
+        text="Portfolio"
+        onClick={onClickPortfolio}
+        icon={PortfolioIcon}
+      />
     </>
   );
 };
