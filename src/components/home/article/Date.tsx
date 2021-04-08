@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 const StyledDate = styled.div`
   display: inline-block;
-  margin-bottom: 2%;
+  margin-bottom: 2rem;
   color: white;
   background-color: var(--base-color);
   font-size: 2rem;

@@ -3,14 +3,13 @@ import styled from "styled-components";
 
 const StyledImageBox = styled.div`
   overflow: hidden;
-  height: var(--article-box-height);
   text-align: center;
 `;
 
 const StyledImage = styled.img`
   object-fit: contain;
-  width: calc(var(--article-box-width) * 0.6);
-  height: calc(var(--article-box-height) * 0.85);
+  width: 100%;
+  height: calc(var(--article-box-image-height) * 0.8);
   transition: transform 1s ease-out;
   @media (max-width: 750px) {
     width: 100%;

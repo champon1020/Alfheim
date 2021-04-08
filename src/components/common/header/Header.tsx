@@ -40,6 +40,16 @@ const Header = (props: Props) => {
     };
   }, [onResizeHandler]);
 
+  if (window.innerWidth <= 500) {
+    return (
+      <StyledHeader>
+        <Icon />
+        <Nav showMenu={showMenu} toggleMenu={toggleMenu} />
+        <Menu isMenuOpened={isMenuOpened} />
+      </StyledHeader>
+    );
+  }
+
   return (
     <StyledHeader>
       <Icon />

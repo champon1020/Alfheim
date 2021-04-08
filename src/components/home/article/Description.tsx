@@ -3,28 +3,15 @@ import styled from "styled-components";
 
 const StyledDescription = styled.div`
   color: var(--base-color);
-  text-overflow: hidden;
+  overflow: hidden;
   width: 100%;
 `;
 
-const StyledEllipsisText = styled.p`
+const StyledText = styled.p`
   position: relative;
-  height: 100%;
-  overflow: hidden;
+  height: 23rem;
   font-size: 1.6rem;
-  margin-top: 3%;
-  l &:before {
-    position: absolute;
-    content: "...";
-    bottom: 0;
-    right: 0;
-  }
-  &:after {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-  }
+  margin-top: 1rem;
 `;
 
 const Description = (props: { description: string }) => {
@@ -32,7 +19,7 @@ const Description = (props: { description: string }) => {
 
   return (
     <StyledDescription>
-      <StyledEllipsisText>{description}</StyledEllipsisText>
+      <StyledText>{description}</StyledText>
     </StyledDescription>
   );
 };

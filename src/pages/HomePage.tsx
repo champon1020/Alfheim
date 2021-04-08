@@ -14,11 +14,11 @@ const StyledMain = styled.div`
   order: 1;
   width: calc(var(--container-width) / 4 * 3);
   @media (max-width: 1000px) {
-    width: 790px;
+    width: 70%;
     margin: 0 auto;
   }
-  @media (max-width: 750px) {
-    width: 80%;
+  @media (max-width: 850px) {
+    width: 90%;
     margin: 0 auto;
   }n
 `;
@@ -30,7 +30,7 @@ const StyledSub = styled.div`
     width: calc(var(--container-width) / 2.5);
     margin: 10% auto 0 auto;
   }
-  @media (max-width: 750px) {
+  @media (max-width: 500px) {
     width: 78%;
   }
 `;

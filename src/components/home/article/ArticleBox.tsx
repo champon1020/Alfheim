@@ -10,13 +10,8 @@ import Tags from "./Tags";
 import Title from "./Title";
 
 const StyledArticleBox = styled.div`
-  --article-box-height: 30vh;
-  --article-box-width: calc(var(--container-width) / 4 * 2.7);
+  --article-box-image-height: 28vh;
 
-  position: relative;
-  z-index: 1;
-  width: var(--article-box-width);
-  height: var(--article-box-height);
   cursor: pointer;
   transition: 0.5s;
   &:hover {

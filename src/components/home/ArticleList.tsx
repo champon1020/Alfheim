@@ -6,16 +6,12 @@ import styled from "styled-components";
 const StyledArticleList = styled.ul`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  @media (max-width: 1000px) {
-    justify-content: center;
-  }
+  justify-content: center;
 `;
 
 const StyledArticle = styled.li`
-  margin: 0 15px 7rem 15px;
+  margin-bottom: 7rem;
   @media (max-width: 750px) {
-    margin: 0;
     margin-bottom: 4rem;
   }
 `;
