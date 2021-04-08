@@ -6,6 +6,7 @@ import { Configuration, DefaultApi } from "./api";
 import Login from "./components/auth/Login";
 import ErrorPage from "./components/error/page/ErrorPage";
 import Config from "./config";
+import ArticlePreviewPage from "./pages/ArticlePreviewPage";
 import ManagementPage from "./pages/ManagementPage";
 import PublicPage from "./pages/PublicPage";
 
@@ -26,6 +27,11 @@ const Router = () => {
       <Route exact path={"/home/tag/:tag"} component={PublicPage} />
       <Route exact path={"/home/date/:year/:month"} component={PublicPage} />
       <Route exact path={"/article/:id"} component={PublicPage} />
+      <Route
+        exact
+        path={"/article/preview/:id"}
+        component={ArticlePreviewPage}
+      />
       <Route exact path={"/tags"} component={PublicPage} />
       <Route exact path={"/login"} component={Login} />
       <Route exact path={"/management/:mode"} component={ManagementPage} />

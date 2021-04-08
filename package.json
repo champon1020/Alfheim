@@ -25,7 +25,6 @@
     "prettier-plugin-import-sort": "0.0.6"
   },
   "dependencies": {
-    "@types/axios": "^0.14.0",
     "@types/gapi": "0.0.39",
     "@types/gapi.auth2": "0.0.52",
     "@types/highlight.js": "^9.12.4",
@@ -40,7 +39,6 @@
     "@types/styled-components": "^5.1.9",
     "@types/webpack": "^4.41.27",
     "@uiw/react-md-editor": "^1.14.7",
-    "axios": "^0.21.1",
     "chart.js": "^2.9.4",
     "css-loader": "^4.3.0",
     "dotenv-webpack": "^4.0.0",

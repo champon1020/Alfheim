@@ -58,9 +58,7 @@ const ManagementPage: React.FC<Props> = (props) => {
 
   const [err, setErr] = useState<Error>(null);
   const [doneVerify, setDoneVerify] = useState(false);
-
   const [isVerified, setVerified] = useState(false);
-
   const [isToolBar, setToolBar] = useState(false);
 
   const childContainer = useMemo(() => {

@@ -8,7 +8,7 @@ const TITLE_MAX_LENGTH = 100;
 // Allow alphabet including uppercase, lowercase and numbers.
 //
 // eslint-disable-next-line no-useless-escape
-const re = /[!"#$%&'()\*\+\-\.,\/:;<=>?@\[\\\]^_`{|}~]/g;
+const re = /["$%'()\*\+\-\.,\/:;<=>\\^_`{|}~]/g;
 
 // Regex of title and some strings.
 // Allow alphabet including uppercase, lowercase and numbers.
